@@ -1,4 +1,4 @@
-# tokumei
+# weakest-layer
 
 [English](README.md)
 

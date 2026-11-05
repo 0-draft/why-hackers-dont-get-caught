@@ -42,7 +42,7 @@ Left-aligned, single column for prose with figures breaking wider. The home page
 
 ```text
 +---------------------------------------------------------------+
-| tokumei                                       EN / 日本語  ◐  |
+| weakest layer                                    EN / 日本語  ◐  |
 +---------------------------------------------------------------+
 | Anonymity is a chain.                                         |
 | It breaks at one link.                                        |

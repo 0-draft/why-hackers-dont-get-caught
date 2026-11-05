@@ -18,7 +18,7 @@ export function langFromPath(path: string): Lang {
 
 export const dict = {
   en: {
-    "site.name": "tokumei",
+    "site.name": "weakest layer",
     "site.desc":
       "How attackers hide who they are, layer by layer, and the single layer that gives each of them away. A visual explainer with sources.",
     "nav.skip": "Skip to content",
@@ -81,7 +81,7 @@ export const dict = {
     "foot.repo": "Source on GitHub",
   },
   ja: {
-    "site.name": "tokumei",
+    "site.name": "weakest layer",
     "site.desc": "攻撃者はどうやって正体を隠すのか。レイヤーごとに分解し、実際にどの層で破れたかを出典つきで図解する。",
     "nav.skip": "本文へ移動",
     "nav.layers": "レイヤー",

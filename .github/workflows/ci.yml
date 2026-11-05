@@ -216,5 +216,5 @@ jobs:
       - if: steps.creds.outputs.ok == 'true'
         name: Deploy dist
         run: |
-          npx --yes wrangler@4.152.0 pages project create tokumei --production-branch main 2>/dev/null || true
-          npx --yes wrangler@4.152.0 pages deploy dist --project-name tokumei --branch main --commit-dirty=true
+          npx --yes wrangler@4.152.0 pages project create weakest-layer --production-branch main 2>/dev/null || true
+          npx --yes wrangler@4.152.0 pages deploy dist --project-name weakest-layer --branch main --commit-dirty=true

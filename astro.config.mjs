@@ -4,7 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: process.env.SITE_URL ?? "https://tokumei.pages.dev",
+  site: process.env.SITE_URL ?? "https://weakest-layer.pages.dev",
   trailingSlash: "ignore",
   integrations: [
     mdx(),

@@ -1,4 +1,4 @@
-// Data integrity for tokumei. Runs in CI and fails on the first class of
+// Data integrity for weakest-layer. Runs in CI and fails on the first class of
 // problem a reader would notice: a citation that points nowhere, a source no
 // page cites, English and Japanese chapters that drifted apart, Japanese text
 // left in English, or a link to a case that does not exist.

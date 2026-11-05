@@ -70,7 +70,7 @@ jobs:
             REPO: ${{ github.repository }}
             PR: ${{ github.event.pull_request.number }}
 
-            tokumei is a bilingual (English default, Japanese at /ja/) static Astro site that
+            weakest-layer is a bilingual (English default, Japanese at /ja/) static Astro site that
             explains how attackers hide who they are, layer by layer, and which layer gave way
             in documented cases. Read README.md and research/design.md first for the invariants.
 
