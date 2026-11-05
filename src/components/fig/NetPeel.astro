@@ -123,7 +123,7 @@ const FW = 250; // frame width
 const GAP = 60;
 // 2 x 2 grid so the text stays readable at the column width.
 const fx = (i: number) => 20 + (i % 2) * (FW + GAP);
-const fy = (i: number) => Math.floor(i / 2) * 500;
+const fy = (i: number) => Math.floor(i / 2) * 530;
 const EY = 96; // envelope area top
 const EH = 150;
 const RY = 290; // record area top
@@ -138,7 +138,8 @@ const env = (x: number, y: number, w: number, h: number) => ({
 });
 ---
 
-<svg class="dg" viewBox="0 0 600 990" role="img" aria-label={frames.map((f) => `${f.name}: ${f.note}`).join(". ")}>
+<svg class="dg" viewBox="0 0 600 1020" role="img" aria-label={frames.map((f) => `${f.name}: ${f.note}`).join(". ")}>
+  <line class="ln-1 soft" x1="20" y1="510" x2="580" y2="510" />
   {
     frames.map((f, i) => {
       const x = fx(i);
