@@ -9,6 +9,7 @@ import Fig from "../../../components/Fig.astro";
 import Cite from "../../../components/Cite.astro";
 import AttrDiamond from "../../../components/fig/AttrDiamond.astro";
 import AttrRichHeader from "../../../components/fig/AttrRichHeader.astro";
+import AttrLadder from "../../../components/fig/AttrLadder.astro";
 
 ほかの層は、1 人の人間が名前を知られないための話だった。この層は、作戦全体が誰のものか知られないための話だ。国家の部隊や犯罪集団は、被害者・報道・他国の政府が「誰がやったか」に答えを出せないこと、できれば間違った答えに落ち着くことを望む。それに立ち向かうのは、実行者を一度も見ない分析者だ。彼らが見るのはコード・サーバ・時刻・ミスで、そこから論証を組み立てる。
 
@@ -16,7 +17,7 @@ import AttrRichHeader from "../../../components/fig/AttrRichHeader.astro";
 
 最も広く教えられている枠組みは、Caltagirone・Pendergast・Betz が 2013 年に公表したダイヤモンドモデルだ。どの侵入イベントにも 4 つの要素がある。攻撃者、能力 (マルウェアと手口)、それが通るインフラ、そして被害者だ。1 つの要素がわかれば、それを手がかりにほかの要素を見つけられる。モデルはこの一歩をピボットと呼ぶ <Cite id="attr-diamond-model" />。被害者のログで見つかった C2 サーバから、同じサーバと通信する別の検体が見つかる。その検体は、既に追跡している系統とコードを共有している。その系統には過去があり、過去はある集団を示唆する。
 
-<Fig caption="ダイヤモンドモデルとピボットの実例。どのピボットも、分析者に読めるものを使って辺を渡る。頂点の攻撃者は推定のままだ。オーバーレイを切り替えると、攻撃者が偽装したり借りたりできる頂点がわかる。" size="prose">
+<Fig caption="ダイヤモンドモデルの実例。番号付きのピボットは、分析者に読めるものを使って辺を渡る。下の鎖は同じピボットを順に並べたもの。頂点の攻撃者は推定のままだ。破線の枠は、攻撃者が仕込んだり借りたりできるところを示す。" size="prose">
   <AttrDiamond lang="ja" />
 </Fig>
 
@@ -52,7 +53,7 @@ import AttrRichHeader from "../../../components/fig/AttrRichHeader.astro";
 
 この構造は、データが集まっている場所で崩れる。2022 年 2 月、Conti がロシアのウクライナ侵攻への支持を表明したあと、集団のチャットサーバにアクセスできたウクライナの研究者が、内部のメッセージ 60,694 件を被害者やビットコインのアドレスと一緒に公開した <Cite id="attr-conti-leak" />。1 年を超えるハンドル・計画・支払いの記録が、誰でも読めるアーカイブになった。
 
-LockBit はバックエンドを失った。2024 年 2 月 20 日、英国の国家犯罪対策庁 (NCA) はクロノス作戦を発表した。集団のネットワークに潜入したうえで、アフィリエイトが攻撃を組み立てて実行するための LockBit の管理環境と、リークサイトを掌握したという <Cite id="attr-nca-cronos" />。サーバ 34 台が停止され、200 を超える暗号資産口座が凍結された <Cite id="attr-helpnet-cronos" />。2024 年 5 月 7 日、英国・米国・オーストラリアは集団の管理者 LockBitSupp をロシア国籍の Dmitry Khoroshev と名指しして制裁を科し、米国は起訴状を公開して最大 1,000 万ドルの報奨金を提示した。NCA は 194 のアフィリエイトを特定したと述べた。LockBitSupp はかつて、このハンドルの背後の人物を暴いた者に 1,000 万ドルを払うと持ちかけていた <Cite id="attr-nca-khoroshev" />。[事件のページ](/ja/cases/#lockbitsupp) も参照。
+LockBit はバックエンドを失った。2024 年 2 月 20 日、英国の国家犯罪対策庁 (NCA) はクロノス作戦を発表した。集団のネットワークに潜入したうえで、アフィリエイトが攻撃を組み立てて実行するための LockBit の管理環境と、リークサイトを掌握したという <Cite id="attr-nca-cronos" />。サーバ 34 台が停止され、200 を超える暗号資産口座が凍結された <Cite id="attr-helpnet-cronos" />。2024 年 5 月 7 日、英国・米国・オーストラリアは集団の管理者 LockBitSupp をロシア国籍の Dmitry Khoroshev と名指しして制裁を科し、米国は起訴状を公開して最大 1,000 万ドルの報奨金を提示した。NCA は 194 のアフィリエイトを特定したと述べた。LockBitSupp はかつて、このハンドルの背後の人物を暴いた者に 1,000 万ドルを払うと持ちかけていた <Cite id="case-lb-nca" />。[事件のページ](/ja/cases/#lockbitsupp) も参照。
 
 ## どこで崩れるか
 
@@ -63,7 +64,13 @@ LockBit はバックエンドを失った。2024 年 2 月 20 日、英国の国
 - ペルソナが崩れるのは、作戦のほかの部分と共有しているものからであって、文章の分析からではない。Guccifer 2.0 の起訴状が拠るのは GRU のサーバと共有のビットコイン資金だ <Cite id="case-g2-indictment" />。
 - 犯罪のブランドは、データが集まる場所で崩れる。チャットサーバ、アフィリエイトの管理パネル、リークサイトだ <Cite id="attr-conti-leak" /> <Cite id="attr-nca-cronos" />。
 
-名指しは逮捕と同じではない。Olympic Destroyer で起訴された 6 人の将校も Khoroshev も、名前を公表されて起訴されたが、発表の時点で手の届かないところにいた <Cite id="attr-doj-gru-2020" /> <Cite id="attr-nca-khoroshev" />。国家の攻撃者に対しては、帰属そのものが最終的な成果になることが多い。代償を課す公式の声明だ。犯罪集団に対しては、ブランドに名前が結び付くだけで、それが拠って立つ信頼を傷つけられる。
+<Fig caption="帰属がどこまで進んだかを事件ごとに示す。起訴状で名指しされた被告は 1 人 1 マス、それより下の段は 1 事件 1 マス。名指しされた国家系ハッカーの大半は起訴状の段に置かれ、そこから動かない。" size="prose">
+  <AttrLadder lang="ja" />
+</Fig>
+
+上のはしごには、このページで扱った事件を置いた。いちばん下の重なりだけなら仕込める。Olympic Destroyer のヘッダも Cloud Atlas の文字列も、間違った方向を指していた <Cite id="attr-securelist-rich-header" /> <Cite id="attr-vb2016-false-flags" />。1 段上は政府の推定で、Sony についての FBI <Cite id="attr-fbi-sony" /> や、Neuron と Nautilus についての NCSC と NSA <Cite id="attr-ncsc-turla" /> がこれにあたる。起訴状は人の名前を挙げる。Guccifer 2.0 では GRU の将校 12 人 <Cite id="attr-doj-gru-2018" />、Olympic Destroyer では 6 人 <Cite id="attr-doj-gru-2020" />、LockBit では Dmitry Khoroshev <Cite id="case-lb-nca" />、ランサムウェア攻撃では Mikhail Matveev (「Wazawaka」) <Cite id="case-waz-doj" />。国家がらみの事件でいちばん上の段に届くことはまれだ。盗んだ米軍関係者のデータを ISIL に渡した Ardit Ferizi は、マレーシアから引き渡されて禁錮 20 年を言い渡された <Cite id="case-ferizi-sentence" />。
+
+名指しは逮捕と同じではない。Olympic Destroyer で起訴された 6 人の将校も Khoroshev も、名前を公表されて起訴されたが、発表の時点で手の届かないところにいた <Cite id="attr-doj-gru-2020" /> <Cite id="case-lb-nca" />。国家の攻撃者に対しては、帰属そのものが最終的な成果になることが多い。代償を課す公式の声明だ。犯罪集団に対しては、ブランドに名前が結び付くだけで、それが拠って立つ信頼を傷つけられる。
 
 ## よくある誤解
 
@@ -71,4 +78,4 @@ LockBit はバックエンドを失った。2024 年 2 月 20 日、英国の国
 - 「同じツールや同じサーバなら同じ攻撃者だ」。Turla はイランのツールと C2 サーバを、イラン側に知られずに使った <Cite id="attr-ncsc-turla" />。
 - 「Vault 7 は CIA が他国に罪を着せた証拠だ」。Marble が示すのは難読化の能力であり、記録された作戦ではない <Cite id="attr-wikileaks-marble" /> <Cite id="attr-register-marble" />。
 - 「Guccifer 2.0 の VPN の失敗は確定した事実だ」。1 つの媒体の匿名の情報源による話だ。公式の帰属は起訴状である <Cite id="attr-daily-beast-guccifer" /> <Cite id="attr-doj-gru-2018" />。
-- 「名指しされたハッカーは捕まったハッカーだ」。Khoroshev は逮捕されないまま名指しされ、制裁を受けた <Cite id="attr-nca-khoroshev" />。
+- 「名指しされたハッカーは捕まったハッカーだ」。Khoroshev は逮捕されないまま名指しされ、制裁を受けた <Cite id="case-lb-nca" />。

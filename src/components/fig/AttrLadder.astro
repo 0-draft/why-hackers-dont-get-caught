@@ -1,0 +1,178 @@
+---
+// How far attribution got, case by case: technical overlap, an assessment,
+// a name in an indictment, custody. One square per defendant where people are
+// named; one square per case below that. Grey = overlap only, ink outline =
+// assessed but nobody named, magenta outline = a named person, magenta fill =
+// a named person in custody.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Kind = "overlap" | "assessed" | "named" | "custody";
+interface Group {
+  n: number;
+  label: string;
+}
+interface Rung {
+  kind: Kind;
+  title: string;
+  sub: string;
+  groups: Group[];
+}
+
+const T = {
+  en: {
+    label:
+      "A ladder of attribution. Technical overlap: Olympic Destroyer's header pointed at Lazarus, and Cloud Atlas' language strings, both planted. Assessed: the FBI on Sony Pictures in 2014, and NCSC and NSA on the Neuron and Nautilus tools. Named in an indictment: twelve GRU officers over Guccifer 2.0, six over Olympic Destroyer, Dmitry Khoroshev for LockBit and Mikhail Matveev. In custody: Ardit Ferizi.",
+    link: "Every state hacker named but never arrested: the ledger",
+    rungs: [
+      {
+        kind: "custody",
+        title: "in custody",
+        sub: "arrested, tried",
+        groups: [{ n: 1, label: "Ardit Ferizi (2016)" }],
+      },
+      {
+        kind: "named",
+        title: "named in an indictment",
+        sub: "a person, no arrest",
+        groups: [
+          { n: 12, label: "Guccifer 2.0: GRU (2018)" },
+          { n: 6, label: "Olympic Destroyer: GRU (2020)" },
+          { n: 1, label: "LockBitSupp (2024)" },
+          { n: 1, label: "Wazawaka (2023)" },
+        ],
+      },
+      {
+        kind: "assessed",
+        title: "assessed",
+        sub: "low / moderate / high confidence",
+        groups: [
+          { n: 1, label: "Sony Pictures: FBI (2014)" },
+          { n: 1, label: "Neuron, Nautilus: NCSC, NSA (2019)" },
+        ],
+      },
+      {
+        kind: "overlap",
+        title: "technical overlap",
+        sub: "shared code, servers, strings",
+        groups: [
+          { n: 1, label: "Olympic Destroyer header: Lazarus (planted)" },
+          { n: 1, label: "Cloud Atlas strings (planted)" },
+        ],
+      },
+    ] as Rung[],
+  },
+  ja: {
+    label:
+      "帰属のはしご。技術的な重なり: Olympic Destroyer のヘッダが Lazarus を指したこと、Cloud Atlas の言語の文字列。どちらも仕込みだった。推定: 2014 年の Sony Pictures についての FBI、Neuron と Nautilus についての NCSC と NSA。起訴状で名指し: Guccifer 2.0 で GRU の将校 12 人、Olympic Destroyer で 6 人、LockBit の Dmitry Khoroshev、Mikhail Matveev。身柄の確保: Ardit Ferizi。",
+    link: "名指しされたが逮捕されていない国家系ハッカーの一覧",
+    rungs: [
+      {
+        kind: "custody",
+        title: "身柄の確保",
+        sub: "逮捕・裁判",
+        groups: [{ n: 1, label: "Ardit Ferizi (2016 年)" }],
+      },
+      {
+        kind: "named",
+        title: "起訴状で名指し",
+        sub: "人物は特定、逮捕なし",
+        groups: [
+          { n: 12, label: "Guccifer 2.0: GRU (2018 年)" },
+          { n: 6, label: "Olympic Destroyer: GRU (2020 年)" },
+          { n: 1, label: "LockBitSupp (2024 年)" },
+          { n: 1, label: "Wazawaka (2023 年)" },
+        ],
+      },
+      {
+        kind: "assessed",
+        title: "推定",
+        sub: "確度 低・中・高",
+        groups: [
+          { n: 1, label: "Sony Pictures: FBI (2014 年)" },
+          { n: 1, label: "Neuron・Nautilus: NCSC・NSA (2019 年)" },
+        ],
+      },
+      {
+        kind: "overlap",
+        title: "技術的な重なり",
+        sub: "コード・サーバ・文字列の共有",
+        groups: [
+          { n: 1, label: "Olympic Destroyer のヘッダ: Lazarus (仕込み)" },
+          { n: 1, label: "Cloud Atlas の文字列 (仕込み)" },
+        ],
+      },
+    ] as Rung[],
+  },
+}[lang];
+
+const cls: Record<Kind, string> = {
+  overlap: "box-soft",
+  assessed: "ln-1",
+  named: "stroke-leak",
+  custody: "fill-leak",
+};
+
+// Lay out rows top to bottom.
+const SQ = 14;
+const STEP = 18;
+const LINE = 24;
+const X0 = 250;
+let y = 20;
+const rows = T.rungs.map((r) => {
+  const top = y;
+  const h = Math.max(2, r.groups.length) * LINE + 16;
+  y += h;
+  return { ...r, top, h };
+});
+const height = y + 4;
+const href = lang === "ja" ? "/ja/out-of-reach/" : "/out-of-reach/";
+const mid = `al-arr-${lang}`;
+---
+
+<div class="al">
+  <svg class="dg" viewBox={`0 0 680 ${height}`} role="img" aria-label={T.label}>
+    <defs>
+      <marker id={mid} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+      </marker>
+    </defs>
+    <line class="ln" x1="20" y1={height - 10} x2="20" y2="24" marker-end={`url(#${mid})`}></line>
+    {
+      rows.map((r, ri) => (
+        <g>
+          {ri > 0 && <line class="ln-1 soft" x1="36" y1={r.top} x2="670" y2={r.top}></line>}
+          <text class="b" x="40" y={r.top + 26}>
+            {r.title}
+          </text>
+          <text class="t-s t-2" x="40" y={r.top + 44}>
+            {r.sub}
+          </text>
+          {r.groups.map((g, gi) => {
+            const gy = r.top + 14 + gi * LINE;
+            return (
+              <g>
+                {Array.from({ length: g.n }, (_, k) => (
+                  <rect class={cls[r.kind]} x={X0 + k * STEP} y={gy} width={SQ} height={SQ}></rect>
+                ))}
+                <text class="t-s" x={X0 + g.n * STEP + 6} y={gy + 12}>
+                  {g.label}
+                </text>
+              </g>
+            );
+          })}
+        </g>
+      ))
+    }
+  </svg>
+  <p class="note"><a href={href}>{T.link}</a></p>
+</div>
+
+<style>
+  .note {
+    margin: 0.9rem 0 0;
+    font-size: var(--step--1);
+  }
+</style>

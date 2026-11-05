@@ -1,6 +1,7 @@
 ---
-// The Diamond Model with a worked pivot sequence, plus a toggle that marks
-// which vertices an adversary can fake or borrow.
+// The Diamond Model with a worked example. Pivots are numbered on the edges
+// and repeated below as a linear chain, because analysis is a sequence.
+// Dashed outlines mark the vertices an adversary can plant or borrow.
 interface Props {
   lang: "en" | "ja";
 }
@@ -9,9 +10,8 @@ const { lang } = Astro.props;
 const L = {
   en: {
     label:
-      "The Diamond Model: adversary, capability, infrastructure and victim. Analysts start from the victim's logs, pivot to the command server, from there to a second sample, and from the code to a group they already track. The adversary at the top is an assessment, never a reading.",
-    toggle: "Show what can be faked",
-    note: "Capability evidence (compiler traces, language strings, timestamps) can be planted. Infrastructure can be borrowed from another group. Both feed the pivots that end at the adversary.",
+      "The Diamond Model: every intrusion links an adversary, a capability, infrastructure and a victim. Analysts go from the victim's logs to the C2 server, from the server to a second sample, from the code to a group they already track, and from there to an assessed adversary. The capability can be planted and the infrastructure borrowed.",
+    def: "Diamond Model: every intrusion links four things. Knowing one helps find the others.",
     adversary: "Adversary",
     infra: "Infrastructure",
     cap: "Capability",
@@ -19,18 +19,16 @@ const L = {
     c2: "C2 server",
     fam: "backdoor family",
     capSub: "compiler, strings, code",
-    p1: ["1 · victim's logs", "show the C2"],
-    p2: "2 · same C2 served another sample",
-    p3: ["3 · code overlaps", "a tracked group"],
-    p4: "4 · assessed, not proven",
+    assessed: "assessed, not proven",
     borrow: "can be borrowed",
     plant: "can be planted",
+    chainTitle: "The pivots in order",
+    chain: ["victim's logs", "C2 server", "second sample", "tracked group", "adversary?"],
   },
   ja: {
     label:
-      "ダイヤモンドモデル。攻撃者・能力・インフラ・被害者の 4 点。分析者は被害者のログから C2 サーバへ、そこから別の検体へ、コードから既に追跡している集団へとたどる。頂点の攻撃者は推定であって、読み取った事実ではない。",
-    toggle: "偽装できるところを表示",
-    note: "能力側の証拠 (コンパイラの痕跡・言語の文字列・タイムスタンプ) は仕込める。インフラは他の集団から借りられる。どちらも、最後に攻撃者へたどり着くピボットの材料になる。",
+      "ダイヤモンドモデル。どの侵入も攻撃者・能力・インフラ・被害者を結ぶ。分析者は被害者のログから C2 サーバへ、サーバから別の検体へ、コードから既に追跡している集団へ、そこから推定の攻撃者へと進む。能力は仕込めるし、インフラは借りられる。",
+    def: "ダイヤモンドモデル: どの侵入も 4 つの要素を結ぶ。1 つわかれば残りを探せる。",
     adversary: "攻撃者",
     infra: "インフラ",
     cap: "能力",
@@ -38,108 +36,103 @@ const L = {
     c2: "C2 サーバ",
     fam: "バックドアの系統",
     capSub: "コンパイラ・文字列・コード",
-    p1: ["1 · 被害者のログに", "C2 への通信"],
-    p2: "2 · 同じ C2 が別の検体も配布",
-    p3: ["3 · 追跡中の集団と", "コードが重なる"],
-    p4: "4 · 推定であって証明ではない",
+    assessed: "推定であって証明ではない",
     borrow: "借りられる",
     plant: "仕込める",
+    chainTitle: "ピボットの順序",
+    chain: ["被害者のログ", "C2 サーバ", "別の検体", "追跡中の集団", "攻撃者 (推定)"],
   },
 }[lang];
+
+const pivots = [
+  { n: 1, x: 206, y: 338 },
+  { n: 2, x: 340, y: 250 },
+  { n: 3, x: 474, y: 162 },
+  { n: 4, x: 230, y: 82 },
+];
+const boxX = [10, 147, 284, 421, 558];
+const mid = `ad-arr-${lang}`;
 ---
 
-<div class="ad" data-ad data-planted="true">
-  <div class="tools">
-    <button type="button" aria-pressed="true" data-toggle>{L.toggle}</button>
-  </div>
-  <svg class="dg" viewBox="0 0 680 440" role="img" aria-label={L.label}>
-    <!-- edges -->
-    <line class="ln" x1="262" y1="84" x2="150" y2="180"></line>
-    <line class="ln" x1="418" y1="84" x2="530" y2="180"></line>
-    <line class="ln" x1="220" y1="220" x2="460" y2="220"></line>
-    <line class="ln" x1="150" y1="260" x2="262" y2="356"></line>
-    <line class="ln" x1="470" y1="260" x2="418" y2="356"></line>
+<svg class="dg" viewBox="0 0 680 548" role="img" aria-label={L.label}>
+  <defs>
+    <marker id={mid} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+    </marker>
+  </defs>
 
-    <!-- adversary: unknown until assessed -->
-    <rect class="box" x="250" y="20" width="180" height="64"></rect>
-    <text class="b" x="262" y="44">{L.adversary}</text>
-    <rect class="fill-bar" x="262" y="56" width="110" height="14"></rect>
-    <text class="t-s" x="340" y="106" text-anchor="middle">{L.p4}</text>
+  <text class="t-s b" x="10" y="18">{L.def}</text>
 
-    <!-- infrastructure -->
-    <rect class="box" x="20" y="180" width="200" height="80"></rect>
-    <text class="b" x="32" y="203">{L.infra}</text>
-    <rect class="fill-hl" x="32" y="213" width="120" height="22"></rect>
-    <text class="mono t-on-hl" x="40" y="228">203.0.113.7</text>
-    <text class="t-s t-2" x="32" y="251">{L.c2}</text>
+  <!-- what an adversary can fake -->
+  <rect class="ln-1 dash" x="10" y="200" width="220" height="124"></rect>
+  <text class="t-s b" x="22" y="314">{L.borrow}</text>
+  <rect class="ln-1 dash" x="450" y="200" width="220" height="124"></rect>
+  <text class="t-s b" x="658" y="314" text-anchor="end">{L.plant}</text>
 
-    <!-- capability -->
-    <rect class="box" x="460" y="180" width="200" height="80"></rect>
-    <text class="b" x="472" y="203">{L.cap}</text>
-    <rect class="fill-hl" x="472" y="213" width="150" height="22"></rect>
-    <text class="t-on-hl t-s" x="480" y="228">{L.fam}</text>
-    <text class="t-s t-2" x="472" y="251">{L.capSub}</text>
+  <!-- edges -->
+  <line class="ln" x1="262" y1="114" x2="150" y2="210"></line>
+  <line class="ln" x1="418" y1="114" x2="530" y2="210"></line>
+  <line class="ln" x1="220" y1="250" x2="460" y2="250"></line>
+  <line class="ln" x1="150" y1="290" x2="262" y2="386"></line>
+  <line class="ln" x1="470" y1="290" x2="418" y2="386"></line>
 
-    <!-- victim -->
-    <rect class="box" x="250" y="356" width="180" height="64"></rect>
-    <text class="b" x="262" y="380">{L.victim}</text>
-    <rect class="fill-hl" x="262" y="390" width="140" height="20"></rect>
-    <text class="mono t-on-hl" x="268" y="404">mail.example.org</text>
+  <!-- adversary: unknown until assessed -->
+  <rect class="box" x="250" y="50" width="180" height="64"></rect>
+  <text class="b" x="262" y="74">{L.adversary}</text>
+  <rect class="fill-bar" x="262" y="86" width="110" height="14"></rect>
+  <text class="t-s" x="340" y="136" text-anchor="middle">{L.assessed}</text>
 
-    <!-- pivots -->
-    <text class="t-s" x="205" y="316" text-anchor="end">{L.p1[0]}</text>
-    <text class="t-s" x="205" y="332" text-anchor="end">{L.p1[1]}</text>
-    <text class="t-s" x="340" y="210" text-anchor="middle">{L.p2}</text>
-    <text class="t-s" x="505" y="112">{L.p3[0]}</text>
-    <text class="t-s" x="505" y="128">{L.p3[1]}</text>
+  <!-- infrastructure -->
+  <rect class="box" x="20" y="210" width="200" height="80"></rect>
+  <text class="b" x="32" y="233">{L.infra}</text>
+  <rect class="fill-hl" x="32" y="243" width="120" height="22"></rect>
+  <text class="mono t-on-hl" x="40" y="258">203.0.113.7</text>
+  <text class="t-s t-2" x="32" y="281">{L.c2}</text>
 
-    <!-- what an adversary can fake -->
-    <g class="pl">
-      <rect class="ln-1 dash" x="10" y="170" width="220" height="124"></rect>
-      <text class="t-s b" x="22" y="284">{L.borrow}</text>
-      <rect class="ln-1 dash" x="450" y="170" width="220" height="124"></rect>
-      <text class="t-s b" x="658" y="284" text-anchor="end">{L.plant}</text>
-    </g>
-  </svg>
-  <p class="note pl-note">{L.note}</p>
-</div>
+  <!-- capability -->
+  <rect class="box" x="460" y="210" width="200" height="80"></rect>
+  <text class="b" x="472" y="233">{L.cap}</text>
+  <rect class="fill-hl" x="472" y="243" width="150" height="22"></rect>
+  <text class="t-on-hl t-s" x="480" y="258">{L.fam}</text>
+  <text class="t-s t-2" x="472" y="281">{L.capSub}</text>
 
-<style>
-  .tools {
-    margin-bottom: 0.9rem;
+  <!-- victim -->
+  <rect class="box" x="250" y="386" width="180" height="64"></rect>
+  <text class="b" x="262" y="410">{L.victim}</text>
+  <rect class="fill-hl" x="262" y="420" width="140" height="20"></rect>
+  <text class="mono t-on-hl" x="268" y="434">mail.example.org</text>
+
+  <!-- pivot numbers on the diamond -->
+  {
+    pivots.map((p) => (
+      <g>
+        <circle class="fill-paper" cx={p.x} cy={p.y} r="11"></circle>
+        <circle class="ln-1" cx={p.x} cy={p.y} r="11"></circle>
+        <text class="t-s b" x={p.x} y={p.y + 4} text-anchor="middle">
+          {p.n}
+        </text>
+      </g>
+    ))
   }
-  .tools button {
-    font: inherit;
-    font-size: var(--step--1);
-    padding: 0.3rem 0.7rem;
-    background: var(--sheet);
-    color: var(--ink);
-    border: 1.5px solid var(--ink);
-    cursor: pointer;
-  }
-  .tools button[aria-pressed="true"] {
-    background: var(--ink);
-    color: var(--sheet);
-  }
-  .note {
-    margin: 0.9rem 0 0;
-    font-size: var(--step--1);
-    max-width: 68ch;
-  }
-  .ad[data-planted="false"] .pl,
-  .ad[data-planted="false"] .pl-note {
-    visibility: hidden;
-  }
-</style>
 
-<script>
-  for (const root of document.querySelectorAll<HTMLElement>("[data-ad]")) {
-    const b = root.querySelector<HTMLButtonElement>("[data-toggle]")!;
-    const set = (on: boolean) => {
-      root.dataset.planted = String(on);
-      b.setAttribute("aria-pressed", String(on));
-    };
-    b.addEventListener("click", () => set(root.dataset.planted !== "true"));
-    set(false);
+  <!-- the same pivots as a chain -->
+  <text class="b" x="10" y="476">{L.chainTitle}</text>
+  {
+    boxX.map((x, i) => (
+      <g>
+        <rect class={i === 4 ? "ln-1 dash" : "box"} x={x} y="490" width="112" height="44"></rect>
+        <text class="t-s" x={x + 56} y="516" text-anchor="middle">
+          {L.chain[i]}
+        </text>
+        {i < 4 && (
+          <line class="ln-1" x1={x + 112} y1="512" x2={x + 137} y2="512" marker-end={`url(#${mid})`}></line>
+        )}
+        {i < 4 && (
+          <text class="t-s b" x={x + 124.5} y="503" text-anchor="middle">
+            {i + 1}
+          </text>
+        )}
+      </g>
+    ))
   }
-</script>
+</svg>

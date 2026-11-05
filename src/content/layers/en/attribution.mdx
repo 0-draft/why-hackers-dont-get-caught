@@ -9,6 +9,7 @@ import Fig from "../../../components/Fig.astro";
 import Cite from "../../../components/Cite.astro";
 import AttrDiamond from "../../../components/fig/AttrDiamond.astro";
 import AttrRichHeader from "../../../components/fig/AttrRichHeader.astro";
+import AttrLadder from "../../../components/fig/AttrLadder.astro";
 
 The other layers are about one person staying unnamed. This one is about a whole operation staying unclaimed. A state unit or a criminal group wants the victim, the press and other governments either to have no answer to "who did this" or, better, to settle on the wrong one. The people working against that are analysts who never see the operators. They see code, servers, timing and mistakes, and build an argument from them.
 
@@ -16,7 +17,7 @@ The other layers are about one person staying unnamed. This one is about a whole
 
 The most widely taught framework is the Diamond Model, published in 2013 by Caltagirone, Pendergast and Betz. Every intrusion event has four features: an adversary, a capability (the malware and techniques), the infrastructure it runs over, and a victim. An analyst who knows one feature uses it to discover the others, a step the model calls pivoting <Cite id="attr-diamond-model" />. A command server found in a victim's logs leads to other samples that talk to the same server. Those samples share code with a family already being tracked. That family has a history, and the history suggests a group.
 
-<Fig caption="The Diamond Model with a worked pivot sequence. Every pivot crosses an edge using something readable to the analyst. The adversary at the top stays an assessment. Toggle the overlay to see which vertices an adversary can fake or borrow." size="prose">
+<Fig caption="The Diamond Model with a worked example. Each numbered pivot crosses an edge using something readable to the analyst, and the chain below lists them in order. The adversary at the top stays an assessment. Dashed outlines mark what an adversary can plant or borrow." size="prose">
   <AttrDiamond lang="en" />
 </Fig>
 
@@ -52,7 +53,7 @@ Ransomware groups face the attribution problem from the other side. They want th
 
 The structure gives way at the places where its data is concentrated. In February 2022, after Conti publicly backed Russia's invasion of Ukraine, a Ukrainian researcher with access to the group's chat server published 60,694 internal messages, along with victims and Bitcoin addresses <Cite id="attr-conti-leak" />. More than a year of handles, plans and payments became an archive anyone could read.
 
-LockBit lost its backend instead. On 20 February 2024 the UK's National Crime Agency announced Operation Cronos: after infiltrating the group's network it had taken control of LockBit's administration environment, used by affiliates to build and run attacks, and of its leak site <Cite id="attr-nca-cronos" />. 34 servers were taken down and more than 200 cryptocurrency accounts frozen <Cite id="attr-helpnet-cronos" />. On 7 May 2024 the UK, US and Australia named LockBitSupp, the group's administrator, as the Russian national Dmitry Khoroshev and sanctioned him; the US unsealed an indictment and offered up to $10 million for information. The NCA said it had identified 194 affiliates. LockBitSupp had once offered $10 million to anyone who could reveal the person behind the handle <Cite id="attr-nca-khoroshev" />. See the [case entry](/cases/#lockbitsupp).
+LockBit lost its backend instead. On 20 February 2024 the UK's National Crime Agency announced Operation Cronos: after infiltrating the group's network it had taken control of LockBit's administration environment, used by affiliates to build and run attacks, and of its leak site <Cite id="attr-nca-cronos" />. 34 servers were taken down and more than 200 cryptocurrency accounts frozen <Cite id="attr-helpnet-cronos" />. On 7 May 2024 the UK, US and Australia named LockBitSupp, the group's administrator, as the Russian national Dmitry Khoroshev and sanctioned him; the US unsealed an indictment and offered up to $10 million for information. The NCA said it had identified 194 affiliates. LockBitSupp had once offered $10 million to anyone who could reveal the person behind the handle <Cite id="case-lb-nca" />. See the [case entry](/cases/#lockbitsupp).
 
 ## Where it gives way
 
@@ -63,7 +64,13 @@ Across the documented cases the pattern is consistent.
 - Personas fail on what they share with the rest of the operation, not on analysis of their writing. The Guccifer 2.0 indictment rests on a GRU server and a shared bitcoin pool <Cite id="case-g2-indictment" />.
 - Criminal brands fail where their data is concentrated: a chat server, an affiliate panel, a leak site <Cite id="attr-conti-leak" /> <Cite id="attr-nca-cronos" />.
 
-Naming is also not the same as arrest. The six officers charged over Olympic Destroyer and Khoroshev were named, indicted and, at the time of those announcements, out of reach <Cite id="attr-doj-gru-2020" /> <Cite id="attr-nca-khoroshev" />. For a state actor, attribution is usually the end product: a public statement that imposes cost. For a criminal group, a name attached to the brand can be enough to damage the trust it runs on.
+<Fig caption="How far attribution got, case by case. One square per defendant named in an indictment, one per case below that. Most named state hackers sit on the indictment rung and stay there." size="prose">
+  <AttrLadder lang="en" />
+</Fig>
+
+The ladder above places the cases this page cites. At the bottom, overlap alone can be planted: Olympic Destroyer's header and Cloud Atlas' strings both pointed the wrong way <Cite id="attr-securelist-rich-header" /> <Cite id="attr-vb2016-false-flags" />. One rung up are government assessments, such as the FBI on Sony <Cite id="attr-fbi-sony" /> and NCSC and NSA on the Neuron and Nautilus tools <Cite id="attr-ncsc-turla" />. Indictments name people: twelve GRU officers over Guccifer 2.0 <Cite id="attr-doj-gru-2018" />, six over Olympic Destroyer <Cite id="attr-doj-gru-2020" />, Dmitry Khoroshev for LockBit <Cite id="case-lb-nca" /> and Mikhail Matveev ("Wazawaka") for ransomware attacks <Cite id="case-waz-doj" />. The top rung is rare for state work. Ardit Ferizi, who passed stolen US personnel data to ISIL, was extradited from Malaysia and sentenced to 20 years <Cite id="case-ferizi-sentence" />.
+
+Naming is also not the same as arrest. The six officers charged over Olympic Destroyer and Khoroshev were named, indicted and, at the time of those announcements, out of reach <Cite id="attr-doj-gru-2020" /> <Cite id="case-lb-nca" />. For a state actor, attribution is usually the end product: a public statement that imposes cost. For a criminal group, a name attached to the brand can be enough to damage the trust it runs on.
 
 ## Common misconceptions
 
@@ -71,4 +78,4 @@ Naming is also not the same as arrest. The six officers charged over Olympic Des
 - "Same tools or same servers means same actor." Turla used Iranian tools and command servers without the Iranian operators knowing <Cite id="attr-ncsc-turla" />.
 - "Vault 7 proves the CIA framed other countries." The Marble release shows an obfuscation capability, not a documented operation <Cite id="attr-wikileaks-marble" /> <Cite id="attr-register-marble" />.
 - "The Guccifer 2.0 VPN slip is established fact." It comes from one outlet's anonymous source. The indictment is the official attribution <Cite id="attr-daily-beast-guccifer" /> <Cite id="attr-doj-gru-2018" />.
-- "A named hacker is a caught hacker." Khoroshev was named and sanctioned without an arrest <Cite id="attr-nca-khoroshev" />.
+- "A named hacker is a caught hacker." Khoroshev was named and sanctioned without an arrest <Cite id="case-lb-nca" />.

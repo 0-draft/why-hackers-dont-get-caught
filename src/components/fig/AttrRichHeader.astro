@@ -1,5 +1,7 @@
 ---
 // Olympic Destroyer: the planted Rich header against the rest of the binary.
+// The decisive evidence (right column) and the mismatch carry the emphasis;
+// the planted claim (left) is drawn as a claim, dashed.
 interface Props {
   lang: "en" | "ja";
 }
@@ -8,7 +10,8 @@ const { lang } = Astro.props;
 const L = {
   en: {
     label:
-      "Olympic Destroyer's Rich header claimed a Visual Studio 6 build and matched a Lazarus sample byte for byte, which pointed at North Korea. The rest of the file imported mscoree.dll, which did not exist for Visual Studio 6, and carried Visual Studio 2010 startup code. Kaspersky concluded the header was copied in. In 2020 the US charged six officers of GRU Unit 74455.",
+      "A Rich header is a build stamp the Microsoft compiler leaves in Windows executables. Olympic Destroyer's claimed a Visual Studio 6 build and matched a Lazarus sample byte for byte, which pointed at North Korea. The rest of the file imported mscoree.dll, which did not exist for Visual Studio 6, and carried Visual Studio 2010 startup code. Kaspersky concluded the header was copied in. In 2020 the US charged six officers of GRU Unit 74455.",
+    def: "Rich header: a build stamp the compiler leaves in a Windows executable",
     left: "What the Rich header claims",
     right: "What the rest of the file shows",
     l1: ["built with", "Visual Studio 6"],
@@ -21,7 +24,8 @@ const L = {
   },
   ja: {
     label:
-      "Olympic Destroyer の Rich ヘッダは Visual Studio 6 でのビルドを主張し、Lazarus の検体とバイト単位で一致していた。これは北朝鮮を指す。ところがファイル本体は Visual Studio 6 の時代に存在しない mscoree.dll を読み込み、スタートアップコードは Visual Studio 2010 のものだった。Kaspersky はヘッダが写されたものだと結論した。2020 年、米国は GRU 74455 部隊の将校 6 人を起訴した。",
+      "Rich ヘッダは、Microsoft のコンパイラが Windows の実行ファイルに残すビルドの刻印だ。Olympic Destroyer のヘッダは Visual Studio 6 でのビルドを主張し、Lazarus の検体とバイト単位で一致していた。これは北朝鮮を指す。ところがファイル本体は Visual Studio 6 の時代に存在しない mscoree.dll を読み込み、スタートアップコードは Visual Studio 2010 のものだった。Kaspersky はヘッダが写されたものだと結論した。2020 年、米国は GRU 74455 部隊の将校 6 人を起訴した。",
+    def: "Rich ヘッダ: コンパイラが Windows の実行ファイルに残すビルドの刻印",
     left: "Rich ヘッダの主張",
     right: "ファイル本体が示すもの",
     l1: ["ビルド環境は", "Visual Studio 6"],
@@ -36,42 +40,45 @@ const L = {
 const mid = `rh-arr-${lang}`;
 ---
 
-<svg class="dg" viewBox="0 0 680 392" role="img" aria-label={L.label}>
+<svg class="dg" viewBox="0 0 680 416" role="img" aria-label={L.label}>
   <defs>
     <marker id={mid} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
     </marker>
   </defs>
 
-  <text class="b" x="20" y="30">{L.left}</text>
-  <text class="b" x="360" y="30">{L.right}</text>
+  <text class="t-s t-2" x="20" y="18">{L.def}</text>
+  <text class="b" x="20" y="54">{L.left}</text>
+  <text class="b" x="360" y="54">{L.right}</text>
 
-  <rect class="fill-hl" x="20" y="46" width="300" height="56"></rect>
-  <text class="t-on-hl" x="32" y="70">{L.l1[0]}</text>
-  <text class="t-on-hl b" x="32" y="90">{L.l1[1]}</text>
-  <rect class="fill-hl" x="20" y="116" width="300" height="56"></rect>
-  <text class="t-on-hl" x="32" y="140">{L.l2[0]}</text>
-  <text class="t-on-hl" x="32" y="160">{L.l2[1]}</text>
+  <rect class="box-soft dash" x="20" y="70" width="300" height="56"></rect>
+  <text x="32" y="94">{L.l1[0]}</text>
+  <text class="b" x="32" y="114">{L.l1[1]}</text>
+  <rect class="box-soft dash" x="20" y="140" width="300" height="56"></rect>
+  <text x="32" y="164">{L.l2[0]}</text>
+  <text x="32" y="184">{L.l2[1]}</text>
 
-  <rect class="box" x="360" y="46" width="300" height="56"></rect>
-  <text class="b" x="372" y="70">{L.r1[0]}</text>
-  <text class="t-s t-2" x="372" y="90">{L.r1[1]}</text>
-  <rect class="box" x="360" y="116" width="300" height="56"></rect>
-  <text x="372" y="140">{L.r2[0]}</text>
-  <text class="b" x="372" y="160">{L.r2[1]}</text>
+  <rect class="fill-hl" x="360" y="70" width="300" height="56"></rect>
+  <text class="t-on-hl b" x="372" y="94">{L.r1[0]}</text>
+  <text class="t-on-hl t-s" x="372" y="114">{L.r1[1]}</text>
+  <rect class="fill-hl" x="360" y="140" width="300" height="56"></rect>
+  <text class="t-on-hl" x="372" y="164">{L.r2[0]}</text>
+  <text class="t-on-hl b" x="372" y="184">{L.r2[1]}</text>
 
-  <text class="t-l" x="340" y="80" text-anchor="middle">≠</text>
-  <text class="t-l" x="340" y="150" text-anchor="middle">≠</text>
+  <circle class="fill-ink" cx="340" cy="98" r="15"></circle>
+  <text class="t-l t-on-ink" x="340" y="104" text-anchor="middle">≠</text>
+  <circle class="fill-ink" cx="340" cy="168" r="15"></circle>
+  <text class="t-l t-on-ink" x="340" y="174" text-anchor="middle">≠</text>
 
-  <line class="ln-1" x1="170" y1="172" x2="170" y2="196" marker-end={`url(#${mid})`}></line>
-  <rect class="box-soft dash" x="20" y="196" width="300" height="40"></rect>
-  <text x="32" y="221">{L.suggests}</text>
+  <line class="ln-1" x1="170" y1="196" x2="170" y2="220" marker-end={`url(#${mid})`}></line>
+  <rect class="box-soft dash" x="20" y="220" width="300" height="40"></rect>
+  <text class="t-2" x="32" y="245">{L.suggests}</text>
 
-  <line class="ln-1" x1="510" y1="172" x2="510" y2="258" marker-end={`url(#${mid})`}></line>
-  <rect class="box" x="20" y="258" width="640" height="44"></rect>
-  <text class="b" x="32" y="285">{L.verdict}</text>
+  <line class="ln-1" x1="510" y1="196" x2="510" y2="282" marker-end={`url(#${mid})`}></line>
+  <rect class="box" x="20" y="282" width="640" height="44"></rect>
+  <text class="b" x="32" y="309">{L.verdict}</text>
 
-  <line class="ln-1" x1="340" y1="302" x2="340" y2="330" marker-end={`url(#${mid})`}></line>
-  <rect class="stroke-leak" x="20" y="330" width="640" height="46"></rect>
-  <text class="t-leak" x="32" y="358">{L.charge}</text>
+  <line class="ln-1" x1="340" y1="326" x2="340" y2="354" marker-end={`url(#${mid})`}></line>
+  <rect class="stroke-leak" x="20" y="354" width="640" height="46"></rect>
+  <text class="t-leak" x="32" y="382">{L.charge}</text>
 </svg>

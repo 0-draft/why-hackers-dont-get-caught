@@ -9,7 +9,7 @@ const { lang } = Astro.props;
 const L = {
   en: {
     label:
-      "Three deposits go into a mixer and three withdrawals come out. The mixer hides which deposit became which withdrawal, but a 2.37 BTC deposit at 03:10 and a 2.35 BTC withdrawal at 03:52 still line up, and that withdrawal goes to an exchange that knows the account holder.",
+      "Three deposits go into a mixer and three withdrawals come out; the matched pair is highlighted. The mixer hides which deposit became which withdrawal, but a 2.37 BTC deposit at 03:10 and a 2.35 BTC withdrawal at 03:52 still line up, and that withdrawal goes to an exchange that knows the account holder.",
     in: "in",
     out: "out",
     mixer: "mixer pool",
@@ -23,7 +23,7 @@ const L = {
   },
   ja: {
     label:
-      "3 件の入金がミキサーに入り、3 件の出金が出てくる。どの入金がどの出金になったかはミキサーが隠す。しかし 03:10 の 2.37 BTC の入金と 03:52 の 2.35 BTC の出金は対応が付き、その出金は口座の持ち主を知る取引所に入る。",
+      "3 件の入金がミキサーに入り、3 件の出金が出てくる。対応の付く 1 組を強調している。どの入金がどの出金になったかはミキサーが隠す。しかし 03:10 の 2.37 BTC の入金と 03:52 の 2.35 BTC の出金は対応が付き、その出金は口座の持ち主を知る取引所に入る。",
     in: "入金",
     out: "出金",
     mixer: "ミキサーのプール",
@@ -37,15 +37,15 @@ const L = {
   },
 }[lang];
 
-const ins = [
+const ins: { y: number; amt: string; t: string; hit?: boolean }[] = [
   { y: 40, amt: "1.00", t: "02:58" },
   { y: 100, amt: "0.50", t: "03:02" },
-  { y: 160, amt: "2.37", t: "03:10" },
+  { y: 160, amt: "2.37", t: "03:10", hit: true },
 ];
-const outs = [
+const outs: { y: number; amt: string; t: string; hit?: boolean }[] = [
   { y: 40, amt: "0.99", t: "03:31" },
   { y: 100, amt: "0.49", t: "04:15" },
-  { y: 160, amt: "2.35", t: "03:52" },
+  { y: 160, amt: "2.35", t: "03:52", hit: true },
 ];
 const mid = `mm-arr-${lang}`;
 ---
@@ -64,11 +64,11 @@ const mid = `mm-arr-${lang}`;
   {
     ins.map((d) => (
       <g>
-        <rect class="fill-hl" x="20" y={d.y} width="150" height="46"></rect>
-        <text class="mono t-on-hl" x="32" y={d.y + 19}>
+        <rect class={d.hit ? "fill-hl" : "box-soft"} x="20" y={d.y} width="150" height="46"></rect>
+        <text class={d.hit ? "mono t-on-hl b" : "mono t-2"} x="32" y={d.y + 19}>
           {L.in} {d.amt} BTC
         </text>
-        <text class="mono t-on-hl" x="32" y={d.y + 36}>
+        <text class={d.hit ? "mono t-on-hl b" : "mono t-2"} x="32" y={d.y + 36}>
           {d.t}
         </text>
         <line class="ln-1" x1="170" y1={d.y + 23} x2="250" y2={d.y + 23} marker-end={`url(#${mid})`}></line>
@@ -79,11 +79,11 @@ const mid = `mm-arr-${lang}`;
     outs.map((d) => (
       <g>
         <line class="ln-1" x1="400" y1={d.y + 23} x2="490" y2={d.y + 23} marker-end={`url(#${mid})`}></line>
-        <rect class="fill-hl" x="490" y={d.y} width="150" height="46"></rect>
-        <text class="mono t-on-hl" x="502" y={d.y + 19}>
+        <rect class={d.hit ? "fill-hl" : "box-soft"} x="490" y={d.y} width="150" height="46"></rect>
+        <text class={d.hit ? "mono t-on-hl b" : "mono t-2"} x="502" y={d.y + 19}>
           {L.out} {d.amt} BTC
         </text>
-        <text class="mono t-on-hl" x="502" y={d.y + 36}>
+        <text class={d.hit ? "mono t-on-hl b" : "mono t-2"} x="502" y={d.y + 36}>
           {d.t}
         </text>
       </g>

@@ -20,7 +20,7 @@ Two rules of thumb do most of that work. The first is common-input ownership. A 
 
 The second rule is a habit of wallet software, not a property of the protocol, and the paper shows what happens when it is applied carelessly: a naive version fused Mt. Gox, Instawallet, BitPay and Silk Road into one "super-cluster" of 1.6 million public keys <Cite id="meiklejohn-2013" />. With stricter conditions the authors identified 3,540,831 change addresses, at a false-positive rate they estimated at 0.17% <Cite id="meiklejohn-2013" />. Their snapshot of the chain held 16,086,073 transactions and 12,056,684 public keys, which the two rules collapsed into 3,383,904 clusters <Cite id="meiklejohn-2013" />. To put names on clusters they simply did business with services, 344 transactions in all, and the heuristics spread those few labels across more than 1.8 million addresses <Cite id="meiklejohn-2013" />.
 
-<Fig caption="Clustering on a public ledger. Step through it: the ledger alone, the common-input and change rules merging five addresses into one owner, and a single exchange record naming all of them." size="prose">
+<Fig caption="Clustering on a public ledger. The default view shows every inference at once: common input groups A, B and C, the odd remainder marks D as change, E joins through D, and one exchange record names all five. The buttons step through the same reasoning in order." size="prose">
   <MoneyCluster lang="en" />
 </Fig>
 

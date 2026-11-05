@@ -1,7 +1,9 @@
 ---
-// Stepping through address clustering on a public ledger: the raw ledger,
-// the common-input and change heuristics merging addresses into one cluster,
-// and the cluster touching an exchange that knows the customer.
+// Address clustering on a public ledger, with amounts so the change output is
+// visible as change. Default state is the last step, with every inference
+// annotated in place; the buttons step back through how it was built.
+// Marks: yellow = readable on the ledger, black = owner unknown, ink outline =
+// grouped but not yet named, magenta = named by the exchange's record.
 interface Props {
   lang: "en" | "ja";
 }
@@ -10,88 +12,91 @@ const { lang } = Astro.props;
 const L = {
   en: {
     group: "Clustering steps",
-    steps: ["1 Ledger", "2 Common input", "3 Exchange"],
+    steps: ["1 Ledger", "2 Common input", "3 Change", "4 Exchange"],
     say: [
-      "The public ledger. Anyone can read every address, amount and transaction. Who owns each address is written nowhere.",
-      "Transaction 1 spends A, B and C at once, which takes all three private keys, so analysts treat them as one owner (C1). D looks like the change of transaction 1 and joins C1. E is spent together with D in transaction 2 and joins too.",
-      "Transaction 2 pays a deposit address at an exchange, and the exchange knows who opened that account. One customer record now names the whole cluster, including addresses that never touched the exchange.",
+      "The public ledger: every address, amount and transaction is readable. Who owns each address is written nowhere.",
+      "Transaction 1 spends A, B and C at once. That takes all three private keys, so analysts put the three addresses in one cluster, C1.",
+      "Transaction 1 pays a round 1.00 to P and an odd 0.0497 to a new address D. The odd remainder looks like change going back to the sender, so D joins C1. E is then spent together with D in transaction 2 and joins too.",
+      "Transaction 2 pays a deposit address at an exchange, and the exchange knows who opened that account. One customer record names the whole cluster, including addresses that never touched the exchange.",
     ],
-    addr: "addr",
     tx: "tx",
-    pay: "payee",
+    hull: "C1: one owner",
+    together: "spent together: one owner",
+    round: "round amount: payment",
+    odd: ["odd remainder:", "change, joins C1"],
+    withD: "spent with D: joins C1",
     exchange: "Exchange",
-    deposit: "deposit addr X",
     kyc: "customer record",
     name: "real name",
-    owner: "owner",
   },
   ja: {
     group: "クラスタリングの段階",
-    steps: ["1 台帳", "2 共通入力", "3 取引所"],
+    steps: ["1 台帳", "2 共通入力", "3 おつり", "4 取引所"],
     say: [
       "公開台帳。すべてのアドレス・金額・取引は誰でも読める。各アドレスの持ち主はどこにも書かれていない。",
-      "取引 1 は A・B・C を同時に使う。3 つの秘密鍵がそろわないと署名できないので、分析者はこれを同じ持ち主 (C1) とみなす。D は取引 1 のおつりに見えるので C1 に入る。E は取引 2 で D と一緒に使われたので、これも C1 に入る。",
+      "取引 1 は A・B・C を同時に使う。3 つの秘密鍵がそろわないと署名できないので、分析者は 3 つのアドレスを 1 つのクラスタ C1 にまとめる。",
+      "取引 1 は P にきりのいい 1.00 を払い、新しいアドレス D に半端な 0.0497 を送っている。半端な残りは送り手に戻るおつりに見えるので、D も C1 に入る。続いて E が取引 2 で D と一緒に使われ、これも C1 に入る。",
       "取引 2 は取引所の入金アドレスに払っている。取引所はその口座を開いた人を知っている。顧客記録が 1 件あれば、取引所に一度も触れていないアドレスも含めて、クラスタ全体に名前が付く。",
     ],
-    addr: "addr",
     tx: "取引",
-    pay: "支払先",
+    hull: "C1: 同じ持ち主",
+    together: "一緒に使われた: 同じ持ち主",
+    round: "きりのいい額: 支払い",
+    odd: ["半端な残り:", "おつり、C1 に入る"],
+    withD: "D と一緒に使われた: C1",
     exchange: "取引所",
-    deposit: "入金 addr X",
     kyc: "顧客記録",
     name: "本名",
-    owner: "持ち主",
   },
 }[lang];
 
-// Address boxes: x, y, label, member of the cluster?
-const addrs = [
-  { x: 20, y: 30, k: "A", c: true },
-  { x: 20, y: 90, k: "B", c: true },
-  { x: 20, y: 150, k: "C", c: true },
-  { x: 20, y: 300, k: "E", c: true },
-  { x: 360, y: 150, k: "D", c: true },
-  { x: 360, y: 30, k: "P", c: false },
-];
 const W = 124;
 const H = 46;
+// s: the step from which the address belongs to the cluster (0 = never)
+const addrs = [
+  { x: 20, y: 40, k: "A", amt: "0.40", s: 2 },
+  { x: 20, y: 100, k: "B", amt: "0.35", s: 2 },
+  { x: 20, y: 160, k: "C", amt: "0.30", s: 2 },
+  { x: 20, y: 330, k: "E", amt: "0.20", s: 3 },
+  { x: 360, y: 160, k: "D", amt: "0.0497", s: 3 },
+  { x: 360, y: 40, k: "P", amt: "1.00", s: 0 },
+];
+const mid = `mc-arr-${lang}`;
 ---
 
-<div class="mc" data-step="3" data-mc data-lines={JSON.stringify(L.say)}>
+<div class="mc" data-step="4" data-mc data-lines={JSON.stringify(L.say)}>
   <div class="steps" role="group" aria-label={L.group}>
     {
       L.steps.map((s, i) => (
-        <button type="button" data-go={i + 1} aria-pressed={i === 2 ? "true" : "false"}>
+        <button type="button" data-go={i + 1} aria-pressed={i === 3 ? "true" : "false"}>
           {s}
         </button>
       ))
     }
   </div>
-  <svg class="dg" viewBox="0 0 680 400" role="img" aria-label={L.say.join(" ")}>
+  <svg class="dg" viewBox="0 0 680 440" role="img" aria-label={L.say.join(" ")}>
     <defs>
-      <marker id={`mc-arr-${lang}`} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <marker id={mid} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
         <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
       </marker>
     </defs>
 
     <!-- edges -->
-    <g>
-      <line class="ln-1" x1="144" y1="53" x2="200" y2="100" marker-end={`url(#mc-arr-${lang})`}></line>
-      <line class="ln-1" x1="144" y1="173" x2="200" y2="140" marker-end={`url(#mc-arr-${lang})`}></line>
-      <line class="ln-1" x1="144" y1="113" x2="200" y2="120" marker-end={`url(#mc-arr-${lang})`}></line>
-      <line class="ln-1" x1="290" y1="100" x2="360" y2="60" marker-end={`url(#mc-arr-${lang})`}></line>
-      <line class="ln-1" x1="290" y1="140" x2="360" y2="170" marker-end={`url(#mc-arr-${lang})`}></line>
-      <line class="ln-1" x1="422" y1="196" x2="422" y2="250" marker-end={`url(#mc-arr-${lang})`}></line>
-      <line class="ln-1" x1="144" y1="323" x2="380" y2="300" marker-end={`url(#mc-arr-${lang})`}></line>
-      <line class="ln-1" x1="470" y1="290" x2="530" y2="290" marker-end={`url(#mc-arr-${lang})`}></line>
-      <line class="ln-1" x1="595" y1="322" x2="595" y2="344" marker-end={`url(#mc-arr-${lang})`}></line>
-    </g>
+    <line class="ln-1" x1="144" y1="63" x2="200" y2="110" marker-end={`url(#${mid})`}></line>
+    <line class="ln-1" x1="144" y1="123" x2="200" y2="130" marker-end={`url(#${mid})`}></line>
+    <line class="ln-1" x1="144" y1="183" x2="200" y2="150" marker-end={`url(#${mid})`}></line>
+    <line class="ln-1" x1="290" y1="110" x2="360" y2="70" marker-end={`url(#${mid})`}></line>
+    <line class="ln-1" x1="290" y1="150" x2="360" y2="180" marker-end={`url(#${mid})`}></line>
+    <line class="ln-1" x1="422" y1="206" x2="422" y2="280" marker-end={`url(#${mid})`}></line>
+    <line class="ln-1" x1="144" y1="353" x2="380" y2="330" marker-end={`url(#${mid})`}></line>
+    <line class="ln-1" x1="470" y1="320" x2="530" y2="320" marker-end={`url(#${mid})`}></line>
+    <line class="ln-1" x1="595" y1="352" x2="595" y2="374" marker-end={`url(#${mid})`}></line>
 
     <!-- transactions: public, so highlighted -->
-    <rect class="fill-hl" x="200" y="80" width="90" height="80"></rect>
-    <text class="t-on-hl b" x="245" y="125" text-anchor="middle">{L.tx} 1</text>
-    <rect class="fill-hl" x="380" y="250" width="90" height="80"></rect>
-    <text class="t-on-hl b" x="425" y="295" text-anchor="middle">{L.tx} 2</text>
+    <rect class="fill-hl" x="200" y="90" width="90" height="80"></rect>
+    <text class="t-on-hl b" x="245" y="135" text-anchor="middle">{L.tx} 1</text>
+    <rect class="fill-hl" x="380" y="280" width="90" height="80"></rect>
+    <text class="t-on-hl b" x="425" y="325" text-anchor="middle">{L.tx} 2</text>
 
     <!-- addresses -->
     {
@@ -99,32 +104,43 @@ const H = 46;
         <g>
           <rect class="fill-hl" x={a.x} y={a.y} width={W} height={H}></rect>
           <text class="t-on-hl mono" x={a.x + 12} y={a.y + 18}>
-            {L.addr} {a.k}
+            addr {a.k}
+          </text>
+          <text class="t-on-hl mono b" x={a.x + W - 12} y={a.y + 18} text-anchor="end">
+            {a.amt}
           </text>
           <rect class="fill-bar" x={a.x + 12} y={a.y + 26} width="58" height="10"></rect>
-          {a.c && <rect class="fill-leak s3" x={a.x + 12} y={a.y + 26} width="58" height="10"></rect>}
-          {a.c && (
-            <text class="t-on-hl b s2" x={a.x + W - 12} y={a.y + 18} text-anchor="end">
-              C1
-            </text>
-          )}
+          {a.s > 0 && <rect class="fill-leak s4" x={a.x + 12} y={a.y + 26} width="58" height="10"></rect>}
+          {a.s === 3 && <rect class="ln s3 hide4" x={a.x - 4} y={a.y - 4} width={W + 8} height={H + 8}></rect>}
+          {a.s === 3 && <rect class="stroke-leak s4" x={a.x - 4} y={a.y - 4} width={W + 8} height={H + 8}></rect>}
         </g>
       ))
     }
-    <text class="t-s t-2" x="422" y="94" text-anchor="middle">{L.pay}</text>
+
+    <!-- step 2: common input -->
+    <rect class="ln dash s2 hide4" x="10" y="30" width="144" height="186" rx="8"></rect>
+    <rect class="stroke-leak s4" x="10" y="30" width="144" height="186" rx="8"></rect>
+    <text class="t-s b s2" x="20" y="22">{L.hull}</text>
+    <text class="t-s s2" x="20" y="236">{L.together}</text>
+
+    <!-- step 3: change, then E -->
+    <text class="t-s s3" x="422" y="102" text-anchor="middle">{L.round}</text>
+    <text class="t-s s3" x="432" y="230">{L.odd[0]}</text>
+    <text class="t-s s3" x="432" y="246">{L.odd[1]}</text>
+    <text class="t-s s3" x="20" y="396">{L.withD}</text>
 
     <!-- exchange -->
-    <rect class="box" x="530" y="250" width="130" height="72"></rect>
-    <text class="b" x="542" y="274">{L.exchange}</text>
-    <rect class="fill-hl s3-hl" x="542" y="284" width="106" height="24"></rect>
-    <text class="mono t-on-hl" x="548" y="300">{L.deposit}</text>
+    <rect class="box" x="530" y="280" width="130" height="72"></rect>
+    <text class="b" x="542" y="304">{L.exchange}</text>
+    <rect class="fill-hl" x="542" y="314" width="106" height="24"></rect>
+    <text class="mono t-on-hl" x="548" y="330">addr X 0.2495</text>
 
-    <rect class="box" x="530" y="344" width="130" height="50"></rect>
-    <text class="t-s" x="542" y="363">{L.kyc}</text>
-    <rect class="fill-bar s3-hide" x="542" y="372" width="80" height="12"></rect>
-    <text class="t-leak s3" x="542" y="384">{L.name}</text>
+    <rect class="box" x="530" y="374" width="130" height="52"></rect>
+    <text class="t-s" x="542" y="393">{L.kyc}</text>
+    <rect class="fill-bar hide4" x="542" y="402" width="80" height="12"></rect>
+    <text class="t-leak s4" x="542" y="415">{L.name}</text>
   </svg>
-  <p class="say" aria-live="polite" data-say>{L.say[2]}</p>
+  <p class="say" aria-live="polite" data-say>{L.say[3]}</p>
 </div>
 
 <style>
@@ -153,16 +169,11 @@ const H = 46;
     max-width: 68ch;
     min-height: 4.5em;
   }
-  .mc[data-step="1"] .s2,
-  .mc[data-step="1"] .s3,
-  .mc[data-step="2"] .s3 {
+  .mc[data-step="1"] :is(.s2, .s3, .s4),
+  .mc[data-step="2"] :is(.s3, .s4),
+  .mc[data-step="3"] .s4,
+  .mc[data-step="4"] .hide4 {
     display: none;
-  }
-  .mc[data-step="3"] .s3-hide {
-    display: none;
-  }
-  .mc:not([data-step="3"]) .s3-hl {
-    fill: var(--sheet);
   }
 </style>
 
@@ -171,12 +182,13 @@ const H = 46;
     const say = root.querySelector<HTMLElement>("[data-say]")!;
     const lines: string[] = JSON.parse(root.dataset.lines ?? "[]");
     const buttons = [...root.querySelectorAll<HTMLButtonElement>("button[data-go]")];
-    const go = (n: number) => {
-      root.dataset.step = String(n);
-      for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.go === String(n)));
-      say.textContent = lines[n - 1] ?? "";
-    };
-    for (const b of buttons) b.addEventListener("click", () => go(Number(b.dataset.go)));
-    go(1);
+    for (const b of buttons) {
+      b.addEventListener("click", () => {
+        const n = Number(b.dataset.go);
+        root.dataset.step = String(n);
+        for (const o of buttons) o.setAttribute("aria-pressed", String(o === b));
+        say.textContent = lines[n - 1] ?? "";
+      });
+    }
   }
 </script>
