@@ -6,10 +6,15 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { LAYER_SLUGS } from "../src/data/layers.ts";
-import { caseFileSchema, sourceFileSchema } from "../src/data/schema.ts";
+import { caseFileSchema, ESSAY_SLUGS, sourceFileSchema } from "../src/data/schema.ts";
 import { extractShape, hasJapanese, parseFrontmatter } from "./lib/mdx-shape.ts";
 
 const root = new URL("..", import.meta.url).pathname;
+// Every MDX page that exists in both languages: the seven layers and the essays.
+const PAGES = [
+  ...LAYER_SLUGS.map((slug) => ({ slug, dir: "src/content/layers", key: "layer" })),
+  ...ESSAY_SLUGS.map((slug) => ({ slug, dir: "src/content/essays", key: "essay" })),
+];
 const errors: string[] = [];
 const err = (m: string) => errors.push(m);
 
@@ -24,8 +29,7 @@ for (const f of readdirSync(srcDir).filter((x) => x.endsWith(".json"))) {
     err(`sources/${f}: ${parsed.error.message}`);
     continue;
   }
-  if (page !== "cases" && !(LAYER_SLUGS as readonly string[]).includes(page))
-    err(`sources/${f}: no page named "${page}"`);
+  if (page !== "cases" && !PAGES.some((x) => x.slug === page)) err(`sources/${f}: no page named "${page}"`);
   for (const s of parsed.data) {
     if (sourceOwner.has(s.id)) err(`source id "${s.id}" is defined in both ${sourceOwner.get(s.id)} and ${page}`);
     sourceOwner.set(s.id, page);
@@ -63,9 +67,9 @@ else {
   }
 }
 
-// ---- chapters ----
-const contentDir = join(root, "src/content/layers");
-for (const slug of LAYER_SLUGS) {
+// ---- chapters and essays ----
+for (const { slug, dir, key } of PAGES) {
+  const contentDir = join(root, dir);
   const shapes = {} as Record<"en" | "ja", ReturnType<typeof extractShape>>;
   for (const lang of ["en", "ja"] as const) {
     const file = join(contentDir, lang, `${slug}.mdx`);
@@ -77,7 +81,7 @@ for (const slug of LAYER_SLUGS) {
       continue;
     }
     const fm = parseFrontmatter(body);
-    if (fm.layer !== slug) err(`${lang}/${slug}.mdx: frontmatter layer is "${fm.layer}"`);
+    if (fm[key] !== slug) err(`${lang}/${slug}.mdx: frontmatter ${key} is "${fm[key]}"`);
     const shape = extractShape(body);
     shapes[lang] = shape;
     if (lang === "en" && hasJapanese(body)) {
@@ -123,5 +127,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `validate-data: ok (${sourceOwner.size} sources, ${caseIds.size} cases, ${LAYER_SLUGS.length} chapters x 2 languages)`,
+  `validate-data: ok (${sourceOwner.size} sources, ${caseIds.size} cases, ${PAGES.length} pages x 2 languages)`,
 );

@@ -1,0 +1,9 @@
+---
+import { getCollection } from "astro:content";
+import Essay from "../../views/Essay.astro";
+
+const [entry] = await getCollection("essays", (e) => e.id === "en/out-of-reach");
+if (!entry) throw new Error("missing en/out-of-reach.mdx");
+---
+
+<Essay lang="en" entry={entry} />

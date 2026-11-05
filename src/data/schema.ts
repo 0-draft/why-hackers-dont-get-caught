@@ -34,6 +34,15 @@ export const caseSchema = z.object({
 export type Case = z.infer<typeof caseSchema>;
 export const caseFileSchema = z.array(caseSchema).min(1);
 
+export const ESSAY_SLUGS = ["out-of-reach"] as const;
+export type EssaySlug = (typeof ESSAY_SLUGS)[number];
+
+export const essayFrontmatter = z.object({
+  title: z.string().min(1),
+  summary: z.string().min(1),
+  essay: z.enum(ESSAY_SLUGS),
+});
+
 export const layerFrontmatter = z.object({
   title: z.string().min(1),
   /** One sentence shown under the title and in <meta name="description">. */

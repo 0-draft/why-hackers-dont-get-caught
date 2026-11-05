@@ -1,0 +1,68 @@
+---
+import { type CollectionEntry, render } from "astro:content";
+import SourceList from "../components/SourceList.astro";
+import { SOURCES_BY_PAGE } from "../data/sources.ts";
+import { type Lang, useT } from "../i18n/ui.ts";
+import Base from "../layouts/Base.astro";
+
+interface Props {
+  lang: Lang;
+  entry: CollectionEntry<"essays">;
+}
+const { lang, entry } = Astro.props;
+const t = useT(lang);
+const { Content } = await render(entry);
+const sources = SOURCES_BY_PAGE[entry.data.essay] ?? [];
+---
+
+<Base lang={lang} title={entry.data.title} description={entry.data.summary}>
+  <article class="wrap essay layer-article">
+    <header class="head">
+      <h1>{entry.data.title}</h1>
+      <p class="summary">{entry.data.summary}</p>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+    {
+      sources.length > 0 && (
+        <section class="srcs" aria-labelledby="src-h">
+          <h2 id="src-h">{t("layer.sources")}</h2>
+          <SourceList sources={sources} />
+        </section>
+      )
+    }
+  </article>
+</Base>
+
+<style>
+  .essay {
+    padding-top: 2.5rem;
+  }
+  .head {
+    max-width: 52rem;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .summary {
+    font-size: var(--step-1);
+    line-height: 1.5;
+    margin: 1rem 0 0;
+    max-width: 52ch;
+  }
+  :global(:lang(ja)) .summary {
+    max-width: 34em;
+  }
+  .prose {
+    max-width: 62rem;
+  }
+  .srcs {
+    margin-top: 4rem;
+    max-width: var(--measure);
+  }
+  .srcs h2 {
+    font-size: var(--step-2);
+    margin-bottom: 1rem;
+  }
+</style>
