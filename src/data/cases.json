@@ -12,6 +12,10 @@
     "year": 2013,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "identity",
+    "background": {
+      "en": "Silk Road was an online market reachable only through Tor, run from January 2011 until the FBI seized it in October 2013. It sold mainly illegal drugs and took payment only in bitcoin. Prosecutors said Ross Ulbricht created it and, as \"Dread Pirate Roberts\", controlled every part of it, including a paid staff of administrators and programmers. The court later ordered him to forfeit about $184 million.",
+      "ja": "Silk Road は Tor 経由でしか開けないオンライン市場で、2011年1月から、FBI に押収される2013年10月まで運営された。主に違法薬物が売られ、支払いはビットコインに限られていた。検察によれば、ロス・ウルブリヒトがこれを作り、「Dread Pirate Roberts」として有給の管理者やプログラマーを含む運営のすべてを握っていた。裁判所はのちに約1億8,400万ドルの没収を命じた。"
+    },
     "mechanism": {
       "en": "An IRS special agent searched for the earliest mentions of Silk Road and found a user called \"altoid\" promoting it on Bitcoin forums in January 2011. Later posts under the same handle gave rossulbricht@gmail.com as a contact address. A search warrant then brought the Gmail account's contents from Google. The pseudonym on the market was never broken directly; an old handle, used before the operation was locked down, tied it to a real-name address.",
       "ja": "IRS の特別捜査官が Silk Road への最も古い言及を検索し、2011年1月に Bitcoin 系フォーラムで宣伝していた「altoid」というユーザーにたどり着いた。同じハンドルの後の投稿には連絡先として rossulbricht@gmail.com が書かれていた。捜索令状で Google からこの Gmail アカウントの中身を入手した。マーケット上の偽名そのものが破られたのではない。運営が慎重になる前の古いハンドルが、実名のアドレスとつながっていたのである。"
@@ -39,6 +43,10 @@
     "year": 2011,
     "used": ["network", "identity"],
     "failed": "network",
+    "background": {
+      "en": "Hector Xavier Monsegur, known as \"Sabu\", was a New York hacker and a leading figure in groups aligned with Anonymous. In May 2011 he and three others formed LulzSec, which broke into and leaked data from companies and government bodies through mid-2011. He pleaded guilty in secret in August 2011, and when his plea was unsealed in March 2012, five other hackers were charged on the same day. The case showed how far one cooperating insider could reach into a loosely organized hacking scene.",
+      "ja": "「Sabu」ことヘクター・ザビエル・モンセグールは、ニューヨークのハッカーで、Anonymous 系のグループの中心人物だった。2011年5月、彼はほか3人と LulzSec を結成し、同年夏にかけて企業や政府機関に侵入してデータを公開した。2011年8月に非公開で有罪を認め、2012年3月にそれが公表された日に、ほかのハッカー5人が一斉に訴追された。ゆるくつながったハッカーの世界に、協力者1人がどこまで食い込めるかを示した事件である。"
+    },
     "mechanism": {
       "en": "According to Fox News, which broke the story, Sabu normally hid his address behind proxies but once logged into an IRC server from his own IP address, which let the FBI tie the handle to him. He was arrested on 7 June 2011 and pleaded guilty on 15 August 2011. He then worked as an informant, and prosecutors credited his cooperation with identifying other LulzSec and AntiSec members.",
       "ja": "最初に報じた Fox News によれば、Sabu は普段プロキシで自分のアドレスを隠していたが、一度だけ自宅の IP アドレスのまま IRC サーバにログインした。これで FBI はハンドルと本人を結び付けたという。2011年6月7日に逮捕され、同年8月15日に有罪を認めた。その後は情報提供者として動き、検察は彼の協力が LulzSec や AntiSec の他のメンバーの特定につながったと評価した。"
@@ -66,6 +74,10 @@
     "year": 2012,
     "used": ["network", "identity"],
     "failed": "people",
+    "background": {
+      "en": "Jeremy Hammond was a Chicago activist and hacker who took part in AntiSec, an offshoot of Anonymous. In December 2011 he and others broke into Strategic Forecasting (Stratfor), a private intelligence firm in Austin, Texas, and took employees' emails and account data for about 860,000 subscribers and clients. Prosecutors also tied him to attacks on law-enforcement and government websites.",
+      "ja": "ジェレミー・ハモンドはシカゴの活動家でハッカーであり、Anonymous から派生した AntiSec に加わっていた。2011年12月、彼らはテキサス州オースティンの民間情報会社 Strategic Forecasting（Stratfor）に侵入し、社員のメールと約86万人の購読者・顧客のアカウント情報を盗んだ。検察は、警察や政府機関のサイトへの攻撃にも彼が関わっていたとしている。"
+    },
     "mechanism": {
       "en": "Hammond planned and discussed the December 2011 Stratfor hack in chats with Sabu, who was already working for the FBI. In those chats he mentioned past arrests at protests and time in federal prison, and the FBI agent on the case matched those details against arrest records to narrow the suspects to him. Sabu also tied the handle \"sup_g\" to \"Anarchaos\", an alias already linked to Hammond.",
       "ja": "ハモンドは2011年12月の Stratfor へのハッキングを、すでに FBI の協力者になっていた Sabu とのチャットで計画し、話し合っていた。チャットの中で彼は過去のデモでの逮捕歴や連邦刑務所での服役に触れており、担当の FBI 捜査官はそれを逮捕記録と照合して容疑者を彼に絞り込んだ。Sabu はさらに、ハンドル「sup_g」と、すでにハモンドに結び付いていた別名「Anarchaos」をつなげた。"
@@ -89,6 +101,10 @@
     "year": 2013,
     "used": ["network", "identity"],
     "failed": "network",
+    "background": {
+      "en": "On the morning of 16 December 2013, Harvard University police, two university officials and the president of The Harvard Crimson received emails saying bombs had been placed in four campus buildings. The buildings were evacuated during final exams and no explosives were found. Eldo Kim, a 20-year-old student, was due to sit an exam in one of those buildings that morning. The case became a standard example of what Tor does and does not hide.",
+      "ja": "2013年12月16日の朝、ハーバード大学の警察、大学職員2人、学生新聞 The Harvard Crimson の代表に、構内の4つの建物に爆弾を仕掛けたというメールが届いた。期末試験の最中に建物から人が避難させられたが、爆発物は見つからなかった。20歳の学生エルド・キムは、その朝、対象の建物の1つで試験を受ける予定だった。Tor が何を隠し、何を隠さないかを説明するときの定番の事例になった。"
+    },
     "mechanism": {
       "en": "The threats were sent from a disposable mail service over Tor, so the messages themselves carried no usable address. But Harvard's wireless network required users to log in, and the university could tell that Kim had connected to Tor from it in the hours before the emails arrived. Tor hid what he did, not that he was using Tor on a small, logged network at that moment. Interviewed by the FBI and Harvard police, he admitted sending the emails to avoid a final exam.",
       "ja": "脅迫メールは使い捨てメールサービスから Tor 経由で送られており、メール自体には使える IP アドレスが残っていなかった。しかしハーバードの無線 LAN はログインが必要で、大学はメール着信前の数時間にキムがその無線 LAN から Tor に接続していたことを割り出せた。Tor が隠したのは中身であり、その時間に小さく記録の残るネットワークで Tor を使っていたという事実は隠せなかった。FBI と大学警察の聴取で、彼は期末試験を逃れるためにメールを送ったと認めた。"
@@ -112,6 +128,10 @@
     "year": 2013,
     "used": ["network", "infrastructure", "money"],
     "failed": "infrastructure",
+    "background": {
+      "en": "Freedom Hosting was a hosting service on the Tor network that Eric Eoin Marques ran from 2008 to 2013. DOJ says it hosted more than 200 child sexual exploitation websites holding millions of images, and investigators found more than 8.5 million images and videos on the server. Prosecutors called him one of the largest facilitators of child sexual abuse material in the world.",
+      "ja": "Freedom Hosting は、エリック・エオイン・マルケスが2008年から2013年まで運営していた Tor 上のホスティングサービスである。司法省によれば、ここには児童の性的搾取を扱う200を超えるサイトがあり、数百万点の画像が置かれていた。サーバからは850万点を超える画像と動画が見つかった。検察は彼を、児童性的虐待コンテンツの世界最大級の提供者の1人と呼んだ。"
+    },
     "mechanism": {
       "en": "Investigators located a server in France behind the Tor hidden-service host; the government has never explained how. US authorities alleged that the server space was rented from a French company, paid for with a debit card on a US bank account and billed to a private mailbox near Las Vegas, which pointed at Marques. After taking control of the service the FBI served code to visitors that exploited a Firefox flaw to reveal their real addresses, an attack on the users' devices rather than on Marques.",
       "ja": "捜査機関は Tor の秘匿サービスを束ねるこのホスティングの背後にあるフランスのサーバを突き止めたが、方法は今も明かされていない。米当局によれば、サーバはフランスの会社から借りられ、米国の銀行口座のデビットカードで支払われ、請求先はラスベガス近くの私設私書箱だった。これがマルケスを指した。FBI はサービスを掌握したあと、訪問者に Firefox の脆弱性を突くコードを配り、本当のアドレスを送らせた。これはマルケスではなく利用者の端末に対する攻撃である。"
@@ -135,6 +155,10 @@
     "year": 2017,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "identity",
+    "background": {
+      "en": "AlphaBay was the largest dark-web market when it was taken down in July 2017. It sold drugs, stolen data, malware and other illegal goods, had more than 400,000 users and, according to the FBI, was about ten times the size of Silk Road. Alexandre Cazes, a 25-year-old Canadian living in Thailand, was its creator and administrator. The takedown was coordinated with the Dutch seizure of Hansa Market, another major market.",
+      "ja": "AlphaBay は、2017年7月に摘発された時点で最大のダークウェブ市場だった。薬物、盗まれたデータ、マルウェアなどの違法な商品が売られ、利用者は40万人を超え、FBI によれば Silk Road の約10倍の規模だった。創設者で管理者は、タイに住む25歳のカナダ人アレクサンドル・カーズである。摘発は、オランダ当局による別の大規模市場 Hansa Market の押収と連動して行われた。"
+    },
     "mechanism": {
       "en": "For a short period after the forum launched in December 2014, AlphaBay's welcome and password-recovery emails carried Cazes's personal Hotmail address, pimp_alex_91@hotmail.com, in the header. Investigators learned this in December 2016 and followed the address to an older tech-forum profile under the handle Alpha02, to PayPal accounts in his name and to his company. When Thai police arrested him in Bangkok on 5 July 2017, his laptop was open, unencrypted and logged in to AlphaBay as admin.",
       "ja": "2014年12月にフォーラムが始まってからの短い期間、AlphaBay の歓迎メールとパスワード再設定メールのヘッダに、カーズの個人の Hotmail アドレス pimp_alex_91@hotmail.com が入っていた。捜査機関は2016年12月にこれを知り、そのアドレスから Alpha02 名義の古い技術系フォーラムのプロフィール、本人名義の PayPal アカウント、彼の会社へとたどった。2017年7月5日にタイ警察がバンコクで逮捕したとき、ノートPC は開いたまま暗号化されておらず、AlphaBay に管理者としてログインした状態だった。"
@@ -158,6 +182,10 @@
     "year": 2014,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "infrastructure",
+    "background": {
+      "en": "Silk Road 2.0 appeared soon after the original Silk Road was seized in October 2013 and copied its look and function. Prosecutors said Blake Benthall, a 26-year-old in San Francisco, ran it from around December 2013. By September 2014 it was generating at least about $8 million in sales a month and had about 150,000 active users.",
+      "ja": "Silk Road 2.0 は、2013年10月に元の Silk Road が押収されて間もなく現れ、見た目も仕組みもほぼそのまま引き継いでいた。検察によれば、サンフランシスコに住む26歳のブレイク・ベンサルが2013年12月ごろから運営していた。2014年9月の時点で月に少なくとも約800万ドルを売り上げ、活動中の利用者は約15万人いた。"
+    },
     "mechanism": {
       "en": "In May 2014 the FBI identified a server in another country that was hosting Silk Road 2.0; the complaint does not say how. The hosting provider's records showed the server was controlled by someone using the address blake@benthall.net. Separately, an HSI undercover agent had joined the site's support staff and had access to the admin-only areas, which gave investigators a view from inside the operation.",
       "ja": "2014年5月、FBI は Silk Road 2.0 をホストしている国外のサーバを特定した。方法は訴状に書かれていない。ホスティング事業者の記録では、そのサーバは blake@benthall.net というアドレスを使う人物が管理していた。これとは別に、HSI の潜入捜査官がサイトのサポートスタッフに入り込み、管理者専用の領域にアクセスしていた。捜査側は運営の内側からも様子を見ていたことになる。"
@@ -181,6 +209,10 @@
     "year": 2015,
     "used": ["network", "identity", "infrastructure"],
     "failed": "infrastructure",
+    "background": {
+      "en": "Playpen was a members-only child sexual abuse website on Tor, created by Steven Chase in August 2014. It grew to more than 150,000 users worldwide. In January 2015 the FBI launched Operation Pacifier against its members, and the FBI reported that 296 sexually abused children were identified or rescued.",
+      "ja": "Playpen は Tor 上の会員制の児童性的虐待サイトで、スティーブン・チェイスが2014年8月に作った。利用者は世界で15万人を超えた。2015年1月、FBI は会員を対象とする Operation Pacifier を始め、性的虐待を受けていた子ども296人を特定または保護したと発表した。"
+    },
     "mechanism": {
       "en": "In December 2014 a foreign law-enforcement agency told the FBI that the Tor hidden service's real IP address was visible and resolved to the United States. The FBI seized the server at a hosting facility in North Carolina, served warrants on email accounts and followed the payments, which led to Chase. The FBI then ran the site for about two weeks and used a \"network investigative technique\", an exploit against visitors' browsers, to collect their real addresses.",
       "ja": "2014年12月、海外の捜査機関が FBI に、この Tor 秘匿サービスの本当の IP アドレスが見えており米国内を指していると伝えた。FBI はノースカロライナ州のホスティング施設でサーバを押収し、メールアカウントへの令状を取り、支払いを追ってチェイスに行き着いた。その後 FBI はサイトを約2週間運営し、訪問者のブラウザを突くエクスプロイト（「ネットワーク捜査手法」と呼ばれた）で利用者の本当のアドレスを集めた。"
@@ -204,6 +236,10 @@
     "year": 2015,
     "used": ["identity"],
     "failed": "network",
+    "background": {
+      "en": "Ardit Ferizi was a 20-year-old Kosovo citizen living in Malaysia who led a hacking group called Kosova Hacker's Security. In 2015 he broke into the server of a US online retailer and pulled out personal data, then selected about 1,300 records belonging to US military members and government personnel. He gave that list to Junaid Hussain, a member of ISIL, who published it online.",
+      "ja": "アルディト・フェリジはマレーシアに住む20歳のコソボ国民で、Kosova Hacker's Security というハッカー集団を率いていた。2015年、彼は米国のオンライン小売業者のサーバに侵入して個人情報を抜き出し、その中から米軍関係者と政府職員約1,300人分を選び出した。彼はこの一覧を ISIL のメンバーであるジュナイド・フセインに渡し、フセインはそれをネットで公開した。"
+    },
     "mechanism": {
       "en": "The image of the victim company's server showed the SQL injection coming from 210.186.111.14, an address at a Malaysian ISP. Records from Twitter and Facebook showed the same address logging into his @Th3Dir3ctorY account and his personal Facebook account during the same days in July 2015. He had also left an administrator account named \"KHS\" on the server, the initials of his Kosova Hacker's Security group.",
       "ja": "被害企業のサーバのイメージを調べると、SQL インジェクションはマレーシアの ISP のアドレス 210.186.111.14 から来ていた。Twitter と Facebook の記録では、2015年7月の同じ時期に、同じアドレスから @Th3Dir3ctorY のアカウントと本人の Facebook アカウントにログインしていた。サーバには、彼のグループ Kosova Hacker's Security の頭文字である「KHS」という管理者アカウントも残っていた。"
@@ -227,9 +263,13 @@
     "year": 2018,
     "used": ["identity", "network", "money", "infrastructure", "attribution"],
     "failed": "infrastructure",
+    "background": {
+      "en": "In 2016 Russian military intelligence (GRU) officers hacked the Democratic Congressional Campaign Committee, the Democratic National Committee and the Clinton campaign, then released the stolen documents through the personas \"DCLeaks\" and \"Guccifer 2.0\" during the US presidential election. \"Guccifer 2.0\" claimed to be a lone Romanian hacker and contacted journalists directly. The 2018 indictment charged twelve officers of GRU Units 26165 and 74455 and described the operation as interference in the election.",
+      "ja": "2016年、ロシア軍の情報機関 GRU の将校らは、民主党下院選挙委員会（DCCC）、民主党全国委員会（DNC）、クリントン陣営に侵入し、大統領選挙のさなかに「DCLeaks」と「Guccifer 2.0」という名義で盗んだ文書を公開した。「Guccifer 2.0」はルーマニアの単独ハッカーを名乗り、記者に直接接触した。2018年の起訴状は GRU 第26165部隊と第74455部隊の将校12人を訴追し、この作戦を選挙への干渉と位置付けた。"
+    },
     "mechanism": {
-      "en": "\"Guccifer 2.0\" presented itself as a lone Romanian hacker. The 2018 indictment instead ties it to GRU infrastructure: on 15 June 2016 the conspirators logged into a Moscow server managed by Unit 74455 and searched for English phrases that appeared in Guccifer 2.0's first post that day. The same pool of bitcoin paid for a VPN account later used to log into the @Guccifer_2 Twitter account and for the Malaysian server that hosted dcleaks.com.",
-      "ja": "「Guccifer 2.0」はルーマニアの単独ハッカーを名乗っていた。しかし2018年の起訴状は、これを GRU のインフラに結び付けている。2016年6月15日、共謀者らは第74455部隊が管理するモスクワのサーバにログインし、その日の Guccifer 2.0 の最初の投稿に出てくる英語の言い回しを検索していた。また、同じビットコインの資金プールから、のちに @Guccifer_2 の Twitter アカウントへのログインに使われた VPN アカウントと、dcleaks.com を置いたマレーシアのサーバの代金が払われていた。"
+      "en": "The 2018 indictment ties the persona to GRU infrastructure: on 15 June 2016 the conspirators logged into a Moscow server managed by Unit 74455 and searched for English phrases that appeared in Guccifer 2.0's first post that day. The same pool of bitcoin paid for a VPN account later used to log into the @Guccifer_2 Twitter account and for the Malaysian server that hosted dcleaks.com.",
+      "ja": "2018年の起訴状は、この名義を GRU のインフラに結び付けている。2016年6月15日、共謀者らは第74455部隊が管理するモスクワのサーバにログインし、その日の Guccifer 2.0 の最初の投稿に出てくる英語の言い回しを検索していた。また、同じビットコインの資金プールから、のちに @Guccifer_2 の Twitter アカウントへのログインに使われた VPN アカウントと、dcleaks.com を置いたマレーシアのサーバの代金が払われていた。"
     },
     "outcome": {
       "en": "Twelve GRU officers were indicted in the District of Columbia on 13 July 2018. None is in US custody.",
@@ -254,6 +294,10 @@
     "year": 2018,
     "used": ["network", "money", "infrastructure"],
     "failed": "money",
+    "background": {
+      "en": "Welcome to Video was a Tor site that sold child sexual abuse videos for bitcoin. DOJ called it the largest such market by volume of content; Korean reporting put the collection at more than 250,000 videos, about 8 TB. Its operator, Son Jong-woo, was a South Korean in his early twenties. The takedown in 2018 and the US indictment unsealed in 2019 led to charges against hundreds of users in many countries.",
+      "ja": "Welcome to Video は、児童性的虐待の動画をビットコインで売っていた Tor 上のサイトである。司法省は、内容の量でこの種の市場として最大だったとしている。韓国の報道では、動画は25万本を超え、容量は約8TB だった。運営者のソン・ジョンウは20代前半の韓国人だった。2018年の摘発と2019年に公開された米国の起訴は、多くの国の数百人の利用者の訴追につながった。"
+    },
     "mechanism": {
       "en": "IRS-CI agents paid into the site's bitcoin addresses and followed the withdrawals to a wallet hosted at an exchange, which held Son's name, phone number and email address. The DOJ release credits bitcoin tracing with locating both the administrator and the server in South Korea. Press summaries of the indictment add that one page loaded files by the server's raw IP address instead of the onion address, which pointed to a Korea Telecom connection.",
       "ja": "IRS-CI の捜査官はサイトのビットコインアドレスに送金し、引き出し先を追って取引所が預かるウォレットにたどり着いた。そこにはソンの名前、電話番号、メールアドレスが登録されていた。司法省の発表は、管理者と韓国内のサーバの両方を特定できたのはビットコインの追跡によるものだとしている。起訴状を紹介した報道によれば、あるページが onion アドレスではなくサーバの生の IP アドレスでファイルを読み込んでおり、それが Korea Telecom の回線を指していた。"
@@ -277,6 +321,10 @@
     "year": 2020,
     "used": ["identity", "money", "network"],
     "failed": "money",
+    "background": {
+      "en": "On 15 July 2020 attackers took over about 130 Twitter accounts belonging to politicians, celebrities and companies and used them to post a scam promising to double any bitcoin sent to an address. They had reached Twitter's internal administration tools by socially engineering staff. The scam collected more than $100,000, and the accounts of Barack Obama, Joe Biden and Elon Musk were among those used. The alleged leader, Graham Ivan Clark, was 17.",
+      "ja": "2020年7月15日、攻撃者が政治家、著名人、企業の Twitter アカウント約130件を乗っ取り、送られたビットコインを倍にして返すという詐欺の投稿をした。彼らは社員へのソーシャルエンジニアリングで Twitter の内部管理ツールにたどり着いていた。詐欺は10万ドル以上を集め、乗っ取られたアカウントにはバラク・オバマ、ジョー・バイデン、イーロン・マスクのものも含まれていた。首謀者とされたグラハム・アイヴァン・クラークは17歳だった。"
+    },
     "mechanism": {
       "en": "IRS-CI analysts traced the scam's bitcoin. Coins sent from the \"Chaewon\" wallet to \"Kirk\" matched payment requests in their Discord chats, and the same wallet dealt heavily with Binance accounts; Binance and Coinbase then produced records including Mason Sheppard's driver's licence, date of birth and address. A leaked copy of the OGUsers forum database independently linked \"Chaewon\" to a second account through a shared IP address.",
       "ja": "IRS-CI の分析官が詐欺で集まったビットコインを追跡した。「Chaewon」のウォレットから「Kirk」への送金は、Discord での支払い要求と時期が一致し、同じウォレットは Binance のアカウントと頻繁に取引していた。Binance と Coinbase が出した記録には、メイソン・シェパードの運転免許証、生年月日、住所が含まれていた。流出した OGUsers フォーラムのデータベースも、共通の IP アドレスを通じて「Chaewon」を別のアカウントに結び付けていた。"
@@ -300,9 +348,13 @@
     "year": 2022,
     "used": ["money", "identity"],
     "failed": "money",
+    "background": {
+      "en": "In August 2016 a hacker broke into the cryptocurrency exchange Bitfinex and stole about 120,000 bitcoin. For years the coins barely moved while the culprit remained unknown. In February 2022 US authorities arrested Ilya Lichtenstein and his wife Heather Morgan in New York for laundering the funds and seized about 94,600 BTC of the stolen coins. Lichtenstein later admitted he had carried out the hack himself; Morgan joined the laundering years after it.",
+      "ja": "2016年8月、暗号資産取引所 Bitfinex がハッキングされ、約12万 BTC が盗まれた。何年ものあいだコインはほとんど動かず、犯人も分からなかった。2022年2月、米当局は資金洗浄の容疑でイリヤ・リヒテンシュタインと妻のヘザー・モーガンをニューヨークで逮捕し、盗まれたうちの約94,600 BTC を押収した。リヒテンシュタインはのちにハッキング自体も自分がやったと認めた。モーガンが洗浄に加わったのは事件の数年後である。"
+    },
     "mechanism": {
-      "en": "Most of the roughly 120,000 stolen bitcoin sat in one wallet for years while smaller amounts were moved through chains of transactions, mixers and other currencies. Investigators followed the movements on the public ledger to accounts tied to the couple. A 2021 search warrant on Lichtenstein's US cloud storage account produced encrypted files; on 31 January 2022 agents decrypted one listing about 2,000 addresses with their private keys and seized about 94,600 BTC.",
-      "ja": "盗まれた約12万 BTC の大半は何年も1つのウォレットに置かれ、少額ずつ取引の連鎖、ミキサー、他の通貨を経て動かされた。捜査機関は公開台帳上の動きを追い、夫妻に結び付くアカウントにたどり着いた。2021年にリヒテンシュタインの米国のクラウドストレージに捜索令状を執行すると暗号化されたファイルが見つかった。2022年1月31日に捜査官がその1つを復号すると、約2,000のアドレスと秘密鍵の一覧があり、約94,600 BTC が押収された。"
+      "en": "Most of the stolen coins sat in one wallet for years while smaller amounts were moved through chains of transactions, mixers and other currencies. Investigators followed the movements on the public ledger to accounts tied to the couple. A 2021 search warrant on Lichtenstein's US cloud storage account produced encrypted files; on 31 January 2022 agents decrypted one listing about 2,000 addresses with their private keys, which let them take the main wallet.",
+      "ja": "盗まれたコインの大半は何年も1つのウォレットに置かれ、少額ずつ取引の連鎖、ミキサー、他の通貨を経て動かされた。捜査機関は公開台帳上の動きを追い、夫妻に結び付くアカウントにたどり着いた。2021年にリヒテンシュタインの米国のクラウドストレージに捜索令状を執行すると、暗号化されたファイルが見つかった。2022年1月31日に捜査官がその1つを復号すると約2,000のアドレスと秘密鍵の一覧があり、これで本体のウォレットを押さえることができた。"
     },
     "outcome": {
       "en": "Both pleaded guilty in August 2023; Lichtenstein admitted to the 2016 hack itself. He was sentenced on 14 November 2024 to five years and Morgan to 18 months. Lichtenstein was released to home confinement under the First Step Act in January 2026.",
@@ -323,6 +375,10 @@
     "year": 2022,
     "used": ["identity", "network"],
     "failed": "network",
+    "background": {
+      "en": "Lapsus$ was a data-extortion group, largely made up of teenagers, that in 2021 and 2022 broke into large companies, stole data and threatened to leak it, often announcing its attacks on Telegram. Arion Kurtaj was described in court as a key member. The offences proved against him included breaches at Uber, the fintech firm Revolut and Rockstar Games, where footage of the unreleased Grand Theft Auto VI was leaked. He was a teenager at the time and has severe autism.",
+      "ja": "Lapsus$ は主に10代で構成されたデータ恐喝グループで、2021年から2022年にかけて大企業に侵入してデータを盗み、公開すると脅した。攻撃はしばしば Telegram で予告・公表された。アリオン・クルタイは、法廷でその中心メンバーとされた。彼について認定された行為には、Uber、フィンテック企業 Revolut、Rockstar Games への侵入が含まれ、Rockstar の件では未発売の Grand Theft Auto VI の映像が流出した。当時は10代で、重い自閉症がある。"
+    },
     "mechanism": {
       "en": "Prosecutors told the court that investigators found Kurtaj and a co-defendant by resolving the IP addresses behind email and Telegram accounts the pair used to boast about their attacks. Separately, after he bought the doxing site Doxbin and leaked its data in January 2022, members of that community published a detailed dox of him, his family and his UK home. Whether police relied on it is not public. While on bail he kept hacking, including Rockstar Games through an Amazon Fire Stick on a hotel TV.",
       "ja": "検察は法廷で、2人が攻撃を自慢するのに使っていたメールと Telegram のアカウントの IP アドレスを割り出して、クルタイと共犯者を特定したと説明した。これとは別に、彼が晒しサイト Doxbin を買い取って2022年1月にそのデータを流出させると、そのコミュニティが本人、家族、英国の自宅まで含む詳しい個人情報を公開した。警察がこれを使ったかどうかは公表されていない。保釈中も彼はハッキングを続け、ホテルのテレビにつないだ Amazon Fire Stick から Rockstar Games に侵入した。"
@@ -346,6 +402,10 @@
     "year": 2022,
     "used": ["identity", "network"],
     "failed": "identity",
+    "background": {
+      "en": "Mikhail Matveev, a Russian national from Kaliningrad, is accused of working as an affiliate of three ransomware operations, LockBit, Babuk and Hive, from at least 2020. Prosecutors say the attacks included the June 2020 LockBit attack on a police agency in Passaic County, New Jersey, the April 2021 Babuk attack on the Metropolitan Police Department in Washington, D.C., and a 2022 Hive attack on a New Jersey behavioral health nonprofit. Under the name Wazawaka he was also known on Russian-language crime forums as a broker selling access to hacked networks.",
+      "ja": "ロシア・カリーニングラードのミハイル・マトヴェエフは、少なくとも2020年から LockBit、Babuk、Hive という3つのランサムウェアのアフィリエイトとして活動したとされる。検察によれば、2020年6月のニュージャージー州パセーイク郡の警察機関への LockBit 攻撃、2021年4月のワシントン D.C. 首都警察への Babuk 攻撃、2022年のニュージャージー州の行動医療 NPO への Hive 攻撃が含まれる。Wazawaka の名で、ロシア語圏の犯罪フォーラムでは、侵入済みネットワークへのアクセスを売る仲介役としても知られていた。"
+    },
     "mechanism": {
       "en": "Brian Krebs connected the handle to Matveev through more than a decade of reused details in breach data and registration records. Wazawaka's forum accounts shared a small set of passwords and Yandex and Mail.ru addresses; one of those addresses registered a VKontakte account for Mikhail \"Mix\" Matveev and a domain originally registered to a Mikhail Matveyev in Abakan. The phone number on that VK account reappeared in another domain registration, and the ICQ number Wazawaka gave on the Exploit forum matched a 2009 account on a forum in the same region. US authorities named and charged him the following year.",
       "ja": "Brian Krebs は、流出データと登録記録に10年以上残っていた使い回しから、このハンドルをマトヴェエフに結び付けた。Wazawaka のフォーラムアカウントは少数のパスワードと Yandex・Mail.ru のアドレスを共有していた。そのアドレスの1つは Mikhail \"Mix\" Matveev 名義の VKontakte アカウントと、もとはアバカンの Mikhail Matveyev 名義で登録されたドメインに使われていた。その VK アカウントの電話番号は別のドメイン登録にも現れ、Wazawaka が Exploit フォーラムで示した ICQ 番号は、同じ地域のフォーラムにあった2009年のアカウントと一致した。翌年、米当局が彼を名指しして起訴した。"
@@ -369,6 +429,10 @@
     "year": 2024,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "infrastructure",
+    "background": {
+      "en": "LockBit was a ransomware-as-a-service operation: its administrators built and ran the ransomware and its infrastructure, and affiliates carried out the attacks for a share of the ransom. DOJ says it hit more than 2,500 victims in at least 120 countries, including about 1,800 in the US, and that its administrator, \"LockBitSupp\", personally took more than $100 million. The NCA counted more than 100 hospitals and healthcare companies among its targets. LockBitSupp had publicly offered $10 million to anyone who could reveal his identity.",
+      "ja": "LockBit は「サービスとしてのランサムウェア（RaaS）」で、管理者がランサムウェアとインフラを作って運用し、アフィリエイトが攻撃を実行して身代金を分け合う仕組みだった。司法省によれば、被害者は少なくとも120か国で2,500を超え、米国だけで約1,800にのぼり、管理者の「LockBitSupp」は個人で1億ドル以上を受け取った。NCA は、標的に病院や医療企業が100以上含まれていたとしている。LockBitSupp は、自分の正体を明かせた者に1,000万ドルを払うと公言していた。"
+    },
     "mechanism": {
       "en": "In February 2024 Operation Cronos, led by the NCA, infiltrated LockBit's network and took control of its services, including the leak site. In May the NCA said that investigation had uncovered LockBitSupp's real identity, without explaining how. Separate open-source work by Brian Krebs traced old emails, reused passwords and an ICQ number to Khoroshev's earlier malware-forum identity, but Krebs says this does not by itself prove he is LockBitSupp.",
       "ja": "2024年2月、NCA が主導する Operation Cronos は LockBit のネットワークに侵入し、リークサイトを含むサービスを掌握した。5月、NCA はこの捜査で LockBitSupp の正体が判明したと発表したが、方法は説明していない。別に Brian Krebs が公開情報から、古いメール、使い回されたパスワード、ICQ 番号をホロシェフの以前のマルウェア系フォーラムでの身元までたどった。ただし Krebs 自身、それだけでは彼が LockBitSupp だという証明にはならないと書いている。"
@@ -392,6 +456,10 @@
     "year": 2024,
     "used": ["network", "money", "identity"],
     "failed": "money",
+    "background": {
+      "en": "Incognito Market was a dark-web narcotics market that ran from October 2020 to March 2024 and sold more than $105 million in drugs, including heroin, cocaine, methamphetamine, LSD and oxycodone. Rui-Siang Lin, a Taiwanese man in his early twenties, helped found it and ran it from about January 2022. When he shut it down in March 2024 he also tried to extort people who had used the market. His day job included work for Taiwan's Ministry of Foreign Affairs.",
+      "ja": "Incognito Market は2020年10月から2024年3月まで運営されたダークウェブの薬物市場で、ヘロイン、コカイン、メタンフェタミン、LSD、オキシコドンなどを1億500万ドル以上売った。20代前半の台湾人、林睿庠（リン・ルイシャン）は創設メンバーの1人で、2022年1月ごろから運営を率いていた。2024年3月に閉鎖する際には、市場の利用者を恐喝しようともした。本業では台湾外交部の仕事にも就いていた。"
+    },
     "mechanism": {
       "en": "According to the FBI affidavit as reported, bitcoin from the market's wallet went to a wallet Lin controlled, then through a swap service into Monero, and arrived at an exchange account opened with his Taiwanese driver's licence, email and phone number. The same email and phone were tied to a Namecheap account that used funds from those wallets to buy a domain promoting Incognito. He was arrested at JFK airport on 18 May 2024 while in transit.",
       "ja": "報じられた FBI の宣誓供述書によれば、マーケットのウォレットから出たビットコインはリンが管理するウォレットに入り、スワップサービスで Monero に替えられ、台湾の運転免許証、メール、電話番号で開設された取引所のアカウントに届いていた。同じメールと電話番号は Namecheap のアカウントにも結び付いており、そのアカウントはこれらのウォレットの資金で Incognito を宣伝するドメインを買っていた。2024年5月18日、乗り継ぎ中の JFK 空港で逮捕された。"
@@ -415,9 +483,13 @@
     "year": 2023,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "infrastructure",
+    "background": {
+      "en": "North Korea places IT workers abroad who apply for remote jobs under false identities and send their wages back to the regime. Christina Chapman, a 50-year-old woman in Arizona, helped such workers use 68 stolen identities of US people to get jobs at 309 US companies and two foreign ones. She received and hosted their company laptops, shipped others abroad and handled their pay. The scheme brought in more than $17.1 million, and DOJ called it one of the largest North Korean IT-worker fraud schemes it had charged.",
+      "ja": "北朝鮮は IT 労働者を海外に置き、偽の身元でリモートの仕事に応募させ、給料を政権に送らせている。アリゾナ州に住む50歳のクリスティーナ・チャップマンは、こうした労働者が米国人68人分の盗まれた身元を使い、米国企業309社と海外企業2社に就職するのを手伝った。彼女は会社のノートPC を受け取って自宅に置き、一部は国外に発送し、給与の受け取りも担った。この仕組みは1,710万ドル以上を生み、司法省は自ら訴追した北朝鮮 IT 労働者の詐欺として最大級のものと位置付けた。"
+    },
     "mechanism": {
-      "en": "North Korean IT workers using 68 stolen US identities held remote jobs at 309 US companies; the company laptops sat in Chapman's Arizona home so the workers appeared to connect from US residential addresses. That relay was a physical house run by a real person. In September to October 2023 a customer of a separate laptop farm run by Oleksandr Didenko asked him to send a computer to Chapman's farm, which DOJ cites as showing the cells were connected; the October 2023 search of her home found more than 90 laptops.",
-      "ja": "北朝鮮の IT 労働者が盗んだ68人分の米国人の身元で、米国企業309社のリモートの仕事に就いていた。会社のノートPC はアリゾナ州のチャップマンの自宅に置かれ、労働者は米国の住宅回線から接続しているように見えた。この中継点は、実在の人物が管理する物理的な家だった。2023年9月から10月にかけ、オレクサンドル・ディデンコが運営する別のラップトップファームの顧客が、パソコンをチャップマンのファームへ送るよう彼に求めた。司法省はこれを両グループがつながっていた証拠として挙げている。2023年10月の家宅捜索では90台を超えるノートPC が見つかった。"
+      "en": "The company laptops sat in Chapman's Arizona home, so the workers appeared to connect from US residential addresses. That relay was a physical house run by a real person. In September to October 2023 a customer of a separate laptop farm run by Oleksandr Didenko asked him to send a computer to Chapman's farm, which DOJ cites as showing the cells were connected; the October 2023 search of her home found more than 90 laptops, many labelled with the company and identity they served.",
+      "ja": "会社のノートPC はアリゾナ州のチャップマンの自宅に置かれ、労働者は米国の住宅回線から接続しているように見えた。この中継点は、実在の人物が管理する物理的な家だった。2023年9月から10月にかけ、オレクサンドル・ディデンコが運営する別のラップトップファームの顧客が、パソコンをチャップマンのファームへ送るよう彼に求めた。司法省はこれを両グループがつながっていた証拠として挙げている。2023年10月の家宅捜索では90台を超えるノートPC が見つかった。"
     },
     "outcome": {
       "en": "Charged in May 2024, pleaded guilty on 11 February 2025 and sentenced on 24 July 2025 to 102 months in prison. The scheme generated more than $17.1 million.",
@@ -438,9 +510,13 @@
     "year": 2013,
     "used": ["network", "infrastructure", "identity"],
     "failed": "behavior",
+    "background": {
+      "en": "Between June and September 2012, someone infected other people's PCs with a remote-control virus and used them to post threats online, including a threat to attack a kindergarten. Police in Osaka, Mie, Tokyo and Kanagawa arrested four men whose computers had sent the threats, and two of them confessed under interrogation. In December 2012 the four police forces admitted the arrests were wrong and that their interviews had been inappropriate. A joint task force of about 160 officers then hunted the real author, Yusuke Katayama, a 30-year-old IT company employee.",
+      "ja": "2012年6月から9月にかけ、何者かが他人の PC を遠隔操作ウイルスに感染させ、それを使って幼稚園の襲撃予告などの犯行予告をネットに投稿した。大阪、三重、東京、神奈川の警察は、予告を送信した PC の持ち主4人を逮捕し、うち2人は取り調べで容疑を認めた。2012年12月、4つの警察は誤認逮捕と不適切な取り調べを認める検証結果を公表した。その後、約160人の合同捜査本部が真犯人を追い、30歳の IT 関連会社社員、片山祐輔にたどり着いた。"
+    },
     "mechanism": {
-      "en": "In 2012 threats were posted from other people's PCs infected with a remote-control trojan, and police arrested four innocent owners because they relied on the IP addresses. The case broke in the physical world: in January 2013 the culprit's own emailed puzzle led to a memory card on the collar of a cat on Enoshima, and security cameras there had recorded Katayama near the cat. After he was released on bail while denying everything, police watched him bury a smartphone on a Tokyo riverbank; it held traces of a fake \"real culprit\" email sent in May 2014.",
-      "ja": "2012年、遠隔操作ウイルスに感染した他人の PC から犯行予告が投稿され、警察は IP アドレスを頼りに無実の持ち主4人を誤認逮捕した。事件が動いたのは現実世界の痕跡からだった。2013年1月、犯人自身がメールで送った「パズル」が江の島の猫の首輪に付けられた記録媒体を示し、現地の防犯カメラには猫に近付く片山の姿が残っていた。否認したまま保釈されたあと、捜査員は彼が都内の河川敷にスマートフォンを埋めるのを確認した。そこには2014年5月に送られた偽の「真犯人」メールの痕跡があった。"
+      "en": "The virus relayed every post through victims' machines and Tor, so the network trail ended at innocent people. The case broke in the physical world: in January 2013 the culprit's own emailed puzzle led to a memory card on the collar of a cat on Enoshima, and security cameras there had recorded Katayama near the cat. After he was released on bail while denying everything, police watched him bury a smartphone on a Tokyo riverbank; it held traces of a fake \"real culprit\" email sent in May 2014.",
+      "ja": "ウイルスは投稿を被害者の PC と Tor 経由で中継していたため、ネットワークの痕跡は無実の人で途切れていた。事件が動いたのは現実世界の痕跡からだった。2013年1月、犯人自身がメールで送った「パズル」が江の島の猫の首輪に付けられた記録媒体を示し、現地の防犯カメラには猫に近付く片山の姿が残っていた。否認したまま保釈されたあと、捜査員は彼が都内の河川敷にスマートフォンを埋めるのを確認した。そこには2014年5月に送られた偽の「真犯人」メールの痕跡があった。"
     },
     "outcome": {
       "en": "Arrested on 10 February 2013. After the riverbank phone was found he confessed to his lawyer on 19 May 2014 and admitted all charges in court. The Tokyo District Court sentenced him on 4 February 2015 to eight years (prosecutors had sought ten).",

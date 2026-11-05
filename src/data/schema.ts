@@ -30,7 +30,7 @@ export const caseSchema = z.object({
   /** Set when the account of the failure is contested; explains by whom. */
   disputed: text.optional(),
   /** What the case was about in the first place: who did what, when, at what scale. */
-  background: text.optional(),
+  background: text,
   sources: z.array(z.string()).min(1),
 });
 export type Case = z.infer<typeof caseSchema>;
