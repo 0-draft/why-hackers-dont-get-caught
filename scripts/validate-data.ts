@@ -1,9 +1,9 @@
-// Data integrity for weakest-layer. Runs in CI and fails on the first class of
+// Data integrity for why-hackers-dont-get-caught. Runs in CI and fails on the first class of
 // problem a reader would notice: a citation that points nowhere, a source no
 // page cites, English and Japanese chapters that drifted apart, Japanese text
 // left in English, or a link to a case that does not exist.
 
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { LAYER_SLUGS } from "../src/data/layers.ts";
 import { caseFileSchema, ESSAY_SLUGS, sourceFileSchema } from "../src/data/schema.ts";
@@ -77,7 +77,9 @@ for (const { slug, dir, key } of PAGES) {
     try {
       body = readFileSync(file, "utf8");
     } catch {
-      err(`missing chapter ${lang}/${slug}.mdx`);
+      // Essays may not exist yet; layer chapters must.
+      if (key === "layer" || existsSync(join(contentDir, lang === "en" ? "ja" : "en", `${slug}.mdx`)))
+        err(`missing ${lang}/${slug}.mdx`);
       continue;
     }
     const fm = parseFrontmatter(body);

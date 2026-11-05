@@ -41,6 +41,8 @@ export const essayFrontmatter = z.object({
   title: z.string().min(1),
   summary: z.string().min(1),
   essay: z.enum(ESSAY_SLUGS),
+  /** Drafts are validated but not built. */
+  draft: z.boolean().optional(),
 });
 
 export const layerFrontmatter = z.object({

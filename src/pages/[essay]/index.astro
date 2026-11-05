@@ -1,0 +1,13 @@
+---
+import { getCollection } from "astro:content";
+import Essay from "../../views/Essay.astro";
+
+// One page per finished essay; drafts are not built.
+export async function getStaticPaths() {
+  const entries = await getCollection("essays", (e) => e.id.startsWith("en/") && !e.data.draft);
+  return entries.map((entry) => ({ params: { essay: entry.data.essay }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+
+<Essay lang="en" entry={entry} />
