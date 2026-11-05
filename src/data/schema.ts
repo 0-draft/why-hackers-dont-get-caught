@@ -29,6 +29,8 @@ export const caseSchema = z.object({
   outcome: text,
   /** Set when the account of the failure is contested; explains by whom. */
   disputed: text.optional(),
+  /** What the case was about in the first place: who did what, when, at what scale. */
+  background: text.optional(),
   sources: z.array(z.string()).min(1),
 });
 export type Case = z.infer<typeof caseSchema>;
@@ -45,9 +47,23 @@ export const essayFrontmatter = z.object({
   draft: z.boolean().optional(),
 });
 
+export const BASICS_SLUGS = ["packets", "encryption", "records", "ledgers"] as const;
+export type BasicsSlug = (typeof BASICS_SLUGS)[number];
+
+export const basicsFrontmatter = z.object({
+  title: z.string().min(1),
+  summary: z.string().min(1),
+  basics: z.enum(BASICS_SLUGS),
+  /** Order on the basics index. */
+  order: z.number().int(),
+  draft: z.boolean().optional(),
+});
+
 export const layerFrontmatter = z.object({
   title: z.string().min(1),
   /** One sentence shown under the title and in <meta name="description">. */
   summary: z.string().min(1),
   layer: z.enum(LAYER_SLUGS),
+  /** Basics pages worth reading first. */
+  prereqs: z.array(z.enum(BASICS_SLUGS)).optional(),
 });

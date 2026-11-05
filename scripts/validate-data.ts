@@ -6,7 +6,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { LAYER_SLUGS } from "../src/data/layers.ts";
-import { caseFileSchema, ESSAY_SLUGS, sourceFileSchema } from "../src/data/schema.ts";
+import { BASICS_SLUGS, caseFileSchema, ESSAY_SLUGS, sourceFileSchema } from "../src/data/schema.ts";
 import { extractShape, hasJapanese, parseFrontmatter } from "./lib/mdx-shape.ts";
 
 const root = new URL("..", import.meta.url).pathname;
@@ -14,6 +14,7 @@ const root = new URL("..", import.meta.url).pathname;
 const PAGES = [
   ...LAYER_SLUGS.map((slug) => ({ slug, dir: "src/content/layers", key: "layer" })),
   ...ESSAY_SLUGS.map((slug) => ({ slug, dir: "src/content/essays", key: "essay" })),
+  ...BASICS_SLUGS.map((slug) => ({ slug, dir: "src/content/basics", key: "basics" })),
 ];
 const errors: string[] = [];
 const err = (m: string) => errors.push(m);
@@ -58,7 +59,7 @@ else {
       if (!sourceOwner.has(s)) err(`case "${c.id}" cites unknown source "${s}"`);
       (cited.get(s) ?? cited.set(s, new Set()).get(s)!).add("cases");
     }
-    for (const field of ["name", "alias", "mechanism", "outcome", "disputed"] as const) {
+    for (const field of ["name", "alias", "mechanism", "outcome", "disputed", "background"] as const) {
       const v = c[field];
       if (v && hasJapanese(v.en)) err(`case "${c.id}".${field}.en contains Japanese`);
       if (v && v.en === v.ja && field !== "alias")
