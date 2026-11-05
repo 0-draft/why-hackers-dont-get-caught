@@ -1,0 +1,73 @@
+---
+title: "Attribution: who is behind it, and false flags"
+summary: "Attribution is a weighing of many weak signals, so serious actors forge exactly those signals, and the forgeries fail where they contradict the rest of the evidence."
+layer: attribution
+---
+
+import Fig from "../../../components/Fig.astro";
+import Cite from "../../../components/Cite.astro";
+import AttrDiamond from "../../../components/fig/AttrDiamond.astro";
+import AttrRichHeader from "../../../components/fig/AttrRichHeader.astro";
+
+The other layers are about one person staying unnamed. This one is about a whole operation staying unclaimed. A state unit or a criminal group wants the victim, the press and other governments either to have no answer to "who did this" or, better, to settle on the wrong one. The people working against that are analysts who never see the operators. They see code, servers, timing and mistakes, and build an argument from them.
+
+## How analysts get from an intrusion to a name
+
+The most widely taught framework is the Diamond Model, published in 2013 by Caltagirone, Pendergast and Betz. Every intrusion event has four features: an adversary, a capability (the malware and techniques), the infrastructure it runs over, and a victim. An analyst who knows one feature uses it to discover the others, a step the model calls pivoting <Cite id="attr-diamond-model" />. A command server found in a victim's logs leads to other samples that talk to the same server. Those samples share code with a family already being tracked. That family has a history, and the history suggests a group.
+
+<Fig caption="The Diamond Model with a worked pivot sequence. Every pivot crosses an edge using something readable to the analyst. The adversary at the top stays an assessment. Toggle the overlay to see which vertices an adversary can fake or borrow." size="prose">
+  <AttrDiamond lang="en" />
+</Fig>
+
+No single pivot is proof. Each one is a probability, and attribution is what is left after many of them agree. The FBI's public case on the 2014 Sony Pictures attack shows the usual mix: the malware had links to tools previously tied to North Korea, IP addresses hard-coded into it communicated with known North Korean infrastructure, and the attack resembled one against South Korean targets the year before <Cite id="attr-fbi-sony" />. Code, infrastructure and pattern of behaviour, each from a different vertex of the diamond.
+
+That also shows where the method is soft. Everything the analyst pivots on is <span class="hl">readable</span> because the adversary left it there. An adversary who understands the method can decide what to leave.
+
+## Planted and borrowed evidence
+
+The clearest documented forgery is Olympic Destroyer, the wiper that hit the opening of the PyeongChang Winter Olympics in February 2018. Windows executables built with Microsoft's tools carry a "Rich header", a record of the compiler and linker versions used. Olympic Destroyer's Rich header was byte-for-byte the same as one in a sample attributed to Lazarus, a North Korean group. Kaspersky's researchers then noticed that it did not fit the file it was attached to. The header described a Visual Studio 6 build, yet the binary referenced `mscoree.dll`, which did not exist when Visual Studio 6 was released, and its startup code matched Visual Studio 2010 <Cite id="attr-securelist-rich-header" />. Someone had copied the header in.
+
+<Fig caption="Olympic Destroyer, planted against real. The planted header was readable and pointed one way; the rest of the file pointed another. The inconsistency, not the header, decided it." size="prose">
+  <AttrRichHeader lang="en" />
+</Fig>
+
+In October 2020 a US grand jury indicted six officers of the Russian military intelligence service's Unit 74455 for operations including Olympic Destroyer <Cite id="attr-doj-gru-2020" />. The indictment says the conspirators "purposefully attempted to mimic the malware of other hacking groups", including Lazarus, as part of a "false flag" operation <Cite id="attr-gru-indictment" />. The forgery failed under analysis because faking one field is easy and faking a whole, consistent build history is not.
+
+Language traces get the same treatment. Kaspersky researchers documented that the Cloud Atlas (also called Inception) operators left Arabic strings in a BlackBerry implant, Hindi in an Android one, and a "JohnClerk" user path in an iOS one, served Chinese-looking malware to machines that looked like researchers', and routed command traffic through compromised home routers in South Korea, all judged to be deliberate misdirection <Cite id="attr-vb2016-false-flags" />. WikiLeaks' 2017 "Marble" release, which it described as CIA source code for obfuscating strings in malware, included test examples in Chinese, Russian, Korean, Arabic and Farsi <Cite id="attr-wikileaks-marble" />. That shows a capability. It does not document any particular operation that used it, and as contemporary coverage pointed out, robust attribution rests on many factors, so a language switch alone should not fool a careful analyst <Cite id="attr-register-marble" />.
+
+Infrastructure can be borrowed outright. In October 2019 the UK's NCSC and the US NSA reported that Turla, a group widely associated with Russia, had used tools named Neuron and Nautilus that were "very likely Iranian in origin", had accessed the command-and-control infrastructure of Iranian groups to deploy its own tools, and had taken over victims the Iranian operators had already compromised. Those behind the tools were "almost certainly not aware of, or complicit with" Turla's use of them <Cite id="attr-ncsc-turla" />. A victim who found those implants and pivoted on them would have reached the wrong country with every individual step correct.
+
+## Personas and what they share
+
+Some operations need a public face: someone who publishes stolen documents and talks to journalists. The face is a persona, built to be attributed to somebody else. In 2016 "Guccifer 2.0" presented as a lone Romanian hacker who had broken into the US Democratic National Committee. In July 2018 a US indictment of twelve officers of Russia's GRU alleged that the defendants created Guccifer 2.0 as a fictitious persona to release the stolen documents <Cite id="attr-doj-gru-2018" />.
+
+The indictment itself ties the persona to infrastructure, not to a slip. It alleges that on 15 June 2016 the conspirators logged into a Moscow server managed by Unit 74455 and searched for English phrases that appeared in Guccifer 2.0's first post that day, and that the same pool of bitcoin paid for a VPN account later used to log into the persona's Twitter account and for the server that hosted dcleaks.com <Cite id="case-g2-indictment" />.
+
+A more popular story is less certain. In March 2018 the Daily Beast reported, citing a single source familiar with the investigation, that the operator once failed to activate the VPN and left a Moscow IP address in the logs of a US social media company, which tied the persona to a GRU officer <Cite id="attr-daily-beast-guccifer" />. That account is not in the indictment and should be read as reporting from one outlet (see the [case entry](/cases/#guccifer2)). Either way the persona did not fail on its writing. It failed on the <span class="leak">infrastructure and money behind it</span>, which were shared with the rest of the operation.
+
+## Ransomware: brands without faces
+
+Ransomware groups face the attribution problem from the other side. They want their brand to be known, because victims pay a name they believe will deliver a decryptor, while keeping every person behind it unknown. The usual structure is ransomware-as-a-service: a core team runs the encryptor, the affiliate panel, an onion leak site and a negotiation portal, and affiliates break into victims and split the ransom. Everyone uses handles. No single affiliate can name the core.
+
+The structure gives way at the places where its data is concentrated. In February 2022, after Conti publicly backed Russia's invasion of Ukraine, a Ukrainian researcher with access to the group's chat server published 60,694 internal messages, along with victims and Bitcoin addresses <Cite id="attr-conti-leak" />. More than a year of handles, plans and payments became an archive anyone could read.
+
+LockBit lost its backend instead. On 20 February 2024 the UK's National Crime Agency announced Operation Cronos: after infiltrating the group's network it had taken control of LockBit's administration environment, used by affiliates to build and run attacks, and of its leak site <Cite id="attr-nca-cronos" />. 34 servers were taken down and more than 200 cryptocurrency accounts frozen <Cite id="attr-helpnet-cronos" />. On 7 May 2024 the UK, US and Australia named LockBitSupp, the group's administrator, as the Russian national Dmitry Khoroshev and sanctioned him; the US unsealed an indictment and offered up to $10 million for information. The NCA said it had identified 194 affiliates. LockBitSupp had once offered $10 million to anyone who could reveal the person behind the handle <Cite id="attr-nca-khoroshev" />. See the [case entry](/cases/#lockbitsupp).
+
+## Where it gives way
+
+Across the documented cases the pattern is consistent.
+
+- A forged signal fails when it contradicts the rest of the artifact. Olympic Destroyer's header was perfect on its own and impossible next to the code it shipped with <Cite id="attr-securelist-rich-header" />.
+- Borrowed infrastructure misleads only until someone sees both users of it. NCSC and NSA could describe Turla's use of Iranian tools because they had visibility across many victims and servers <Cite id="attr-ncsc-turla" />.
+- Personas fail on what they share with the rest of the operation, not on analysis of their writing. The Guccifer 2.0 indictment rests on a GRU server and a shared bitcoin pool <Cite id="case-g2-indictment" />.
+- Criminal brands fail where their data is concentrated: a chat server, an affiliate panel, a leak site <Cite id="attr-conti-leak" /> <Cite id="attr-nca-cronos" />.
+
+Naming is also not the same as arrest. The six officers charged over Olympic Destroyer and Khoroshev were named, indicted and, at the time of those announcements, out of reach <Cite id="attr-doj-gru-2020" /> <Cite id="attr-nca-khoroshev" />. For a state actor, attribution is usually the end product: a public statement that imposes cost. For a criminal group, a name attached to the brand can be enough to damage the trust it runs on.
+
+## Common misconceptions
+
+- "Attribution comes down to one smoking gun." It is an accumulation of weak signals, and the single artifacts people expect to be decisive (language strings, compiler records, IP addresses) are exactly the ones that get forged <Cite id="attr-securelist-rich-header" /> <Cite id="attr-vb2016-false-flags" />.
+- "Same tools or same servers means same actor." Turla used Iranian tools and command servers without the Iranian operators knowing <Cite id="attr-ncsc-turla" />.
+- "Vault 7 proves the CIA framed other countries." The Marble release shows an obfuscation capability, not a documented operation <Cite id="attr-wikileaks-marble" /> <Cite id="attr-register-marble" />.
+- "The Guccifer 2.0 VPN slip is established fact." It comes from one outlet's anonymous source. The indictment is the official attribution <Cite id="attr-daily-beast-guccifer" /> <Cite id="attr-doj-gru-2018" />.
+- "A named hacker is a caught hacker." Khoroshev was named and sanctioned without an arrest <Cite id="attr-nca-khoroshev" />.

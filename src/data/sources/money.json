@@ -1,0 +1,170 @@
+[
+  {
+    "id": "meiklejohn-2013",
+    "title": "A Fistful of Bitcoins: Characterizing Payments Among Men with No Names",
+    "publisher": "ACM Internet Measurement Conference (Meiklejohn et al., UC San Diego)",
+    "date": "2013-10",
+    "url": "https://cseweb.ucsd.edu/~smeiklejohn/files/imc13.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "sterlingov-reactor-opinion",
+    "title": "United States v. Sterlingov, No. 21-399 (RDM), memorandum opinion on blockchain-analysis evidence",
+    "publisher": "U.S. District Court for the District of Columbia (via FindLaw)",
+    "date": "2024-02-29",
+    "url": "https://caselaw.findlaw.com/court/us-dis-crt-dis-col/115886148.html",
+    "kind": "primary"
+  },
+  {
+    "id": "money-chipmixer",
+    "title": "ChipMixer platform seized for laundering ransomware payments, drug sales",
+    "publisher": "BleepingComputer",
+    "date": "2023-03-15",
+    "url": "https://www.bleepingcomputer.com/news/security/chipmixer-platform-seized-for-laundering-ransomware-payments-drug-sales/",
+    "kind": "press"
+  },
+  {
+    "id": "money-bitcoin-fog-sentence",
+    "title": "Bitcoin Fog operator sentenced for money laundering conspiracy",
+    "publisher": "IRS Criminal Investigation",
+    "date": "2024-11-08",
+    "url": "https://www.irs.gov/compliance/criminal-investigation/bitcoin-fog-operator-sentenced-for-money-laundering-conspiracy",
+    "kind": "primary"
+  },
+  {
+    "id": "money-bitcoin-fog-user",
+    "title": "Man Gets 12.5 Years for Running Bitcoin Fog Crypto Mixer",
+    "publisher": "Infosecurity Magazine",
+    "date": "2024-11",
+    "url": "https://www.infosecurity-magazine.com/news/man-12-years-running-crypto-mixer/",
+    "kind": "press"
+  },
+  {
+    "id": "money-samourai-sentence",
+    "title": "Founders of Samourai Wallet cryptocurrency mixing service sentenced to five and four years in prison",
+    "publisher": "IRS Criminal Investigation",
+    "date": "2025-11-19",
+    "url": "https://www.irs.gov/compliance/criminal-investigation/founders-of-samourai-wallet-cryptocurrency-mixing-service-sentenced-to-five-and-four-years-in-prison",
+    "kind": "primary"
+  },
+  {
+    "id": "money-ofac-tornado-2022",
+    "title": "U.S. Treasury Sanctions Notorious Virtual Currency Mixer Tornado Cash",
+    "publisher": "U.S. Department of the Treasury",
+    "date": "2022-08-08",
+    "url": "https://home.treasury.gov/news/press-releases/jy0916",
+    "kind": "primary"
+  },
+  {
+    "id": "money-van-loon",
+    "title": "Van Loon v. Department of the Treasury, No. 23-50669",
+    "publisher": "U.S. Court of Appeals for the Fifth Circuit (via Justia)",
+    "date": "2024-11-26",
+    "url": "https://law.justia.com/cases/federal/appellate-courts/ca5/23-50669/23-50669-2024-11-26.html",
+    "kind": "primary"
+  },
+  {
+    "id": "money-ofac-tornado-delisting",
+    "title": "Tornado Cash Delisting",
+    "publisher": "U.S. Department of the Treasury",
+    "date": "2025-03-21",
+    "url": "https://home.treasury.gov/news/press-releases/sb0057",
+    "kind": "primary"
+  },
+  {
+    "id": "money-storm-retrial",
+    "title": "Tornado Cash developer Roman Storm's retrial pushed back to April 2027",
+    "publisher": "The Block",
+    "date": "2026-08-26",
+    "url": "https://www.theblock.co/news/regulation/2026-08-26-tornado-cash-roman-storm-retrial-april-2027-412761",
+    "kind": "press"
+  },
+  {
+    "id": "money-moser-2018",
+    "title": "An Empirical Analysis of Traceability in the Monero Blockchain",
+    "publisher": "Proceedings on Privacy Enhancing Technologies (Möser et al.)",
+    "date": "2018",
+    "url": "https://arxiv.org/abs/1704.04299",
+    "kind": "primary"
+  },
+  {
+    "id": "money-kappos-2018",
+    "title": "An Empirical Analysis of Anonymity in Zcash",
+    "publisher": "USENIX Security Symposium (Kappos, Yousaf, Maller, Meiklejohn)",
+    "date": "2018-08",
+    "url": "https://arxiv.org/abs/1805.03180",
+    "kind": "primary"
+  },
+  {
+    "id": "money-binance-xmr-delisting",
+    "title": "Binance to delist Monero after previously adding 'monitoring tag'",
+    "publisher": "The Block",
+    "date": "2024-02-06",
+    "url": "https://www.theblock.co/post/276176/binance-delisting-monero",
+    "kind": "press"
+  },
+  {
+    "id": "money-doj-garantex",
+    "title": "Garantex Cryptocurrency Exchange Disrupted in International Operation",
+    "publisher": "U.S. Department of Justice",
+    "date": "2025-03-07",
+    "url": "https://www.justice.gov/opa/pr/garantex-cryptocurrency-exchange-disrupted-international-operation",
+    "kind": "primary"
+  },
+  {
+    "id": "money-grinex",
+    "title": "Legislated Sanctions Evasion: How the Garantex Rebrand, Grinex, and the Ruble-Backed Token, A7A5 Have Shaped Russia's Shadow Crypto Economy",
+    "publisher": "Chainalysis",
+    "date": "2025-08-14",
+    "url": "https://www.chainalysis.com/blog/a7a5-grinex-russian-crypto-economy-ofac-sanctions-august-2025/",
+    "kind": "report"
+  },
+  {
+    "id": "money-tether-garantex",
+    "title": "Tether freezes $27M USDT on sanctioned Russian exchange Garantex",
+    "publisher": "Cointelegraph",
+    "date": "2025-03-06",
+    "url": "https://cointelegraph.com/news/tether-freezes-27-million-usdt-sanctions-garantex-russia",
+    "kind": "press"
+  },
+  {
+    "id": "money-doj-wtv",
+    "title": "South Korean National and Hundreds of Others Charged Worldwide in the Takedown of the Largest Darknet Child Pornography Website",
+    "publisher": "U.S. Department of Justice",
+    "date": "2019-10-16",
+    "url": "https://www.justice.gov/archives/opa/pr/south-korean-national-and-hundreds-others-charged-worldwide-takedown-largest-darknet-child",
+    "kind": "primary"
+  },
+  {
+    "id": "money-doj-bitfinex",
+    "title": "Two Arrested for Alleged Conspiracy to Launder $4.5 Billion in Stolen Cryptocurrency",
+    "publisher": "U.S. Department of Justice",
+    "date": "2022-02-08",
+    "url": "https://www.justice.gov/archives/opa/pr/two-arrested-alleged-conspiracy-launder-45-billion-stolen-cryptocurrency",
+    "kind": "primary"
+  },
+  {
+    "id": "money-doj-colonial",
+    "title": "Department of Justice Seizes $2.3 Million in Cryptocurrency Paid to the Ransomware Extortionists Darkside",
+    "publisher": "U.S. Department of Justice",
+    "date": "2021-06-07",
+    "url": "https://www.justice.gov/archives/opa/pr/department-justice-seizes-23-million-cryptocurrency-paid-ransomware-extortionists-darkside",
+    "kind": "primary"
+  },
+  {
+    "id": "money-fbi-bybit",
+    "title": "North Korea Responsible for $1.5 Billion Bybit Hack",
+    "publisher": "FBI Internet Crime Complaint Center (IC3)",
+    "date": "2025-02-26",
+    "url": "https://www.ic3.gov/psa/2025/psa250226",
+    "kind": "primary"
+  },
+  {
+    "id": "money-bybit-laundering",
+    "title": "Bybit hacker launders 100% of stolen $1.4B crypto in 10 days",
+    "publisher": "Cointelegraph",
+    "date": "2025-03-04",
+    "url": "https://cointelegraph.com/news/bybit-hacker-launders-1-billion-stolen-funds",
+    "kind": "press"
+  }
+]

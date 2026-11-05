@@ -1,0 +1,122 @@
+[
+  {
+    "id": "attr-diamond-model",
+    "title": "The Diamond Model of Intrusion Analysis",
+    "publisher": "Center for Cyber Intelligence Analysis and Threat Research (Caltagirone, Pendergast, Betz), via DTIC",
+    "date": "2013-07",
+    "url": "https://apps.dtic.mil/sti/pdfs/ADA586960.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "attr-fbi-sony",
+    "title": "Update on Sony Investigation",
+    "publisher": "U.S. Department of Justice / FBI",
+    "date": "2014-12-19",
+    "url": "https://www.justice.gov/archives/opa/pr/update-sony-investigation",
+    "kind": "primary"
+  },
+  {
+    "id": "attr-securelist-rich-header",
+    "title": "The devil's in the Rich header",
+    "publisher": "Kaspersky GReAT (Securelist)",
+    "date": "2018-03-08",
+    "url": "https://securelist.com/the-devils-in-the-rich-header/84348/",
+    "kind": "report"
+  },
+  {
+    "id": "attr-doj-gru-2020",
+    "title": "Six Russian GRU Officers Charged in Connection with Worldwide Deployment of Destructive Malware and Other Disruptive Actions in Cyberspace",
+    "publisher": "U.S. Department of Justice",
+    "date": "2020-10-19",
+    "url": "https://www.justice.gov/archives/opa/pr/six-russian-gru-officers-charged-connection-worldwide-deployment-destructive-malware-and",
+    "kind": "primary"
+  },
+  {
+    "id": "attr-gru-indictment",
+    "title": "United States v. Andrienko et al., indictment (W.D. Pa.)",
+    "publisher": "U.S. District Court for the Western District of Pennsylvania",
+    "date": "2020-10-15",
+    "url": "https://www.justice.gov/opa/press-release/file/1328521/download",
+    "kind": "primary"
+  },
+  {
+    "id": "attr-vb2016-false-flags",
+    "title": "Wave your false flags! Deception tactics muddying attribution in targeted attacks",
+    "publisher": "Virus Bulletin (Bartholomew and Guerrero-Saade, Kaspersky)",
+    "date": "2016-11",
+    "url": "https://www.virusbulletin.com/virusbulletin/2016/11/vb2016-paper-wave-your-false-flags-deception-tactics-muddying-attribution-targeted-attacks/",
+    "kind": "report"
+  },
+  {
+    "id": "attr-wikileaks-marble",
+    "title": "Vault 7: Marble Framework",
+    "publisher": "WikiLeaks",
+    "date": "2017-03-31",
+    "url": "https://wikileaks.org/vault7/",
+    "kind": "primary"
+  },
+  {
+    "id": "attr-register-marble",
+    "title": "WikiLeaks exposes CIA anti-forensics tool that makes Uncle Sam seem fluent in enemy tongues",
+    "publisher": "The Register",
+    "date": "2017-03-31",
+    "url": "https://www.theregister.com/security/2017/03/31/wikileaks-exposes-cia-anti-forensics-tool-that-makes-uncle-sam-seem-fluent-in-enemy-tongues/567104",
+    "kind": "press"
+  },
+  {
+    "id": "attr-ncsc-turla",
+    "title": "Advisory: Turla group exploits Iranian APT to expand coverage of victims",
+    "publisher": "UK National Cyber Security Centre and US National Security Agency",
+    "date": "2019-10-21",
+    "url": "https://www.ncsc.gov.uk/news/turla-group-exploits-iran-apt-to-expand-coverage-of-victims",
+    "kind": "primary"
+  },
+  {
+    "id": "attr-doj-gru-2018",
+    "title": "Grand Jury Indicts 12 Russian Intelligence Officers for Hacking Offenses Related to the 2016 Election",
+    "publisher": "U.S. Department of Justice",
+    "date": "2018-07-13",
+    "url": "https://www.justice.gov/archives/opa/pr/grand-jury-indicts-12-russian-intelligence-officers-hacking-offenses-related-2016-election",
+    "kind": "primary"
+  },
+  {
+    "id": "attr-daily-beast-guccifer",
+    "title": "Exclusive: 'Lone DNC Hacker' Guccifer 2.0 Slipped Up and Revealed He Was a Russian Intelligence Officer",
+    "publisher": "The Daily Beast",
+    "date": "2018-03-22",
+    "url": "https://www.thedailybeast.com/exclusive-lone-dnc-hacker-guccifer-20-slipped-up-and-revealed-he-was-a-russian-intelligence-officer/",
+    "kind": "press"
+  },
+  {
+    "id": "attr-conti-leak",
+    "title": "Conti ransomware's internal chats leaked after siding with Russia",
+    "publisher": "BleepingComputer",
+    "date": "2022-02-27",
+    "url": "https://www.bleepingcomputer.com/news/security/conti-ransomwares-internal-chats-leaked-after-siding-with-russia/",
+    "kind": "press"
+  },
+  {
+    "id": "attr-nca-cronos",
+    "title": "International investigation disrupts the world's most harmful cyber crime group",
+    "publisher": "UK National Crime Agency",
+    "date": "2024-02-20",
+    "url": "https://nationalcrimeagency.gov.uk/news/nca-leads-international-investigation-targeting-worlds-most-harmful-ransomware-group",
+    "kind": "primary"
+  },
+  {
+    "id": "attr-helpnet-cronos",
+    "title": "LockBit takedown: Infrastructure disrupted, criminals arrested, decryption keys recovered",
+    "publisher": "Help Net Security",
+    "date": "2024-02-20",
+    "url": "https://www.helpnetsecurity.com/2024/02/20/lockbit-takedown/",
+    "kind": "press"
+  },
+  {
+    "id": "attr-nca-khoroshev",
+    "title": "LockBit leader unmasked and sanctioned",
+    "publisher": "UK National Crime Agency (mirrored by GlobalSecurity.org)",
+    "date": "2024-05-07",
+    "url": "https://www.globalsecurity.org/security/library/news/2024/05/sec-240507-nca01.htm",
+    "kind": "primary"
+  }
+]

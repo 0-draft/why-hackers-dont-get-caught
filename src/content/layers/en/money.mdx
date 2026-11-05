@@ -1,0 +1,81 @@
+---
+title: "Money: a public ledger with pen names"
+summary: "Cryptocurrency hides names, not payments, so tracing usually ends where coins meet a business that knows its customers."
+layer: money
+---
+
+import Fig from "../../../components/Fig.astro";
+import Cite from "../../../components/Cite.astro";
+import MoneyCluster from "../../../components/fig/MoneyCluster.astro";
+import MoneyMixer from "../../../components/fig/MoneyMixer.astro";
+
+Anyone who earns from crime, or pays for servers and tools, needs money that does not carry their name. Cash does not travel over the internet and bank accounts come with identity checks, so the usual choice is cryptocurrency. The trouble is that on most chains the payment trail is not hidden at all. It is public, permanent and searchable, and only the names are missing.
+
+## Pseudonymous is not anonymous
+
+A Bitcoin address is a pen name. Nothing on the chain says who holds the key behind it, but every transaction that address takes part in is published to everyone, forever. Meiklejohn and colleagues put it in one line in 2013: ownership is implicitly anonymous, but the flow of money is globally visible <Cite id="meiklejohn-2013" />. The analyst's job is to turn many pen names into a few owners.
+
+Two rules of thumb do most of that work. The first is common-input ownership. A transaction that spends coins from several addresses needs a valid signature for each of them, so in ordinary wallets all the inputs belong to one owner <Cite id="meiklejohn-2013" />. The second is change detection. Bitcoin spends whole outputs, so a payment of 0.3 from an output of 1.0 sends the remainder back to the payer, usually to a brand-new address. Spotting which output is the change adds that address to the payer's group.
+
+The second rule is a habit of wallet software, not a property of the protocol, and the paper shows what happens when it is applied carelessly: a naive version fused Mt. Gox, Instawallet, BitPay and Silk Road into one "super-cluster" of 1.6 million public keys <Cite id="meiklejohn-2013" />. With stricter conditions the authors identified 3,540,831 change addresses, at a false-positive rate they estimated at 0.17% <Cite id="meiklejohn-2013" />. Their snapshot of the chain held 16,086,073 transactions and 12,056,684 public keys, which the two rules collapsed into 3,383,904 clusters <Cite id="meiklejohn-2013" />. To put names on clusters they simply did business with services, 344 transactions in all, and the heuristics spread those few labels across more than 1.8 million addresses <Cite id="meiklejohn-2013" />.
+
+<Fig caption="Clustering on a public ledger. Step through it: the ledger alone, the common-input and change rules merging five addresses into one owner, and a single exchange record naming all of them." size="prose">
+  <MoneyCluster lang="en" />
+</Fig>
+
+The figure is the whole layer in small. Everything an analyst uses is <span class="hl">readable to anyone</span>: addresses, amounts, times, which outputs feed which inputs. The one thing missing is the owner, and that is supplied by somebody off the chain who already knows it.
+
+Large balances rarely move in one jump. A common pattern is the peel chain: a big output pays a small amount to someone and sends the rest to a fresh change address, which pays another small amount and sends the rest on again <Cite id="meiklejohn-2013" />. Once the change rule is trusted, an analyst can walk the chain hop by hop and read off every recipient. Following the first 100 hops of three peel chains that started from one large wallet, Meiklejohn's team found that 54 of the 300 peels went to exchanges <Cite id="meiklejohn-2013" />. Their conclusion was that an agency with subpoena power would be well placed to learn who pays whom <Cite id="meiklejohn-2013" />.
+
+Commercial tools now do this at scale, and courts have examined them. Ruling on the Bitcoin Fog prosecution in February 2024, Judge Randolph Moss found that the government had shown its blockchain analysis was "the product of reliable principles and methods" and said such analysis "is not junk science" <Cite id="sterlingov-reactor-opinion" />. The software had attributed more than 900,000 addresses to the mixer. The same opinion notes that the case did not rest "exclusively, or even primarily" on it: seized devices, forum posts, IP records and manual tracing carried as much weight <Cite id="sterlingov-reactor-opinion" />. That is the realistic picture. Chain analysis produces leads and corroboration. It rarely stands alone.
+
+## What a mixer breaks, and what it leaves
+
+A mixer tries to cut the line between coins going in and coins coming out. There are three designs, and each has a different place where it can be taken apart.
+
+A custodial mixer takes your coins into a pool and later pays out different coins. The link exists only in the operator's records, which makes the operator the weak point. When ChipMixer was taken down on 15 March 2023, police seized four servers, about 7 TB of data and roughly $46.5 million in bitcoin. Europol estimated that the service, running since 2017, may have laundered 152,000 BTC <Cite id="money-chipmixer" />. The seized data is the record the mixer existed to hide. Bitcoin Fog ran from 2011 to 2021 and processed more than 1.2 million BTC, about $400 million at the time. Its operator, Roman Sterlingov, was convicted by a jury in March 2024 and sentenced on 8 November 2024 to 12 years and 6 months <Cite id="money-bitcoin-fog-sentence" />. He maintained that he was only a user <Cite id="money-bitcoin-fog-user" />.
+
+CoinJoin removes the custodian. Many users sign one shared transaction with equal-sized outputs, which defeats the common-input rule because the inputs really do belong to different people. Someone still has to organise the rounds, though. Samourai Wallet ran such a coordinator. In November 2025 its founders were sentenced, Keonne Rodriguez to five years and William Lonergan Hill to four, for a service that prosecutors said handled more than $237 million in illegal transactions <Cite id="money-samourai-sentence" />. The coordinator is the part a court can reach.
+
+A smart-contract mixer has no operator holding funds at all. Users deposit into a contract and later withdraw to a new address with a zero-knowledge proof. Tornado Cash is the example. On 8 August 2022 the US Treasury sanctioned it, saying it had laundered more than $7 billion since 2019, including over $455 million stolen by the North Korean Lazarus Group <Cite id="money-ofac-tornado-2022" />. On 26 November 2024 the Fifth Circuit held that its immutable smart contracts were not "property" that sanctions could block <Cite id="money-van-loon" />, and on 21 March 2025 Treasury removed the sanctions <Cite id="money-ofac-tornado-delisting" />. Criminal law is a separate track. In August 2025 a jury convicted developer Roman Storm on one count, conspiracy to operate an unlicensed money-transmitting business, and could not agree on the laundering and sanctions counts. As reported in August 2026, the retrial on those counts is set for 26 April 2027 while his motion for acquittal is still pending <Cite id="money-storm-retrial" />.
+
+<Fig caption="What a mixer hides and what it leaves. The path inside the pool is hidden from the public, but amounts, times and the exit are not, and a custodial operator keeps the hidden path in its own records." size="prose">
+  <MoneyMixer lang="en" />
+</Fig>
+
+Whatever the design, a mixer only hides the path inside it. The amounts going in and out, the times, and above all <span class="hl">where the coins go next</span> stay on the public ledger. A deposit of an unusual size followed shortly by a withdrawal of nearly the same size is a lead no matter how many other users were in the pool.
+
+## Privacy coins: sound math, leaky use
+
+Privacy coins try to fix the ledger itself. Monero hides the real input of each transaction among decoys, called mixins, and gives every payment a one-time address. Its weakness, measured by Möser and colleagues on the chain's early years, was not the cryptography but the way it was used. Because many early transactions had no decoys at all, their real inputs could be used to eliminate decoys elsewhere, and about 62% of inputs with one or more mixins could be traced by this chain reaction. Simply guessing that the newest input was the real one was right about 80% of the time <Cite id="money-moser-2018" />. Those numbers describe the chain as it was at the time of the study, not today.
+
+Zcash offers a shielded pool alongside ordinary transparent addresses. Kappos, Yousaf, Maller and Meiklejohn found that private use is possible, but that simple heuristics based on how people actually moved coins in and out of the pool could "shrink its anonymity set considerably" <Cite id="money-kappos-2018" />.
+
+The other limit is practical. A coin that is hard to trace is also hard to sell at a regulated venue. Binance, for one, delisted Monero in February 2024 <Cite id="money-binance-xmr-delisting" />. That pushes holders back toward a conversion step, and conversion is where the next section begins.
+
+## The exit: where the ledger meets a name
+
+Coins on a chain do not pay rent. At some point they have to become ordinary money, and the businesses that do that conversion are where the ledger meets <span class="leak">an identity document</span>. A regulated exchange asks for ID when an account is opened. Clustering tells an investigator that one owner sent coins to that exchange; the exchange's records say who the owner is.
+
+Services that skip those checks are the obvious alternative, and they become targets in their own right. US prosecutors say the Russian exchange Garantex processed at least $96 billion in cryptocurrency transactions from April 2019. On 6 March 2025 the US Secret Service seized its domains, German and Finnish police took its servers, and more than $26 million was frozen <Cite id="money-doj-garantex" />. A look-alike called Grinex appeared within weeks, and Treasury designated it as Garantex's successor in August 2025 <Cite id="money-grinex" />. Rebrands are cheap, but the old and new wallets are connected on the ledger, which is how analysts tied the two together.
+
+Stablecoins add a different kind of chokepoint. A token like USDT is issued by a company that can freeze balances at specific addresses. Just before the Garantex takedown, Tether froze about $27 million of USDT held in its wallets, and the exchange halted withdrawals <Cite id="money-tether-garantex" />. A chain can be permissionless while the asset on it is not.
+
+## Where it gives way
+
+The documented cases fail at the edges of the chain, not in the middle.
+
+- [Welcome to Video](/cases/#welcome-to-video). The site took at least 420 BTC through about 7,300 transactions. IRS-CI followed the payments to the operator and the server in South Korea, and 337 users were charged around the world <Cite id="money-doj-wtv" />. Exchanges that knew their customers turned addresses into names.
+- [Bitfinex](/cases/#bitfinex). 119,754 BTC were stolen in 2016. In February 2022 agents seized about 94,000 BTC that were still sitting in the wallet that had received them, after getting into files that held the private keys <Cite id="money-doj-bitfinex" />. The coins had been <span class="hl">visible to everyone</span> for six years; moving them out was the hard part.
+- Colonial Pipeline. Of the roughly 75 BTC paid in May 2021, the Justice Department seized 63.7 BTC on 7 June after following transfers on the public ledger to an address for which the FBI had the private key. It did not say how it got the key <Cite id="money-doj-colonial" />.
+- Bybit. On 21 February 2025 about $1.5 billion in crypto was stolen. Five days later the FBI attributed it to North Korea's "TraderTraitor" actors, published laundering addresses, and noted that the thieves were "proceeding rapidly", dispersing converted assets "across thousands of addresses on multiple blockchains" <Cite id="money-fbi-bybit" />. Within about ten days all of the stolen ether had been swapped, mostly through a cross-chain protocol. Bybit's chief executive said about 77% of the funds were still traceable and about 3% had been frozen <Cite id="money-bybit-laundering" />. Tracing worked. Recovery needs someone at the other end who can freeze, and the thieves moved faster than that.
+
+The pattern is the same throughout. The cryptography held. What gave way was a key, a custodian, or the step where coins had to turn into something spendable.
+
+## Common misconceptions
+
+- "Bitcoin is anonymous." It is pseudonymous. Every payment is public, and clustering has been documented in the open literature since 2013 <Cite id="meiklejohn-2013" />.
+- "A mixer makes coins untraceable." It hides one path. Operators and coordinators get seized or prosecuted, and amounts, timing and the exit stay public <Cite id="money-chipmixer" /> <Cite id="money-samourai-sentence" />.
+- "Tornado Cash was delisted, so the case is over." Removing sanctions is not an acquittal. Roman Storm stands convicted on one count, with a retrial on the others scheduled <Cite id="money-storm-retrial" />.
+- "Privacy coins are perfectly private." Research found leaks from usage patterns and old defaults, not broken cryptography <Cite id="money-moser-2018" /> <Cite id="money-kappos-2018" />.
+- "Traceable means recoverable." Bybit was traced in near real time and most of it still got away <Cite id="money-fbi-bybit" />.

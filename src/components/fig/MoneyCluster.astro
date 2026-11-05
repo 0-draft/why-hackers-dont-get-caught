@@ -1,0 +1,182 @@
+---
+// Stepping through address clustering on a public ledger: the raw ledger,
+// the common-input and change heuristics merging addresses into one cluster,
+// and the cluster touching an exchange that knows the customer.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    group: "Clustering steps",
+    steps: ["1 Ledger", "2 Common input", "3 Exchange"],
+    say: [
+      "The public ledger. Anyone can read every address, amount and transaction. Who owns each address is written nowhere.",
+      "Transaction 1 spends A, B and C at once, which takes all three private keys, so analysts treat them as one owner (C1). D looks like the change of transaction 1 and joins C1. E is spent together with D in transaction 2 and joins too.",
+      "Transaction 2 pays a deposit address at an exchange, and the exchange knows who opened that account. One customer record now names the whole cluster, including addresses that never touched the exchange.",
+    ],
+    addr: "addr",
+    tx: "tx",
+    pay: "payee",
+    exchange: "Exchange",
+    deposit: "deposit addr X",
+    kyc: "customer record",
+    name: "real name",
+    owner: "owner",
+  },
+  ja: {
+    group: "クラスタリングの段階",
+    steps: ["1 台帳", "2 共通入力", "3 取引所"],
+    say: [
+      "公開台帳。すべてのアドレス・金額・取引は誰でも読める。各アドレスの持ち主はどこにも書かれていない。",
+      "取引 1 は A・B・C を同時に使う。3 つの秘密鍵がそろわないと署名できないので、分析者はこれを同じ持ち主 (C1) とみなす。D は取引 1 のおつりに見えるので C1 に入る。E は取引 2 で D と一緒に使われたので、これも C1 に入る。",
+      "取引 2 は取引所の入金アドレスに払っている。取引所はその口座を開いた人を知っている。顧客記録が 1 件あれば、取引所に一度も触れていないアドレスも含めて、クラスタ全体に名前が付く。",
+    ],
+    addr: "addr",
+    tx: "取引",
+    pay: "支払先",
+    exchange: "取引所",
+    deposit: "入金 addr X",
+    kyc: "顧客記録",
+    name: "本名",
+    owner: "持ち主",
+  },
+}[lang];
+
+// Address boxes: x, y, label, member of the cluster?
+const addrs = [
+  { x: 20, y: 30, k: "A", c: true },
+  { x: 20, y: 90, k: "B", c: true },
+  { x: 20, y: 150, k: "C", c: true },
+  { x: 20, y: 300, k: "E", c: true },
+  { x: 360, y: 150, k: "D", c: true },
+  { x: 360, y: 30, k: "P", c: false },
+];
+const W = 124;
+const H = 46;
+---
+
+<div class="mc" data-step="3" data-mc data-lines={JSON.stringify(L.say)}>
+  <div class="steps" role="group" aria-label={L.group}>
+    {
+      L.steps.map((s, i) => (
+        <button type="button" data-go={i + 1} aria-pressed={i === 2 ? "true" : "false"}>
+          {s}
+        </button>
+      ))
+    }
+  </div>
+  <svg class="dg" viewBox="0 0 680 400" role="img" aria-label={L.say.join(" ")}>
+    <defs>
+      <marker id={`mc-arr-${lang}`} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+      </marker>
+    </defs>
+
+    <!-- edges -->
+    <g>
+      <line class="ln-1" x1="144" y1="53" x2="200" y2="100" marker-end={`url(#mc-arr-${lang})`}></line>
+      <line class="ln-1" x1="144" y1="173" x2="200" y2="140" marker-end={`url(#mc-arr-${lang})`}></line>
+      <line class="ln-1" x1="144" y1="113" x2="200" y2="120" marker-end={`url(#mc-arr-${lang})`}></line>
+      <line class="ln-1" x1="290" y1="100" x2="360" y2="60" marker-end={`url(#mc-arr-${lang})`}></line>
+      <line class="ln-1" x1="290" y1="140" x2="360" y2="170" marker-end={`url(#mc-arr-${lang})`}></line>
+      <line class="ln-1" x1="422" y1="196" x2="422" y2="250" marker-end={`url(#mc-arr-${lang})`}></line>
+      <line class="ln-1" x1="144" y1="323" x2="380" y2="300" marker-end={`url(#mc-arr-${lang})`}></line>
+      <line class="ln-1" x1="470" y1="290" x2="530" y2="290" marker-end={`url(#mc-arr-${lang})`}></line>
+      <line class="ln-1" x1="595" y1="322" x2="595" y2="344" marker-end={`url(#mc-arr-${lang})`}></line>
+    </g>
+
+    <!-- transactions: public, so highlighted -->
+    <rect class="fill-hl" x="200" y="80" width="90" height="80"></rect>
+    <text class="t-on-hl b" x="245" y="125" text-anchor="middle">{L.tx} 1</text>
+    <rect class="fill-hl" x="380" y="250" width="90" height="80"></rect>
+    <text class="t-on-hl b" x="425" y="295" text-anchor="middle">{L.tx} 2</text>
+
+    <!-- addresses -->
+    {
+      addrs.map((a) => (
+        <g>
+          <rect class="fill-hl" x={a.x} y={a.y} width={W} height={H}></rect>
+          <text class="t-on-hl mono" x={a.x + 12} y={a.y + 18}>
+            {L.addr} {a.k}
+          </text>
+          <rect class="fill-bar" x={a.x + 12} y={a.y + 26} width="58" height="10"></rect>
+          {a.c && <rect class="fill-leak s3" x={a.x + 12} y={a.y + 26} width="58" height="10"></rect>}
+          {a.c && (
+            <text class="t-on-hl b s2" x={a.x + W - 12} y={a.y + 18} text-anchor="end">
+              C1
+            </text>
+          )}
+        </g>
+      ))
+    }
+    <text class="t-s t-2" x="422" y="94" text-anchor="middle">{L.pay}</text>
+
+    <!-- exchange -->
+    <rect class="box" x="530" y="250" width="130" height="72"></rect>
+    <text class="b" x="542" y="274">{L.exchange}</text>
+    <rect class="fill-hl s3-hl" x="542" y="284" width="106" height="24"></rect>
+    <text class="mono t-on-hl" x="548" y="300">{L.deposit}</text>
+
+    <rect class="box" x="530" y="344" width="130" height="50"></rect>
+    <text class="t-s" x="542" y="363">{L.kyc}</text>
+    <rect class="fill-bar s3-hide" x="542" y="372" width="80" height="12"></rect>
+    <text class="t-leak s3" x="542" y="384">{L.name}</text>
+  </svg>
+  <p class="say" aria-live="polite" data-say>{L.say[2]}</p>
+</div>
+
+<style>
+  .steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+  .steps button {
+    font: inherit;
+    font-size: var(--step--1);
+    padding: 0.3rem 0.7rem;
+    background: var(--sheet);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    cursor: pointer;
+  }
+  .steps button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+  .say {
+    margin: 0.9rem 0 0;
+    font-size: var(--step--1);
+    max-width: 68ch;
+    min-height: 4.5em;
+  }
+  .mc[data-step="1"] .s2,
+  .mc[data-step="1"] .s3,
+  .mc[data-step="2"] .s3 {
+    display: none;
+  }
+  .mc[data-step="3"] .s3-hide {
+    display: none;
+  }
+  .mc:not([data-step="3"]) .s3-hl {
+    fill: var(--sheet);
+  }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-mc]")) {
+    const say = root.querySelector<HTMLElement>("[data-say]")!;
+    const lines: string[] = JSON.parse(root.dataset.lines ?? "[]");
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("button[data-go]")];
+    const go = (n: number) => {
+      root.dataset.step = String(n);
+      for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.go === String(n)));
+      say.textContent = lines[n - 1] ?? "";
+    };
+    for (const b of buttons) b.addEventListener("click", () => go(Number(b.dataset.go)));
+    go(1);
+  }
+</script>
