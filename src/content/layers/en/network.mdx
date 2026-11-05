@@ -1,0 +1,88 @@
+---
+title: "Network: hiding the address"
+summary: "Every packet carries a return address; hiding it means handing your traffic to someone else, and the question is always who that someone is and what they can see."
+layer: network
+---
+
+import Cite from "../../../components/Cite.astro";
+import Fig from "../../../components/Fig.astro";
+import NetPeel from "../../../components/fig/NetPeel.astro";
+import NetWhoSees from "../../../components/fig/NetWhoSees.astro";
+import NetOrbRotation from "../../../components/fig/NetOrbRotation.astro";
+
+A packet cannot be delivered without a source address, so every server you touch learns where to send the reply. Someone who wants to act without being found has to make that address belong to somebody else: a VPN company, a stranger's router, or three volunteers on the Tor network. Each option changes who holds the missing piece, and none of them makes the piece disappear.
+
+## What an address gives away
+
+On its own an IP address is a number. Joined with a timestamp, it becomes a question an investigator can send to the internet service provider that was assigned that address: which subscriber held it at that moment. Behind a carrier-grade NAT the provider needs the source port as well, but the principle is the same. The provider's assignment records turn <span class="hl">a number in a server log</span> into <span class="leak">a name and a billing address</span>.
+
+That is why the address is the thing people try to hide, and also why courts treat it as information the user hands out. In the Silk Road 2.0 related case against Brian Farrell, a US federal judge wrote in 2016 that Tor users "clearly lack a reasonable expectation of privacy in their IP addresses", because they disclose them to the network in order to use it.<Cite id="net-farrell-forbes" />
+
+The interactive figure on the home page lets you pick an observer on the path and see which fields of the record it can read. This chapter looks at the tools that move the address, one at a time, and at what each tool asks you to trust.
+
+## One hop: a VPN moves the trust, it does not remove it
+
+A VPN or a proxy is a single relay. The destination sees the relay's address instead of yours. Your ISP sees an encrypted tunnel to the relay. The relay operator sees both ends: your real address on one side, and every destination on the other. Anonymity from the destination is bought by giving one company the complete picture. Tor's own support pages make the same point when they say they do not recommend combining a VPN with Tor unless the user knows how to configure both without compromising privacy.<Cite id="net-tor-vpn" />
+
+Whether that company keeps the picture is a matter of policy, not mechanism, and policies have failed in court records. In 2017 the FBI investigated a cyberstalking campaign run through PureVPN, which advertised that it kept no logs that could identify users. The affidavit states that PureVPN "was able to determine that their service was accessed by the same customer from two originating IP addresses": the suspect's home connection and his employer's network.<Cite id="net-purevpn-affidavit" /><Cite id="net-purevpn-tf" /> The provider had no record of what he did, but it had connection records, and that was enough. In a 2016 child-exploitation investigation that became public in 2018, Highwinds, then the owner of IPVanish, answered a second summons with the subscriber's name, email address and connection times, which led investigators to the suspect's home ISP.<Cite id="net-ipvanish-tf" />
+
+<Fig caption="Who can link you to where you went. Each cell shows what one observer learns: your identity (magenta) and your destination (yellow); black means hidden. A cell outlined in magenta is an observer that holds both ends. Assumes HTTPS to an ordinary website." size="wide">
+  <NetWhoSees lang="en" />
+</Fig>
+
+The table shows the shape of the problem. With one hop, some party always holds both ends. Tor's design spreads the ends across relays run by different people, so no single relay is outlined. Chaining a VPN after Tor puts a fixed account at the end of every circuit, and that account was paid for by someone.
+
+## Borrowed addresses: residential proxies and router botnets
+
+The destination does not only ask where traffic comes from. It also asks what kind of address it is. Datacenter and VPN ranges are easy to flag; a home broadband address looks like a customer. So a market grew for residential addresses, and much of the supply comes from devices whose owners never agreed to relay anyone's traffic.
+
+The 911 S5 botnet is the largest documented example. According to the US Justice Department, between 2014 and July 2022 it infected millions of Windows computers, associated with more than 19 million unique IP addresses, largely through free VPN applications its administrator distributed (MaskVPN and DewVPN) and through bundles with pirated software. Access to those addresses was sold to customers who used them, among other things, to file about 560,000 fraudulent unemployment claims. The administrator allegedly made about $99 million.<Cite id="net-911s5-doj" /> People who installed a free VPN to hide their own address became the exit point for other people's fraud.
+
+State operators use the same trick with routers. In January 2024 the Justice Department announced a court-authorized operation against the KV-botnet, which it described as hundreds of US small-office and home routers, mostly end-of-life Cisco and NETGEAR models, that Volt Typhoon used to "conceal the PRC origin" of intrusions into critical infrastructure.<Cite id="net-kvbotnet-doj" /> A joint advisory in September 2024 described Raptor Train, a botnet of more than 260,000 devices as of June 2024, controlled by the Beijing company Integrity Technology Group.<Cite id="net-raptor-ic3" /> Two weeks after the KV-botnet announcement, the FBI cleaned a botnet of Ubiquiti routers that criminals had built with default passwords and that Russian military intelligence had then used for its own operations.<Cite id="net-moobot-thn" /> One set of hijacked routers served two very different customers.
+
+Mandiant calls the organised version of this an ORB network (operational relay box): a mesh of leased virtual servers and compromised, often end-of-life routers and IoT devices, administered by contractors and rented to several espionage groups at once. The traffic leaves through exit nodes close to the target, so it "blends in" for the analysts reviewing it, and an address can stay in the network for as few as 31 days.<Cite id="net-orb-mandiant" />
+
+<Fig caption="Why IP blocklists age quickly against an ORB network. Top: the defender sees only the exit node. Bottom: a blocklist built from addresses seen by day 40 no longer matches any node carrying traffic on day 75. Node lifetimes are illustrative; Mandiant reports addresses lasting as few as 31 days." size="wide">
+  <NetOrbRotation lang="en" />
+</Fig>
+
+For a defender, the consequence is that the source address answers almost nothing. It is often a router in the defender's own country, belonging to someone who has never heard of the operation. Attribution has to move to behaviour and to infrastructure patterns observed over time, which is the subject of the next chapter.
+
+## Tor: three relays, three layers
+
+Tor removes the single party who sees both ends. The client picks three relays, a guard, a middle and an exit, and builds the circuit one hop at a time, negotiating a separate set of keys with each. In the words of the Tor Project, "each relay along the way knows only which relay gave it data and which relay it is giving data to".<Cite id="net-tor-overview" /> Every cell the client sends is wrapped three times, once per relay key. Each relay removes the one layer it can, reads its forwarding instruction, and passes on a cell it cannot read further.
+
+<Fig caption="Peeling a Tor cell. Step through the circuit: each relay removes the layer encrypted to its own key, which tells it only the next hop. Only the guard sees your address; only the exit sees the destination. The traffic to the website is still protected by TLS after the exit." size="wide">
+  <NetPeel lang="en" />
+</Fig>
+
+Several details matter for how this fails or holds:
+
+- **Guards are sticky.** If a client picked a fresh entry relay for each circuit, a hostile relay would eventually be its entry and see its address. Tor instead keeps a small set of guards for a long period, so a client either has a bad guard or does not.<Cite id="net-tor-guards" />
+- **Circuits are reused for about ten minutes** and then replaced, so connections close in time share an exit.<Cite id="net-tor-overview" />
+- **The relay list is a signed consensus.** A small fixed set of directory authorities vote every hour on which relays exist and which flags they hold, and clients accept a consensus signed by more than half of them.<Cite id="net-dir-spec" /> In early November 2026 the network had about 9,500 relays and 2,500 bridges.<Cite id="net-tor-metrics-size" /> User counts are estimates derived from directory requests, a few million a day, and they jump when misbehaving clients inflate the requests.<Cite id="net-tor-metrics-users" />
+- **Onion services hide the server too.** The service keeps circuits open to a few introduction points and publishes a signed descriptor. A client picks a rendezvous relay, and both sides build circuits to it, so six relays sit between them and neither learns the other's address. The service only makes outgoing connections and needs no open port.<Cite id="net-onion-overview" />
+- **Bridges hide the fact of using Tor.** They are unlisted entry relays, and pluggable transports such as obfs4 and Snowflake disguise the first hop for users on censored networks.<Cite id="net-tor-bridges" />
+
+## Where it gives way
+
+Tor forwards cells as soon as they arrive. That keeps it fast enough for browsing, and it leaves a gap the Tor Project has been open about since the start: anyone who can watch traffic entering the network and traffic leaving it can match the two by timing and volume. The entry-guard design exists because of this, and the 2014 security advisory calls defeating such traffic confirmation "an open research problem".<Cite id="net-tor-guards" /><Cite id="net-relay-early" /> Watching both ends does not require owning relays. The RAPTOR study showed that a single autonomous system can see both ends of many circuits because internet routing is asymmetric, and it ran the correlation against live Tor traffic with 95% accuracy.<Cite id="net-raptor-usenix" /> Mixnets such as Loopix add random delays and cover traffic so that timing stops lining up, at the cost of seconds of latency; Tor accepted the opposite trade-off.<Cite id="net-loopix" />
+
+The documented attacks on Tor users have mostly used relays the attacker ran:
+
+- From 30 January to 4 July 2014, a group of relays that had earned the Guard and HSDir flags inserted a signal into cells when onion-service descriptors were fetched or published, so that a colluding guard could tie a user or a service to an address.<Cite id="net-relay-early" /> A federal judge later confirmed that an IP address in the [Silk Road 2.0](/cases/#silk-road-2) related prosecution of Brian Farrell came from research by Carnegie Mellon's Software Engineering Institute, obtained by FBI subpoena.<Cite id="net-threatpost-cmu" />
+- The relay operator nicknamed KAX17 ran more than 900 relays at its peak, mostly guards and middles, which gave a user up to about a 16% chance of entering through one of them and about 35% of using one as a middle. Its purpose is unknown.<Cite id="net-kax17" /><Cite id="net-therecord-relays" />
+- Another operator, tracked as BTCMITM20, ran thousands of malicious exit relays over time to replace Bitcoin wallet addresses in the web traffic passing through them.<Cite id="net-therecord-relays" /> An exit can read and change whatever the application did not encrypt.
+- A local observer, such as a Wi-Fi operator, the ISP or the guard itself, can try to guess which site is loading from packet sizes and directions. The Deep Fingerprinting classifier reached 98.3% accuracy in a closed-world lab test, which overstates what works on the open web but shows the signal exists.<Cite id="net-df-paper" />
+
+In the cases that reached court, though, the network layer usually failed more plainly. Eldo Kim sent bomb threats to Harvard through Tor, but according to the FBI affidavit Harvard could see that he had connected to Tor over its own logged wireless network in the hours before the emails arrived.<Cite id="case-kim-cnn" /> Tor hid what he sent and not <span class="leak">that he was using Tor, there, then</span> ([case](/cases/#eldo-kim)). Ardit Ferizi used no anonymising layer at all: the same Malaysian address that broke into a US retailer's server had logged into his own Facebook and Twitter accounts ([case](/cases/#ferizi)).<Cite id="net-ferizi-affidavit" /> The Daily Beast reported, citing a single unnamed source, that the "Guccifer 2.0" persona once logged in without its VPN and left a Moscow address in a US company's logs; that story is disputed and is not in the later indictment, which rests instead on shared servers and payments, covered in the [infrastructure chapter](/layers/infrastructure/) ([case](/cases/#guccifer2)).<Cite id="attr-daily-beast-guccifer" />
+
+The other common route goes around Tor rather than through it. In the Freedom Hosting and Playpen investigations, the FBI took over the servers and delivered code to visitors' browsers that sent the real address directly, outside the circuit ([case](/cases/#playpen)). That is a failure of the [device layer](/layers/device/), and it is why a strong network layer does not protect a weak endpoint.
+
+## Common misconceptions
+
+- **"A VPN makes you anonymous."** It moves the full view of your traffic from your ISP to one company. PureVPN's and IPVanish's records identified their customers.<Cite id="net-purevpn-affidavit" /><Cite id="net-ipvanish-tf" />
+- **"Tor encrypts traffic all the way to the website."** Tor's encryption ends at the exit. After that the traffic is protected only by whatever the application uses, such as TLS.<Cite id="net-therecord-relays" />
+- **"More hops mean more anonymity."** An observer who can see both ends does not care how many relays sit in between. A fixed hop after Tor can even reduce anonymity by tying sessions to one paid account.
+- **"Tor has been broken cryptographically."** The documented deanonymisations used hostile relays, browser exploits or operator mistakes, not broken encryption.<Cite id="net-relay-early" />
+- **"The attack came from a domestic IP, so the attacker is domestic."** ORB networks and residential proxies place the last hop wherever the operator wants, often near the victim.<Cite id="net-orb-mandiant" />

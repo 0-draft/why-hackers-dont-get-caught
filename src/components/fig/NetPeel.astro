@@ -1,0 +1,325 @@
+---
+// Interactive: step a Tor cell through guard, middle and exit. Each step shows
+// which onion layers are still on the cell and what that hop can read.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Val = { k: "hl" | "bar" | "leak" | "none"; t?: string };
+interface Step {
+  node: string;
+  note: string;
+  peeled: number; // layers removed so far (0..3)
+  rows: Val[]; // from, to, destination, content
+}
+
+const L = {
+  en: {
+    controls: "Step through the circuit",
+    nodes: ["You", "Guard", "Middle", "Exit", "example.org"],
+    cellTitle: "The cell at this point",
+    knowsTitle: "What this point can read",
+    layers: ["Layer 1: guard key", "Layer 2: middle key", "Layer 3: exit key"],
+    coreLabels: ["destination", "content (TLS)"],
+    req: ["your request", "request, TLS opened"],
+    rows: ["Came from", "Sends to", "Destination", "Content"],
+    removed: "removed",
+  },
+  ja: {
+    controls: "回線を順にたどる",
+    nodes: ["あなた", "ガード", "中間", "出口", "example.org"],
+    cellTitle: "この地点でのセル",
+    knowsTitle: "この地点で読めるもの",
+    layers: ["層 1: ガードの鍵", "層 2: 中間の鍵", "層 3: 出口の鍵"],
+    coreLabels: ["行き先", "中身 (TLS)"],
+    req: ["あなたの要求", "TLS を復号した要求"],
+    rows: ["受け取り元", "渡す先", "行き先", "中身"],
+    removed: "外した",
+  },
+}[lang];
+
+const you = "198.51.100.7";
+const exitIp = "203.0.113.9";
+const steps: Step[] =
+  lang === "en"
+    ? [
+        {
+          node: L.nodes[0]!,
+          note: "Your Tor client wraps the request three times, innermost for the exit, outermost for the guard. It knows everything; nobody else does yet.",
+          peeled: 0,
+          rows: [
+            { k: "leak", t: `${you} (you)` },
+            { k: "hl", t: "guard" },
+            { k: "hl", t: "example.org" },
+            { k: "hl", t: "your request" },
+          ],
+        },
+        {
+          node: L.nodes[1]!,
+          note: "The guard removes layer 1. It learns your address and that the cell goes to the middle relay. The rest is still sealed.",
+          peeled: 1,
+          rows: [{ k: "leak", t: `${you} (you)` }, { k: "hl", t: "middle relay" }, { k: "bar" }, { k: "bar" }],
+        },
+        {
+          node: L.nodes[2]!,
+          note: "The middle removes layer 2. It sees only the guard behind it and the exit ahead. It knows neither you nor the site.",
+          peeled: 2,
+          rows: [{ k: "hl", t: "guard relay" }, { k: "hl", t: "exit relay" }, { k: "bar" }, { k: "bar" }],
+        },
+        {
+          node: L.nodes[3]!,
+          note: "The exit removes the last Tor layer and opens a connection to example.org. It sees the destination, not you. The content is still TLS.",
+          peeled: 3,
+          rows: [
+            { k: "hl", t: "middle relay" },
+            { k: "hl", t: "example.org" },
+            { k: "hl", t: "example.org" },
+            { k: "bar" },
+          ],
+        },
+        {
+          node: L.nodes[4]!,
+          note: "The website decrypts TLS and reads the request. The connection comes from the exit's address. If you log in, you identify yourself here.",
+          peeled: 3,
+          rows: [
+            { k: "hl", t: `${exitIp} (exit)` },
+            { k: "none" },
+            { k: "hl", t: "itself" },
+            { k: "hl", t: "your request" },
+          ],
+        },
+      ]
+    : [
+        {
+          node: L.nodes[0]!,
+          note: "Tor クライアントが要求を 3 重に包む。いちばん内側が出口用、いちばん外側がガード用だ。この時点で全部を知っているのはあなただけ。",
+          peeled: 0,
+          rows: [
+            { k: "leak", t: `${you} (あなた)` },
+            { k: "hl", t: "ガード" },
+            { k: "hl", t: "example.org" },
+            { k: "hl", t: "あなたの要求" },
+          ],
+        },
+        {
+          node: L.nodes[1]!,
+          note: "ガードが層 1 を外す。わかるのはあなたのアドレスと、セルを中間リレーへ渡すことだけ。残りは封をされたままだ。",
+          peeled: 1,
+          rows: [{ k: "leak", t: `${you} (あなた)` }, { k: "hl", t: "中間リレー" }, { k: "bar" }, { k: "bar" }],
+        },
+        {
+          node: L.nodes[2]!,
+          note: "中間が層 2 を外す。見えるのは後ろのガードと前の出口だけで、あなたもサイトも知らない。",
+          peeled: 2,
+          rows: [{ k: "hl", t: "ガードリレー" }, { k: "hl", t: "出口リレー" }, { k: "bar" }, { k: "bar" }],
+        },
+        {
+          node: L.nodes[3]!,
+          note: "出口が最後の Tor の層を外し、example.org へ接続する。行き先は見えるが、あなたは見えない。中身はまだ TLS の中だ。",
+          peeled: 3,
+          rows: [
+            { k: "hl", t: "中間リレー" },
+            { k: "hl", t: "example.org" },
+            { k: "hl", t: "example.org" },
+            { k: "bar" },
+          ],
+        },
+        {
+          node: L.nodes[4]!,
+          note: "ウェブサイトが TLS を復号して要求を読む。接続元は出口のアドレスだ。ここでログインすれば、自分で名乗ることになる。",
+          peeled: 3,
+          rows: [
+            { k: "hl", t: `${exitIp} (出口)` },
+            { k: "none" },
+            { k: "hl", t: "自分自身" },
+            { k: "hl", t: "あなたの要求" },
+          ],
+        },
+      ];
+
+// Geometry
+const nodeX = [20, 196, 372, 548, 724];
+const nodeW = 156;
+const layerBoxes = [
+  { x: 20, y: 132, w: 440, h: 226 },
+  { x: 40, y: 172, w: 400, h: 172 },
+  { x: 60, y: 212, w: 360, h: 118 },
+];
+const rowY = [168, 216, 264, 312];
+---
+
+<div class="np" data-netpeel data-notes={JSON.stringify(steps.map((s) => s.note))}>
+  <div class="np-steps" role="group" aria-label={L.controls}>
+    {
+      steps.map((s, i) => (
+        <button type="button" class="np-btn" data-i={i} aria-pressed={i === 0 ? "true" : "false"}>
+          <span class="np-n">{i + 1}</span> {s.node}
+        </button>
+      ))
+    }
+  </div>
+
+  <svg class="dg" viewBox="0 0 900 370" role="img" aria-labelledby="np-note">
+    <!-- route -->
+    {
+      L.nodes.map((n, i) => (
+        <g>
+          <rect class="box" x={nodeX[i]!} y="16" width={nodeW - 20} height="44" />
+          <text x={nodeX[i]! + (nodeW - 20) / 2} y="43" text-anchor="middle" class="b">
+            {n}
+          </text>
+          {i < 4 && <line class="ln" x1={nodeX[i]! + nodeW - 20} y1="38" x2={nodeX[i + 1]!} y2="38" />}
+        </g>
+      ))
+    }
+    <line class="ln-1 soft" x1="20" y1="96" x2="880" y2="96" />
+
+    {
+      steps.map((s, i) => (
+        <g data-step={i} data-off={i !== 0 ? "" : undefined}>
+          <rect class="fill-hl" x={nodeX[i]!} y="66" width={nodeW - 20} height="8" />
+          <text x="20" y="122" class="b t-s">
+            {L.cellTitle}
+          </text>
+          {layerBoxes.map((b, j) => {
+            const off = j < s.peeled;
+            return (
+              <g>
+                <rect
+                  class:list={[off ? "ln-1 dash soft" : "box"]}
+                  x={b.x}
+                  y={b.y}
+                  width={b.w}
+                  height={b.h}
+                  fill={off ? "none" : undefined}
+                />
+                <text x={b.x + 12} y={b.y + 26} class:list={["t-s", off ? "t-2" : "b"]}>
+                  {L.layers[j]!}
+                  {off ? ` (${L.removed})` : ""}
+                </text>
+              </g>
+            );
+          })}
+          {[0, 1].map((k) => {
+            const open = i === 0 || i === 4 || (i === 3 && k === 0);
+            const x = k === 0 ? 80 : 236;
+            const w = k === 0 ? 148 : 164;
+            return (
+              <g>
+                <rect class={open ? "fill-hl" : "fill-bar"} x={x} y="266" width={w} height="30" />
+                {open && (
+                  <text x={x + 10} y="286" class:list={["t-on-hl", k === 0 ? "mono" : "t-s"]}>
+                    {k === 0 ? "example.org:443" : i === 4 ? L.req[1]! : L.req[0]!}
+                  </text>
+                )}
+                <text x={x} y="316" class="t-s t-2">
+                  {L.coreLabels[k]!}
+                </text>
+              </g>
+            );
+          })}
+
+          <text x="500" y="122" class="b t-s">
+            {L.knowsTitle}
+          </text>
+          {s.rows.map((r, j) => (
+            <g>
+              <text x="500" y={rowY[j]! + 4} class="t-s t-2">
+                {L.rows[j]!}
+              </text>
+              {r.k === "hl" && <rect class="fill-hl" x="620" y={rowY[j]! - 16} width="260" height="30" />}
+              {r.k === "bar" && <rect class="fill-bar" x="620" y={rowY[j]! - 16} width="260" height="30" />}
+              {r.k === "leak" && <rect class="stroke-leak" x="620" y={rowY[j]! - 16} width="260" height="30" />}
+              {r.k === "none" && <line class="ln-1 soft" x1="620" y1={rowY[j]!} x2="880" y2={rowY[j]!} />}
+              {r.t && (
+                <text
+                  x="634"
+                  y={rowY[j]! + 4}
+                  class:list={[r.k === "hl" && "t-on-hl", r.k === "leak" && "t-leak", r.t.includes(".") && "mono"]}
+                >
+                  {r.t}
+                </text>
+              )}
+            </g>
+          ))}
+        </g>
+      ))
+    }
+  </svg>
+  <p class="np-note" id="np-note" aria-live="polite">{steps[0]!.note}</p>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-netpeel]")) {
+    const btns = [...root.querySelectorAll<HTMLButtonElement>(".np-btn")];
+    const groups = [...root.querySelectorAll<SVGGElement>("[data-step]")];
+    const note = root.querySelector<HTMLElement>(".np-note")!;
+    const notes: string[] = JSON.parse(root.dataset.notes ?? "[]");
+    const show = (i: number) => {
+      btns.forEach((b, j) => b.setAttribute("aria-pressed", String(i === j)));
+      groups.forEach((g, j) => {
+        if (i === j) g.removeAttribute("data-off");
+        else g.setAttribute("data-off", "");
+      });
+      note.textContent = notes[i] ?? "";
+    };
+    btns.forEach((b, i) => {
+      b.addEventListener("click", () => show(i));
+      b.addEventListener("keydown", (e) => {
+        const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const n = (i + d + btns.length) % btns.length;
+        show(n);
+        btns[n]!.focus();
+      });
+    });
+  }
+</script>
+
+<style>
+  .np-steps {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1.5px solid var(--ink);
+    margin-bottom: 1rem;
+    width: max-content;
+    max-width: 100%;
+  }
+  .np-btn {
+    font: inherit;
+    font-weight: 700;
+    font-size: var(--step--1);
+    background: transparent;
+    color: var(--ink);
+    border: 0;
+    border-right: 1px solid var(--rule);
+    padding: 0.45rem 0.85rem;
+    cursor: pointer;
+  }
+  .np-btn:last-child {
+    border-right: 0;
+  }
+  .np-btn[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+  .np-n {
+    font-family: var(--mono);
+    font-weight: 400;
+    margin-right: 0.2rem;
+  }
+  .np svg {
+    min-width: 640px;
+  }
+  .np [data-off] {
+    display: none;
+  }
+  .np-note {
+    margin: 0.75rem 0 0;
+    font-size: var(--step--1);
+    max-width: 68ch;
+    min-height: 3.2em;
+  }
+</style>

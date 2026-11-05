@@ -1,0 +1,78 @@
+---
+// Fast flux: one domain, a new address (and in double flux a new name server)
+// at every lookup, all relaying to one backend that is never resolved.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const T = {
+  en: {
+    title: "DNS answers for update.example",
+    cols: ["Lookup", "Name server", "Address (A record)"],
+    pool: "Compromised hosts (relays)",
+    backend: "backend",
+    backendSub: "never in DNS",
+    note: "Single flux: only the address changes. Double flux: the name server changes too.",
+  },
+  ja: {
+    title: "update.example の DNS 応答",
+    cols: ["問い合わせ", "ネームサーバ", "アドレス (A レコード)"],
+    pool: "乗っ取られたホスト (中継)",
+    backend: "バックエンド",
+    backendSub: "DNS には出ない",
+    note: "シングルフラックスはアドレスだけが変わる。ダブルフラックスはネームサーバも変わる。",
+  },
+}[lang];
+
+const rows = [
+  ["00:00", "ns1.flux.example", "198.51.100.17"],
+  ["00:05", "ns4.flux.example", "203.0.113.88"],
+  ["00:10", "ns2.flux.example", "198.51.100.240"],
+  ["00:15", "ns9.flux.example", "203.0.113.5"],
+];
+const y0 = 76;
+const rh = 58;
+const be = { x: 790, y: y0 + 40, w: 110, h: 120 };
+---
+
+<svg class="dg" viewBox="0 0 920 360" role="img" aria-label={`${T.title}. ${T.note}`}>
+  <text x="20" y="22" class="b">{T.title}</text>
+  <text x="20" y="54" class="t-s t-2">{T.cols[0]}</text>
+  <text x="100" y="54" class="t-s t-2">{T.cols[1]}</text>
+  <text x="280" y="54" class="t-s t-2">{T.cols[2]}</text>
+  <text x="560" y="54" class="t-s t-2">{T.pool}</text>
+  {
+    rows.map(([t, ns, ip], i) => {
+      const y = y0 + rh * i;
+      const cy = y + 15;
+      return (
+        <g>
+          <text x="20" y={cy + 4} class="mono">
+            {t}
+          </text>
+          <rect class="fill-hl" x="100" y={y} width="160" height="30" />
+          <text x="110" y={cy + 4} class="mono t-on-hl">
+            {ns}
+          </text>
+          <rect class="fill-hl" x="280" y={y} width="150" height="30" />
+          <text x="290" y={cy + 4} class="mono t-on-hl">
+            {ip}
+          </text>
+          <line class="ln" x1="430" y1={cy} x2="552" y2={cy} />
+          <path class="fill-ink" d={`M 560 ${cy} l -9 -5 v 10 z`} />
+          <rect class="box" x="560" y={y} width="150" height="30" />
+          <text x="572" y={cy + 4} class="mono">
+            {ip}
+          </text>
+          <line class="ln-1" x1="710" y1={cy} x2={be.x} y2={be.y + 20 + i * 27} />
+        </g>
+      );
+    })
+  }
+  <rect class="fill-bar" x={be.x} y={be.y} width={be.w} height={be.h} />
+  <text x={be.x + be.w / 2} y={be.y + be.h + 22} text-anchor="middle" class="b t-s">{T.backend}</text>
+  <text x={be.x + be.w / 2} y={be.y + be.h + 40} text-anchor="middle" class="t-s t-2">{T.backendSub}</text>
+  <line class="ln-1 soft" x1="20" y1="316" x2="900" y2="316" />
+  <text x="20" y="342" class="t-s t-2">{T.note}</text>
+</svg>

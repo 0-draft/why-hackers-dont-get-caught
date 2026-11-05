@@ -1,0 +1,109 @@
+---
+// Overlap graph from the 2018 GRU indictment (US v. Netyksho et al.):
+// two personas meet at one bitcoin pool and at a GRU-managed server.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Node = { id: string; x: number; y: number; w: number; a: string; b: string; kind?: "persona" | "org" };
+const N = {
+  en: {
+    g2: ["Guccifer 2.0", "persona"],
+    dcl: ["DCLeaks", "persona"],
+    post: ["First post, 15 Jun 2016", "“some hundred sheets”"],
+    vpn: ["VPN account", "logs in to @Guccifer_2"],
+    srv: ["Server in Malaysia", "hosted dcleaks.com"],
+    search: ["Searches, 15 Jun 2016", "earlier that day"],
+    pool: ["One pool of bitcoin", "paid for both"],
+    msk: ["Moscow server", "GRU Unit 74455"],
+    e: {
+      posted: "posted",
+      via: "logged in via",
+      host: "hosted on",
+      paid: "paid from",
+      same: "same phrases",
+      on: "run on",
+    },
+  },
+  ja: {
+    g2: ["Guccifer 2.0", "ペルソナ"],
+    dcl: ["DCLeaks", "ペルソナ"],
+    post: ["最初の投稿 (2016/6/15)", "「some hundred sheets」"],
+    vpn: ["VPN アカウント", "@Guccifer_2 へのログイン"],
+    srv: ["マレーシアのサーバ", "dcleaks.com を置いた"],
+    search: ["検索 (2016/6/15)", "同じ日の投稿より前"],
+    pool: ["1 つの bitcoin プール", "両方の代金を支払う"],
+    msk: ["モスクワのサーバ", "GRU 74455 部隊"],
+    e: {
+      posted: "投稿",
+      via: "ログインに使用",
+      host: "ホスト",
+      paid: "支払い元",
+      same: "同じフレーズ",
+      on: "実行場所",
+    },
+  },
+}[lang];
+
+const h = 56;
+const nodes: Record<string, Node> = {
+  g2: { id: "g2", x: 20, y: 70, w: 170, a: N.g2[0]!, b: N.g2[1]!, kind: "persona" },
+  dcl: { id: "dcl", x: 20, y: 300, w: 170, a: N.dcl[0]!, b: N.dcl[1]!, kind: "persona" },
+  post: { id: "post", x: 300, y: 20, w: 210, a: N.post[0]!, b: N.post[1]! },
+  vpn: { id: "vpn", x: 300, y: 150, w: 210, a: N.vpn[0]!, b: N.vpn[1]! },
+  srv: { id: "srv", x: 300, y: 300, w: 210, a: N.srv[0]!, b: N.srv[1]! },
+  search: { id: "search", x: 620, y: 20, w: 190, a: N.search[0]!, b: N.search[1]! },
+  pool: { id: "pool", x: 620, y: 225, w: 190, a: N.pool[0]!, b: N.pool[1]! },
+  msk: { id: "msk", x: 920, y: 20, w: 150, a: N.msk[0]!, b: N.msk[1]!, kind: "org" },
+};
+
+// edges: from (right side) -> to (left side), label, leak?
+const edges: [string, string, string, boolean][] = [
+  ["g2", "post", N.e.posted, false],
+  ["g2", "vpn", N.e.via, false],
+  ["dcl", "srv", N.e.host, false],
+  ["post", "search", N.e.same, true],
+  ["search", "msk", N.e.on, true],
+  ["vpn", "pool", N.e.paid, true],
+  ["srv", "pool", N.e.paid, true],
+];
+const cy = (n: Node) => n.y + h / 2;
+---
+
+<svg class="dg" viewBox="0 0 1090 380" role="img" aria-label={Object.values(nodes).map((n) => `${n.a} (${n.b})`).join("; ")}>
+  {
+    edges.map(([f, t, label, leak]) => {
+      const a = nodes[f]!;
+      const b = nodes[t]!;
+      const x1 = a.x + a.w;
+      const y1 = cy(a);
+      const x2 = b.x;
+      const y2 = cy(b);
+      const mx = (x1 + x2) / 2;
+      const my = (y1 + y2) / 2;
+      return (
+        <g>
+          <line class={leak ? "stroke-leak" : "ln-1"} x1={x1} y1={y1} x2={x2} y2={y2} style={leak ? "stroke-width:3" : undefined} />
+          <rect class="fill-paper" x={mx - 46} y={my - 11} width="92" height="20" />
+          <text x={mx} y={my + 4} text-anchor="middle" class:list={["t-s", leak ? "t-leak" : "t-2"]}>
+            {label}
+          </text>
+        </g>
+      );
+    })
+  }
+  {
+    Object.values(nodes).map((n) => (
+      <g>
+        <rect class={n.kind === "org" ? "stroke-leak" : "box"} x={n.x} y={n.y} width={n.w} height={h} style={n.kind === "org" ? "stroke-width:3" : undefined} />
+        <text x={n.x + 12} y={n.y + 23} class:list={["b", n.kind === "org" && "t-leak"]}>
+          {n.a}
+        </text>
+        <text x={n.x + 12} y={n.y + 43} class:list={["t-s t-2", n.b.includes(".com") && "mono"]}>
+          {n.b}
+        </text>
+      </g>
+    ))
+  }
+</svg>

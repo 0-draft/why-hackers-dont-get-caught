@@ -1,0 +1,202 @@
+[
+  {
+    "id": "net-farrell-forbes",
+    "title": "Tor users were caught by CMU researchers and lack 'reasonable expectation of privacy', judge rules",
+    "publisher": "Forbes",
+    "date": "2016-02-25",
+    "url": "https://www.forbes.com/sites/emmawoollacott/2016/02/25/tor-users-were-caught-by-cmu-researchers-and-lack-reasonable-expectation-of-privacy-judge-rules/",
+    "kind": "press"
+  },
+  {
+    "id": "net-tor-vpn",
+    "title": "Can I use a VPN with Tor?",
+    "publisher": "Tor Project (support)",
+    "date": "2026",
+    "url": "https://support.torproject.org/tor-browser/general/vpn-with-tor/",
+    "kind": "primary"
+  },
+  {
+    "id": "net-purevpn-affidavit",
+    "title": "Affidavit in support of criminal complaint, United States v. Ryan S. Lin (D. Mass.)",
+    "publisher": "US Department of Justice",
+    "date": "2017-10-03",
+    "url": "https://www.justice.gov/opa/press-release/file/1001841/download",
+    "kind": "primary"
+  },
+  {
+    "id": "net-purevpn-tf",
+    "title": "PureVPN logs helped FBI net alleged cyberstalker",
+    "publisher": "TorrentFreak",
+    "date": "2017-10-09",
+    "url": "https://torrentfreak.com/purevpn-logs-helped-fbi-net-alleged-cyberstalker-171009/",
+    "kind": "press"
+  },
+  {
+    "id": "net-ipvanish-tf",
+    "title": "IPVanish 'no-logging' VPN led Homeland Security to Comcast user",
+    "publisher": "TorrentFreak",
+    "date": "2018-05-05",
+    "url": "https://torrentfreak.com/ipvanish-no-logging-vpn-led-homeland-security-to-comcast-user-180505/",
+    "kind": "press"
+  },
+  {
+    "id": "net-911s5-doj",
+    "title": "911 S5 botnet dismantled and its administrator arrested in coordinated international operation",
+    "publisher": "US Department of Justice",
+    "date": "2024-05-29",
+    "url": "https://www.justice.gov/archives/opa/pr/911-s5-botnet-dismantled-and-its-administrator-arrested-coordinated-international-operation",
+    "kind": "primary"
+  },
+  {
+    "id": "net-kvbotnet-doj",
+    "title": "U.S. government disrupts botnet People's Republic of China used to conceal hacking of critical infrastructure",
+    "publisher": "US Department of Justice",
+    "date": "2024-01-31",
+    "url": "https://www.justice.gov/archives/opa/pr/us-government-disrupts-botnet-peoples-republic-china-used-conceal-hacking-critical",
+    "kind": "primary"
+  },
+  {
+    "id": "net-raptor-ic3",
+    "title": "People's Republic of China-linked actors compromise routers and IoT devices for botnet operations (joint advisory)",
+    "publisher": "FBI, CNMF, NSA and partners",
+    "date": "2024-09-18",
+    "url": "https://www.ic3.gov/CSA/2024/240918.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "net-moobot-thn",
+    "title": "U.S. government disrupts Russian-linked botnet engaged in cyber espionage",
+    "publisher": "The Hacker News",
+    "date": "2024-02-16",
+    "url": "https://thehackernews.com/2024/02/us-government-disrupts-russian-linked.html",
+    "kind": "press"
+  },
+  {
+    "id": "net-orb-mandiant",
+    "title": "IOC extinction? China-nexus cyber espionage actors use ORB networks to raise cost on defenders",
+    "publisher": "Mandiant (Google Cloud)",
+    "date": "2024-05-23",
+    "url": "https://cloud.google.com/blog/topics/threat-intelligence/china-nexus-espionage-orb-networks",
+    "kind": "report"
+  },
+  {
+    "id": "net-tor-overview",
+    "title": "How does Tor work? Overview",
+    "publisher": "Tor Project (support)",
+    "date": "2026",
+    "url": "https://support.torproject.org/about-tor/how-tor-works/overview/",
+    "kind": "primary"
+  },
+  {
+    "id": "net-tor-guards",
+    "title": "Entry guards",
+    "publisher": "Tor Project (support)",
+    "date": "2026",
+    "url": "https://support.torproject.org/about-tor/how-tor-works/entry-guards/",
+    "kind": "primary"
+  },
+  {
+    "id": "net-dir-spec",
+    "title": "Tor directory protocol, version 3: outline",
+    "publisher": "Tor Project (specifications)",
+    "date": "2026",
+    "url": "https://spec.torproject.org/dir-spec/outline.html",
+    "kind": "primary"
+  },
+  {
+    "id": "net-tor-metrics-size",
+    "title": "Relays and bridges in the network (networksize.csv)",
+    "publisher": "Tor Metrics",
+    "date": "2026-11",
+    "url": "https://metrics.torproject.org/networksize.csv?start=2026-10-01&end=2026-11-05",
+    "kind": "primary"
+  },
+  {
+    "id": "net-tor-metrics-users",
+    "title": "Directly connecting users, all countries (userstats-relay-country.csv)",
+    "publisher": "Tor Metrics",
+    "date": "2026-11",
+    "url": "https://metrics.torproject.org/userstats-relay-country.csv?start=2025-01-01&end=2026-11-05&country=all&events=off",
+    "kind": "primary"
+  },
+  {
+    "id": "net-onion-overview",
+    "title": "Onion services: overview",
+    "publisher": "Tor Project (community)",
+    "date": "2026",
+    "url": "https://community.torproject.org/onion-services/overview/",
+    "kind": "primary"
+  },
+  {
+    "id": "net-tor-bridges",
+    "title": "Unblocking Tor: bridges and pluggable transports",
+    "publisher": "Tor Project (support)",
+    "date": "2026",
+    "url": "https://support.torproject.org/tor-browser/circumvention/unblocking-tor/",
+    "kind": "primary"
+  },
+  {
+    "id": "net-relay-early",
+    "title": "Tor security advisory: \"relay early\" traffic confirmation attack",
+    "publisher": "Tor Project (blog)",
+    "date": "2014-07-30",
+    "url": "https://blog.torproject.org/tor-security-advisory-relay-early-traffic-confirmation-attack/",
+    "kind": "primary"
+  },
+  {
+    "id": "net-raptor-usenix",
+    "title": "RAPTOR: routing attacks on privacy in Tor",
+    "publisher": "USENIX Security Symposium (Sun et al.)",
+    "date": "2015-08",
+    "url": "https://www.usenix.org/system/files/conference/usenixsecurity15/sec15-paper-sun.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "net-loopix",
+    "title": "The Loopix anonymity system",
+    "publisher": "USENIX Security Symposium (Piotrowska et al.)",
+    "date": "2017-08",
+    "url": "https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/piotrowska",
+    "kind": "primary"
+  },
+  {
+    "id": "net-threatpost-cmu",
+    "title": "Judge confirms DoD-funded research was used to decloak Tor users",
+    "publisher": "Threatpost",
+    "date": "2016-02-25",
+    "url": "https://threatpost.com/judge-confirms-dod-funded-research-to-decloak-tor-users/116464/",
+    "kind": "press"
+  },
+  {
+    "id": "net-kax17",
+    "title": "Is \"KAX17\" performing de-anonymization attacks against Tor users?",
+    "publisher": "nusenu",
+    "date": "2021",
+    "url": "https://nusenu.medium.com/is-kax17-performing-de-anonymization-attacks-against-tor-users-42e566defce8",
+    "kind": "report"
+  },
+  {
+    "id": "net-therecord-relays",
+    "title": "A mysterious threat actor is running hundreds of malicious Tor relays",
+    "publisher": "The Record",
+    "date": "2021-12-03",
+    "url": "https://therecord.media/a-mysterious-threat-actor-is-running-hundreds-of-malicious-tor-relays",
+    "kind": "press"
+  },
+  {
+    "id": "net-df-paper",
+    "title": "Deep Fingerprinting: undermining website fingerprinting defenses with deep learning",
+    "publisher": "ACM CCS (Sirinam et al.)",
+    "date": "2018",
+    "url": "https://arxiv.org/abs/1801.02265",
+    "kind": "primary"
+  },
+  {
+    "id": "net-ferizi-affidavit",
+    "title": "Criminal complaint and affidavit, United States v. Ardit Ferizi (E.D. Va., 1:15-mj-515)",
+    "publisher": "US District Court, E.D. Virginia",
+    "date": "2015-10-06",
+    "url": "https://www.investigativeproject.org/case_docs/us-v-ferizi-aka-th3dir3ctory/2999/affidavit.pdf",
+    "kind": "primary"
+  }
+]

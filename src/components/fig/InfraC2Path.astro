@@ -1,0 +1,231 @@
+---
+// Two C2 designs: a redirector in front of the team server, and a legitimate
+// web service as the relay. Under each hop: what that party can read.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Item = { label: string; k: "hl" | "bar" | "leak"; v?: string };
+interface Hop {
+  col: number;
+  name: string;
+  sub: string;
+  items: Item[];
+}
+interface Row {
+  title: string;
+  hops: Hop[];
+  /** arrows as [fromCol, toCol] */
+  arrows: [number, number][];
+}
+
+const rows: Row[] =
+  lang === "en"
+    ? [
+        {
+          title: "A. Redirector in front of the C2 server",
+          hops: [
+            {
+              col: 0,
+              name: "Implant",
+              sub: "victim's network",
+              items: [
+                { label: "Defender sees", k: "hl", v: "cdn-update.example" },
+                { label: "Real C2 server", k: "bar" },
+              ],
+            },
+            {
+              col: 1,
+              name: "Redirector",
+              sub: "leased VPS",
+              items: [
+                { label: "Host provider sees", k: "leak", v: "customer account" },
+                { label: "Forwards to", k: "hl", v: "203.0.113.50" },
+              ],
+            },
+            {
+              col: 2,
+              name: "C2 server",
+              sub: "203.0.113.50",
+              items: [
+                { label: "If seized, it shows", k: "leak", v: "operator logins" },
+                { label: "Also", k: "hl", v: "every infected host" },
+              ],
+            },
+            { col: 3, name: "Operator", sub: "via VPN or ORB", items: [] },
+          ],
+          arrows: [
+            [0, 1],
+            [1, 2],
+            [3, 2],
+          ],
+        },
+        {
+          title: "B. Legitimate web service as the relay",
+          hops: [
+            {
+              col: 0,
+              name: "Implant",
+              sub: "victim's network",
+              items: [
+                { label: "Defender sees", k: "hl", v: "calendar.google.com" },
+                { label: "Operator", k: "bar" },
+              ],
+            },
+            {
+              col: 1,
+              name: "Web service",
+              sub: "calendar events",
+              items: [
+                { label: "Provider sees", k: "leak", v: "attacker's account" },
+                { label: "Stored data", k: "hl", v: "encrypted events" },
+              ],
+            },
+            { col: 3, name: "Operator", sub: "same account", items: [] },
+          ],
+          arrows: [
+            [0, 1],
+            [3, 1],
+          ],
+        },
+      ]
+    : [
+        {
+          title: "A. C2 サーバの前にリダイレクタを置く",
+          hops: [
+            {
+              col: 0,
+              name: "インプラント",
+              sub: "被害組織のネットワーク",
+              items: [
+                { label: "防御側に見える", k: "hl", v: "cdn-update.example" },
+                { label: "本物の C2 サーバ", k: "bar" },
+              ],
+            },
+            {
+              col: 1,
+              name: "リダイレクタ",
+              sub: "借りた VPS",
+              items: [
+                { label: "ホスティング事業者に見える", k: "leak", v: "契約アカウント" },
+                { label: "転送先", k: "hl", v: "203.0.113.50" },
+              ],
+            },
+            {
+              col: 2,
+              name: "C2 サーバ",
+              sub: "203.0.113.50",
+              items: [
+                { label: "押収されると残っている", k: "leak", v: "運用者のログイン" },
+                { label: "ほかに", k: "hl", v: "感染した全ホスト" },
+              ],
+            },
+            { col: 3, name: "運用者", sub: "VPN や ORB 経由", items: [] },
+          ],
+          arrows: [
+            [0, 1],
+            [1, 2],
+            [3, 2],
+          ],
+        },
+        {
+          title: "B. 正規のウェブサービスを中継に使う",
+          hops: [
+            {
+              col: 0,
+              name: "インプラント",
+              sub: "被害組織のネットワーク",
+              items: [
+                { label: "防御側に見える", k: "hl", v: "calendar.google.com" },
+                { label: "運用者", k: "bar" },
+              ],
+            },
+            {
+              col: 1,
+              name: "ウェブサービス",
+              sub: "カレンダーの予定",
+              items: [
+                { label: "事業者に見える", k: "leak", v: "攻撃者のアカウント" },
+                { label: "保存されたデータ", k: "hl", v: "暗号化された予定" },
+              ],
+            },
+            { col: 3, name: "運用者", sub: "同じアカウント", items: [] },
+          ],
+          arrows: [
+            [0, 1],
+            [3, 1],
+          ],
+        },
+      ];
+
+const colX = [20, 270, 520, 770];
+const bw = 200;
+const rowY = [0, 236];
+---
+
+<svg class="dg" viewBox="0 0 990 466" role="img" aria-label={rows.map((r) => r.title).join(". ")}>
+  {
+    rows.map((r, ri) => {
+      const top = rowY[ri]!;
+      const by = top + 34;
+      return (
+        <g>
+          <text x="20" y={top + 18} class="b">
+            {r.title}
+          </text>
+          {r.arrows.map(([a, b]) => {
+            const right = b > a;
+            const x1 = right ? colX[a]! + bw : colX[a]!;
+            const x2 = right ? colX[b]! : colX[b]! + bw;
+            const tip = right ? x2 - 8 : x2 + 8;
+            const cy = by + 26;
+            return (
+              <g>
+                <line class="ln" x1={x1} y1={cy} x2={tip} y2={cy} />
+                <path class="fill-ink" d={right ? `M ${x2} ${cy} l -9 -5 v 10 z` : `M ${x2} ${cy} l 9 -5 v 10 z`} />
+              </g>
+            );
+          })}
+          {r.hops.map((h) => {
+            const x = colX[h.col]!;
+            return (
+              <g>
+                <rect class="box" x={x} y={by} width={bw} height="52" />
+                <text x={x + 14} y={by + 22} class="b">
+                  {h.name}
+                </text>
+                <text x={x + 14} y={by + 41} class:list={["t-s t-2", h.sub.includes(".") && "mono"]}>
+                  {h.sub}
+                </text>
+                {h.items.map((it, k) => {
+                  const iy = by + 76 + k * 54;
+                  return (
+                    <g>
+                      <text x={x} y={iy} class="t-s t-2">
+                        {it.label}
+                      </text>
+                      {it.k === "hl" && <rect class="fill-hl" x={x} y={iy + 8} width={bw} height="28" />}
+                      {it.k === "bar" && <rect class="fill-bar" x={x} y={iy + 8} width={bw} height="28" />}
+                      {it.k === "leak" && <rect class="stroke-leak" x={x} y={iy + 8} width={bw} height="28" />}
+                      {it.v && (
+                        <text
+                          x={x + 10}
+                          y={iy + 27}
+                          class:list={[it.k === "hl" && "t-on-hl", it.k === "leak" && "t-leak", it.v.includes(".") && "mono"]}
+                        >
+                          {it.v}
+                        </text>
+                      )}
+                    </g>
+                  );
+                })}
+              </g>
+            );
+          })}
+        </g>
+      );
+    })
+  }
+  <line class="ln-1 soft" x1="20" y1="222" x2="970" y2="222" />
+</svg>

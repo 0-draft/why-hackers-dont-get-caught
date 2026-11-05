@@ -1,0 +1,81 @@
+---
+title: "Infrastructure: servers, domains and command channels"
+summary: "An operation needs machines that stay reachable, and every machine is rented from someone, registered somewhere and paid for by somebody."
+layer: infrastructure
+---
+
+import Cite from "../../../components/Cite.astro";
+import Fig from "../../../components/Fig.astro";
+import InfraFlux from "../../../components/fig/InfraFlux.astro";
+import InfraC2Path from "../../../components/fig/InfraC2Path.astro";
+import InfraOverlap from "../../../components/fig/InfraOverlap.astro";
+
+Hiding a person's address is a problem of one connection at a time. An operation has a harder problem: it needs places that stay reachable for weeks or months. A leak site has to answer visitors, malware has to find its command server, and stolen data has to land somewhere. Each of those places is a server someone rented and usually a domain someone registered, and every rental and registration leaves a record with a company that can be asked to produce it.
+
+## The paper trail behind a server
+
+The weak point is not the server's address, which is public by design. It is the account behind it. A hosting provider knows which customer leased the machine, how they paid, and from where they log in to manage it. A registrar knows who bought the domain. A takedown request, a court order or a sanctions designation reaches the operation through those companies.
+
+Operators therefore try one of three things. They pick providers that will not answer. They keep the visible address moving, so that whatever is reported is already gone. Or they put someone else's reputation in front of the real server: a disposable relay, a content delivery network, or a well-known web service. The sections below take these in turn, and then look at how each has given way.
+
+## Hosting that ignores the knock
+
+"Bulletproof" hosting is a business model, not a technology. The provider ignores abuse reports and law-enforcement requests, often from a jurisdiction where those requests carry little weight, and sometimes leases address space through front companies elsewhere. The joint advisory on fast flux describes such providers as offering hosting that "disregards or evades law enforcement requests and abuse notices", and notes that some sell fast flux as an added feature.<Cite id="infra-fastflux-cisa" />
+
+The model works until the state finds a lever other than an abuse email. CyberBunker ran servers in a former NATO bunker in Traben-Trarbach, Germany, until more than 600 police raided it in September 2019. In December 2021 a court in Trier convicted eight people of forming a criminal organisation; the main defendant received five years and nine months, though the court acquitted the group of aiding the individual crimes of the sites they hosted.<Cite id="infra-cyberbunker-dcd" /> In February 2025 the US, UK and Australia sanctioned the Russian provider Zservers for hosting LockBit affiliates. The Treasury says Zservers likely let the attacks continue by assigning a new IP address to a LockBit customer rather than cutting it off.<Cite id="infra-zservers-treasury" /> In July 2025 the Treasury sanctioned Aeza Group, whose clients included BianLian ransomware operators, infostealer panels and a darknet drug market.<Cite id="infra-aeza-treasury" /> Sanctions do not take a server offline. They cut the provider off from payments and from the upstream companies that sell it bandwidth and addresses.
+
+## Moving targets: fast flux
+
+Fast flux changes the answer a domain name gives. A single domain resolves to many IP addresses that are rotated quickly through DNS answers, each of them a compromised machine relaying traffic to the real backend. In single flux only the address records change; in double flux the name servers that answer for the domain rotate as well. In April 2025 NSA, CISA, the FBI and partner agencies in Australia, Canada and New Zealand called the technique "a national security threat", noted its use in Hive and Nefilim ransomware attacks and by Gamaredon, and asked protective DNS providers to build detection for it.<Cite id="infra-fastflux-cisa" />
+
+<Fig caption="Fast flux. The same domain gives a different address every few minutes, each one a compromised host that relays to a backend nobody resolves directly. In double flux the name server rotates too. Blocking the address seen at 00:05 does nothing at 00:10." size="wide">
+  <InfraFlux lang="en" />
+</Fig>
+
+The defence the advisory describes works on the pattern rather than on single addresses: very short record lifetimes, many unrelated addresses for one name, and addresses that belong to home broadband ranges. The same features also appear in legitimate content delivery networks, which is why the advisory treats detection as an ongoing challenge rather than a solved one.<Cite id="infra-fastflux-cisa" />
+
+## Standing behind someone else
+
+The second approach is to never let the real server be the thing the victim talks to.
+
+A redirector is a thin, disposable host placed between malware and its command server. It forwards traffic that looks like the operator's own implants and gives everyone else something harmless, so a defender who finds and blocks it has burned a cheap relay while the server behind it keeps running. The ORB networks described in the [network chapter](/layers/network/) are the industrial version of the same idea, shared across several groups.
+
+Domain fronting went further by borrowing a content delivery network's name. The outer layers of a connection, the DNS lookup and the TLS server name, named an innocuous site on the CDN, while the encrypted HTTP request inside asked for a different one. Censorship-circumvention tools used it, and so did malware operators. In April 2018 Google told Signal it was making internal changes that would stop domain fronting from working at all, and Amazon warned Signal that it would suspend its CloudFront account if it used other companies' domains without permission.<Cite id="infra-signal-letter" />
+
+The most common form today is simply to use a legitimate service as the channel. MITRE ATT&CK lists this as technique T1102, with examples that relay commands through the Telegram API, pull payloads from Discord, or use GitHub, Dropbox, Google Drive and OneDrive.<Cite id="infra-t1102" /> In 2025 Google's threat intelligence group described APT41 malware that wrote its encrypted output into zero-minute Google Calendar events and read commands from events on fixed dates.<Cite id="infra-apt41-gtig" /> Since February 2024, a criminal group has delivered remote-access trojans through free, account-less Cloudflare tunnels on random `trycloudflare.com` subdomains, which keeps the origin server behind Cloudflare and lets it make only outbound connections.<Cite id="infra-trycloudflare-proofpoint" />
+
+<Fig caption="Two ways to keep the command server out of view. Each row is one design; the record under each hop is what that party can read. The victim's defender sees only the first hop; the party that can see the operator is the provider holding the account." size="wide">
+  <InfraC2Path lang="en" />
+</Fig>
+
+The figure also shows the cost. Every one of these designs adds a company whose records describe the operator's account. A redirector is leased, a CDN account is opened, a calendar belongs to a Google account. In the APT41 case, Google took down the attacker-controlled calendars and terminated the Workspace projects behind them.<Cite id="infra-apt41-gtig" />
+
+## What registration still records
+
+Until 2018, a domain's public WHOIS record often listed the registrant's name, email and phone, and analysts pivoted from one malicious domain to every other domain registered with the same email. ICANN's Temporary Specification, effective 25 May 2018 alongside the GDPR, required registrars to redact personal data from public WHOIS. The registrars still collect it and must give "reasonable access" to parties with a legitimate interest.<Cite id="infra-icann-tempspec" /> The data moved from public to on-request; it did not disappear.
+
+Other public records filled part of the gap. Certificate Transparency requires publicly trusted TLS certificates to be logged "in a manner that allows anyone to audit certification authority (CA) activity", so a certificate requested for a phishing or command domain becomes searchable soon after it is issued.<Cite id="infra-ct-rfc9162" /> Servers also have their own fingerprints. JARM, published by Salesforce in 2020, records how a server answers ten specially crafted TLS handshakes; in its authors' tests, most Trickbot command servers and most Cobalt Strike servers listening on port 443 shared a fingerprint not seen among popular websites.<Cite id="infra-jarm" /> Each of these turns one known server into a query for its siblings.
+
+## Where it gives way
+
+Infrastructure fails in three recurring ways.
+
+**The server is seized, and it remembers.** In February 2024 the UK National Crime Agency announced that it had taken control of LockBit's primary administration environment and its leak site, obtained the platform's source code and more than 1,000 decryption keys, and found data belonging to victims who had already paid.<Cite id="attr-nca-cronos" /> A panel built to manage affiliates also documents them ([case](/cases/#lockbitsupp)). Playpen ran from a server at a hosting facility in North Carolina; after its administrator's arrest in February 2015, the FBI ran the site for two weeks to identify its users ([case](/cases/#playpen)).<Cite id="case-playpen-doj" /><Cite id="case-playpen-fbi" /> How investigators first found the Freedom Hosting server in France has never been disclosed in detail, which is a reminder that the public record of a case is often incomplete ([case](/cases/#freedom-hosting)).<Cite id="case-fh-mittr" />
+
+**The provider's records name a customer.** In the Silk Road 2.0 complaint, the FBI identified a server abroad in May 2014; the hosting provider's records showed it was controlled by someone using the email address <span class="leak">blake@benthall.net</span> ([case](/cases/#silk-road-2)).<Cite id="case-sr2-krebs" /> The site ran over Tor, but the server was still rented by a person with an account.
+
+**Infrastructure is reused across operations.** Resources cost money and time, so operators share them, and sharing links personas that were meant to look unrelated. The 2018 US indictment of twelve GRU officers alleges that the "Guccifer 2.0" and DCLeaks personas operated "using overlapping computer infrastructure and financing". The same pool of bitcoin paid for a VPN account later used to log in to the @Guccifer_2 Twitter account and for a server in Malaysia that hosted dcleaks.com. On the day of Guccifer 2.0's first post, the conspirators were logged into a Moscow server managed by GRU Unit 74455 and searched for phrases that appeared in that post.<Cite id="case-g2-indictment" />
+
+<Fig caption="The overlaps alleged in the 2018 GRU indictment, drawn as the graph an analyst builds. Two personas that claimed to be unrelated meet at a shared payment source and at a server tied to a GRU unit. Magenta edges are the links that tie the personas to the organisation." size="wide">
+  <InfraOverlap lang="en" />
+</Fig>
+
+The same logic drives day-to-day threat intelligence. A new domain is checked against certificates, name servers, hosting accounts and server fingerprints of earlier ones, and a single shared element can tie a fresh campaign to an old one ([case](/cases/#guccifer2)). Which group stands behind that cluster is a separate question, taken up in the [attribution chapter](/layers/attribution/).
+
+## Common misconceptions
+
+- **"Bulletproof hosting can't be touched."** It resists abuse emails, not raids or sanctions. CyberBunker's operators were convicted, and Zservers and Aeza were cut off by sanctions.<Cite id="infra-cyberbunker-dcd" /><Cite id="infra-zservers-treasury" /><Cite id="infra-aeza-treasury" />
+- **"Blocking the C2 IP stops the malware."** With fast flux or a redirector layer, the blocked address is the cheapest part of the system.<Cite id="infra-fastflux-cisa" />
+- **"Traffic to Google or Cloudflare is safe traffic."** Calendar events and free tunnels have both carried command traffic.<Cite id="infra-apt41-gtig" /><Cite id="infra-trycloudflare-proofpoint" />
+- **"Redacted WHOIS means the registrant is unknown."** The registrar still holds the data and must provide access for legitimate requests.<Cite id="infra-icann-tempspec" />
+- **"A server reached only through Tor can't be traced to its owner."** The Silk Road 2.0 server was found and its hosting account named a real email address.<Cite id="case-sr2-krebs" />

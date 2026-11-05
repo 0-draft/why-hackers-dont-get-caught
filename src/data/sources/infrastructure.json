@@ -1,0 +1,90 @@
+[
+  {
+    "id": "infra-fastflux-cisa",
+    "title": "Fast Flux: a national security threat (AA25-093A)",
+    "publisher": "NSA, CISA, FBI, ASD's ACSC, CCCS and NCSC-NZ",
+    "date": "2025-04-03",
+    "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-093a",
+    "kind": "primary"
+  },
+  {
+    "id": "infra-cyberbunker-dcd",
+    "title": "German court convicts eight over illegal bulletproof data center in former NATO bunker",
+    "publisher": "DatacenterDynamics",
+    "date": "2021-12-13",
+    "url": "https://www.datacenterdynamics.com/en/news/german-court-convicts-eight-over-illegal-bulletproof-data-center-in-former-nato-bunker/",
+    "kind": "press"
+  },
+  {
+    "id": "infra-zservers-treasury",
+    "title": "United States, Australia, and the United Kingdom jointly sanction key infrastructure that enables ransomware attacks",
+    "publisher": "US Department of the Treasury",
+    "date": "2025-02-11",
+    "url": "https://home.treasury.gov/news/press-releases/sb0018",
+    "kind": "primary"
+  },
+  {
+    "id": "infra-aeza-treasury",
+    "title": "Treasury sanctions global bulletproof hosting service enabling cybercriminals and technology theft",
+    "publisher": "US Department of the Treasury",
+    "date": "2025-07-01",
+    "url": "https://home.treasury.gov/news/press-releases/sb0185",
+    "kind": "primary"
+  },
+  {
+    "id": "infra-signal-letter",
+    "title": "A letter from Amazon",
+    "publisher": "Signal (blog)",
+    "date": "2018-05-01",
+    "url": "https://signal.org/blog/looking-back-on-the-front/",
+    "kind": "primary"
+  },
+  {
+    "id": "infra-t1102",
+    "title": "Web Service, Technique T1102",
+    "publisher": "MITRE ATT&CK",
+    "date": "2026",
+    "url": "https://attack.mitre.org/techniques/T1102/",
+    "kind": "reference"
+  },
+  {
+    "id": "infra-apt41-gtig",
+    "title": "Mark your calendar: APT41 innovative tactics",
+    "publisher": "Google Threat Intelligence Group",
+    "date": "2025-05-29",
+    "url": "https://cloud.google.com/blog/topics/threat-intelligence/apt41-innovative-tactics",
+    "kind": "report"
+  },
+  {
+    "id": "infra-trycloudflare-proofpoint",
+    "title": "Threat actor abuses Cloudflare tunnels to deliver RATs",
+    "publisher": "Proofpoint",
+    "date": "2024-08-01",
+    "url": "https://www.proofpoint.com/us/blog/threat-insight/threat-actor-abuses-cloudflare-tunnels-deliver-rats",
+    "kind": "report"
+  },
+  {
+    "id": "infra-icann-tempspec",
+    "title": "Temporary Specification for gTLD Registration Data",
+    "publisher": "ICANN",
+    "date": "2018-05-17",
+    "url": "https://www.icann.org/resources/pages/gtld-registration-data-specs-en",
+    "kind": "primary"
+  },
+  {
+    "id": "infra-ct-rfc9162",
+    "title": "RFC 9162: Certificate Transparency Version 2.0",
+    "publisher": "IETF",
+    "date": "2021-12",
+    "url": "https://www.rfc-editor.org/rfc/rfc9162.html",
+    "kind": "primary"
+  },
+  {
+    "id": "infra-jarm",
+    "title": "Easily identify malicious servers on the internet with JARM",
+    "publisher": "Salesforce Engineering",
+    "date": "2020-11-17",
+    "url": "https://engineering.salesforce.com/easily-identify-malicious-servers-on-the-internet-with-jarm-e095edac525a/",
+    "kind": "report"
+  }
+]
