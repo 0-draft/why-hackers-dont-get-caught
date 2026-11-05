@@ -1,6 +1,6 @@
-# Brief: writing layer chapters for weakest-layer
+# Brief: writing layer chapters for why-hackers-dont-get-caught
 
-weakest-layer (~/tokumei checkout) is a bilingual static Astro 7 site (English at `/`, Japanese at `/ja/`) that explains how attackers hide who they are, layer by layer, and which layer actually gave way in documented cases. Audience: defenders, students, curious engineers. The owner wants it researched to the bone, visually obvious for beginners and still worth reading for experts, and it must not look or read AI-generated.
+why-hackers-dont-get-caught (~/tokumei checkout) is a bilingual static Astro 7 site (English at `/`, Japanese at `/ja/`) that explains how attackers hide who they are, layer by layer, and which layer actually gave way in documented cases. Audience: defenders, students, curious engineers. The owner wants it researched to the bone, visually obvious for beginners and still worth reading for experts, and it must not look or read AI-generated.
 
 Read first: `research/design.md` (visual system), `src/data/layers.ts` (the seven layers and their one-liners), `src/components/Fig.astro`, `src/components/Cite.astro`, the `.dg` figure classes at the end of `src/styles/global.css`, and your research file(s) in `research/`.
 

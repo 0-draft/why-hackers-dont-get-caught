@@ -18,9 +18,10 @@ const L = (p: string) => localePath(lang, p);
         lang === "en" ? (
           <>
             <p class="lede">
-              Weakest layer takes apart how people who attack networks hide who they are, one layer at a time, and
-              checks each layer against cases where investigators got through. The name is the finding: in every case
-              here, one layer gave way while the others held.
+              The question in the title is the one people ask after every big breach. The short answer: some attackers
+              are never identified, and many who are identified live where no court will hand them over. The ones who
+              are caught usually lost one layer of their anonymity, or stepped within reach. This site takes the layers
+              apart and checks each one against cases where investigators got through.
             </p>
             <h2>What it covers, and what it does not</h2>
             <p>
@@ -56,15 +57,14 @@ const L = (p: string) => localePath(lang, p);
             <h2>Corrections</h2>
             <p>
               Found an error or a dead source? Open an issue on{" "}
-              <a href="https://github.com/0-draft/weakest-layer/issues">GitHub</a> with the page and the source that
+              <a href="https://github.com/0-draft/why-hackers-dont-get-caught/issues">GitHub</a> with the page and the source that
               contradicts it. The full source list is on the <a href={L("/sources/")}>sources page</a>.
             </p>
           </>
         ) : (
           <>
             <p class="lede">
-              weakest layer
-              は、ネットワークを攻撃する人間がどうやって正体を隠しているのかを層ごとに分解し、実際に捜査側が突破した事例と突き合わせるサイトだ。名前がそのまま結論で、ここに載せた事例はどれも、ほかの層が持ちこたえるなか一枚だけが破れている。
+              題名の問いは、大きな侵害事件のたびに誰もが口にするものだ。短く答えるなら、正体が割れない攻撃者もいるし、割れても身柄を引き渡さない国にいる攻撃者も多い。捕まる者はたいてい匿名性の層を一枚失ったか、手の届く場所へ出てきている。このサイトはその層を一枚ずつ分解し、捜査側が突破した事例と突き合わせる。
             </p>
             <h2>扱うもの、扱わないもの</h2>
             <p>
@@ -89,7 +89,7 @@ const L = (p: string) => localePath(lang, p);
             </p>
             <h2>訂正</h2>
             <p>
-              誤りやリンク切れを見つけたら、<a href="https://github.com/0-draft/weakest-layer/issues">GitHub</a>
+              誤りやリンク切れを見つけたら、<a href="https://github.com/0-draft/why-hackers-dont-get-caught/issues">GitHub</a>
               の issue に、該当ページと反証する出典を書いてほしい。出典の一覧は<a href={L("/sources/")}>出典ページ</a>にある。
             </p>
           </>

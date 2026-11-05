@@ -30,7 +30,7 @@ jobs:
           args: >-
             --no-progress --max-retries 3 --timeout 30 --max-concurrency 4
             --accept 200..=299,401,403,429
-            --user-agent "Mozilla/5.0 (X11; Linux x86_64) weakest-layer-source-check"
+            --user-agent "Mozilla/5.0 (X11; Linux x86_64) why-hackers-dont-get-caught-source-check"
             'src/data/sources/*.json'
           output: lychee-report.md
           fail: false

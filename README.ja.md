@@ -1,8 +1,8 @@
-# weakest-layer
+# why-hackers-dont-get-caught
 
 [English](README.md)
 
-攻撃者はどうやって正体を隠すのか。層ごとに分解し、それぞれの事例で実際にどの層が破れたかを図解する。英語と日本語のバイリンガルで、すべての主張に出典を付けている。
+なぜハッカーは捕まらないのか。攻撃者が正体を隠す仕組みを層ごとに分解し、正体が割れても手が届かない理由と、捕まった者がどの層で破れたかを図解する。英語と日本語のバイリンガルで、すべての主張に出典を付けている。
 
 ## 中身
 
@@ -51,7 +51,7 @@ pnpm build          # dist/ に静的サイトを出力
 
 `ci.yml` は Biome、markdownlint、astro check、カバレッジ付き Vitest、データ検証、`pnpm audit`、容量予算付きビルド、Playwright + axe、オフラインの内部リンク検査、ワークフローへの actionlint + zizmor を実行する。`codeql.yml` は JavaScript/TypeScript とワークフローを解析する。`claude-review.yml` は CI では拾えないもの (出典と主張の一致、扱う範囲、英日の意味のずれ、図) を PR ごとにレビューする。`CLAUDE_CODE_OAUTH_TOKEN` シークレットが必要。`sources.yml` は毎週すべての出典 URL を確認し、リンク切れを 1 つの issue にまとめる。Dependabot が npm パッケージとアクションを毎週更新する。
 
-`CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が設定されていれば、`main` から Cloudflare Pages にデプロイする。未設定ならデプロイはスキップされる。
+CI を通った `main` への push は、GitHub Pages のベースパス (`BASE_PATH=/why-hackers-dont-get-caught/`) 付きでビルドし、内部リンクがすべてそのベースを含むことを確かめてから <https://0-draft.github.io/why-hackers-dont-get-caught/> にデプロイする。
 
 ## 訂正
 

@@ -1,8 +1,8 @@
-# weakest-layer
+# why-hackers-dont-get-caught
 
 [日本語](README.ja.md)
 
-How attackers hide who they are, layer by layer, and the single layer that gave each of them away. A bilingual (English, Japanese) visual explainer with a source on every claim.
+Why hackers don’t get caught: how attackers hide who they are, layer by layer, why so many who are identified stay out of reach, and the single layer that gave away the ones who were caught. A bilingual (English, Japanese) visual explainer with a source on every claim.
 
 ## What is in it
 
@@ -51,7 +51,7 @@ pnpm build          # static site in dist/
 
 `ci.yml` runs Biome, markdownlint, astro check, Vitest with coverage, the data validator, `pnpm audit`, the build with a size budget, Playwright + axe, an offline internal link check, and actionlint + zizmor on the workflows. `codeql.yml` scans JavaScript/TypeScript and the workflows. `claude-review.yml` reviews pull requests for what CI cannot see (claims vs sources, scope, EN/JA meaning, figures); it needs a `CLAUDE_CODE_OAUTH_TOKEN` secret. `sources.yml` checks every source URL weekly and keeps one issue open for dead ones. Dependabot updates npm packages and actions weekly.
 
-Deploys go to Cloudflare Pages from `main` when `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are set; without them the deploy job is skipped.
+Every push to `main` that passes CI is built with the GitHub Pages base path (`BASE_PATH=/why-hackers-dont-get-caught/`), checked so that every internal link carries that base, and deployed to <https://0-draft.github.io/why-hackers-dont-get-caught/>.
 
 ## Corrections
 

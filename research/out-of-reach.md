@@ -1,6 +1,6 @@
 # Out of reach: why most cyber culprits are never caught
 
-Research notes for the "weakest layer" page answering *"Why don't the culprits get caught?"*
+Research notes for the site's page answering *"Why don't the culprits get caught?"*
 Compiled 2026-11-06. Each claim carries an inline source. **UNVERIFIED** marks anything I could not confirm against a primary or reputable source.
 
 ## Bottom line (thesis check)
