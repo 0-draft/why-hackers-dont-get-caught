@@ -1,0 +1,347 @@
+[
+  {
+    "id": "silk-road",
+    "name": { "en": "Ross Ulbricht", "ja": "ロス・ウルブリヒト" },
+    "alias": { "en": "Silk Road / \"Dread Pirate Roberts\"", "ja": "Silk Road／「Dread Pirate Roberts」" },
+    "year": 2013,
+    "used": ["network", "identity", "money", "infrastructure"],
+    "failed": "identity",
+    "mechanism": {
+      "en": "An IRS special agent searched for the earliest mentions of Silk Road and found a user called \"altoid\" promoting it on Bitcoin forums in January 2011. Later posts under the same handle gave rossulbricht@gmail.com as a contact address. A search warrant then brought the Gmail account's contents from Google. The pseudonym on the market was never broken directly; an old handle, used before the operation was locked down, tied it to a real-name address.",
+      "ja": "IRS の特別捜査官が Silk Road への最も古い言及を検索し、2011年1月に Bitcoin 系フォーラムで宣伝していた「altoid」というユーザーにたどり着いた。同じハンドルの後の投稿には連絡先として rossulbricht@gmail.com が書かれていた。捜索令状で Google からこの Gmail アカウントの中身を入手した。マーケット上の偽名そのものが破られたのではない。運営が慎重になる前の古いハンドルが、実名のアドレスとつながっていたのである。"
+    },
+    "outcome": {
+      "en": "Indicted in February 2014 and convicted on all seven counts on 5 February 2015. Sentenced on 29 May 2015 to life in prison and ordered to forfeit about $184 million. President Trump granted him a full pardon on 21 January 2025.",
+      "ja": "2014年2月に起訴され、2015年2月5日に7つの罪状すべてで有罪となった。2015年5月29日に終身刑と約1億8,400万ドルの没収を言い渡された。2025年1月21日、トランプ大統領が完全な恩赦を与えた。"
+    },
+    "disputed": {
+      "en": "How the FBI found the Silk Road server is contested. Government filings said its real IP address leaked through the login page's CAPTCHA. The defence, and researcher Nicholas Weaver after reading the server configuration and logs the government produced, said the server only accepted connections from the Tor front end and that the logs showed agents fetching a phpMyAdmin page, not a CAPTCHA.",
+      "ja": "FBI が Silk Road のサーバをどう見つけたかには異論がある。政府側の書面では、ログインページの CAPTCHA から本当の IP アドレスが漏れたとされた。弁護側と、政府が開示したサーバ設定とログを分析した研究者 Nicholas Weaver は、サーバは Tor の前段からの接続しか受け付けない設定であり、ログに残っているのは CAPTCHA ではなく phpMyAdmin のページへのアクセスだと指摘した。"
+    },
+    "sources": ["case-sr-alford", "case-sr-indictment", "case-sr-sentence", "case-sr-krebs-captcha", "case-sr-pardon"]
+  },
+  {
+    "id": "sabu",
+    "name": { "en": "Hector Xavier Monsegur", "ja": "ヘクター・ザビエル・モンセグール" },
+    "alias": { "en": "\"Sabu\" / LulzSec", "ja": "「Sabu」／LulzSec" },
+    "year": 2011,
+    "used": ["network", "identity"],
+    "failed": "network",
+    "mechanism": {
+      "en": "According to Fox News, which broke the story, Sabu normally hid his address behind proxies but once logged into an IRC server from his own IP address, which let the FBI tie the handle to him. He was arrested on 7 June 2011 and pleaded guilty on 15 August 2011. He then worked as an informant, and prosecutors credited his cooperation with identifying other LulzSec and AntiSec members.",
+      "ja": "最初に報じた Fox News によれば、Sabu は普段プロキシで自分のアドレスを隠していたが、一度だけ自宅の IP アドレスのまま IRC サーバにログインした。これで FBI はハンドルと本人を結び付けたという。2011年6月7日に逮捕され、同年8月15日に有罪を認めた。その後は情報提供者として動き、検察は彼の協力が LulzSec や AntiSec の他のメンバーの特定につながったと評価した。"
+    },
+    "outcome": {
+      "en": "Sentenced on 27 May 2014 to time served (about seven months) plus one year of supervised release, with the judge citing his \"extraordinary cooperation\".",
+      "ja": "2014年5月27日、既に勾留されていた期間（約7か月）と1年の保護観察の判決を受けた。裁判官は彼の「並外れた協力」を理由に挙げた。"
+    },
+    "disputed": {
+      "en": "The single-IRC-login account comes from one Fox News report without a named source and is not in the charging documents. Monsegur says he always connected through hacked machines and was instead identified from an older dox posted about him on EFnet IRC, which agents later obtained. On his account the failure was identity, not network.",
+      "ja": "IRC への1回のログインという話は、情報源を明かさない Fox News の記事1本に由来し、起訴関係の文書には出てこない。モンセグール本人は、常に乗っ取ったマシン経由で接続していたと主張している。本人の説明では、身元がばれたのは以前に EFnet の IRC でさらされた個人情報を捜査官が入手したからである。この説明に従えば、破れた層はネットワークではなく ID だ。"
+    },
+    "sources": ["case-sabu-fox", "case-sabu-register", "case-sabu-sdny", "case-sabu-sentence"]
+  },
+  {
+    "id": "hammond",
+    "name": { "en": "Jeremy Hammond", "ja": "ジェレミー・ハモンド" },
+    "alias": { "en": "\"Anarchaos\" / \"sup_g\" / AntiSec", "ja": "「Anarchaos」／「sup_g」／AntiSec" },
+    "year": 2012,
+    "used": ["network", "identity"],
+    "failed": "people",
+    "mechanism": {
+      "en": "Hammond planned and discussed the December 2011 Stratfor hack in chats with Sabu, who was already working for the FBI. In those chats he mentioned past arrests at protests and time in federal prison, and the FBI agent on the case matched those details against arrest records to narrow the suspects to him. Sabu also tied the handle \"sup_g\" to \"Anarchaos\", an alias already linked to Hammond.",
+      "ja": "ハモンドは2011年12月の Stratfor へのハッキングを、すでに FBI の協力者になっていた Sabu とのチャットで計画し、話し合っていた。チャットの中で彼は過去のデモでの逮捕歴や連邦刑務所での服役に触れており、担当の FBI 捜査官はそれを逮捕記録と照合して容疑者を彼に絞り込んだ。Sabu はさらに、ハンドル「sup_g」と、すでにハモンドに結び付いていた別名「Anarchaos」をつなげた。"
+    },
+    "outcome": {
+      "en": "Arrested in Chicago in March 2012. Pleaded guilty in May 2013 to one count of conspiracy to commit computer hacking and was sentenced on 15 November 2013 to 10 years in prison.",
+      "ja": "2012年3月にシカゴで逮捕された。2013年5月にコンピュータへの不正侵入の共謀1件で有罪を認め、同年11月15日に禁錮10年を言い渡された。"
+    },
+    "sources": ["case-hammond-computerworld", "case-sabu-sdny", "case-hammond-sentence"]
+  },
+  {
+    "id": "eldo-kim",
+    "name": { "en": "Eldo Kim", "ja": "エルド・キム" },
+    "alias": { "en": "Harvard bomb hoax", "ja": "ハーバード大学爆破予告" },
+    "year": 2013,
+    "used": ["network", "identity"],
+    "failed": "network",
+    "mechanism": {
+      "en": "The threats were sent from a disposable mail service over Tor, so the messages themselves carried no usable address. But Harvard's wireless network required users to log in, and the university could tell that Kim had connected to Tor from it in the hours before the emails arrived. Tor hid what he did, not that he was using Tor on a small, logged network at that moment. Interviewed by the FBI and Harvard police, he admitted sending the emails to avoid a final exam.",
+      "ja": "脅迫メールは使い捨てメールサービスから Tor 経由で送られており、メール自体には使える IP アドレスが残っていなかった。しかしハーバードの無線 LAN はログインが必要で、大学はメール着信前の数時間にキムがその無線 LAN から Tor に接続していたことを割り出せた。Tor が隠したのは中身であり、その時間に小さく記録の残るネットワークで Tor を使っていたという事実は隠せなかった。FBI と大学警察の聴取で、彼は期末試験を逃れるためにメールを送ったと認めた。"
+    },
+    "outcome": {
+      "en": "Charged by complaint in December 2013. In October 2014 prosecutors agreed to an 18-month pretrial diversion with four months of home confinement, 750 hours of community service and restitution, after which the charge would be dismissed.",
+      "ja": "2013年12月に訴追された。2014年10月、検察は18か月の起訴猶予プログラム（自宅拘禁4か月、社会奉仕750時間、損害賠償）に同意し、履行すれば起訴を取り下げることになった。"
+    },
+    "sources": ["case-kim-complaint", "case-kim-cnn", "case-kim-diversion"]
+  },
+  {
+    "id": "freedom-hosting",
+    "name": { "en": "Eric Eoin Marques", "ja": "エリック・エオイン・マルケス" },
+    "alias": { "en": "Freedom Hosting", "ja": "Freedom Hosting" },
+    "year": 2013,
+    "used": ["network", "infrastructure", "money"],
+    "failed": "infrastructure",
+    "mechanism": {
+      "en": "Investigators located a server in France behind the Tor hidden-service host; the government has never explained how. US authorities alleged that the server space was rented from a French company, paid for with a debit card on a US bank account and billed to a private mailbox near Las Vegas, which pointed at Marques. After taking control of the service the FBI served code to visitors that exploited a Firefox flaw to reveal their real addresses, an attack on the users' devices rather than on Marques.",
+      "ja": "捜査機関は Tor の秘匿サービスを束ねるこのホスティングの背後にあるフランスのサーバを突き止めたが、方法は今も明かされていない。米当局によれば、サーバはフランスの会社から借りられ、米国の銀行口座のデビットカードで支払われ、請求先はラスベガス近くの私設私書箱だった。これがマルケスを指した。FBI はサービスを掌握したあと、訪問者に Firefox の脆弱性を突くコードを配り、本当のアドレスを送らせた。これはマルケスではなく利用者の端末に対する攻撃である。"
+    },
+    "outcome": {
+      "en": "Arrested in Dublin in 2013 and extradited to Maryland in March 2019. Pleaded guilty in February 2020 to conspiracy to advertise child sexual abuse material and was sentenced in September 2021 to 27 years in prison.",
+      "ja": "2013年にダブリンで逮捕され、2019年3月にメリーランド州へ引き渡された。2020年2月に児童性的虐待コンテンツの広告の共謀で有罪を認め、2021年9月に禁錮27年を言い渡された。"
+    },
+    "sources": ["case-fh-mittr", "case-fh-rte", "case-fh-sentence"]
+  },
+  {
+    "id": "alphabay",
+    "name": { "en": "Alexandre Cazes", "ja": "アレクサンドル・カーズ" },
+    "alias": { "en": "\"Alpha02\" / AlphaBay", "ja": "「Alpha02」／AlphaBay" },
+    "year": 2017,
+    "used": ["network", "identity", "money", "infrastructure"],
+    "failed": "identity",
+    "mechanism": {
+      "en": "For a short period after the forum launched in December 2014, AlphaBay's welcome and password-recovery emails carried Cazes's personal Hotmail address, pimp_alex_91@hotmail.com, in the header. Investigators learned this in December 2016 and followed the address to an older tech-forum profile under the handle Alpha02, to PayPal accounts in his name and to his company. When Thai police arrested him in Bangkok on 5 July 2017, his laptop was open, unencrypted and logged in to AlphaBay as admin.",
+      "ja": "2014年12月にフォーラムが始まってからの短い期間、AlphaBay の歓迎メールとパスワード再設定メールのヘッダに、カーズの個人の Hotmail アドレス pimp_alex_91@hotmail.com が入っていた。捜査機関は2016年12月にこれを知り、そのアドレスから Alpha02 名義の古い技術系フォーラムのプロフィール、本人名義の PayPal アカウント、彼の会社へとたどった。2017年7月5日にタイ警察がバンコクで逮捕したとき、ノートPC は開いたまま暗号化されておらず、AlphaBay に管理者としてログインした状態だった。"
+    },
+    "outcome": {
+      "en": "Died in Thai custody on 12 July 2017, an apparent suicide. The criminal case was dismissed after his death and his assets were pursued through civil forfeiture in the Eastern District of California.",
+      "ja": "2017年7月12日、タイで勾留中に死亡した（自殺とみられる）。死亡により刑事事件は棄却され、資産はカリフォルニア州東部地区での民事没収で追及された。"
+    },
+    "sources": ["case-ab-forfeiture", "case-ab-bleeping", "case-ab-doj"]
+  },
+  {
+    "id": "silk-road-2",
+    "name": { "en": "Blake Benthall", "ja": "ブレイク・ベンサル" },
+    "alias": { "en": "\"Defcon\" / Silk Road 2.0", "ja": "「Defcon」／Silk Road 2.0" },
+    "year": 2014,
+    "used": ["network", "identity", "money", "infrastructure"],
+    "failed": "infrastructure",
+    "mechanism": {
+      "en": "In May 2014 the FBI identified a server in another country that was hosting Silk Road 2.0; the complaint does not say how. The hosting provider's records showed the server was controlled by someone using the address blake@benthall.net. Separately, an HSI undercover agent had joined the site's support staff and had access to the admin-only areas, which gave investigators a view from inside the operation.",
+      "ja": "2014年5月、FBI は Silk Road 2.0 をホストしている国外のサーバを特定した。方法は訴状に書かれていない。ホスティング事業者の記録では、そのサーバは blake@benthall.net というアドレスを使う人物が管理していた。これとは別に、HSI の潜入捜査官がサイトのサポートスタッフに入り込み、管理者専用の領域にアクセスしていた。捜査側は運営の内側からも様子を見ていたことになる。"
+    },
+    "outcome": {
+      "en": "Arrested in San Francisco on 6 November 2014. He cooperated; a DOJ agreement reported in May 2019 said he would not be further prosecuted for running the site except for criminal tax violations. No public sentencing record was found.",
+      "ja": "2014年11月6日にサンフランシスコで逮捕された。捜査に協力し、2019年5月に報じられた司法省との合意では、サイト運営については税法違反を除いて追加の訴追をしないとされた。公開された量刑の記録は見つからなかった。"
+    },
+    "sources": ["case-sr2-sdny", "case-sr2-krebs", "case-sr2-vice"]
+  },
+  {
+    "id": "playpen",
+    "name": { "en": "Steven W. Chase", "ja": "スティーブン・W・チェイス" },
+    "alias": { "en": "Playpen", "ja": "Playpen" },
+    "year": 2015,
+    "used": ["network", "identity", "infrastructure"],
+    "failed": "infrastructure",
+    "mechanism": {
+      "en": "In December 2014 a foreign law-enforcement agency told the FBI that the Tor hidden service's real IP address was visible and resolved to the United States. The FBI seized the server at a hosting facility in North Carolina, served warrants on email accounts and followed the payments, which led to Chase. The FBI then ran the site for about two weeks and used a \"network investigative technique\", an exploit against visitors' browsers, to collect their real addresses.",
+      "ja": "2014年12月、海外の捜査機関が FBI に、この Tor 秘匿サービスの本当の IP アドレスが見えており米国内を指していると伝えた。FBI はノースカロライナ州のホスティング施設でサーバを押収し、メールアカウントへの令状を取り、支払いを追ってチェイスに行き着いた。その後 FBI はサイトを約2週間運営し、訪問者のブラウザを突くエクスプロイト（「ネットワーク捜査手法」と呼ばれた）で利用者の本当のアドレスを集めた。"
+    },
+    "outcome": {
+      "en": "Arrested in February 2015 and convicted by a jury of engaging in a child exploitation enterprise. Sentenced on 1 May 2017 to 30 years in prison; two co-administrators received 20 years each.",
+      "ja": "2015年2月に逮捕され、陪審により児童搾取事業への関与で有罪となった。2017年5月1日に禁錮30年を言い渡された。共同管理者2人はそれぞれ禁錮20年だった。"
+    },
+    "sources": ["case-playpen-fbi", "case-playpen-doj"]
+  },
+  {
+    "id": "ferizi",
+    "name": { "en": "Ardit Ferizi", "ja": "アルディト・フェリジ" },
+    "alias": { "en": "\"Th3Dir3ctorY\"", "ja": "「Th3Dir3ctorY」" },
+    "year": 2015,
+    "used": ["identity"],
+    "failed": "network",
+    "mechanism": {
+      "en": "The image of the victim company's server showed the SQL injection coming from 210.186.111.14, an address at a Malaysian ISP. Records from Twitter and Facebook showed the same address logging into his @Th3Dir3ctorY account and his personal Facebook account during the same days in July 2015. He had also left an administrator account named \"KHS\" on the server, the initials of his Kosova Hacker's Security group.",
+      "ja": "被害企業のサーバのイメージを調べると、SQL インジェクションはマレーシアの ISP のアドレス 210.186.111.14 から来ていた。Twitter と Facebook の記録では、2015年7月の同じ時期に、同じアドレスから @Th3Dir3ctorY のアカウントと本人の Facebook アカウントにログインしていた。サーバには、彼のグループ Kosova Hacker's Security の頭文字である「KHS」という管理者アカウントも残っていた。"
+    },
+    "outcome": {
+      "en": "Detained in Malaysia on a US provisional warrant, extradited in January 2016, pleaded guilty in June 2016 and sentenced on 23 September 2016 to 20 years for providing material support to ISIL and unauthorized access.",
+      "ja": "米国の仮拘禁令状でマレーシアで身柄を拘束され、2016年1月に引き渡された。同年6月に有罪を認め、9月23日に ISIL への物質的支援と不正アクセスで禁錮20年を言い渡された。"
+    },
+    "sources": ["case-ferizi-affidavit", "case-ferizi-sentence"]
+  },
+  {
+    "id": "guccifer2",
+    "name": { "en": "GRU Units 26165 and 74455", "ja": "GRU 第26165部隊・第74455部隊" },
+    "alias": { "en": "\"Guccifer 2.0\" / DCLeaks", "ja": "「Guccifer 2.0」／DCLeaks" },
+    "year": 2018,
+    "used": ["identity", "network", "money", "infrastructure", "attribution"],
+    "failed": "infrastructure",
+    "mechanism": {
+      "en": "\"Guccifer 2.0\" presented itself as a lone Romanian hacker. The 2018 indictment instead ties it to GRU infrastructure: on 15 June 2016 the conspirators logged into a Moscow server managed by Unit 74455 and searched for English phrases that appeared in Guccifer 2.0's first post that day. The same pool of bitcoin paid for a VPN account later used to log into the @Guccifer_2 Twitter account and for the Malaysian server that hosted dcleaks.com.",
+      "ja": "「Guccifer 2.0」はルーマニアの単独ハッカーを名乗っていた。しかし2018年の起訴状は、これを GRU のインフラに結び付けている。2016年6月15日、共謀者らは第74455部隊が管理するモスクワのサーバにログインし、その日の Guccifer 2.0 の最初の投稿に出てくる英語の言い回しを検索していた。また、同じビットコインの資金プールから、のちに @Guccifer_2 の Twitter アカウントへのログインに使われた VPN アカウントと、dcleaks.com を置いたマレーシアのサーバの代金が払われていた。"
+    },
+    "outcome": {
+      "en": "Twelve GRU officers were indicted in the District of Columbia on 13 July 2018. None is in US custody.",
+      "ja": "2018年7月13日、GRU の将校12人がコロンビア特別区で起訴された。米国が身柄を確保した者はいない。"
+    },
+    "disputed": {
+      "en": "The often-repeated network slip, that the operator once forgot to turn on the VPN and left a Moscow IP address in a US social media company's logs, comes from a single Daily Beast report based on an unnamed source. It is not in the indictment, and the indictment does not say how investigators obtained the activity on the Moscow server.",
+      "ja": "よく引かれる「一度 VPN を入れ忘れ、米国の SNS 企業のログにモスクワの IP アドレスを残した」というネットワーク層の失敗は、匿名の情報源に基づく Daily Beast の記事1本だけが根拠である。起訴状には書かれていない。起訴状は、モスクワのサーバ上の操作を捜査側がどう把握したかも説明していない。"
+    },
+    "sources": ["case-g2-indictment", "case-g2-dailybeast"]
+  },
+  {
+    "id": "welcome-to-video",
+    "name": { "en": "Son Jong-woo", "ja": "ソン・ジョンウ" },
+    "alias": { "en": "Welcome to Video", "ja": "Welcome to Video" },
+    "year": 2018,
+    "used": ["network", "money", "infrastructure"],
+    "failed": "money",
+    "mechanism": {
+      "en": "IRS-CI agents paid into the site's bitcoin addresses and followed the withdrawals to a wallet hosted at an exchange, which held Son's name, phone number and email address. The DOJ release credits bitcoin tracing with locating both the administrator and the server in South Korea. Press summaries of the indictment add that one page loaded files by the server's raw IP address instead of the onion address, which pointed to a Korea Telecom connection.",
+      "ja": "IRS-CI の捜査官はサイトのビットコインアドレスに送金し、引き出し先を追って取引所が預かるウォレットにたどり着いた。そこにはソンの名前、電話番号、メールアドレスが登録されていた。司法省の発表は、管理者と韓国内のサーバの両方を特定できたのはビットコインの追跡によるものだとしている。起訴状を紹介した報道によれば、あるページが onion アドレスではなくサーバの生の IP アドレスでファイルを読み込んでおり、それが Korea Telecom の回線を指していた。"
+    },
+    "outcome": {
+      "en": "Arrested in South Korea on 5 March 2018 and served 18 months there. Seoul High Court refused US extradition on 6 July 2020. In July 2022 a Korean court gave him two more years for concealing the proceeds. The US case led to charges against hundreds of site users worldwide.",
+      "ja": "2018年3月5日に韓国で逮捕され、韓国で1年6か月服役した。2020年7月6日、ソウル高裁は米国への引き渡しを認めなかった。2022年7月、韓国の裁判所は犯罪収益の隠匿で懲役2年を追加した。米国の捜査は、世界中の数百人の利用者の訴追につながった。"
+    },
+    "sources": ["case-wtv-doj", "case-wtv-secboulevard", "case-wtv-extradition", "case-wtv-laundering"]
+  },
+  {
+    "id": "twitter-2020",
+    "name": {
+      "en": "Graham Ivan Clark, Mason Sheppard and others",
+      "ja": "グラハム・アイヴァン・クラーク、メイソン・シェパードら"
+    },
+    "alias": { "en": "2020 Twitter hack", "ja": "2020年 Twitter 乗っ取り事件" },
+    "year": 2020,
+    "used": ["identity", "money", "network"],
+    "failed": "money",
+    "mechanism": {
+      "en": "IRS-CI analysts traced the scam's bitcoin. Coins sent from the \"Chaewon\" wallet to \"Kirk\" matched payment requests in their Discord chats, and the same wallet dealt heavily with Binance accounts; Binance and Coinbase then produced records including Mason Sheppard's driver's licence, date of birth and address. A leaked copy of the OGUsers forum database independently linked \"Chaewon\" to a second account through a shared IP address.",
+      "ja": "IRS-CI の分析官が詐欺で集まったビットコインを追跡した。「Chaewon」のウォレットから「Kirk」への送金は、Discord での支払い要求と時期が一致し、同じウォレットは Binance のアカウントと頻繁に取引していた。Binance と Coinbase が出した記録には、メイソン・シェパードの運転免許証、生年月日、住所が含まれていた。流出した OGUsers フォーラムのデータベースも、共通の IP アドレスを通じて「Chaewon」を別のアカウントに結び付けていた。"
+    },
+    "outcome": {
+      "en": "Charges were announced on 31 July 2020. Clark, 17 at the time, took a Florida plea in March 2021 for three years in juvenile prison and three years of probation. Joseph O'Connor (\"PlugwalkJoe\") was sentenced in New York on 23 June 2023 to five years.",
+      "ja": "2020年7月31日に訴追が発表された。当時17歳のクラークは2021年3月にフロリダ州で司法取引に応じ、少年刑務所3年と保護観察3年となった。ジョセフ・オコナー（「PlugwalkJoe」）は2023年6月23日にニューヨークで禁錮5年を言い渡された。"
+    },
+    "sources": ["case-tw-doj", "case-tw-chainalysis", "case-tw-clark", "case-tw-oconnor"]
+  },
+  {
+    "id": "bitfinex",
+    "name": { "en": "Ilya Lichtenstein and Heather Morgan", "ja": "イリヤ・リヒテンシュタイン、ヘザー・モーガン" },
+    "alias": { "en": "Bitfinex hack laundering", "ja": "Bitfinex ハッキング資金の洗浄" },
+    "year": 2022,
+    "used": ["money", "identity"],
+    "failed": "money",
+    "mechanism": {
+      "en": "Most of the roughly 120,000 stolen bitcoin sat in one wallet for years while smaller amounts were moved through chains of transactions, mixers and other currencies. Investigators followed the movements on the public ledger to accounts tied to the couple. A 2021 search warrant on Lichtenstein's US cloud storage account produced encrypted files; on 31 January 2022 agents decrypted one listing about 2,000 addresses with their private keys and seized about 94,600 BTC.",
+      "ja": "盗まれた約12万 BTC の大半は何年も1つのウォレットに置かれ、少額ずつ取引の連鎖、ミキサー、他の通貨を経て動かされた。捜査機関は公開台帳上の動きを追い、夫妻に結び付くアカウントにたどり着いた。2021年にリヒテンシュタインの米国のクラウドストレージに捜索令状を執行すると暗号化されたファイルが見つかった。2022年1月31日に捜査官がその1つを復号すると、約2,000のアドレスと秘密鍵の一覧があり、約94,600 BTC が押収された。"
+    },
+    "outcome": {
+      "en": "Both pleaded guilty in August 2023; Lichtenstein admitted to the 2016 hack itself. He was sentenced on 14 November 2024 to five years and Morgan to 18 months. Lichtenstein was released to home confinement under the First Step Act in January 2026.",
+      "ja": "2023年8月に2人とも有罪を認め、リヒテンシュタインは2016年のハッキング自体も認めた。2024年11月14日に彼は禁錮5年、モーガンは禁錮1年6か月を言い渡された。リヒテンシュタインは2026年1月、First Step Act により自宅拘禁に移された。"
+    },
+    "sources": ["case-bfx-sof", "case-bfx-sentence", "case-bfx-release"]
+  },
+  {
+    "id": "lapsus",
+    "name": { "en": "Arion Kurtaj", "ja": "アリオン・クルタイ" },
+    "alias": { "en": "\"White\" / Lapsus$", "ja": "「White」／Lapsus$" },
+    "year": 2022,
+    "used": ["identity", "network"],
+    "failed": "network",
+    "mechanism": {
+      "en": "Prosecutors told the court that investigators found Kurtaj and a co-defendant by resolving the IP addresses behind email and Telegram accounts the pair used to boast about their attacks. Separately, after he bought the doxing site Doxbin and leaked its data in January 2022, members of that community published a detailed dox of him, his family and his UK home. Whether police relied on it is not public. While on bail he kept hacking, including Rockstar Games through an Amazon Fire Stick on a hotel TV.",
+      "ja": "検察は法廷で、2人が攻撃を自慢するのに使っていたメールと Telegram のアカウントの IP アドレスを割り出して、クルタイと共犯者を特定したと説明した。これとは別に、彼が晒しサイト Doxbin を買い取って2022年1月にそのデータを流出させると、そのコミュニティが本人、家族、英国の自宅まで含む詳しい個人情報を公開した。警察がこれを使ったかどうかは公表されていない。保釈中も彼はハッキングを続け、ホテルのテレビにつないだ Amazon Fire Stick から Rockstar Games に侵入した。"
+    },
+    "outcome": {
+      "en": "Found unfit to stand trial; in August 2023 a jury found he had committed the acts, and in December 2023 he received an indefinite hospital order. In July 2026 BBC correspondent Joe Tidy reported he had been moved from the secure hospital to prison to await a criminal trial set for November 2026.",
+      "ja": "訴訟能力がないと判断され、2023年8月に陪審が行為の事実を認定し、同年12月に期限なしの病院収容命令を受けた。2026年7月、BBC の Joe Tidy 記者は彼が保安病院から刑務所に移され、2026年11月予定の刑事裁判を待っていると報じた。"
+    },
+    "sources": ["case-lapsus-record", "case-lapsus-krebs", "case-lapsus-retrial"]
+  },
+  {
+    "id": "wazawaka",
+    "name": { "en": "Mikhail Matveev", "ja": "ミハイル・マトヴェエフ" },
+    "alias": { "en": "\"Wazawaka\" / \"m1x\" / Babuk", "ja": "「Wazawaka」／「m1x」／Babuk" },
+    "year": 2022,
+    "used": ["identity", "network"],
+    "failed": "identity",
+    "mechanism": {
+      "en": "Brian Krebs connected the handle to Matveev through more than a decade of reused details in breach data and registration records. Wazawaka's forum accounts shared a small set of passwords and Yandex and Mail.ru addresses; one of those addresses registered a VKontakte account for Mikhail \"Mix\" Matveev and a domain originally registered to a Mikhail Matveyev in Abakan. The phone number on that VK account reappeared in another domain registration, and the ICQ number Wazawaka gave on the Exploit forum matched a 2009 account on a forum in the same region. US authorities named and charged him the following year.",
+      "ja": "Brian Krebs は、流出データと登録記録に10年以上残っていた使い回しから、このハンドルをマトヴェエフに結び付けた。Wazawaka のフォーラムアカウントは少数のパスワードと Yandex・Mail.ru のアドレスを共有していた。そのアドレスの1つは Mikhail \"Mix\" Matveev 名義の VKontakte アカウントと、もとはアバカンの Mikhail Matveyev 名義で登録されたドメインに使われていた。その VK アカウントの電話番号は別のドメイン登録にも現れ、Wazawaka が Exploit フォーラムで示した ICQ 番号は、同じ地域のフォーラムにあった2009年のアカウントと一致した。翌年、米当局が彼を名指しして起訴した。"
+    },
+    "outcome": {
+      "en": "Indictments in New Jersey and Washington, D.C. were unsealed on 16 May 2023, alongside US sanctions and a State Department reward of up to $10 million. He lives in Russia and is not in US custody.",
+      "ja": "2023年5月16日、ニュージャージー州とワシントン D.C. での起訴が公開され、米国の制裁と国務省の最大1,000万ドルの懸賞金も発表された。本人はロシアにおり、米国は身柄を確保していない。"
+    },
+    "sources": ["case-waz-krebs", "case-waz-doj"]
+  },
+  {
+    "id": "lockbitsupp",
+    "name": { "en": "Dmitry Khoroshev", "ja": "ドミトリー・ホロシェフ" },
+    "alias": { "en": "\"LockBitSupp\" / LockBit", "ja": "「LockBitSupp」／LockBit" },
+    "year": 2024,
+    "used": ["network", "identity", "money", "infrastructure"],
+    "failed": "infrastructure",
+    "mechanism": {
+      "en": "In February 2024 Operation Cronos, led by the NCA, infiltrated LockBit's network and took control of its services, including the leak site. In May the NCA said that investigation had uncovered LockBitSupp's real identity, without explaining how. Separate open-source work by Brian Krebs traced old emails, reused passwords and an ICQ number to Khoroshev's earlier malware-forum identity, but Krebs says this does not by itself prove he is LockBitSupp.",
+      "ja": "2024年2月、NCA が主導する Operation Cronos は LockBit のネットワークに侵入し、リークサイトを含むサービスを掌握した。5月、NCA はこの捜査で LockBitSupp の正体が判明したと発表したが、方法は説明していない。別に Brian Krebs が公開情報から、古いメール、使い回されたパスワード、ICQ 番号をホロシェフの以前のマルウェア系フォーラムでの身元までたどった。ただし Krebs 自身、それだけでは彼が LockBitSupp だという証明にはならないと書いている。"
+    },
+    "outcome": {
+      "en": "Named on 7 May 2024, charged in a 26-count indictment in New Jersey and sanctioned by the UK, US and Australia, with a US reward of up to $10 million. LockBitSupp says the wrong man was named. He remains in Russia.",
+      "ja": "2024年5月7日に名指しされ、ニュージャージー州で26件の罪状で起訴され、英米豪の制裁対象になった。米国は最大1,000万ドルの懸賞金をかけた。LockBitSupp 側は人違いだと主張している。本人はロシアにいる。"
+    },
+    "sources": ["case-lb-nca", "case-lb-doj", "case-lb-krebs"]
+  },
+  {
+    "id": "incognito",
+    "name": { "en": "Rui-Siang Lin", "ja": "林睿庠（リン・ルイシャン）" },
+    "alias": { "en": "\"Pharoah\" / Incognito Market", "ja": "「Pharoah」／Incognito Market" },
+    "year": 2024,
+    "used": ["network", "money", "identity"],
+    "failed": "money",
+    "mechanism": {
+      "en": "According to the FBI affidavit as reported, bitcoin from the market's wallet went to a wallet Lin controlled, then through a swap service into Monero, and arrived at an exchange account opened with his Taiwanese driver's licence, email and phone number. The same email and phone were tied to a Namecheap account that used funds from those wallets to buy a domain promoting Incognito. He was arrested at JFK airport on 18 May 2024 while in transit.",
+      "ja": "報じられた FBI の宣誓供述書によれば、マーケットのウォレットから出たビットコインはリンが管理するウォレットに入り、スワップサービスで Monero に替えられ、台湾の運転免許証、メール、電話番号で開設された取引所のアカウントに届いていた。同じメールと電話番号は Namecheap のアカウントにも結び付いており、そのアカウントはこれらのウォレットの資金で Incognito を宣伝するドメインを買っていた。2024年5月18日、乗り継ぎ中の JFK 空港で逮捕された。"
+    },
+    "outcome": {
+      "en": "Pleaded guilty and was sentenced in February 2026 to 30 years in prison and $105 million in forfeiture.",
+      "ja": "有罪を認め、2026年2月に禁錮30年と1億500万ドルの没収を言い渡された。"
+    },
+    "sources": ["case-inc-arrest", "case-inc-fxstreet", "case-inc-trm", "case-inc-sentence"]
+  },
+  {
+    "id": "dprk-laptop-farm",
+    "name": { "en": "Christina Chapman", "ja": "クリスティーナ・チャップマン" },
+    "alias": { "en": "DPRK IT-worker laptop farm", "ja": "北朝鮮 IT 労働者のラップトップファーム" },
+    "year": 2023,
+    "used": ["network", "identity", "money", "infrastructure"],
+    "failed": "infrastructure",
+    "mechanism": {
+      "en": "North Korean IT workers using 68 stolen US identities held remote jobs at 309 US companies; the company laptops sat in Chapman's Arizona home so the workers appeared to connect from US residential addresses. That relay was a physical house run by a real person. In September to October 2023 a customer of a separate laptop farm run by Oleksandr Didenko asked him to send a computer to Chapman's farm, which DOJ cites as showing the cells were connected; the October 2023 search of her home found more than 90 laptops.",
+      "ja": "北朝鮮の IT 労働者が盗んだ68人分の米国人の身元で、米国企業309社のリモートの仕事に就いていた。会社のノートPC はアリゾナ州のチャップマンの自宅に置かれ、労働者は米国の住宅回線から接続しているように見えた。この中継点は、実在の人物が管理する物理的な家だった。2023年9月から10月にかけ、オレクサンドル・ディデンコが運営する別のラップトップファームの顧客が、パソコンをチャップマンのファームへ送るよう彼に求めた。司法省はこれを両グループがつながっていた証拠として挙げている。2023年10月の家宅捜索では90台を超えるノートPC が見つかった。"
+    },
+    "outcome": {
+      "en": "Charged in May 2024, pleaded guilty on 11 February 2025 and sentenced on 24 July 2025 to 102 months in prison. The scheme generated more than $17.1 million.",
+      "ja": "2024年5月に訴追され、2025年2月11日に有罪を認め、同年7月24日に禁錮102か月を言い渡された。この仕組みが生んだ収入は1,710万ドルを超える。"
+    },
+    "sources": ["case-dprk-charges", "case-dprk-sentence"]
+  },
+  {
+    "id": "pc-remote",
+    "name": { "en": "Yusuke Katayama", "ja": "片山祐輔" },
+    "alias": { "en": "Remote-control virus case", "ja": "PC遠隔操作事件" },
+    "year": 2013,
+    "used": ["network", "infrastructure", "identity"],
+    "failed": "behavior",
+    "mechanism": {
+      "en": "In 2012 threats were posted from other people's PCs infected with a remote-control trojan, and police arrested four innocent owners because they relied on the IP addresses. The case broke in the physical world: in January 2013 the culprit's own emailed puzzle led to a memory card on the collar of a cat on Enoshima, and security cameras there had recorded Katayama near the cat. After he was released on bail while denying everything, police watched him bury a smartphone on a Tokyo riverbank; it held traces of a fake \"real culprit\" email sent in May 2014.",
+      "ja": "2012年、遠隔操作ウイルスに感染した他人の PC から犯行予告が投稿され、警察は IP アドレスを頼りに無実の持ち主4人を誤認逮捕した。事件が動いたのは現実世界の痕跡からだった。2013年1月、犯人自身がメールで送った「パズル」が江の島の猫の首輪に付けられた記録媒体を示し、現地の防犯カメラには猫に近付く片山の姿が残っていた。否認したまま保釈されたあと、捜査員は彼が都内の河川敷にスマートフォンを埋めるのを確認した。そこには2014年5月に送られた偽の「真犯人」メールの痕跡があった。"
+    },
+    "outcome": {
+      "en": "Arrested on 10 February 2013. After the riverbank phone was found he confessed to his lawyer on 19 May 2014 and admitted all charges in court. The Tokyo District Court sentenced him on 4 February 2015 to eight years (prosecutors had sought ten).",
+      "ja": "2013年2月10日に逮捕された。河川敷のスマートフォンが見つかったあと、2014年5月19日に弁護人に犯行を告白し、公判ですべての起訴内容を認めた。2015年2月4日、東京地裁は懲役8年（求刑10年）を言い渡した。"
+    },
+    "sources": [
+      "case-pcr-review",
+      "case-pcr-jfba",
+      "case-pcr-cat",
+      "case-pcr-phone",
+      "case-pcr-confession",
+      "case-pcr-verdict"
+    ]
+  }
+]

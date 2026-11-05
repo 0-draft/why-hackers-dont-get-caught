@@ -1,0 +1,482 @@
+[
+  {
+    "id": "case-sr-indictment",
+    "title": "Manhattan U.S. Attorney Announces Indictment Of Ross Ulbricht, The Creator And Owner Of The \"Silk Road\" Website",
+    "publisher": "U.S. Attorney's Office, Southern District of New York",
+    "date": "2014-02-04",
+    "url": "https://www.justice.gov/usao-sdny/pr/manhattan-us-attorney-announces-indictment-ross-ulbricht-creator-and-owner-silk-road",
+    "kind": "primary"
+  },
+  {
+    "id": "case-sr-alford",
+    "title": "Simple Google search outed alleged Silk Road founder",
+    "publisher": "Computerworld",
+    "date": "2015-01-26",
+    "url": "https://www.computerworld.com/article/2875655/simple-google-search-outed-alleged-silk-road-founder.html",
+    "kind": "press"
+  },
+  {
+    "id": "case-sr-krebs-captcha",
+    "title": "Silk Road Lawyers Poke Holes in FBI's Story",
+    "publisher": "KrebsOnSecurity",
+    "date": "2014-10-02",
+    "url": "https://krebsonsecurity.com/2014/10/silk-road-lawyers-poke-holes-in-fbis-story/",
+    "kind": "press"
+  },
+  {
+    "id": "case-sr-sentence",
+    "title": "Ross Ulbricht, A/K/A \"Dread Pirate Roberts,\" Sentenced In Manhattan Federal Court To Life In Prison",
+    "publisher": "U.S. Attorney's Office, Southern District of New York",
+    "date": "2015-05-29",
+    "url": "https://www.justice.gov/usao-sdny/pr/ross-ulbricht-aka-dread-pirate-roberts-sentenced-manhattan-federal-court-life-prison",
+    "kind": "primary"
+  },
+  {
+    "id": "case-sr-pardon",
+    "title": "Trump pardons Silk Road creator Ross Ulbricht",
+    "publisher": "CNBC",
+    "date": "2025-01-21",
+    "url": "https://www.cnbc.com/2025/01/21/trump-pardons-silk-road-ross-ulbricht-.html",
+    "kind": "press"
+  },
+  {
+    "id": "case-sabu-sdny",
+    "title": "Six Hackers in the United States and Abroad Charged for Crimes Affecting Over One Million Victims",
+    "publisher": "U.S. Attorney's Office, Southern District of New York",
+    "date": "2012-03-06",
+    "url": "https://www.justice.gov/archive/usao/nys/pressreleases/March12/ackroyd.html",
+    "kind": "primary"
+  },
+  {
+    "id": "case-sabu-fox",
+    "title": "EXCLUSIVE: Unmasking the world's most wanted hacker",
+    "publisher": "Fox News",
+    "date": "2012-03-06",
+    "url": "https://www.foxnews.com/tech/exclusive-unmasking-the-worlds-most-wanted-hacker",
+    "kind": "press"
+  },
+  {
+    "id": "case-sabu-register",
+    "title": "The 'one tiny slip' that put LulzSec chief Sabu in the FBI's pocket",
+    "publisher": "The Register",
+    "date": "2012-03-07",
+    "url": "https://www.theregister.com/2012/03/07/lulzsec_takedown_analysis/",
+    "kind": "press"
+  },
+  {
+    "id": "case-sabu-sentence",
+    "title": "Former LulzSec Hacker Turned Informant Avoids Further Jail Time",
+    "publisher": "NPR",
+    "date": "2014-05-27",
+    "url": "https://www.npr.org/sections/thetwo-way/2014/05/27/316337873/former-lulzsec-hacker-turned-informant-avoids-further-jail-time",
+    "kind": "press"
+  },
+  {
+    "id": "case-hammond-computerworld",
+    "title": "Alleged Stratfor hacker no stranger to law enforcement",
+    "publisher": "Computerworld",
+    "date": "2012-03",
+    "url": "https://www.computerworld.com/article/1527889/alleged-stratfor-hacker-no-stranger-to-law-enforcement.html",
+    "kind": "press"
+  },
+  {
+    "id": "case-hammond-sentence",
+    "title": "Jeremy Hammond Sentenced To 10 Years In Prison For Hacking Into Stratfor Website And Other Company, Law Enforcement, And Government Websites",
+    "publisher": "U.S. Attorney's Office, Southern District of New York",
+    "date": "2013-11-15",
+    "url": "https://www.justice.gov/usao-sdny/pr/jeremy-hammond-sentenced-10-years-prison-hacking-stratfor-website-and-other-company",
+    "kind": "primary"
+  },
+  {
+    "id": "case-kim-complaint",
+    "title": "Harvard Student Charged with Bomb Hoax",
+    "publisher": "U.S. Attorney's Office, District of Massachusetts",
+    "date": "2013-12-17",
+    "url": "https://www.justice.gov/usao-ma/pr/harvard-student-charged-bomb-hoax",
+    "kind": "primary"
+  },
+  {
+    "id": "case-kim-cnn",
+    "title": "Harvard student Eldo Kim charged in final-exam bomb hoax",
+    "publisher": "CNN",
+    "date": "2013-12-17",
+    "url": "https://edition.cnn.com/2013/12/17/justice/massachusetts-harvard-hoax",
+    "kind": "press"
+  },
+  {
+    "id": "case-kim-diversion",
+    "title": "Harvard Student Charged with Making Hoax Bomb Threat",
+    "publisher": "U.S. Attorney's Office, District of Massachusetts",
+    "date": "2014-10-10",
+    "url": "https://www.justice.gov/usao-ma/pr/harvard-student-charged-making-hoax-bomb-threat",
+    "kind": "primary"
+  },
+  {
+    "id": "case-fh-mittr",
+    "title": "A dark web tycoon pleads guilty. But how was he caught?",
+    "publisher": "MIT Technology Review",
+    "date": "2020-02-08",
+    "url": "https://www.technologyreview.com/2020/02/08/349016/a-dark-web-tycoon-pleads-guilty-but-how-was-he-caught/",
+    "kind": "press"
+  },
+  {
+    "id": "case-fh-rte",
+    "title": "'The largest facilitator of child porn on the planet'",
+    "publisher": "RTÉ News",
+    "date": "2019-03-23",
+    "url": "https://www.rte.ie/news/analysis-and-comment/2019/0323/1037999-eric-eoin-marques/",
+    "kind": "press"
+  },
+  {
+    "id": "case-fh-sentence",
+    "title": "Dark Web Child Pornography Facilitator Sentenced to 27 Years in Federal Prison for Conspiracy to Advertise Child Pornography",
+    "publisher": "U.S. Attorney's Office, District of Maryland",
+    "date": "2021-09",
+    "url": "https://www.justice.gov/usao-md/pr/dark-web-child-pornography-facilitator-sentenced-27-years-federal-prison-conspiracy",
+    "kind": "primary"
+  },
+  {
+    "id": "case-ab-forfeiture",
+    "title": "United States v. Alexandre Cazes et al., Verified Complaint for Forfeiture In Rem (E.D. Cal. 1:17-cv-00967)",
+    "publisher": "U.S. Department of Justice",
+    "date": "2017-07-19",
+    "url": "https://www.justice.gov/opa/press-release/file/982821/download",
+    "kind": "primary"
+  },
+  {
+    "id": "case-ab-bleeping",
+    "title": "Series of Monumental OpSec Mistakes Led to AlphaBay's Demise",
+    "publisher": "BleepingComputer",
+    "date": "2017-07",
+    "url": "https://www.bleepingcomputer.com/news/security/series-of-monumental-opsec-mistakes-led-to-alphabays-demise/",
+    "kind": "press"
+  },
+  {
+    "id": "case-ab-doj",
+    "title": "AlphaBay, the Largest Online \"Dark Market,\" Shut Down",
+    "publisher": "U.S. Department of Justice",
+    "date": "2017-07-20",
+    "url": "https://www.justice.gov/usao-edca/pr/alphabay-largest-online-dark-market-shut-down",
+    "kind": "primary"
+  },
+  {
+    "id": "case-sr2-sdny",
+    "title": "Operator Of Silk Road 2.0 Website Charged In Manhattan Federal Court",
+    "publisher": "U.S. Attorney's Office, Southern District of New York",
+    "date": "2014-11-06",
+    "url": "https://www.justice.gov/usao-sdny/pr/operator-silk-road-20-website-charged-manhattan-federal-court",
+    "kind": "primary"
+  },
+  {
+    "id": "case-sr2-krebs",
+    "title": "Feds Arrest Alleged 'Silk Road 2' Admin, Seize Servers",
+    "publisher": "KrebsOnSecurity",
+    "date": "2014-11-06",
+    "url": "https://krebsonsecurity.com/2014/11/feds-arrest-alleged-silk-road-2-admin-seize-servers/",
+    "kind": "press"
+  },
+  {
+    "id": "case-sr2-vice",
+    "title": "Silk Road 2.0 Admin May Only Be Prosecuted For Tax Crimes After Cooperating with Feds",
+    "publisher": "Vice (Motherboard)",
+    "date": "2019-05-30",
+    "url": "https://www.vice.com/en/article/silk-road-2-admin-defcon-blake-benthall-tax-crimes-cooperate/",
+    "kind": "press"
+  },
+  {
+    "id": "case-playpen-fbi",
+    "title": "'Playpen' Creator Sentenced to 30 Years",
+    "publisher": "Federal Bureau of Investigation",
+    "date": "2017-05-05",
+    "url": "https://www.fbi.gov/news/stories/playpen-creator-sentenced-to-30-years",
+    "kind": "primary"
+  },
+  {
+    "id": "case-playpen-doj",
+    "title": "Florida Man Sentenced to Prison for Engaging in a Child Exploitation Enterprise",
+    "publisher": "U.S. Department of Justice, Office of Public Affairs",
+    "date": "2017-05-01",
+    "url": "https://www.justice.gov/opa/pr/florida-man-sentenced-prison-engaging-child-exploitation-enterprise",
+    "kind": "primary"
+  },
+  {
+    "id": "case-ferizi-affidavit",
+    "title": "United States v. Ardit Ferizi, criminal complaint and FBI affidavit (E.D. Va. 1:15-MJ-515), text reproduced by Equipo Nizkor",
+    "publisher": "Equipo Nizkor",
+    "date": "2015-10-06",
+    "url": "https://derechos.org/nizkor/espana/doc/ferizi.html",
+    "kind": "primary"
+  },
+  {
+    "id": "case-ferizi-sentence",
+    "title": "ISIL-Linked Hacker Sentenced to 20 Years in Prison",
+    "publisher": "U.S. Attorney's Office, Eastern District of Virginia",
+    "date": "2016-09-23",
+    "url": "https://www.justice.gov/usao-edva/pr/isil-linked-hacker-sentenced-20-years-prison",
+    "kind": "primary"
+  },
+  {
+    "id": "case-g2-indictment",
+    "title": "United States v. Viktor Borisovich Netyksho et al., Indictment (D.D.C. 1:18-cr-215)",
+    "publisher": "U.S. District Court for the District of Columbia (copy at the National Security Archive)",
+    "date": "2018-07-13",
+    "url": "https://nsarchive.gwu.edu/document/16702-indictment",
+    "kind": "primary"
+  },
+  {
+    "id": "case-g2-dailybeast",
+    "title": "EXCLUSIVE: 'Lone DNC Hacker' Guccifer 2.0 Slipped Up and Revealed He Was a Russian Intelligence Officer",
+    "publisher": "The Daily Beast",
+    "date": "2018-03-22",
+    "url": "https://www.thedailybeast.com/exclusive-lone-dnc-hacker-guccifer-20-slipped-up-and-revealed-he-was-a-russian-intelligence-officer/",
+    "kind": "press"
+  },
+  {
+    "id": "case-wtv-doj",
+    "title": "South Korean National and Hundreds of Others Charged Worldwide in the Takedown of the Largest Darknet Child Pornography Website, Which Was Funded by Bitcoin",
+    "publisher": "U.S. Attorney's Office, District of Columbia",
+    "date": "2019-10-16",
+    "url": "https://www.justice.gov/usao-dc/pr/south-korean-national-and-hundreds-others-charged-worldwide-takedown-largest-darknet",
+    "kind": "primary"
+  },
+  {
+    "id": "case-wtv-secboulevard",
+    "title": "\"Welcome to Video\" raid leads to 337 arrests due to Bitcoin Exchanges that use strong KYC",
+    "publisher": "Security Boulevard",
+    "date": "2019-10",
+    "url": "https://securityboulevard.com/2019/10/welcome-to-video-raid-leads-to-337-arrests-due-to-bitcoin-exchanges-that-use-strong-kyc/",
+    "kind": "press"
+  },
+  {
+    "id": "case-wtv-extradition",
+    "title": "Korean child porn operator's US extradition denied",
+    "publisher": "The Korea Herald",
+    "date": "2020-07-06",
+    "url": "https://www.koreaherald.com/view.php?ud=20200706000708",
+    "kind": "press"
+  },
+  {
+    "id": "case-wtv-laundering",
+    "title": "Child porn website operator gets 2-yr prison term for concealing criminal proceeds",
+    "publisher": "The Korea Times",
+    "date": "2022-07-05",
+    "url": "https://www.koreatimes.co.kr/southkorea/law-crime/20220705/child-porn-website-operator-gets-2-yr-prison-term-for-concealing-criminal-proceeds",
+    "kind": "press"
+  },
+  {
+    "id": "case-tw-doj",
+    "title": "Three Individuals Charged For Alleged Roles In Twitter Hack",
+    "publisher": "U.S. Attorney's Office, Northern District of California",
+    "date": "2020-07-31",
+    "url": "https://www.justice.gov/usao-ndca/pr/three-individuals-charged-alleged-roles-twitter-hack",
+    "kind": "primary"
+  },
+  {
+    "id": "case-tw-chainalysis",
+    "title": "Chainalysis In Action: How Law Enforcement Used Blockchain Analysis to Follow Funds and Identify the Twitter Hackers",
+    "publisher": "Chainalysis",
+    "date": "2020-07-31",
+    "url": "https://www.chainalysis.com/blog/chainalysis-doj-twitter-hack-2020/",
+    "kind": "report"
+  },
+  {
+    "id": "case-tw-clark",
+    "title": "Florida Teen Behind Massive Twitter Hack Gets 3-Year Prison Sentence In Plea Deal",
+    "publisher": "Forbes",
+    "date": "2021-03-16",
+    "url": "https://www.forbes.com/sites/rachelsandler/2021/03/16/florida-teen-behind-massive-twitter-hack-gets-3-year-prison-sentence-in-plea-deal/",
+    "kind": "press"
+  },
+  {
+    "id": "case-tw-oconnor",
+    "title": "U.K. Citizen Sentenced To Five Years In Prison For Cybercrime Offenses",
+    "publisher": "U.S. Attorney's Office, Southern District of New York",
+    "date": "2023-06-23",
+    "url": "https://www.justice.gov/usao-sdny/pr/uk-citizen-sentenced-five-years-prison-cybercrime-offenses",
+    "kind": "primary"
+  },
+  {
+    "id": "case-bfx-sof",
+    "title": "United States v. Lichtenstein and Morgan, Statement of Facts (D.D.C. 1:22-mj-00022)",
+    "publisher": "U.S. Department of Justice",
+    "date": "2022-02-07",
+    "url": "https://www.justice.gov/archives/opa/press-release/file/1470211/dl?inline=",
+    "kind": "primary"
+  },
+  {
+    "id": "case-bfx-sentence",
+    "title": "Major bitcoin hacker Lichtenstein gets five years in prison for crypto laundering scheme",
+    "publisher": "CNBC",
+    "date": "2024-11-14",
+    "url": "https://www.cnbc.com/2024/11/14/bitfinex-hacker-sentenced-to-five-years-in-prison-for-bitcoin-money-laundering-scheme.html",
+    "kind": "press"
+  },
+  {
+    "id": "case-bfx-release",
+    "title": "Bitfinex crypto thief who was serving five years thanks Trump for early release",
+    "publisher": "The Register",
+    "date": "2026-01-02",
+    "url": "https://www.theregister.com/2026/01/02/bitfinex_crypto_thief_released/",
+    "kind": "press"
+  },
+  {
+    "id": "case-lapsus-krebs",
+    "title": "A Closer Look at the LAPSUS$ Data Extortion Group",
+    "publisher": "KrebsOnSecurity",
+    "date": "2022-03-23",
+    "url": "https://krebsonsecurity.com/2022/03/a-closer-look-at-the-lapsus-data-extortion-group/",
+    "kind": "press"
+  },
+  {
+    "id": "case-lapsus-record",
+    "title": "Autistic teen behind spate of Lapsus$ hacks sentenced to indefinite hospital stay",
+    "publisher": "The Record",
+    "date": "2023-12-22",
+    "url": "https://therecord.media/lapsus$-hacker-sentencing-uk",
+    "kind": "press"
+  },
+  {
+    "id": "case-lapsus-retrial",
+    "title": "GTA 6 hacker who was sentenced to life in a secure hospital is moved to prison ahead of retrial",
+    "publisher": "TechSpot",
+    "date": "2026-07",
+    "url": "https://www.techspot.com/news/113156-gta-6-hacker-who-sentenced-life-secure-hospital.html",
+    "kind": "press"
+  },
+  {
+    "id": "case-waz-krebs",
+    "title": "Who is the Network Access Broker 'Wazawaka'?",
+    "publisher": "KrebsOnSecurity",
+    "date": "2022-01-12",
+    "url": "https://krebsonsecurity.com/2022/01/who-is-the-network-access-broker-wazawaka/",
+    "kind": "press"
+  },
+  {
+    "id": "case-waz-doj",
+    "title": "Ransomware Charges Unsealed Against Russian National",
+    "publisher": "U.S. Attorney's Office, District of Columbia",
+    "date": "2023-05-16",
+    "url": "https://www.justice.gov/usao-dc/pr/ransomware-charges-unsealed-against-russian-national",
+    "kind": "primary"
+  },
+  {
+    "id": "case-lb-nca",
+    "title": "LockBit leader unmasked and sanctioned",
+    "publisher": "National Crime Agency",
+    "date": "2024-05-07",
+    "url": "https://www.nationalcrimeagency.gov.uk/news/lockbit-leader-unmasked-and-sanctioned",
+    "kind": "primary"
+  },
+  {
+    "id": "case-lb-doj",
+    "title": "U.S. Charges Russian National with Developing and Operating LockBit Ransomware",
+    "publisher": "U.S. Department of Justice, Office of Public Affairs",
+    "date": "2024-05-07",
+    "url": "https://www.justice.gov/archives/opa/pr/us-charges-russian-national-developing-and-operating-lockbit-ransomware",
+    "kind": "primary"
+  },
+  {
+    "id": "case-lb-krebs",
+    "title": "How Did Authorities Identify the Alleged Lockbit Boss?",
+    "publisher": "KrebsOnSecurity",
+    "date": "2024-05",
+    "url": "https://krebsonsecurity.com/2024/05/how-did-authorities-identify-the-alleged-lockbit-boss/",
+    "kind": "press"
+  },
+  {
+    "id": "case-inc-arrest",
+    "title": "\"Incognito Market\" Owner Arrested For Operating One Of The Largest Illegal Narcotics Marketplaces On The Internet",
+    "publisher": "U.S. Attorney's Office, Southern District of New York",
+    "date": "2024-05-20",
+    "url": "https://www.justice.gov/usao-sdny/pr/incognito-market-owner-arrested-operating-one-largest-illegal-narcotics-marketplaces",
+    "kind": "primary"
+  },
+  {
+    "id": "case-inc-fxstreet",
+    "title": "Dark web market owner arrested in New York after FBI traces crypto",
+    "publisher": "FXStreet",
+    "date": "2024-05-21",
+    "url": "https://www.fxstreet.com/cryptocurrencies/news/dark-web-market-owner-arrested-in-new-york-after-fbi-traces-crypto-202405210525",
+    "kind": "press"
+  },
+  {
+    "id": "case-inc-trm",
+    "title": "Administrator of Darknet Narcotics Market Incognito Arrested",
+    "publisher": "TRM Labs",
+    "date": "2024-05-23",
+    "url": "https://www.trmlabs.com/resources/blog/administrator-of-darknet-narcotics-market-incognito-arrested",
+    "kind": "report"
+  },
+  {
+    "id": "case-inc-sentence",
+    "title": "Incognito Market Owner Sentenced To 30 Years For Operating One Of The World's Largest Online Narcotics Marketplaces",
+    "publisher": "U.S. Attorney's Office, Southern District of New York",
+    "date": "2026-02",
+    "url": "https://www.justice.gov/usao-sdny/pr/incognito-market-owner-sentenced-30-years-operating-one-worlds-largest-online",
+    "kind": "primary"
+  },
+  {
+    "id": "case-dprk-charges",
+    "title": "Charges and Seizures Brought in Fraud Scheme Aimed at Denying Revenue for Workers Associated with North Korea",
+    "publisher": "U.S. Attorney's Office, District of Columbia",
+    "date": "2024-05-16",
+    "url": "https://www.justice.gov/usao-dc/pr/charges-and-seizures-brought-fraud-scheme-aimed-denying-revenue-workers-associated-north",
+    "kind": "primary"
+  },
+  {
+    "id": "case-dprk-sentence",
+    "title": "Arizona Woman Sentenced in $17M IT Worker Fraud Scheme That Illegally Generated Revenue for North Korea",
+    "publisher": "U.S. Attorney's Office, District of Columbia",
+    "date": "2025-07-24",
+    "url": "https://www.justice.gov/usao-dc/pr/arizona-woman-sentenced-17m-it-worker-fraud-scheme-illegally-generated-revenue-north",
+    "kind": "primary"
+  },
+  {
+    "id": "case-pcr-review",
+    "title": "遠隔操作、誤認逮捕取り調べ「不適切」 4警察が検証結果",
+    "publisher": "日本経済新聞",
+    "date": "2012-12-14",
+    "url": "https://www.nikkei.com/article/DGXNASDG1403Z_U2A211C1CR8000/",
+    "kind": "press"
+  },
+  {
+    "id": "case-pcr-jfba",
+    "title": "ＰＣ遠隔操作による脅迫メールえん罪事件をめぐる警察検証結果についての会長声明",
+    "publisher": "日本弁護士連合会",
+    "date": "2012-12-19",
+    "url": "https://www.nichibenren.or.jp/document/statement/year/2012/121219.html",
+    "kind": "primary"
+  },
+  {
+    "id": "case-pcr-cat",
+    "title": "「猫の首輪」が逮捕の糸口に 遠隔操作事件",
+    "publisher": "日本経済新聞",
+    "date": "2013-02-11",
+    "url": "https://www.nikkei.com/article/DGXNASDG1001B_Y3A120C1CR8000/",
+    "kind": "press"
+  },
+  {
+    "id": "case-pcr-phone",
+    "title": "遠隔操作事件「真犯人」メール、被告自身が送信か",
+    "publisher": "日本経済新聞",
+    "date": "2014-05-19",
+    "url": "https://www.nikkei.com/article/DGKDASDG1901M_Z10C14A5CC0000/",
+    "kind": "press"
+  },
+  {
+    "id": "case-pcr-confession",
+    "title": "「先生すみません。自分が犯人でした」 カギになった「onigoroshijuzo2」：詳報・遠隔操作事件・佐藤弁護士会見その1",
+    "publisher": "ITmedia NEWS",
+    "date": "2014-05-20",
+    "url": "https://www.itmedia.co.jp/news/article/1405/20/1140520116/",
+    "kind": "press"
+  },
+  {
+    "id": "case-pcr-verdict",
+    "title": "遠隔操作ウイルス事件、片山被告に懲役8年 東京地裁判決",
+    "publisher": "ITmedia NEWS",
+    "date": "2015-02-04",
+    "url": "https://www.itmedia.co.jp/news/articles/1502/04/news068.html",
+    "kind": "press"
+  }
+]
