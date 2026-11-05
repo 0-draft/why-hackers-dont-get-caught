@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
+import BaseLink from "../components/BaseLink.astro";
 import SourceList from "../components/SourceList.astro";
 import Strata from "../components/Strata.astro";
 import { CASES } from "../data/cases.ts";
@@ -46,7 +47,7 @@ const sources = SOURCES_BY_PAGE[slug] ?? [];
       </header>
 
       <div class="prose">
-        <Content />
+        <Content components={{ a: BaseLink }} />
       </div>
 
       <section class="cases" aria-labelledby="cases-h">

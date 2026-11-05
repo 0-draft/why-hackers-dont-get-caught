@@ -1,8 +1,9 @@
 ---
+import { getCollection } from "astro:content";
 import "@fontsource-variable/archivo/wdth.css";
 import "@fontsource-variable/jetbrains-mono";
 import "../styles/global.css";
-import { type Lang, localePath, stripLocale, useT } from "../i18n/ui.ts";
+import { type Lang, localePath, stripLocale, useT, withBase } from "../i18n/ui.ts";
 
 interface Props {
   lang: Lang;
@@ -13,16 +14,19 @@ const { lang, title, description } = Astro.props;
 const t = useT(lang);
 const path = stripLocale(Astro.url.pathname);
 const other: Lang = lang === "en" ? "ja" : "en";
-const fullTitle = title ? `${title} | ${t("site.name")}` : `${t("site.name")} | ${t("home.h1a")}`;
+const fullTitle = title ? `${title} | ${t("site.name")}` : t("site.name");
 const desc = description ?? t("site.desc");
 const canonical = new URL(localePath(lang, path), Astro.site);
-const nav = [
+// The essay link appears only once the essay is published (not a draft).
+const hasReach = (await getCollection("essays", (e) => !e.data.draft && e.data.essay === "out-of-reach")).length > 0;
+const allNav = [
+  { href: localePath(lang, "/out-of-reach/"), key: "nav.reach", match: "/out-of-reach/" },
   { href: localePath(lang, "/#layers"), key: "nav.layers", match: "/layers/" },
   { href: localePath(lang, "/cases/"), key: "nav.cases", match: "/cases/" },
-  { href: localePath(lang, "/out-of-reach/"), key: "nav.reach", match: "/out-of-reach/" },
   { href: localePath(lang, "/sources/"), key: "nav.sources", match: "/sources/" },
   { href: localePath(lang, "/about/"), key: "nav.about", match: "/about/" },
 ] as const;
+const nav = allNav.filter((n) => n.key !== "nav.reach" || hasReach);
 ---
 
 <!doctype html>
@@ -44,16 +48,16 @@ const nav = [
     {
       lang === "ja" && (
         <>
-          <link rel="preload" href="/fonts/line-seed-jp/line-seed-jp.css" as="style" />
-          <link rel="stylesheet" href="/fonts/line-seed-jp/line-seed-jp.css" media="print" onload="this.media='all'" />
+          <link rel="preload" href={withBase("/fonts/line-seed-jp/line-seed-jp.css")} as="style" />
+          <link rel="stylesheet" href={withBase("/fonts/line-seed-jp/line-seed-jp.css")} media="print" onload="this.media='all'" />
           <noscript>
-            <link rel="stylesheet" href="/fonts/line-seed-jp/line-seed-jp.css" />
+            <link rel="stylesheet" href={withBase("/fonts/line-seed-jp/line-seed-jp.css")} />
           </noscript>
         </>
       )
     }
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
+    <link rel="sitemap" href={withBase("/sitemap-index.xml")} />
     <script is:inline>
       try {
         const t = localStorage.getItem("theme");
@@ -66,7 +70,7 @@ const nav = [
     <header class="top">
       <div class="wrap top-in">
         <a class="mark" href={localePath(lang, "/")} aria-label={t("site.name")}>
-          <span class="mark-word">weakest layer</span><span class="mark-bar" aria-hidden="true"></span>
+          <span class="mark-word">why hackers don’t get caught</span><span class="mark-bar" aria-hidden="true"></span>
         </a>
         <nav aria-label="Main">
           <ul>
@@ -105,7 +109,7 @@ const nav = [
     <footer class="foot">
       <div class="wrap foot-in">
         <p>{t("foot.note")}</p>
-        <p><a href="https://github.com/0-draft/weakest-layer">{t("foot.repo")}</a></p>
+        <p><a href="https://github.com/0-draft/why-hackers-dont-get-caught">{t("foot.repo")}</a></p>
       </div>
     </footer>
     <script>

@@ -1,0 +1,12 @@
+---
+// Replaces <a> inside MDX so authors can write `/cases/#silk-road` and the
+// link still works when the site is served under a sub-path.
+import type { HTMLAttributes } from "astro/types";
+import { withBase } from "../i18n/ui.ts";
+
+type Props = HTMLAttributes<"a">;
+const { href, ...rest } = Astro.props;
+const h = typeof href === "string" && href.startsWith("/") && !href.startsWith("//") ? withBase(href) : href;
+---
+
+<a href={h} {...rest}><slot /></a>

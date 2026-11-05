@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
+import BaseLink from "../components/BaseLink.astro";
 import SourceList from "../components/SourceList.astro";
 import { SOURCES_BY_PAGE } from "../data/sources.ts";
 import { type Lang, useT } from "../i18n/ui.ts";
@@ -22,7 +23,7 @@ const sources = SOURCES_BY_PAGE[entry.data.essay] ?? [];
       <p class="summary">{entry.data.summary}</p>
     </header>
     <div class="prose">
-      <Content />
+      <Content components={{ a: BaseLink }} />
     </div>
     {
       sources.length > 0 && (

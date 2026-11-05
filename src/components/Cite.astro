@@ -1,5 +1,6 @@
 ---
 import { SOURCES } from "../data/sources.ts";
+import { localePath } from "../i18n/ui.ts";
 
 interface Props {
   id: string;
@@ -8,8 +9,9 @@ const { id } = Astro.props;
 const s = SOURCES[id];
 if (!s) throw new Error(`<Cite id="${id}"> has no entry in src/data/sources/*.json`);
 const lang = Astro.currentLocale === "ja" ? "ja" : "en";
-const base = lang === "ja" ? "/ja" : "";
-const href = Astro.url.pathname.replace(/\/$/, "").endsWith(`/${s.page}`) ? `#src-${id}` : `${base}/sources/#src-${id}`;
+const href = Astro.url.pathname.replace(/\/$/, "").endsWith(`/${s.page}`)
+  ? `#src-${id}`
+  : localePath(lang, `/sources/#src-${id}`);
 ---
 
 <sup class="cite"><a href={href} title={`${s.publisher}: ${s.title}`}>{s.n}</a></sup>
