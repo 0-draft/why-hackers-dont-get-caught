@@ -151,6 +151,7 @@ export function scenarioNote(lang: Lang, s: VantageState): string {
 export function presetLinks(lang: Lang): string {
   const lead = lang === "ja" ? "試す:" : "Try:";
   return `<span class="pl-k">${lead}</span>${PRESETS.map(
-    (p) => `<a href="#${formatState(p.state)}" data-preset="${formatState(p.state)}">${esc(p.label[lang])}</a>`,
+    (p) =>
+      `<button type="button" data-preset="${formatState(p.state)}" aria-pressed="false">${esc(p.label[lang])}</button>`,
   ).join("")}`;
 }

@@ -34,7 +34,7 @@ const s = DEFAULT_STATE;
   <p class="presets" set:html={presetLinks(lang)} />
 
   <div class="v-bottom">
-    <div class="record scroll-x" data-record set:html={recordTable(lang, s)} />
+    <div class="record scroll-x" data-record tabindex="0" role="region" aria-label={t("vantage.record")} set:html={recordTable(lang, s)} />
     <div class="verdict" data-verdict-box aria-live="polite" set:html={verdictBlock(lang, s)} />
   </div>
 
@@ -93,8 +93,8 @@ const s = DEFAULT_STATE;
       q("[data-verdict-box]").innerHTML = verdictBlock(lang, state);
       root.toggleAttribute("data-global-on", state.observers.includes("global"));
       const cur = formatState(state);
-      for (const a of root.querySelectorAll<HTMLAnchorElement>("[data-preset]")) {
-        a.setAttribute("aria-current", String(a.dataset.preset === cur));
+      for (const b of root.querySelectorAll<HTMLButtonElement>("[data-preset]")) {
+        b.setAttribute("aria-pressed", String(b.dataset.preset === cur));
       }
       if (changed) {
         // Only cells whose state flipped animate: the bar sliding over a field
@@ -113,7 +113,15 @@ const s = DEFAULT_STATE;
       const target = e.target as HTMLElement;
       const sc = target.closest<HTMLElement>("[data-scenario]");
       const ob = target.closest<HTMLElement>("[data-observer]");
-      if (sc) {
+      const pr = target.closest<HTMLElement>("[data-preset]");
+      if (pr) {
+        const next = parseState(`#${pr.dataset.preset}`);
+        if (next) {
+          state = next;
+          render(true);
+          root.querySelector<HTMLElement>(`[data-preset="${pr.dataset.preset}"]`)?.focus();
+        }
+      } else if (sc) {
         const scenario = sc.dataset.scenario as Scenario;
         const route = ROUTES[scenario] as readonly string[];
         const kept = state.observers.filter((o) => o === "global" || route.includes(o));
@@ -312,14 +320,18 @@ const s = DEFAULT_STATE;
   .presets :global(.pl-k) {
     color: var(--ink-2);
   }
-  .presets :global(a) {
+  .presets :global(button) {
+    font: inherit;
+    color: var(--ink);
+    background: none;
+    cursor: pointer;
     font-weight: 700;
     border: 1.5px solid var(--ink);
     padding: 0.15rem 0.6rem;
     text-decoration: none;
   }
-  .presets :global(a:hover),
-  .presets :global(a[aria-current="true"]) {
+  .presets :global(button:hover),
+  .presets :global(button[aria-pressed="true"]) {
     background: var(--marker);
     color: var(--marker-ink);
   }

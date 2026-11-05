@@ -86,7 +86,8 @@ test.describe("observer figure", () => {
     await expect(page).toHaveURL(/#v=tor:guard$/);
     await fig.locator('[data-preset="v=vpn:vpn"]').click();
     await expect(fig.locator(".v-label")).toHaveText("Identified");
-    await expect(fig.locator('[data-preset="v=vpn:vpn"]')).toHaveAttribute("aria-current", "true");
+    await expect(fig.locator('[data-preset="v=vpn:vpn"]')).toHaveAttribute("aria-pressed", "true");
+    await expect(page).toHaveURL(/#v=vpn:vpn$/);
   });
 
   test("logging in gives the person away to the website", async ({ page }) => {
