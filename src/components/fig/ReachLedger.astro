@@ -167,52 +167,73 @@ const arrested = all.filter((p) => p.k === "a").length; // 3
 const L = {
   en: {
     title: "Named in ten US indictments, 2014 to 2025: one square per person",
-    head: ["Year", "Unit or group", "Country", "People named", "Note"],
-    total1: `${slots} names, ${people} different people`,
-    total2: "State officers arrested",
-    total3: `Others arrested: ${arrested}`,
-    total3b: "2 Malaysian businessmen, 1 Canadian launderer",
-    leg: ["named, no arrest announced", "arrested", "same person, named again"],
-    foot: '"No arrest announced": no later US Justice Department announcement of an arrest, extradition or guilty plea. The launderer in 2021 was charged separately.',
+    zero: "state officers arrested",
+    zeroSub: `of ${people} people (${slots} names) in 10 US indictments, 2014 to 2025`,
+    others: `Others arrested: ${arrested}`,
+    othersSub: "2 Malaysian businessmen, 1 Canadian launderer",
+    leg: ["named, no arrest announced", "arrested", "named again"],
+    count: (k: number) => `${k}`,
+    foot: [
+      '"No arrest announced": no later US Justice Department announcement of an arrest,',
+      "extradition or guilty plea. The 2021 launderer was charged separately.",
+    ],
   },
   ja: {
     title: "米国の 10 件の起訴で名指しされた人 (2014〜2025 年)。1 人 1 マス",
-    head: ["年", "部隊・グループ", "国", "名指しされた人", "備考"],
-    total1: `のべ ${slots} 人、実人数 ${people} 人`,
-    total2: "逮捕された国家機関の要員",
-    total3: `それ以外で逮捕: ${arrested} 人`,
-    total3b: "マレーシアの実業家 2 人、カナダの資金洗浄役 1 人",
-    leg: ["名指しのみ (逮捕の発表なし)", "逮捕", "同じ人物の再掲"],
-    foot: "「逮捕の発表なし」= その後、米司法省が逮捕・引き渡し・有罪答弁を発表していない。2021 年の資金洗浄役は別件で起訴。",
+    zero: "逮捕された国家機関の要員",
+    zeroSub: `米国の 10 件の起訴 (2014〜2025 年) で名指しされた ${people} 人 (のべ ${slots} 人) のうち`,
+    others: `それ以外で逮捕: ${arrested} 人`,
+    othersSub: "マレーシアの実業家 2 人、カナダの資金洗浄役 1 人",
+    leg: ["名指しのみ (逮捕の発表なし)", "逮捕", "再掲"],
+    count: (k: number) => `${k} 人`,
+    foot: [
+      "「逮捕の発表なし」= その後、米司法省が逮捕・引き渡し・有罪答弁を",
+      "発表していない。2021 年の資金洗浄役は別件の起訴で、人数に含めない。",
+    ],
   },
 }[lang];
 
-const X = { year: 20, who: 74, where: 380, sq: 510, note: 892 };
+// Narrow on purpose: on a phone the year, the unit and the squares are all on
+// screen before any horizontal scrolling. Each row: unit, then what the case
+// was about, then the squares with the row's count beside them.
+const W = 600;
+const X = { year: 20, body: 64 };
 const S = 20; // square size
-const STEP = 30;
-const GAP = 18; // extra space between groups in one row
-const top = 64;
-const RH = 52;
+const STEP = 26;
+const GAP = 16; // extra space between groups in one row
+const top = 186;
+const RH = 70;
 const lastY = top + (rows.length - 1) * RH;
-const ruleY = lastY + 40;
+const ruleY = lastY + 66;
+const H = ruleY + 56;
 ---
 
 <!-- biome-ignore lint/a11y/noNoninteractiveTabindex: a scroll container must be focusable for keyboard users (axe scrollable-region-focusable) -->
 <div class="rl-wrap" tabindex="0" role="region" aria-label={lang === "ja" ? "名指しされた被告の一覧" : "Named defendants"}>
-<svg class="dg rl" viewBox="0 0 1120 780" role="img" aria-labelledby={`rl-t-${lang}`}>
+<svg class="dg rl" viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby={`rl-t-${lang}`}>
   <title id={`rl-t-${lang}`}>{L.title}</title>
-  {
-    L.head.map((h, i) => (
-      <text x={[X.year, X.who, X.where, X.sq, X.note][i]} y="30" class="t-s t-2 b">
-        {h}
-      </text>
-    ))
-  }
-  <line x1="20" y1="42" x2="1100" y2="42" class="ln-1"></line>
+
+  <!-- the point first: zero officers in custody -->
+  <text x="20" y="50" class="t-leak" font-size="48">0</text>
+  <text x="62" y="34" class="t-l">{L.zero}</text>
+  <text x="62" y="54" class="t-s t-2">{L.zeroSub}</text>
+  <text x="62" y="84" class="b">{L.others}</text>
+  <text x="62" y="102" class="t-s t-2">{L.othersSub}</text>
+
+  <g transform="translate(20 124)">
+    <rect x="0" y="0" width={S} height={S} class="stroke-leak"></rect>
+    <text x="28" y="15" class="t-s">{L.leg[0]}</text>
+    <rect x="230" y="0" width={S} height={S} class="fill-leak"></rect>
+    <text x="258" y="15" class="t-s">{L.leg[1]}</text>
+    <rect x="330" y="0" width={S} height={S} class="stroke-leak dash"></rect>
+    <text x="358" y="15" class="t-s">{L.leg[2]}</text>
+  </g>
+  <line x1="20" y1="160" x2={W - 20} y2="160" class="ln"></line>
+
   {
     rows.map((r, i) => {
       const y = top + i * RH;
-      let x = X.sq;
+      let x = X.body;
       const squares: { x: number; p: Person }[] = [];
       r.groups.forEach((g, gi) => {
         if (gi > 0) x += GAP;
@@ -221,25 +242,24 @@ const ruleY = lastY + 40;
           x += STEP;
         }
       });
+      const named = r.groups.flat().filter((p) => !p.name.includes("charged separately")).length;
+      const sqY = y + 26;
       return (
         <g>
-          {i > 0 && <line x1="20" y1={y - 22} x2="1100" y2={y - 22} class="ln-1 soft" />}
+          {i > 0 && <line x1="20" y1={y - 18} x2={W - 20} y2={y - 18} class="ln-1 soft" />}
           <text x={X.year} y={y} class="mono">
             {r.year}
           </text>
-          <text x={X.who} y={y}>
+          <text x={X.body} y={y} class="b">
             {r.who[lang]}
           </text>
-          <text x={X.who} y={y + 18} class="t-s t-2">
-            {r.did[lang]}
-          </text>
-          <text x={X.where} y={y} class="t-2">
-            {r.where[lang]}
+          <text x={X.body} y={y + 17} class="t-s t-2">
+            {r.where[lang]} · {r.did[lang]}
           </text>
           {squares.map(({ x: sx, p }) => (
             <rect
               x={sx}
-              y={y - 8}
+              y={sqY}
               width={S}
               height={S}
               class:list={[p.k === "a" ? "fill-leak" : "stroke-leak", p.k === "r" && "dash"]}
@@ -247,8 +267,11 @@ const ruleY = lastY + 40;
               <title>{p.name}</title>
             </rect>
           ))}
+          <text x={x + 6} y={sqY + 15} class="mono b">
+            {L.count(named)}
+          </text>
           {r.note && (
-            <text x={X.note} y={y} class="t-s t-2">
+            <text x={x + 46} y={sqY + 15} class="t-s t-2">
               {r.note[lang]}
             </text>
           )}
@@ -256,23 +279,9 @@ const ruleY = lastY + 40;
       );
     })
   }
-  <line x1="20" y1={ruleY} x2="1100" y2={ruleY} class="ln"></line>
-
-  <text x={X.year} y={ruleY + 38} class="t-l">{L.total1}</text>
-  <text x={X.sq} y={ruleY + 42} class="t-leak" font-size="34">0</text>
-  <text x={X.sq + 34} y={ruleY + 38} class="t-l">{L.total2}</text>
-  <text x={X.sq} y={ruleY + 76} class="b">{L.total3}</text>
-  <text x={X.sq} y={ruleY + 96} class="t-s t-2">{L.total3b}</text>
-
-  <g transform={`translate(20 ${ruleY + 62})`}>
-    <rect x="0" y="0" width={S} height={S} class="stroke-leak"></rect>
-    <text x="30" y="15" class="t-s">{L.leg[0]}</text>
-    <rect x="0" y="32" width={S} height={S} class="fill-leak"></rect>
-    <text x="30" y="47" class="t-s">{L.leg[1]}</text>
-    <rect x="0" y="64" width={S} height={S} class="stroke-leak dash"></rect>
-    <text x="30" y="79" class="t-s">{L.leg[2]}</text>
-  </g>
-  <text x="20" y={ruleY + 176} class="t-s t-2">{L.foot}</text>
+  <line x1="20" y1={ruleY} x2={W - 20} y2={ruleY} class="ln-1"></line>
+  <text x="20" y={ruleY + 22} class="t-s t-2">{L.foot[0]}</text>
+  <text x="20" y={ruleY + 40} class="t-s t-2">{L.foot[1]}</text>
 </svg>
 <ul class="sr">
   {
@@ -286,15 +295,16 @@ const ruleY = lastY + 40;
 </div>
 
 <style>
-  /* Self-contained so it can sit on the home page as well as in the essay:
-     below ~880px the ledger keeps its size and scrolls instead of shrinking
-     its 12px labels into illegibility. */
+  /* Self-contained so it can sit on the home page as well as in the essay.
+     The viewBox is 600 wide: on a phone it keeps 1:1 size and scrolls a
+     little; on a desktop it stops at 680px instead of blowing up. */
   .rl-wrap {
     position: relative;
     overflow-x: auto;
   }
   .rl {
-    min-width: 920px;
+    min-width: 600px;
+    max-width: 680px;
   }
   .rl rect {
     stroke-width: 2;
