@@ -105,6 +105,7 @@ svg {
 }
 
 [hidden] {
+  /* biome-ignore lint/complexity/noImportantStyles: hidden must beat any component display rule */
   display: none !important;
 }
 
@@ -277,7 +278,9 @@ h3 {
   *,
   *::before,
   *::after {
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion must override every component */
     transition-duration: 0s !important;
+    /* biome-ignore lint/complexity/noImportantStyles: reduced motion must override every component */
     animation-duration: 0s !important;
   }
 }

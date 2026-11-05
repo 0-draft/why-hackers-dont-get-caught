@@ -64,7 +64,7 @@ const fmt = (o: number) => (o === 0 ? "UTC" : `UTC+${o}`);
   <div class="ctl" role="group" aria-label={L.controls}>
     {
       OFFSETS.map((o) => (
-        <button type="button" class="sc" data-o={o} aria-pressed={String(o === 0)}>
+        <button type="button" class="sc" data-o={o} aria-pressed={o === 0 ? "true" : "false"}>
           {fmt(o)}
         </button>
       ))
