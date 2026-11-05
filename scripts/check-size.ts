@@ -17,7 +17,9 @@ function walk(dir: string): string[] {
 
 const files = walk(dist);
 const gz = (p: string) => gzipSync(readFileSync(p)).length;
-const sum = (ext: string) => files.filter((f) => f.endsWith(ext)).reduce((n, f) => n + gz(f), 0);
+// Bundled assets only: public/fonts is loaded lazily by Japanese pages.
+const bundled = files.filter((f) => !f.includes("/fonts/"));
+const sum = (ext: string) => bundled.filter((f) => f.endsWith(ext)).reduce((n, f) => n + gz(f), 0);
 const fails: string[] = [];
 
 const js = sum(".js");

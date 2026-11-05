@@ -1,8 +1,5 @@
 ---
 import "@fontsource-variable/archivo/wdth.css";
-import "@fontsource/line-seed-jp/400.css";
-import "@fontsource/line-seed-jp/700.css";
-import "@fontsource/line-seed-jp/800.css";
 import "@fontsource-variable/jetbrains-mono";
 import "../styles/global.css";
 import { type Lang, localePath, stripLocale, useT } from "../i18n/ui.ts";
@@ -44,6 +41,17 @@ const nav = [
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={lang === "ja" ? "ja_JP" : "en_US"} />
     <meta name="color-scheme" content="light dark" />
+    {
+      lang === "ja" && (
+        <>
+          <link rel="preload" href="/fonts/line-seed-jp/line-seed-jp.css" as="style" />
+          <link rel="stylesheet" href="/fonts/line-seed-jp/line-seed-jp.css" media="print" onload="this.media='all'" />
+          <noscript>
+            <link rel="stylesheet" href="/fonts/line-seed-jp/line-seed-jp.css" />
+          </noscript>
+        </>
+      )
+    }
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <script is:inline>
@@ -79,7 +87,7 @@ const nav = [
             href={localePath(other, path)}
             hreflang={other}
             lang={other}
-            aria-label={t("nav.langLabel")}
+            title={t("nav.langLabel")}
             data-lang-switch>{t("nav.lang")}</a
           >
           <button class="theme" type="button" aria-label={t("nav.theme")} data-theme-toggle>
