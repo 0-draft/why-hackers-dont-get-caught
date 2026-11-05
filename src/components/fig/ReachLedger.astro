@@ -1,0 +1,288 @@
+---
+// Ten US indictments of people hacking for or on behalf of a state, 2014-2025.
+// One square per named defendant. Outlined = named, no arrest announced;
+// filled = arrested; dashed = a person already named in an earlier row.
+// Counts come from the DOJ / FBI releases cited in the essay.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Kind = "n" | "r" | "a";
+interface Person {
+  name: string;
+  k: Kind;
+}
+interface Row {
+  year: number;
+  who: { en: string; ja: string };
+  where: { en: string; ja: string };
+  groups: Person[][];
+  note?: { en: string; ja: string };
+}
+
+const n = (name: string): Person => ({ name, k: "n" });
+const rows: Row[] = [
+  {
+    year: 2014,
+    who: { en: "PLA Unit 61398", ja: "人民解放軍 61398 部隊" },
+    where: { en: "China", ja: "中国" },
+    groups: [["Wang Dong", "Sun Kailiang", "Wen Xinyu", "Huang Zhenyu", "Gu Chunhui"].map(n)],
+  },
+  {
+    year: 2016,
+    who: { en: "ITSec Team, Mersad (IRGC)", ja: "ITSec Team・Mersad (IRGC)" },
+    where: { en: "Iran", ja: "イラン" },
+    groups: [
+      [
+        "Ahmad Fathi",
+        "Hamid Firoozi",
+        "Amin Shokohi",
+        "Sadegh Ahmadzadegan",
+        "Omid Ghaffarinia",
+        "Sina Keissar",
+        "Nader Saedi",
+      ].map(n),
+    ],
+  },
+  {
+    year: 2018,
+    who: { en: "GRU Units 26165, 74455", ja: "GRU 26165・74455 部隊" },
+    where: { en: "Russia", ja: "ロシア" },
+    groups: [
+      [
+        "Viktor Netyksho",
+        "Boris Antonov",
+        "Dmitriy Badin",
+        "Ivan Yermakov",
+        "Aleksey Lukashev",
+        "Sergey Morgachev",
+        "Nikolay Kozachek",
+        "Pavel Yershov",
+        "Artem Malyshev",
+        "Aleksandr Osadchuk",
+        "Aleksey Potemkin",
+        "Anatoliy Kovalev",
+      ].map(n),
+    ],
+  },
+  {
+    year: 2018,
+    who: { en: "Chosun Expo (Lazarus)", ja: "朝鮮エキスポ (Lazarus)" },
+    where: { en: "North Korea", ja: "北朝鮮" },
+    groups: [[n("Park Jin Hyok")]],
+  },
+  {
+    year: 2020,
+    who: { en: "APT41", ja: "APT41" },
+    where: { en: "China, Malaysia", ja: "中国・マレーシア" },
+    groups: [
+      ["Zhang Haoran", "Tan Dailin", "Jiang Lizhi", "Qian Chuan", "Fu Qiang"].map(n),
+      [
+        { name: "Wong Ong Hua (arrested in Malaysia)", k: "a" },
+        { name: "Ling Yang Ching (arrested in Malaysia)", k: "a" },
+      ],
+    ],
+    note: { en: "2 Malaysians arrested", ja: "マレーシア人 2 人を逮捕" },
+  },
+  {
+    year: 2020,
+    who: { en: "GRU Unit 74455 (Sandworm)", ja: "GRU 74455 部隊 (Sandworm)" },
+    where: { en: "Russia", ja: "ロシア" },
+    groups: [
+      [
+        n("Yuriy Andrienko"),
+        n("Sergey Detistov"),
+        n("Pavel Frolov"),
+        { name: "Anatoliy Kovalev (also named in 2018)", k: "r" },
+        n("Artem Ochichenko"),
+        n("Petr Pliskin"),
+      ],
+    ],
+    note: { en: "Kovalev, again", ja: "コバレフは 2 度目" },
+  },
+  {
+    year: 2021,
+    who: { en: "RGB (Lazarus)", ja: "偵察総局 (Lazarus)" },
+    where: { en: "North Korea", ja: "北朝鮮" },
+    groups: [
+      [n("Jon Chang Hyok"), n("Kim Il"), { name: "Park Jin Hyok (also named in 2018)", k: "r" }],
+      [{ name: "Ghaleb Alaumary, Canadian launderer, charged separately", k: "a" }],
+    ],
+    note: { en: "Park, again; + launderer", ja: "朴は 2 度目、+ 資金洗浄役" },
+  },
+  {
+    year: 2021,
+    who: { en: "APT40, Hainan State Security", ja: "APT40・海南省国家安全庁" },
+    where: { en: "China", ja: "中国" },
+    groups: [["Ding Xiaoyang", "Cheng Qingmin", "Zhu Yunmin", "Wu Shurong"].map(n)],
+  },
+  {
+    year: 2024,
+    who: { en: "IRGC hack-and-leak", ja: "IRGC のハック・アンド・リーク" },
+    where: { en: "Iran", ja: "イラン" },
+    groups: [["Masoud Jalili", "Seyyed Ali Aghamiri", "Yaser Balaghi"].map(n)],
+  },
+  {
+    year: 2025,
+    who: { en: "i-Soon, MPS, APT27", ja: "i-Soon・公安部・APT27" },
+    where: { en: "China", ja: "中国" },
+    groups: [
+      [
+        "Wu Haibo",
+        "Chen Cheng",
+        "Wang Zhe",
+        "Liang Guodong",
+        "Ma Li",
+        "Wang Yan",
+        "Xu Liang",
+        "Zhou Weiwei",
+        "Wang Liyu",
+        "Sheng Jing",
+        "Yin Kecheng",
+        "Zhou Shuai",
+      ].map(n),
+    ],
+  },
+];
+
+// Totals are computed, not typed, so the caption and the drawing cannot drift.
+const all = rows.flatMap((r) => r.groups.flat());
+const indicted = all.filter((p) => !p.name.includes("charged separately"));
+const slots = indicted.length; // 60
+const people = indicted.filter((p) => p.k !== "r").length; // 58
+const arrested = all.filter((p) => p.k === "a").length; // 3
+
+const L = {
+  en: {
+    title: "Named in ten US indictments, 2014 to 2025: one square per person",
+    head: ["Year", "Unit or group", "Country", "People named", "Note"],
+    total1: `${slots} names, ${people} different people`,
+    total2: "State officers arrested",
+    total3: `Others arrested: ${arrested}`,
+    total3b: "2 Malaysian businessmen, 1 Canadian launderer",
+    leg: ["named, no arrest announced", "arrested", "same person, named again"],
+    foot: '"No arrest announced": no later US Justice Department announcement of an arrest, extradition or guilty plea. The launderer in 2021 was charged separately.',
+  },
+  ja: {
+    title: "米国の 10 件の起訴で名指しされた人 (2014〜2025 年)。1 人 1 マス",
+    head: ["年", "部隊・グループ", "国", "名指しされた人", "備考"],
+    total1: `のべ ${slots} 人、実人数 ${people} 人`,
+    total2: "逮捕された国家機関の要員",
+    total3: `それ以外で逮捕: ${arrested} 人`,
+    total3b: "マレーシアの実業家 2 人、カナダの資金洗浄役 1 人",
+    leg: ["名指しのみ (逮捕の発表なし)", "逮捕", "同じ人物の再掲"],
+    foot: "「逮捕の発表なし」= その後、米司法省が逮捕・引き渡し・有罪答弁を発表していない。2021 年の資金洗浄役は別件で起訴。",
+  },
+}[lang];
+
+const X = { year: 20, who: 74, where: 330, sq: 470, note: 852 };
+const S = 20; // square size
+const STEP = 30;
+const GAP = 18; // extra space between groups in one row
+const top = 64;
+const RH = 38;
+const lastY = top + (rows.length - 1) * RH;
+const ruleY = lastY + 26;
+---
+
+<!-- biome-ignore lint/a11y/noNoninteractiveTabindex: a scroll container must be focusable for keyboard users (axe scrollable-region-focusable) -->
+<div class="rl-wrap" tabindex="0" role="region" aria-label={lang === "ja" ? "名指しされた被告の一覧" : "Named defendants"}>
+<svg class="dg rl" viewBox="0 0 1080 620" role="img" aria-labelledby={`rl-t-${lang}`}>
+  <title id={`rl-t-${lang}`}>{L.title}</title>
+  {
+    L.head.map((h, i) => (
+      <text x={[X.year, X.who, X.where, X.sq, X.note][i]} y="30" class="t-s t-2 b">
+        {h}
+      </text>
+    ))
+  }
+  <line x1="20" y1="42" x2="1060" y2="42" class="ln-1"></line>
+  {
+    rows.map((r, i) => {
+      const y = top + i * RH;
+      let x = X.sq;
+      const squares: { x: number; p: Person }[] = [];
+      r.groups.forEach((g, gi) => {
+        if (gi > 0) x += GAP;
+        for (const p of g) {
+          squares.push({ x, p });
+          x += STEP;
+        }
+      });
+      return (
+        <g>
+          {i > 0 && <line x1="20" y1={y - 24} x2="1060" y2={y - 24} class="ln-1 soft" />}
+          <text x={X.year} y={y} class="mono">
+            {r.year}
+          </text>
+          <text x={X.who} y={y}>
+            {r.who[lang]}
+          </text>
+          <text x={X.where} y={y} class="t-2">
+            {r.where[lang]}
+          </text>
+          {squares.map(({ x: sx, p }) => (
+            <rect
+              x={sx}
+              y={y - 15}
+              width={S}
+              height={S}
+              class:list={[p.k === "a" ? "fill-leak" : "stroke-leak", p.k === "r" && "dash"]}
+            >
+              <title>{p.name}</title>
+            </rect>
+          ))}
+          {r.note && (
+            <text x={X.note} y={y} class="t-s t-2">
+              {r.note[lang]}
+            </text>
+          )}
+        </g>
+      );
+    })
+  }
+  <line x1="20" y1={ruleY} x2="1060" y2={ruleY} class="ln"></line>
+
+  <text x={X.year} y={ruleY + 38} class="t-l">{L.total1}</text>
+  <text x={X.sq} y={ruleY + 42} class="t-leak" font-size="34">0</text>
+  <text x={X.sq + 34} y={ruleY + 38} class="t-l">{L.total2}</text>
+  <text x={X.sq} y={ruleY + 76} class="b">{L.total3}</text>
+  <text x={X.sq} y={ruleY + 96} class="t-s t-2">{L.total3b}</text>
+
+  <g transform={`translate(20 ${ruleY + 62})`}>
+    <rect x="0" y="0" width={S} height={S} class="stroke-leak"></rect>
+    <text x="30" y="15" class="t-s">{L.leg[0]}</text>
+    <rect x="0" y="32" width={S} height={S} class="fill-leak"></rect>
+    <text x="30" y="47" class="t-s">{L.leg[1]}</text>
+    <rect x="0" y="64" width={S} height={S} class="stroke-leak dash"></rect>
+    <text x="30" y="79" class="t-s">{L.leg[2]}</text>
+  </g>
+  <text x="20" y={ruleY + 176} class="t-s t-2">{L.foot}</text>
+</svg>
+<ul class="sr">
+  {
+    rows.map((r) => (
+      <li>
+        {r.year}, {r.who[lang]} ({r.where[lang]}): {r.groups.flat().map((p) => p.name).join(", ")}
+      </li>
+    ))
+  }
+</ul>
+</div>
+
+<style>
+  /* Self-contained so it can sit on the home page as well as in the essay:
+     below ~880px the ledger keeps its size and scrolls instead of shrinking
+     its 12px labels into illegibility. */
+  .rl-wrap {
+    position: relative;
+    overflow-x: auto;
+  }
+  .rl {
+    min-width: 880px;
+  }
+  .rl rect {
+    stroke-width: 2;
+  }
+</style>

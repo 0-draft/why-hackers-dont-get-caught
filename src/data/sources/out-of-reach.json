@@ -1,0 +1,346 @@
+[
+  {
+    "id": "reach-doj-pla-2014",
+    "title": "U.S. Charges Five Chinese Military Hackers for Cyber Espionage Against U.S. Corporations and a Labor Organization for Commercial Advantage",
+    "publisher": "U.S. Department of Justice, Western District of Pennsylvania",
+    "date": "2014-05-19",
+    "url": "https://www.justice.gov/usao-wdpa/pr/us-charges-five-chinese-military-hackers-cyber-espionage-against-us-corporations-and",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-doj-iran-2016",
+    "title": "Seven Iranians Working for Islamic Revolutionary Guard Corps-Affiliated Entities Charged for Conducting Coordinated Campaign of Cyber Attacks Against U.S. Financial Sector",
+    "publisher": "U.S. Department of Justice",
+    "date": "2016-03-24",
+    "url": "https://www.justice.gov/opa/pr/seven-iranians-working-islamic-revolutionary-guard-corps-affiliated-entities-charged",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-doj-park-2018",
+    "title": "North Korean Regime-Backed Programmer Charged With Conspiracy to Conduct Multiple Cyber Attacks and Intrusions",
+    "publisher": "U.S. Department of Justice",
+    "date": "2018-09-06",
+    "url": "https://www.justice.gov/archives/opa/pr/north-korean-regime-backed-programmer-charged-conspiracy-conduct-multiple-cyber-attacks-and",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-doj-apt41",
+    "title": "Seven International Cyber Defendants, Including \"Apt41\" Actors, Charged in Connection with Computer Intrusion Campaigns Against More Than 100 Victims Globally",
+    "publisher": "U.S. Department of Justice",
+    "date": "2020-09-16",
+    "url": "https://www.justice.gov/archives/opa/pr/seven-international-cyber-defendants-including-apt41-actors-charged-connection-computer",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-doj-dprk-2021",
+    "title": "Three North Korean Military Hackers Indicted in Wide-Ranging Scheme to Commit Cyberattacks and Financial Crimes Across the Globe",
+    "publisher": "U.S. Department of Justice",
+    "date": "2021-02-17",
+    "url": "https://www.justice.gov/archives/opa/pr/three-north-korean-military-hackers-indicted-wide-ranging-scheme-commit-cyberattacks-and",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-doj-apt40",
+    "title": "Four Chinese Nationals Working with the Ministry of State Security Charged with Global Computer Intrusion Campaign Targeting Intellectual Property and Confidential Business Information",
+    "publisher": "U.S. Department of Justice, Southern District of California",
+    "date": "2021-07-19",
+    "url": "https://www.justice.gov/usao-sdca/pr/four-chinese-nationals-working-ministry-state-security-charged-global-computer",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-fbi-irgc-2024",
+    "title": "Three IRGC Cyber Actors Indicted for Hack-and-Leak Operation Designed to Influence the 2024 U.S. Presidential Election",
+    "publisher": "Federal Bureau of Investigation",
+    "date": "2024-09-27",
+    "url": "https://www.fbi.gov/news/press-releases/three-irgc-cyber-actors-indicted-for-hack-and-leak-operation-designed-to-influence-the-2024-us-presidential-election",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-doj-isoon",
+    "title": "Justice Department Charges 12 Chinese Contract Hackers and Law Enforcement Officers in Global Computer Intrusion Campaigns",
+    "publisher": "U.S. Department of Justice",
+    "date": "2025-03-05",
+    "url": "https://www.justice.gov/opa/pr/justice-department-charges-12-chinese-contract-hackers-and-law-enforcement-officers-global",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-record-irgc",
+    "title": "US charges three Iranians behind hack of Trump campaign",
+    "publisher": "The Record",
+    "date": "2024-09-27",
+    "url": "https://therecord.media/us-charges-iranians-behind-hack",
+    "kind": "press"
+  },
+  {
+    "id": "reach-ru-constitution",
+    "title": "Constitution of the Russian Federation (English translation), Article 61",
+    "publisher": "University of Minnesota Human Rights Library",
+    "date": "1993-12-12",
+    "url": "https://hrlibrary.umn.edu/research/constitution-russia.html",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-prc-extradition",
+    "title": "Extradition Law of the People's Republic of China (Order of the President No. 42), Article 8",
+    "publisher": "UNODC SHERLOC (text of the law adopted by the NPC Standing Committee)",
+    "date": "2000-12-28",
+    "url": "https://sherloc.unodc.org/cld/uploads/res/document/chn/2000/extradition_law_of_the_peoples_republic_of_china_html/China_Extradition_Law_2000.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-treasury-evilcorp-2019",
+    "title": "Treasury Sanctions Evil Corp, the Russia-Based Cybercriminal Group Behind Dridex Malware",
+    "publisher": "U.S. Department of the Treasury",
+    "date": "2019-12-05",
+    "url": "https://home.treasury.gov/news/press-releases/sm845",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-treasury-evilcorp-2024",
+    "title": "Treasury Sanctions Members of the Russia-Based Cybercriminal Group Evil Corp in Tri-Lateral Action with the United Kingdom and Australia",
+    "publisher": "U.S. Department of the Treasury",
+    "date": "2024-10-01",
+    "url": "https://home.treasury.gov/news/press-releases/jy2623",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-trend-darkside",
+    "title": "What We Know About the DarkSide Ransomware and the US Pipeline Attack",
+    "publisher": "Trend Micro",
+    "date": "2021-05",
+    "url": "https://www.trendmicro.com/en_us/research/21/e/what-we-know-about-darkside-ransomware-and-the-us-pipeline-attac.html",
+    "kind": "report"
+  },
+  {
+    "id": "reach-thn-revil",
+    "title": "Four REvil Ransomware Members Sentenced in Rare Russian Cybercrime Convictions",
+    "publisher": "The Hacker News",
+    "date": "2024-10",
+    "url": "https://thehackernews.com/2024/10/four-revil-ransomware-members-sentenced.html",
+    "kind": "press"
+  },
+  {
+    "id": "reach-infosec-matveev",
+    "title": "Russia Arrests Notorious Ransomware Actor Wazawaka",
+    "publisher": "Infosecurity Magazine",
+    "date": "2024-12",
+    "url": "https://www.infosecurity-magazine.com/news/russia-arrests-ransomware-wazawaka/",
+    "kind": "press"
+  },
+  {
+    "id": "reach-csm-pla",
+    "title": "US indicts five in China's secret 'Unit 61398' for cyber-spying on US firms",
+    "publisher": "The Christian Science Monitor",
+    "date": "2014-05-19",
+    "url": "https://www.csmonitor.com/World/Passcode/2014/0519/US-indicts-five-in-China-s-secret-Unit-61398-for-cyber-spying-on-US-firms",
+    "kind": "press"
+  },
+  {
+    "id": "reach-ofac-advisory",
+    "title": "Updated Advisory on Potential Sanctions Risks for Facilitating Ransomware Payments",
+    "publisher": "U.S. Department of the Treasury, OFAC",
+    "date": "2021-09-21",
+    "url": "https://ofac.treasury.gov/system/files/126/ofac_ransomware_advisory.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-record-conti",
+    "title": "US State Department offering $10 million reward for information about Conti members",
+    "publisher": "The Record",
+    "date": "2022-05-08",
+    "url": "https://therecord.media/us-state-department-offering-10-million-reward-for-information-about-conti-members",
+    "kind": "press"
+  },
+  {
+    "id": "reach-doj-qakbot",
+    "title": "Qakbot Malware Disrupted in International Cyber Takedown",
+    "publisher": "U.S. Department of Justice, Central District of California",
+    "date": "2023-08-29",
+    "url": "https://www.justice.gov/usao-cdca/pr/qakbot-malware-disrupted-international-cyber-takedown",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-europol-endgame",
+    "title": "Largest ever operation against botnets hits dropper malware ecosystem",
+    "publisher": "Europol",
+    "date": "2024-05-30",
+    "url": "https://www.europol.europa.eu/media-press/newsroom/news/largest-ever-operation-against-botnets-hits-dropper-malware-ecosystem",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-record-endgame",
+    "title": "Europol-led 'Operation Endgame' targets dropper malware",
+    "publisher": "The Record",
+    "date": "2024-05-30",
+    "url": "https://therecord.media/dropper-malware-takedown-europol-operation-endgame",
+    "kind": "press"
+  },
+  {
+    "id": "reach-doj-seleznev",
+    "title": "Russian Cyber-Criminal Sentenced to 27 Years in Prison for Hacking and Credit Card Fraud Scheme",
+    "publisher": "U.S. Department of Justice",
+    "date": "2017-04-21",
+    "url": "https://www.justice.gov/archives/opa/pr/russian-cyber-criminal-sentenced-27-years-prison-hacking-and-credit-card-fraud-scheme",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-doj-nikulin",
+    "title": "Russian Hacker Sentenced To Over 7 Years In Prison For Hacking Into Three Bay Area Tech Companies",
+    "publisher": "U.S. Department of Justice, Northern District of California",
+    "date": "2020-09-29",
+    "url": "https://www.justice.gov/usao-ndca/pr/russian-hacker-sentenced-over-7-years-prison-hacking-three-bay-area-tech-companies",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-record-vinnik",
+    "title": "Alexander Vinnik reportedly released in prisoner swap between Russia and US",
+    "publisher": "The Record",
+    "date": "2025-02",
+    "url": "https://therecord.media/alexander-vinnik-reported-released-prisoner-swap-russia-us",
+    "kind": "press"
+  },
+  {
+    "id": "reach-mt-vinnik",
+    "title": "Washington to Release Russian Crypto Kingpin Alexander Vinnik in Exchange for Marc Fogel, U.S. Official Says",
+    "publisher": "The Moscow Times",
+    "date": "2025-02-12",
+    "url": "https://www.themoscowtimes.com/2025/02/12/washington-to-release-russian-crypto-kingpin-alexander-vinnik-in-exchange-for-marc-fogel-us-official-says-a87975",
+    "kind": "press"
+  },
+  {
+    "id": "reach-doj-klyushin",
+    "title": "Russian Businessman Sentenced to Nine Years in Prison in $93 Million Hack-to-Trade Conspiracy",
+    "publisher": "U.S. Department of Justice, District of Massachusetts",
+    "date": "2023-09-07",
+    "url": "https://www.justice.gov/usao-ma/pr/russian-businessman-sentenced-nine-years-prison-93-million-hack-trade-conspiracy",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-bc-vasinskyi",
+    "title": "REvil hacker behind Kaseya ransomware attack gets 13 years in prison",
+    "publisher": "BleepingComputer",
+    "date": "2024-05",
+    "url": "https://www.bleepingcomputer.com/news/security/revil-hacker-behind-kaseya-ransomware-attack-gets-13-years-in-prison/",
+    "kind": "press"
+  },
+  {
+    "id": "reach-sw-8base",
+    "title": "Authorities Disrupt 8Base Ransomware, Arrest Four Russian Operators",
+    "publisher": "SecurityWeek",
+    "date": "2025-02",
+    "url": "https://www.securityweek.com/authorities-disrupt-8base-ransomware-arrest-four-russian-operators/",
+    "kind": "press"
+  },
+  {
+    "id": "reach-doj-panev",
+    "title": "U.S. Charges Dual Russian and Israeli National as Developer of LockBit Ransomware Group",
+    "publisher": "U.S. Department of Justice, District of New Jersey",
+    "date": "2024-12-20",
+    "url": "https://www.justice.gov/usao-nj/pr/us-charges-dual-russian-and-israeli-national-developer-lockbit-ransomware-group",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-sw-panev",
+    "title": "LockBit Ransomware Developer Extradited to US",
+    "publisher": "SecurityWeek",
+    "date": "2025-03",
+    "url": "https://www.securityweek.com/lockbit-ransomware-developer-extradited-to-us/",
+    "kind": "press"
+  },
+  {
+    "id": "reach-ic3-2025",
+    "title": "Internet Crime Report 2025",
+    "publisher": "FBI Internet Crime Complaint Center (IC3)",
+    "date": "2026",
+    "url": "https://www.ic3.gov/AnnualReport/Reports/2025_IC3Report.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-record-swap",
+    "title": "US reportedly preparing to release Russian hackers in prisoner swap",
+    "publisher": "The Record",
+    "date": "2024-08-01",
+    "url": "https://therecord.media/us-reportedly-preparing-to-release-russian-hackers-prisoner-swap",
+    "kind": "press"
+  },
+  {
+    "id": "reach-cyberscoop-swap",
+    "title": "Jailed cybercriminals returned to Russia in historic prisoner swap",
+    "publisher": "CyberScoop",
+    "date": "2024-08-01",
+    "url": "https://cyberscoop.com/jailed-cybercriminals-returned-to-russia-in-historic-prisoner-swap/",
+    "kind": "press"
+  },
+  {
+    "id": "reach-wh-notpetya",
+    "title": "Statement from the Press Secretary (NotPetya)",
+    "publisher": "The White House",
+    "date": "2018-02-15",
+    "url": "https://trumpwhitehouse.archives.gov/briefings-statements/statement-press-secretary-25/",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-wired-notpetya",
+    "title": "The Untold Story of NotPetya, the Most Devastating Cyberattack in History",
+    "publisher": "Wired (Andy Greenberg)",
+    "date": "2018-08-22",
+    "url": "https://www.wired.com/story/notpetya-cyberattack-ukraine-russia-code-crashed-the-world/",
+    "kind": "press"
+  },
+  {
+    "id": "reach-wh-wannacry",
+    "title": "Press Briefing on the Attribution of the WannaCry Malware Attack to North Korea",
+    "publisher": "The White House",
+    "date": "2017-12-19",
+    "url": "https://trumpwhitehouse.archives.gov/briefings-statements/press-briefing-on-the-attribution-of-the-wannacry-malware-attack-to-north-korea-121917/",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-cisa-volt",
+    "title": "PRC State-Sponsored Actors Compromise and Maintain Persistent Access to U.S. Critical Infrastructure (AA24-038A)",
+    "publisher": "CISA, NSA, FBI",
+    "date": "2024-02-07",
+    "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-cisa-salt",
+    "title": "Joint Statement from FBI and CISA on the People's Republic of China (PRC) Targeting of Commercial Telecommunications Infrastructure",
+    "publisher": "CISA and FBI",
+    "date": "2024-11-13",
+    "url": "https://www.cisa.gov/news-events/news/joint-statement-fbi-and-cisa-peoples-republic-china-prc-targeting-commercial-telecommunications",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-state-salt",
+    "title": "U.S. Takes Action Against PRC-Linked Cyber Actors for Treasury Hack and Salt Typhoon",
+    "publisher": "U.S. Department of State",
+    "date": "2025-01-17",
+    "url": "https://2021-2025.state.gov/office-of-the-spokesperson/releases/2025/01/u-s-takes-action-against-prc-linked-cyber-actors-for-treasury-hack-and-salt-typhoon/",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-npa-mirrorface",
+    "title": "Cyberattacks by MirrorFace: NPA and NISC advisory (in Japanese)",
+    "publisher": "National Police Agency of Japan and NISC",
+    "date": "2025-01-08",
+    "url": "https://www.npa.go.jp/bureau/cyber/koho/caution/caution20250108.html",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-fbi-dmm",
+    "title": "FBI, DC3, and NPA Identification of North Korean Cyber Actors, Tracked as TraderTraitor, Responsible for Theft of $308 Million USD from Bitcoin.DMM.com",
+    "publisher": "FBI, DC3 and National Police Agency of Japan",
+    "date": "2024-12-23",
+    "url": "https://www.fbi.gov/news/press-releases/fbi-dc3-and-npa-identification-of-north-korean-cyber-actors-tracked-as-tradertraitor-responsible-for-theft-of-308-million-from-bitcoindmmcom",
+    "kind": "primary"
+  },
+  {
+    "id": "reach-thirdway",
+    "title": "To Catch a Hacker: Toward a comprehensive strategy to identify, pursue, and punish malicious cyber actors",
+    "publisher": "Third Way (Eoyang, Peters, Mehta, Gaskew)",
+    "date": "2018-10-29",
+    "url": "https://www.thirdway.org/report/to-catch-a-hacker-toward-a-comprehensive-strategy-to-identify-pursue-and-punish-malicious-cyber-actors",
+    "kind": "report"
+  }
+]

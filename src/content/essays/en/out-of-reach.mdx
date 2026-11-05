@@ -1,0 +1,96 @@
+---
+title: "Named, never arrested"
+summary: "Many of the people behind the worst attacks are not anonymous at all. They have been named and charged, and they live in states that will not hand them over."
+essay: out-of-reach
+---
+
+import Cite from "../../../components/Cite.astro";
+import Fig from "../../../components/Fig.astro";
+import ReachLedger from "../../../components/fig/ReachLedger.astro";
+import ReachPaths from "../../../components/fig/ReachPaths.astro";
+
+After every large attack someone asks why nobody has been arrested. The question assumes the problem is finding the culprit. Often it is not: investigators know the name, publish it and file the charges, and the person goes on living at home, because home is a state that will not extradite them and has no reason to stop them.
+
+## Three outcomes, not one
+
+"They didn't get caught" covers three different situations, and they have different causes.
+
+The first is that nobody knows who did it. Every layer the person relied on held, or at least nobody has yet found the one that did not. The chapters on this site are about that problem: how each layer hides something, and how it gives way.
+
+The second is that investigators do know. The person is identified, often by name, date of birth and employer, and charged in a court that will never see them. This group is larger than most people assume, and it is what this page is about.
+
+The third is that the person is caught. In the documented cases on this site that almost always happens because one layer gave way while the person was already within reach of a court, or because a person who was out of reach stepped inside it. The [case files](/cases/) record which layer failed each time. Incognito Market's operator, for example, was arrested at New York's JFK airport in May 2024 while in transit <Cite id="case-inc-arrest" /> <Cite id="case-inc-fxstreet" />; see the [Incognito entry](/cases/#incognito) and the [money chapter](/layers/money/).
+
+## Ten indictments, fifty-eight people
+
+In May 2014 the US Justice Department charged five officers of the Chinese People's Liberation Army's Unit 61398 with hacking American companies, and called it the first time it had charged a state actor for this kind of hacking <Cite id="reach-doj-pla-2014" />. It became a routine. Seven people working for two Iranian companies on behalf of the Iranian government, including the Revolutionary Guard, were charged in 2016 over attacks on US banks and a dam in New York <Cite id="reach-doj-iran-2016" />. Twelve officers of Russia's military intelligence service, the GRU, were charged in July 2018 over the 2016 election <Cite id="attr-doj-gru-2018" />. A North Korean programmer, Park Jin Hyok, was charged that September over Sony Pictures, the Bangladesh Bank theft and WannaCry <Cite id="reach-doj-park-2018" />.
+
+Then: five Chinese nationals and two Malaysians in the APT41 case in September 2020 <Cite id="reach-doj-apt41" />; six GRU officers over NotPetya and other destructive attacks a month later <Cite id="attr-doj-gru-2020" />; three officers of North Korea's Reconnaissance General Bureau in February 2021 <Cite id="reach-doj-dprk-2021" />; three officers of the Hainan State Security Department and a hacker from their front company in July 2021 <Cite id="reach-doj-apt40" />; three Iranians over the hack-and-leak operation against the 2024 Trump campaign <Cite id="reach-fbi-irgc-2024" />; and in March 2025 twelve people, among them two officers of China's Ministry of Public Security and eight employees of the contractor i-Soon <Cite id="reach-doj-isoon" />.
+
+<Fig caption="Ten US indictments of people hacking for or on behalf of a state, one square per named defendant. Squares stay outlined unless an arrest was announced. Dashed squares are people named a second time (Anatoliy Kovalev in 2018 and 2020, Park Jin Hyok in 2018 and 2021). The Canadian launderer in the 2021 row was charged separately and is not counted among the 60 names. 'No arrest' is inferred from the absence of any later DOJ announcement of an arrest, extradition or plea." size="wide">
+  <ReachLedger lang="en" />
+</Fig>
+
+That is 60 names and 58 different people. Not all of them are officers: the list includes employees of the Iranian companies, the Chinese contractors and the front company. As far as the public record shows, not one state officer among them has been arrested.
+
+Three people connected to these cases were. Malaysian authorities arrested the two Malaysian businessmen in the APT41 case on 14 September 2020 at US request <Cite id="reach-doj-apt41" />; whether they were ever sent to the United States I could not confirm. Ghaleb Alaumary, a Canadian who laundered money for the North Korean scheme, was charged separately and agreed to plead guilty <Cite id="reach-doj-dprk-2021" />. None of the three was an officer, and none lived in the state that directed the hacking.
+
+A note on method. The Justice Department does not publish a list of who is still at large, so "never arrested" here means that I found no later DOJ announcement of an arrest, extradition or plea for that person. Sometimes the department says it outright. Of the six GRU officers charged in 2020 it wrote that none were in US custody <Cite id="attr-doj-gru-2020" />; the twelve charged in 2025 "remain at large" <Cite id="reach-doj-isoon" />; and the Attorney General said the three Iranians charged in 2024 were all in Iran <Cite id="reach-record-irgc" />.
+
+## The wall is law
+
+The first obstacle is written down. Article 61 of the Russian Constitution says that "a citizen of the Russian Federation may not be deported from Russia or extradited to another State" <Cite id="reach-ru-constitution" />. China's Extradition Law of 2000 says in Article 8 that a foreign request "shall be rejected" if the person sought is a Chinese national <Cite id="reach-prc-extradition" />. Neither leaves room for discretion. A Russian or Chinese officer indicted in the United States will not be handed over by their own government, whatever the evidence.
+
+A ban on extradition only explains why the state will not hand someone over. It does not explain why it does not try them itself. For that, the public record points to tolerance and sometimes to employment. In 2019 the US Treasury said that the leader of the Evil Corp group, Maksim Yakubets, was working for Russia's FSB as of 2017 <Cite id="reach-treasury-evilcorp-2019" />. In 2024 it said his father-in-law, a former FSB officer, used his influence after the 2019 indictments to protect the group, including by "ensuring they were not pursued by Russian internal authorities" <Cite id="reach-treasury-evilcorp-2024" />. According to the 2025 indictment, China's Ministry of State Security and Ministry of Public Security paid i-Soon between about $10,000 and $75,000 for each email inbox it broke into <Cite id="reach-doj-isoon" />. That is hacking bought as a government service.
+
+Criminal groups show the same arrangement from the other side. The DarkSide ransomware checked whether a victim was in a country of the Commonwealth of Independent States and spared it. Trend Micro, which analysed the code, adds that the group would usually know where a target was long before the ransomware ran, so the check is a backstop rather than the main rule <Cite id="reach-trend-darkside" />. The rule itself is the point: do not hit home.
+
+The protection is a decision, though, and a state can change its mind without handing anyone over. Russia's FSB detained members of the REvil ransomware group in January 2022, and in October 2024 a military court in St. Petersburg sentenced four of them to between four and a half and six years <Cite id="reach-thn-revil" />. In late 2024 Russian state media reported that a man identified as Mikhail Matveev, wanted in the United States with a reward of up to $10 million, had been charged in Kaliningrad with creating malware <Cite id="reach-infosec-matveev" /> <Cite id="case-waz-doj" />. Neither case sent anyone to an American court.
+
+## What governments do instead
+
+When an arrest is impossible, the indictment itself becomes the product. It is a public attribution with names, units and evidence attached, filed in a form a court could test. China called the 2014 charges "absurd" and suspended a bilateral cyber working group in response <Cite id="reach-csm-pla" />. An indictment also does not expire on the day it is announced, which matters in the next section.
+
+Sanctions follow. Treasury designated 17 individuals and seven entities around Evil Corp in 2019, alongside a reward of up to $5 million for Yakubets <Cite id="reach-treasury-evilcorp-2019" />, and added more members in 2024 together with the United Kingdom and Australia <Cite id="reach-treasury-evilcorp-2024" />. LockBit's leader, Dmitry Khoroshev, was named, indicted and sanctioned in May 2024 ([case file](/cases/#lockbitsupp)) <Cite id="case-lb-doj" />. A sanction does not touch the person, but it makes paying them dangerous: Treasury warns that a victim who pays ransom to a sanctioned person may itself be violating sanctions <Cite id="reach-ofac-advisory" />.
+
+Rewards are the third tool. The State Department offered up to $10 million for information on Conti's leaders and up to $5 million for the arrest of any member <Cite id="reach-record-conti" />, up to $10 million for Matveev <Cite id="case-waz-doj" />, up to $10 million for the three Iranians <Cite id="reach-record-irgc" />, and up to $10 million for the i-Soon and Ministry of Public Security defendants <Cite id="reach-doj-isoon" />.
+
+The fourth is to go after what can be reached: servers, domains and money. In August 2023 an FBI-led operation took over the Qakbot botnet, which had infected about 700,000 computers, and seized more than $8.6 million in cryptocurrency <Cite id="reach-doj-qakbot" />. In February 2024 the UK's National Crime Agency took control of LockBit's administration system and leak site, and two LockBit actors were arrested in Poland and Ukraine <Cite id="attr-nca-cronos" />. Operation Endgame in May 2024 took down more than 100 servers <Cite id="reach-europol-endgame" />, seized more than 2,000 domains and led to four arrests, three in Ukraine and one in Armenia, while Germany issued warrants for eight more suspects <Cite id="reach-record-endgame" />. The arrests in these operations happen at the edges, in countries that cooperate. The people at the centre are named and put on wanted lists. The [infrastructure chapter](/layers/infrastructure/) explains why a seized server is so useful to investigators.
+
+## How the reachable get caught
+
+<Fig caption="A named suspect inside a protecting state, and the three ways people in this essay came within reach of a court. The dashed path is the return trip: three of the people arrested abroad and tried in the United States were later sent back to Russia in exchanges." size="wide">
+  <ReachPaths lang="en" />
+</Fig>
+
+The most common way is travel. Roman Seleznev, a Russian card thief, was taken into custody in the Maldives in July 2014 and later sentenced to 27 years <Cite id="reach-doj-seleznev" />. Yevgeniy Nikulin, who hacked LinkedIn and Dropbox, was arrested in Prague in October 2016 and sentenced to 88 months <Cite id="reach-doj-nikulin" />. Alexander Vinnik of the BTC-e exchange was arrested in Greece in 2017 <Cite id="reach-record-vinnik" /> and, after a spell in a French jail, extradited to the United States in August 2022 <Cite id="reach-mt-vinnik" />. Vladislav Klyushin was arrested in Sion, Switzerland, in March 2021, extradited that December, sentenced to nine years and ordered to forfeit $34,065,419 <Cite id="reach-doj-klyushin" />. Yaroslav Vasinskyi, a Ukrainian charged over the REvil attack on Kaseya, was arrested in October 2021 while entering Poland and sentenced to 13 years and seven months <Cite id="reach-bc-vasinskyi" />. Four alleged leaders of the 8Base ransomware group were arrested in Phuket, Thailand, in an operation by 14 countries that included Japan <Cite id="reach-sw-8base" />. Each of them was already charged or under investigation; the charge waited until they left.
+
+The second way is to live in, or hold the passport of, a state that cooperates. Rostislav Panev, a LockBit developer with Russian and Israeli citizenship, was arrested in Israel in August 2024 at US request <Cite id="reach-doj-panev" /> and extradited in March 2025 <Cite id="reach-sw-panev" />. The two Malaysians in the APT41 case are another example. On a much larger scale, the FBI says joint operations with India's Central Bureau of Investigation led to about 175 arrests of call-centre fraudsters in 2025 and more than 475 since 2022 <Cite id="reach-ic3-2025" />.
+
+The third is that one layer gives way somewhere the law can reach, even if the person at the top stays home. Alaumary handled the cash-out for the North Korean scheme from Canada and the United States <Cite id="reach-doj-dprk-2021" />; none of the three officers charged with the hacking has been arrested. The two LockBit arrests came from the same operation that seized its servers <Cite id="attr-nca-cronos" />.
+
+An arrest is not always the end. On 1 August 2024 the United States, Germany and Slovenia exchanged prisoners with Russia and Belarus at an airport in Ankara <Cite id="reach-record-swap" />. Seleznev and Klyushin were among those sent back <Cite id="reach-cyberscoop-swap" />. In February 2025 the United States released Vinnik in exchange for the American teacher Marc Fogel <Cite id="reach-mt-vinnik" />. For a state that values its hackers, a convicted one can become a bargaining chip.
+
+## "Cyber war": attribution with nobody to arrest
+
+At the far end are attacks that governments describe as acts of states. The response there stops at naming. In February 2018 the White House said the Russian military had launched NotPetya, "the most destructive and costly cyber-attack in history", causing billions of dollars in damage <Cite id="reach-wh-notpetya" />. The often-quoted figure of $10 billion is not in that statement; it comes from a White House assessment that Tom Bossert, then the president's homeland security adviser, confirmed to Wired <Cite id="reach-wired-notpetya" />. The six GRU officers later charged over NotPetya are not in US custody <Cite id="attr-doj-gru-2020" />.
+
+In December 2017 Bossert attributed WannaCry to North Korea, with the United Kingdom, Australia, Canada, New Zealand and Japan joining the attribution. He also said the United States did not have "a lot of room left here to apply pressure" <Cite id="reach-wh-wannacry" />. Park Jin Hyok was publicly charged nine months later <Cite id="reach-doj-park-2018" />.
+
+The more recent Chinese campaigns have not reached a courtroom at all. CISA, the NSA and the FBI said in February 2024 that they assessed "with high confidence" that Volt Typhoon was pre-positioning itself in US critical infrastructure networks, in some cases for at least five years; the advisory names no individuals <Cite id="reach-cisa-volt" />. In November 2024 the FBI and CISA confirmed that PRC-affiliated actors had broken into several telecommunications companies and stolen call records and data tied to lawful intercept requests <Cite id="reach-cisa-salt" />. The response two months later was a sanction on a Sichuan company the US says was involved <Cite id="reach-state-salt" />.
+
+Japan sees the same pattern. In January 2025 the National Police Agency and the National center of Incident readiness and Strategy for Cybersecurity attributed a campaign against Japanese organisations since about 2019 to the group MirrorFace and assessed it as an organised attack in which Chinese involvement is suspected <Cite id="reach-npa-mirrorface" />. No individual was named. In December 2024 the FBI, the Defense Department's Cyber Crime Center and the NPA jointly attributed the theft of 4,502.9 bitcoin, worth $308 million, from DMM Bitcoin to North Korea's TraderTraitor. The way in was a fake recruiter on LinkedIn who approached an employee at a wallet software supplier <Cite id="reach-fbi-dmm" />. Investigators found the weakest layer. It was a person at a supplier, and the people who exploited it are in a country no court can reach. The [attribution chapter](/layers/attribution/) explains how such conclusions are reached.
+
+## How rare is an arrest?
+
+There is no good figure. The only US-wide estimate whose method can be traced comes from a 2018 Third Way report. It took the 871 to 927 computer-crime arrests by federal, state and local agencies in 2016 and divided them by the 298,728 complaints the FBI's Internet Crime Complaint Center (IC3) received that year, which gives about 0.3%, or 3 arrests per 1,000 complaints. Assuming that only one victim in six reports a crime, it put the "effective" rate closer to 0.05% <Cite id="reach-thirdway" />.
+
+That is a ratio of two national totals, not the chance that any given attacker is caught. The arrests and the complaints are not the same cases. One arrest can cover hundreds of complaints or none of them, many of the arrests concern domestic crimes that never reached IC3, and the one-in-six factor is an assumption. It says, at most, that arrests are rare by two or three orders of magnitude. It cannot easily be updated, either. IC3 received 1,008,597 complaints in 2025, reporting $20.877 billion in losses, but its annual report gives no total arrest count to set against them <Cite id="reach-ic3-2025" />.
+
+## Common misconceptions
+
+- "Attackers get away because they are anonymous." Many of the most serious ones are not. Fifty-eight people are named in the ten indictments above <Cite id="attr-doj-gru-2018" /> <Cite id="reach-doj-isoon" />. What protects them is where they live.
+- "An indictment without an arrest is theatre." It is public attribution in a form a court could test, it is the basis for sanctions and rewards, and it waits. Klyushin was arrested when he flew to Switzerland <Cite id="reach-doj-klyushin" />.
+- "0.05% is the chance of being caught." It is an estimate built by dividing national arrest counts by unrelated complaint counts, with an assumed reporting rate on top <Cite id="reach-thirdway" />.
+- "Russia never acts against its own hackers." It sentenced four REvil members in 2024. It did not hand any of them over <Cite id="reach-thn-revil" />.
+- "Once convicted, they serve the sentence." Seleznev was sentenced to 27 years and went home in a prisoner exchange in 2024 <Cite id="reach-doj-seleznev" /> <Cite id="reach-cyberscoop-swap" />.

@@ -1,0 +1,139 @@
+---
+// Why a named suspect stays out of reach, and the three ways cases in the
+// essay brought one within it. The dashed return path is the prisoner swap.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    title: "A named suspect inside a protecting state, and the paths that brought people within reach",
+    home: "Protecting state",
+    homeSub: ["will not extradite its citizens", "and need not prosecute them"],
+    person: ["named,", "charged"],
+    inner: ["Tried at home, if the state chooses", "REvil members, sentenced 2024", "Matveev, charged 2024"],
+    paths: [
+      {
+        t: "1  Travel",
+        d: "to a country that cooperates",
+        ex: ["Maldives 2014 · Prague 2016 · Greece 2017", "Sion 2021 · Poland 2021 · Phuket 2025"],
+      },
+      {
+        t: "2  A cooperating state",
+        d: "they live there or hold its passport",
+        ex: ["Malaysia 2020 (two APT41 defendants)", "Israel 2024 (Panev) · India (FBI with CBI)"],
+      },
+      {
+        t: "3  A layer gives way",
+        d: "a reachable piece of the chain",
+        ex: ["a launderer: Alaumary, 2021", "servers: Cronos, 2 arrests, 2024"],
+      },
+    ],
+    reach: "Within reach",
+    reachSub: ["arrest, extradition,", "trial"],
+    swap: "Prisoner swap: Seleznev, Klyushin (Aug 2024) · Vinnik (Feb 2025)",
+  },
+  ja: {
+    title: "保護する国の中にいる名指しされた容疑者と、手が届く場所に出てきた経路",
+    home: "保護する国",
+    homeSub: ["自国民を引き渡さない", "国内で裁くとも限らない"],
+    person: ["名指し・", "起訴"],
+    inner: ["国が選べば国内で裁く", "REvil のメンバー (2024 年判決)", "マトヴェエフ (2024 年訴追)"],
+    paths: [
+      {
+        t: "1  渡航",
+        d: "協力する国へ出かける",
+        ex: ["モルディブ 2014・プラハ 2016", "ギリシャ 2017・シオン 2021", "ポーランド 2021・プーケット 2025"],
+      },
+      {
+        t: "2  協力する国",
+        d: "そこに住む、またはその国籍を持つ",
+        ex: ["マレーシア 2020 (APT41 の 2 人)", "イスラエル 2024 (パネフ)", "インド (FBI と CBI の合同捜査)"],
+      },
+      {
+        t: "3  どこかの層が破れる",
+        d: "連鎖の一部が手の届く場所にある",
+        ex: ["資金洗浄役: アラウマリー (2021)", "サーバー: Cronos (2024)", "ポーランドとウクライナで 2 人逮捕"],
+      },
+    ],
+    reach: "手が届く",
+    reachSub: ["逮捕・引き渡し・", "裁判"],
+    swap: "囚人交換: セレズニョフ、クリューシン (2024 年 8 月)・ヴィニク (2025 年 2 月)",
+  },
+}[lang];
+
+const mid = { x: 410, w: 320, h: 116, ys: [30, 172, 314] };
+const P = { x: 150, y: 216, s: 28 };
+const pc = { x: P.x + P.s, y: P.y + P.s / 2 };
+const R = { x: 800, y: 170, w: 180, h: 120 };
+const arr = `rp-arr-${lang}`;
+---
+
+<svg class="dg" viewBox="0 0 1000 480" role="img" aria-labelledby={`rp-t-${lang}`}>
+  <title id={`rp-t-${lang}`}>{L.title}</title>
+  <defs>
+    <marker id={arr} viewBox="0 0 10 10" refX="10" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" class="fill-ink"></path>
+    </marker>
+  </defs>
+
+  <!-- protecting state -->
+  <rect x="20" y="30" width="300" height="400" class="box" stroke-width="3"></rect>
+  <text x="40" y="60" class="t-l">{L.home}</text>
+  <text x="40" y="82" class="t-s t-2">{L.homeSub[0]}</text>
+  <text x="40" y="98" class="t-s t-2">{L.homeSub[1]}</text>
+  <rect x={P.x} y={P.y} width={P.s} height={P.s} class="stroke-leak"></rect>
+  <text x={P.x - 12} y={P.y + 10} class="t-s" text-anchor="end">{L.person[0]}</text>
+  <text x={P.x - 12} y={P.y + 26} class="t-s" text-anchor="end">{L.person[1]}</text>
+  <rect x="36" y="318" width="268" height="96" class="box-soft dash"></rect>
+  <text x="50" y="344" class="t-s b">{L.inner[0]}</text>
+  <text x="50" y="368" class="t-s t-2">{L.inner[1]}</text>
+  <text x="50" y="388" class="t-s t-2">{L.inner[2]}</text>
+
+  <!-- three paths -->
+  {
+    L.paths.map((p, i) => {
+      const y = mid.ys[i]!;
+      return (
+        <g>
+          <line x1={pc.x} y1={pc.y} x2={mid.x - 2} y2={y + mid.h / 2} class="ln" marker-end={`url(#${arr})`} />
+          <rect x={mid.x} y={y} width={mid.w} height={mid.h} class="box" />
+          <text x={mid.x + 16} y={y + 26} class="b">
+            {p.t}
+          </text>
+          <text x={mid.x + 16} y={y + 46} class="t-s">
+            {p.d}
+          </text>
+          {p.ex.map((e, j) => (
+            <text x={mid.x + 16} y={y + 68 + j * 18} class="t-s t-2">
+              {e}
+            </text>
+          ))}
+          <line
+            x1={mid.x + mid.w}
+            y1={y + mid.h / 2}
+            x2={R.x - 2}
+            y2={R.y + 30 + i * 30}
+            class="ln"
+            marker-end={`url(#${arr})`}
+          />
+        </g>
+      );
+    })
+  }
+
+  <!-- within reach -->
+  <rect x={R.x} y={R.y} width={R.w} height={R.h} class="box"></rect>
+  <text x={R.x + 16} y={R.y + 34} class="t-l">{L.reach}</text>
+  <text x={R.x + 16} y={R.y + 62} class="t-s">{L.reachSub[0]}</text>
+  <text x={R.x + 16} y={R.y + 80} class="t-s">{L.reachSub[1]}</text>
+
+  <!-- the return trip -->
+  <path
+    d={`M ${R.x + R.w / 2} ${R.y + R.h} V 462 H 230 V 432`}
+    class="ln dash"
+    marker-end={`url(#${arr})`}
+  ></path>
+  <text x="560" y="452" class="t-s b" text-anchor="middle">{L.swap}</text>
+</svg>
