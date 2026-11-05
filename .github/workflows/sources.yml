@@ -1,0 +1,49 @@
+name: Source links
+
+# Every claim on the site leans on an external source. Court dockets move,
+# press releases get archived, papers change hosts. Once a week, try every
+# source URL and keep one issue open listing the ones that stopped answering.
+
+on:
+  schedule:
+    - cron: "41 0 * * 1"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write # open or update the single "Dead sources" issue
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check source URLs
+        id: lychee
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          # Government sites often answer automated clients with 403 or 429;
+          # those are alive. Only real failures (404, 410, DNS, TLS) count.
+          args: >-
+            --no-progress --max-retries 3 --timeout 30 --max-concurrency 4
+            --accept 200..=299,401,403,429
+            --user-agent "Mozilla/5.0 (X11; Linux x86_64) tokumei-source-check"
+            'src/data/sources/*.json'
+          output: lychee-report.md
+          fail: false
+      - name: Open or update the issue
+        if: steps.lychee.outputs.exit_code != 0
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          title="Dead sources"
+          n=$(gh issue list -R "$REPO" --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')
+          if [ -n "$n" ]; then
+            gh issue edit "$n" -R "$REPO" --body-file lychee-report.md
+          else
+            gh issue create -R "$REPO" --title "$title" --body-file lychee-report.md
+          fi
