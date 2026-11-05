@@ -18,6 +18,7 @@ const fullTitle = title ? `${title} | ${t("site.name")}` : t("site.name");
 const desc = description ?? t("site.desc");
 const canonical = new URL(localePath(lang, path), Astro.site);
 // The essay link appears only once the essay is published (not a draft).
+const hasBasics = (await getCollection("basics", (e) => !e.data.draft)).length > 0;
 const hasReach = (await getCollection("essays", (e) => !e.data.draft && e.data.essay === "out-of-reach")).length > 0;
 const allNav = [
   { href: localePath(lang, "/out-of-reach/"), key: "nav.reach", match: "/out-of-reach/" },
@@ -27,7 +28,7 @@ const allNav = [
   { href: localePath(lang, "/sources/"), key: "nav.sources", match: "/sources/" },
   { href: localePath(lang, "/about/"), key: "nav.about", match: "/about/" },
 ] as const;
-const nav = allNav.filter((n) => n.key !== "nav.reach" || hasReach);
+const nav = allNav.filter((n) => (n.key !== "nav.reach" || hasReach) && (n.key !== "nav.basics" || hasBasics));
 ---
 
 <!doctype html>

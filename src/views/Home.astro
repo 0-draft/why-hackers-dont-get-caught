@@ -1,4 +1,5 @@
 ---
+import { getCollection } from "astro:content";
 import BasicsList from "../components/BasicsList.astro";
 import CaseMatrix from "../components/CaseMatrix.astro";
 import ReachLedger from "../components/fig/ReachLedger.astro";
@@ -15,6 +16,7 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = useT(lang);
+const hasBasics = (await getCollection("basics", (e) => !e.data.draft)).length > 0;
 const tally: Partial<Record<LayerSlug, number>> = {};
 for (const c of CASES)
   if ((LAYER_SLUGS as readonly string[]).includes(c.failed))
@@ -41,11 +43,15 @@ for (const c of CASES)
     <p class="more"><a href={localePath(lang, "/out-of-reach/")}>{t("home.ledgerMore")}</a></p>
   </section>
 
-  <section class="wrap" id="basics" aria-labelledby="b-h">
-    <h2 id="b-h" class="sec">{t("home.basicsTitle")}</h2>
-    <p class="sec-lede">{t("home.basicsLede")}</p>
-    <BasicsList lang={lang} />
-  </section>
+  {
+    hasBasics && (
+      <section class="wrap" id="basics" aria-labelledby="b-h">
+        <h2 id="b-h" class="sec">{t("home.basicsTitle")}</h2>
+        <p class="sec-lede">{t("home.basicsLede")}</p>
+        <BasicsList lang={lang} />
+      </section>
+    )
+  }
 
   <section class="wrap" aria-labelledby="v-h">
     <h2 id="v-h" class="sec">{t("home.vantageTitle")}</h2>
