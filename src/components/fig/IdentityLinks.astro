@@ -8,9 +8,8 @@ const { lang } = Astro.props;
 const L = {
   en: {
     title: "How one reused edge joined a pseudonym to a real name",
-    controls: "Show the graph",
     without: "Without the October 2011 post",
-    with: "With it",
+    with: "With the October 2011 post",
     persona: "pseudonym side",
     real: "real-name side",
     sr: "Silk Road",
@@ -32,9 +31,8 @@ const L = {
   },
   ja: {
     title: "1 本の使い回しの線が、仮名と実名をつないだ",
-    controls: "グラフの表示",
     without: "2011 年 10 月の投稿がない場合",
-    with: "ある場合",
+    with: "2011 年 10 月の投稿がある場合",
     persona: "仮名の側",
     real: "実名の側",
     sr: "Silk Road",
@@ -56,103 +54,100 @@ const L = {
   },
 }[lang];
 const tid = `idl-t-${lang}`;
+const panels = [
+  { oy: 0, on: false, head: L.without, verdict: L.vOff },
+  { oy: 320, on: true, head: L.with, verdict: L.vOn },
+];
 ---
 
-<div class="idl" data-idl>
-  <div class="ctl" role="group" aria-label={L.controls}>
-    <button type="button" class="sc" data-v="off" aria-pressed="true">{L.without}</button>
-    <button type="button" class="sc" data-v="on" aria-pressed="false">{L.with}</button>
-  </div>
-  <svg class="dg" viewBox="0 0 680 430" role="img" aria-labelledby={tid}>
-    <title id={tid}>{L.title}</title>
-    <defs>
-      <marker id={`idl-a-${lang}`} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
-        <path d="M0,0 L10,5 L0,10 z" class="fill-leak"></path>
-      </marker>
-    </defs>
+<svg class="dg" viewBox="0 0 680 640" role="img" aria-labelledby={tid}>
+  <title id={tid}>{L.title}</title>
+  <defs>
+    <marker id={`idl-a-${lang}`} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="fill-leak"></path>
+    </marker>
+  </defs>
+  {
+    panels.map(({ oy, on, head, verdict }) => (
+      <g>
+        <text x="10" y={oy + 20} class="t-l">
+          {head}
+        </text>
+        <rect x="10" y={oy + 32} width="270" height="240" class="ln-1 soft dash" fill="none" />
+        <text x="22" y={oy + 50} class="t-s t-2">
+          {L.persona}
+        </text>
+        <rect x="400" y={oy + 112} width="270" height="160" class="ln-1 soft dash" fill="none" />
+        <text x="412" y={oy + 130} class="t-s t-2">
+          {L.real}
+        </text>
 
-    <rect x="10" y="10" width="270" height="360" class="ln-1 soft dash" fill="none"></rect>
-    <text x="22" y="32" class="t-s t-2">{L.persona}</text>
-    <rect x="400" y="130" width="270" height="240" class="ln-1 soft dash" fill="none"></rect>
-    <text x="412" y="152" class="t-s t-2">{L.real}</text>
+        <rect x="22" y={oy + 58} width="246" height="54" class="box" />
+        <text x="36" y={oy + 80} class="b">
+          {L.sr}
+        </text>
+        <text x="36" y={oy + 100} class="t-s t-2">
+          {L.srSub}
+        </text>
 
-    <rect x="22" y="44" width="246" height="64" class="box"></rect>
-    <text x="38" y="70" class="b">{L.sr}</text>
-    <text x="38" y="92" class="t-s t-2">{L.srSub}</text>
+        <rect x="22" y={oy + 136} width="246" height="54" class="box" />
+        <text x="36" y={oy + 158} class="b">
+          {L.shroom}
+        </text>
+        <text x="36" y={oy + 178} class="t-s t-2">
+          {L.shroomSub}
+        </text>
 
-    <rect x="22" y="164" width="246" height="64" class="box"></rect>
-    <text x="38" y="190" class="b">{L.shroom}</text>
-    <text x="38" y="212" class="t-s t-2">{L.shroomSub}</text>
+        <rect x="22" y={oy + 210} width="246" height="54" class="box" />
+        <text x="36" y={oy + 232} class="b">
+          {L.btc}
+        </text>
+        <text x="36" y={oy + 252} class="t-s t-2">
+          {L.btcSub}
+        </text>
 
-    <rect x="22" y="290" width="246" height="64" class="box"></rect>
-    <text x="38" y="316" class="b">{L.btc}</text>
-    <text x="38" y="338" class="t-s t-2">{L.btcSub}</text>
+        <rect x="412" y={oy + 136} width="246" height="54" class="box" />
+        <text x="426" y={oy + 158} class="b">
+          {L.name}
+        </text>
+        <text x="426" y={oy + 178} class="t-s t-2">
+          {L.nameSub}
+        </text>
 
-    <rect x="412" y="164" width="246" height="64" class="box"></rect>
-    <text x="428" y="190" class="b">{L.name}</text>
-    <text x="428" y="212" class="t-s t-2">{L.nameSub}</text>
+        <rect x="412" y={oy + 210} width="246" height="54" class="box" />
+        <text x="426" y={oy + 232} class="mono b">
+          {L.gmail}
+        </text>
+        <text x="426" y={oy + 252} class="t-s t-2">
+          {L.gmailSub}
+        </text>
 
-    <rect x="412" y="290" width="246" height="64" class="box"></rect>
-    <text x="428" y="316" class="mono b">{L.gmail}</text>
-    <text x="428" y="338" class="t-s t-2">{L.gmailSub}</text>
+        <line x1="80" y1={oy + 112} x2="80" y2={oy + 136} class="ln" />
+        <text x="92" y={oy + 129} class="t-s">
+          {L.promotes}
+        </text>
+        <line x1="80" y1={oy + 190} x2="80" y2={oy + 210} class="ln" />
+        <text x="92" y={oy + 204} class="t-s">
+          {L.sameHandle}
+        </text>
+        <line x1="470" y1={oy + 190} x2="470" y2={oy + 210} class="ln" />
+        <text x="482" y={oy + 204} class="t-s">
+          {L.owner}
+        </text>
 
-    <line x1="80" y1="108" x2="80" y2="164" class="ln"></line>
-    <text x="92" y="141" class="t-s">{L.promotes}</text>
-    <line x1="80" y1="228" x2="80" y2="290" class="ln"></line>
-    <text x="92" y="264" class="t-s">{L.sameHandle}</text>
-    <line x1="470" y1="228" x2="470" y2="290" class="ln"></line>
-    <text x="482" y="264" class="t-s">{L.owner}</text>
-
-    <g class="on-only">
-      <line x1="268" y1="322" x2="410" y2="322" class="stroke-leak" marker-end={`url(#idl-a-${lang})`}></line>
-      <text x="339" y="310" class="t-s t-leak" text-anchor="middle">{L.inPost}</text>
-    </g>
-
-    <text x="10" y="404" class="b off-only">{L.vOff}</text>
-    <text x="10" y="404" class="b t-leak on-only">{L.vOn}</text>
-  </svg>
-</div>
-
-<style>
-  .ctl {
-    display: inline-flex;
-    flex-wrap: wrap;
-    border: 1.5px solid var(--ink);
-    margin-bottom: 1rem;
+        {on && (
+          <g>
+            <line x1="268" y1={oy + 237} x2="410" y2={oy + 237} class="stroke-leak" marker-end={`url(#idl-a-${lang})`} />
+            <text x="339" y={oy + 227} class="t-s t-leak" text-anchor="middle">
+              {L.inPost}
+            </text>
+          </g>
+        )}
+        <text x="10" y={oy + 298} class={on ? "b t-leak" : "b"}>
+          {verdict}
+        </text>
+      </g>
+    ))
   }
-  .sc {
-    font: inherit;
-    font-weight: 700;
-    font-size: var(--step--1);
-    background: transparent;
-    color: var(--ink);
-    border: 0;
-    border-right: 1.5px solid var(--ink);
-    padding: 0.4rem 0.85rem;
-    cursor: pointer;
-  }
-  .sc:last-child {
-    border-right: 0;
-  }
-  .sc[aria-pressed="true"] {
-    background: var(--ink);
-    color: var(--sheet);
-  }
-  .idl:not([data-on]) .on-only,
-  .idl[data-on] .off-only {
-    display: none;
-  }
-</style>
-
-<script>
-  for (const root of document.querySelectorAll<HTMLElement>("[data-idl]")) {
-    const buttons = root.querySelectorAll<HTMLButtonElement>("button[data-v]");
-    for (const b of buttons) {
-      b.addEventListener("click", () => {
-        const on = b.dataset.v === "on";
-        root.toggleAttribute("data-on", on);
-        for (const o of buttons) o.setAttribute("aria-pressed", String(o === b));
-      });
-    }
-  }
-</script>
+  <line x1="10" y1="312" x2="670" y2="312" class="ln-1 soft"></line>
+</svg>

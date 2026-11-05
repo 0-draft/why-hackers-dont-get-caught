@@ -1,6 +1,7 @@
 ---
 // One machine vs a Gateway/Workstation split, seen from exploit code that
-// asks the operating system for its own address.
+// asks the operating system for its own address and tries to report it.
+// Both panels share one grid so only the differences move.
 interface Props {
   lang: "en" | "ja";
 }
@@ -10,128 +11,124 @@ const L = {
     title: "Exploit code on one machine and on a split system",
     one: "One machine",
     split: "Gateway and Workstation",
-    machine: "Machine",
+    laptop: "Laptop",
+    ws: "Workstation",
+    gw: "Gateway",
     ownIp: "its own IP:",
+    internal: "internal only",
+    realIp: "real IP",
     browser: "Browser",
     exploit: "Exploit",
     tor: "Tor",
     torNet: "Tor network",
     collector: "Collector",
     direct: "direct, outside Tor",
-    asks1: "asks the OS for its IP",
-    gotReal: "gets 203.0.113.42",
-    sees: "sees 203.0.113.42",
-    ws: "Workstation",
-    internal: "internal address only",
-    gw: "Gateway",
-    realIp: "real IP",
     only: "only route",
-    noRoute: "no other route",
-    gotInternal: "gets the internal address",
-    hidden: ["hidden from", "the Workstation"],
+    blocked: "no other route out",
+    seesReal: "sees 198.51.100.23",
+    seesExit: "sees 192.0.2.201 (exit)",
+    gotTop: "asks the OS: gets 192.168.1.10, then connects out directly",
+    gotBottom: "asks the OS: gets an internal address, and cannot connect out",
   },
   ja: {
-    title: "1 台の端末と分離構成で、エクスプロイトが見るもの",
+    title: "1 台の端末と分離構成で、エクスプロイトにできること",
     one: "1 台の端末",
-    split: "ゲートウェイとワークステーション",
-    machine: "端末",
+    split: "ゲートウェイとワークステーションに分離",
+    laptop: "ノート PC",
+    ws: "ワークステーション",
+    gw: "ゲートウェイ",
     ownIp: "自分の IP:",
+    internal: "内部アドレスだけ",
+    realIp: "本当の IP",
     browser: "ブラウザ",
     exploit: "エクスプロイト",
     tor: "Tor",
     torNet: "Tor ネットワーク",
     collector: "収集サーバ",
     direct: "Tor の外を直接",
-    asks1: "OS に自分の IP を聞く",
-    gotReal: "203.0.113.42 が返る",
-    sees: "203.0.113.42 が届く",
-    ws: "ワークステーション",
-    internal: "内部アドレスだけ",
-    gw: "ゲートウェイ",
-    realIp: "本当の IP",
     only: "唯一の経路",
-    noRoute: "ほかの経路なし",
-    gotInternal: "内部アドレスが返る",
-    hidden: ["ワークステー", "ションからは", "見えない"],
+    blocked: "ほかに出口はない",
+    seesReal: "198.51.100.23 が届く",
+    seesExit: "出口 192.0.2.201 だけ",
+    gotTop: "OS に聞くと 192.168.1.10。そのまま外へ直接つなぐ",
+    gotBottom: "OS に聞いても内部アドレスだけ。外へ直接はつなげない",
   },
 }[lang];
+const a = `dsplit-a-${lang}`;
+const al = `dsplit-al-${lang}`;
+const P = 290;
 ---
 
-<svg class="dg" viewBox="0 0 680 790" role="img" aria-labelledby={`dsplit-t-${lang}`}>
+<svg class="dg" viewBox="0 0 680 590" role="img" aria-labelledby={`dsplit-t-${lang}`}>
   <title id={`dsplit-t-${lang}`}>{L.title}</title>
   <defs>
-    <marker id={`dsplit-a-${lang}`} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+    <marker id={a} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
     </marker>
-    <marker id={`dsplit-al-${lang}`} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+    <marker id={al} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" class="fill-leak"></path>
     </marker>
   </defs>
 
-  <!-- Left: one machine -->
-  <text x="20" y="30" class="t-l">{L.one}</text>
-  <rect x="20" y="52" width="300" height="340" class="box"></rect>
-  <text x="36" y="80" class="b">{L.machine}</text>
-  <text x="36" y="104" class="t-s t-2">{L.ownIp}</text>
-  <text x="124" y="104" class="mono t-leak">203.0.113.42</text>
+  <!-- shared parts, drawn in both panels at the same positions -->
+  {
+    [0, P].map((oy) => (
+      <g>
+        <rect x="36" y={oy + 100} width="120" height="44" class="box" />
+        <text x="96" y={oy + 127} text-anchor="middle">
+          {L.browser}
+        </text>
+        <rect x="36" y={oy + 156} width="120" height="44" class="box" />
+        <text x="96" y={oy + 183} text-anchor="middle" class="b">
+          {L.exploit}
+        </text>
+        <rect x="312" y={oy + 100} width="100" height="44" class="box" />
+        <text x="362" y={oy + 127} text-anchor="middle">
+          {L.tor}
+        </text>
+        <rect x="490" y={oy + 100} width="170" height="44" class="ln" fill="none" />
+        <text x="575" y={oy + 127} text-anchor="middle" class="t-s">
+          {L.torNet}
+        </text>
+        <line x1="412" y1={oy + 122} x2="488" y2={oy + 122} class="ln" marker-end={`url(#${a})`} />
+        <rect x="490" y={oy + 156} width="170" height="44" class="box" />
+        <text x="575" y={oy + 183} text-anchor="middle">
+          {L.collector}
+        </text>
+      </g>
+    ))
+  }
 
-  <rect x="40" y="136" width="120" height="48" class="box"></rect>
-  <text x="100" y="165" text-anchor="middle">{L.browser}</text>
-  <rect x="190" y="136" width="110" height="48" class="box"></rect>
-  <text x="245" y="165" text-anchor="middle">{L.tor}</text>
-  <line x1="160" y1="160" x2="188" y2="160" class="ln" marker-end={`url(#dsplit-a-${lang})`}></line>
+  <!-- Top: one machine -->
+  <text x="20" y="22" class="t-l">{L.one}</text>
+  <rect x="20" y="36" width="410" height="180" class="ln" fill="none"></rect>
+  <text x="36" y="60" class="b">{L.laptop}</text>
+  <text x="36" y="82" class="t-s t-2">{L.ownIp}</text>
+  <text x="124" y="82" class="mono">192.168.1.10</text>
+  <line x1="156" y1="122" x2="310" y2="122" class="ln" marker-end={`url(#${a})`}></line>
+  <line x1="156" y1="178" x2="488" y2="178" class="stroke-leak" marker-end={`url(#${al})`}></line>
+  <text x="172" y="170" class="t-s t-leak">{L.direct}</text>
+  <text x="490" y="222" class="t-s t-leak">{L.seesReal}</text>
+  <text x="20" y="240" class="t-s">{L.gotTop}</text>
 
-  <rect x="40" y="250" width="120" height="48" class="box"></rect>
-  <text x="100" y="279" text-anchor="middle" class="b">{L.exploit}</text>
-  <text x="40" y="326" class="t-s">{L.asks1}</text>
-  <text x="40" y="346" class="t-s t-leak">{L.gotReal}</text>
+  <line x1="20" y1="268" x2="660" y2="268" class="ln-1 soft"></line>
 
-  <rect x="360" y="136" width="150" height="48" class="fill-ink"></rect>
-  <text x="435" y="165" text-anchor="middle" class="t-on-ink t-s">{L.torNet}</text>
-  <line x1="300" y1="160" x2="358" y2="160" class="ln" marker-end={`url(#dsplit-a-${lang})`}></line>
-
-  <line x1="160" y1="274" x2="358" y2="274" class="stroke-leak" marker-end={`url(#dsplit-al-${lang})`}></line>
-  <text x="176" y="264" class="t-s t-leak">{L.direct}</text>
-  <rect x="360" y="250" width="150" height="48" class="box"></rect>
-  <text x="435" y="279" text-anchor="middle">{L.collector}</text>
-  <text x="360" y="322" class="t-s t-leak">{L.sees}</text>
-
-  <line x1="20" y1="398" x2="660" y2="398" class="ln-1 soft"></line>
-
-  <!-- Right: split -->
-  <g transform="translate(-550 390)">
-  <text x="570" y="30" class="t-l">{L.split}</text>
-  <rect x="570" y="52" width="230" height="340" class="box"></rect>
-  <text x="586" y="80" class="b">{L.ws}</text>
-  <text x="586" y="104" class="t-s t-2">{L.ownIp}</text>
-  <rect x="664" y="90" width="124" height="20" class="fill-hl"></rect>
-  <text x="670" y="104" class="t-s t-on-hl">{L.internal}</text>
-
-  <rect x="590" y="136" width="130" height="48" class="box"></rect>
-  <text x="655" y="165" text-anchor="middle">{L.browser}</text>
-
-  <rect x="590" y="250" width="130" height="48" class="box"></rect>
-  <text x="655" y="279" text-anchor="middle" class="b">{L.exploit}</text>
-  <line x1="720" y1="274" x2="770" y2="274" class="ln dash"></line>
-  <line x1="776" y1="262" x2="776" y2="286" class="ln"></line>
-  <text x="590" y="326" class="t-s">{L.asks1}</text>
-  <text x="590" y="346" class="t-s">{L.gotInternal}</text>
-  <text x="590" y="372" class="t-s t-2">{L.noRoute}</text>
-
-  <rect x="840" y="52" width="130" height="340" class="box"></rect>
-  <text x="856" y="80" class="b">{L.gw}</text>
-  <text x="856" y="104" class="t-s t-2">{L.realIp}</text>
-  <rect x="856" y="114" width="98" height="16" class="fill-bar"></rect>
-  <rect x="855" y="146" width="100" height="48" class="box"></rect>
-  <text x="905" y="175" text-anchor="middle">{L.tor}</text>
-  <line x1="720" y1="170" x2="853" y2="170" class="ln" marker-end={`url(#dsplit-a-${lang})`}></line>
-  <text x="734" y="200" class="t-s t-2">{L.only}</text>
-
-  <rect x="1000" y="146" width="110" height="48" class="fill-ink"></rect>
-  <text x="1055" y="175" text-anchor="middle" class="t-on-ink t-s">{L.torNet}</text>
-  <line x1="955" y1="170" x2="998" y2="170" class="ln" marker-end={`url(#dsplit-a-${lang})`}></line>
-  <text x="856" y="230" class="t-s t-2">
-    {L.hidden.map((line, i) => <tspan x="856" dy={i === 0 ? 0 : 16}>{line}</tspan>)}
-  </text>
-  </g>
+  <!-- Bottom: split -->
+  <text x="20" y={P + 22} class="t-l">{L.split}</text>
+  <rect x="20" y={P + 36} width="260" height="180" class="ln" fill="none"></rect>
+  <text x="36" y={P + 60} class="b">{L.ws}</text>
+  <text x="36" y={P + 82} class="t-s t-2">{L.ownIp}</text>
+  <rect x="122" y={P + 69} width="116" height="18" class="fill-hl"></rect>
+  <text x="128" y={P + 82} class="t-s t-on-hl">{L.internal}</text>
+  <rect x="296" y={P + 36} width="134" height="180" class="ln" fill="none"></rect>
+  <text x="308" y={P + 60} class="b">{L.gw}</text>
+  <text x="308" y={P + 82} class="t-s t-2">{L.realIp}</text>
+  <rect x="372" y={P + 70} width="48" height="14" class="fill-bar"></rect>
+  <line x1="156" y1={P + 122} x2="310" y2={P + 122} class="ln" marker-end={`url(#${a})`}></line>
+  <text x="168" y={P + 114} class="t-s t-2">{L.only}</text>
+  <line x1="156" y1={P + 178} x2="262" y2={P + 178} class="ln dash"></line>
+  <line x1="268" y1={P + 166} x2="268" y2={P + 190} class="ln"></line>
+  <text x="168" y={P + 170} class="t-s t-2">{L.blocked}</text>
+  <text x="490" y={P + 222} class="t-s">{L.seesExit}</text>
+  <text x="20" y={P + 240} class="t-s">{L.gotBottom}</text>
 </svg>

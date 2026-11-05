@@ -57,7 +57,7 @@ Tails is amnesic. It starts from the same clean state every time, keeps nothing 
 
 Whonix splits the system in two. The Gateway runs Tor; the Workstation runs the applications and has no network path except through the Gateway. Traffic from the Workstation reaches Tor or nothing<Cite id="device-whonix-tech" />. The Workstation is never told the real public address, so even malware with root privileges there cannot discover it<Cite id="device-whonix-about" />.
 
-<Fig caption="The same exploit on two designs. On one machine, code that asks the operating system for its address gets the real one and can send it straight out. On a Whonix-style split, the Workstation only knows an internal address and has no route except through the Gateway.">
+<Fig caption="The same exploit on two designs. On one machine, code that asks the operating system for its address gets the real one and can send it straight out. On a Whonix-style split, the Workstation only knows an internal address and has no route except through the Gateway. The collector only ever sees a Tor exit address.">
   <DeviceSplit lang="en" />
 </Fig>
 

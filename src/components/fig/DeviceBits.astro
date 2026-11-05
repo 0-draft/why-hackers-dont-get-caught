@@ -10,20 +10,20 @@ const L = {
     title: "How attributes shrink the crowd a browser hides in",
     ordinary: "A typical browser",
     tor: "Tor Browser",
-    start: "start",
+    start: "no attributes yet",
     rows: ["Time zone", "Language", "Window size", "Graphics card", "Installed fonts"],
-    left: "left in the crowd",
-    one: "1: unique",
+    left: "browsers still in the crowd",
+    one: "1 (unique)",
     note: "Illustrative numbers. Real attributes overlap, so their bits do not simply add up.",
   },
   ja: {
     title: "属性が増えるたびに、ブラウザが紛れられる群衆が小さくなる",
     ordinary: "ふつうのブラウザ",
     tor: "Tor Browser",
-    start: "出発点",
-    rows: ["タイムゾーン", "言語", "ウィンドウサイズ", "GPU", "インストール済みフォント"],
-    left: "残る群衆",
-    one: "1: 一意",
+    start: "属性なし",
+    rows: ["タイムゾーン", "言語", "ウィンドウサイズ", "GPU", "フォント一覧"],
+    left: "まだ群衆に紛れているブラウザの数",
+    one: "1 (一意)",
     note: "数値は説明用。実際の属性は互いに重なるので、ビット数は単純には足し算にならない。",
   },
 }[lang];
@@ -31,7 +31,7 @@ const L = {
 const TOTAL = 20;
 const ordinary = [3, 2, 4, 4, 7];
 const tor = [0, 1, 1, 0, 0];
-const W = 200;
+const W = 160;
 const px = W / TOTAL;
 
 function series(bits: number[]) {
@@ -64,21 +64,21 @@ const top = 64;
         <text x={c.x} y="28" class="t-l">
           {c.head}
         </text>
-        <text x={c.x + W + 10} y="50" class="t-s t-2">
+        <text x={c.x} y="50" class="t-s t-2">
           {L.left}
         </text>
         {c.rows.map((r) => {
-          const y = top + r.i * rowH;
+          const y = top + 10 + r.i * rowH;
           return (
             <g>
-              <text x={c.x} y={y} class="t-s">
-                {r.label}
-                {r.i > 0 ? ` +${r.add} bit` : ""}
+              <text x={c.x} y={y} class={r.acc >= TOTAL ? "b t-leak" : "b"}>
+                {r.left}
               </text>
               <rect x={c.x} y={y + 8} width={W} height="14" class="box-soft" />
               {r.acc > 0 && <rect x={c.x} y={y + 8} width={r.acc * px} height="14" class="fill-leak" />}
-              <text x={c.x + W + 10} y={y + 20} class={r.acc >= TOTAL ? "mono t-leak" : "mono"}>
-                {r.left}
+              <text x={c.x + W + 10} y={y + 20} class="t-s t-2">
+                {r.label}
+                {r.i > 0 ? ` +${r.add} bit` : ""}
               </text>
             </g>
           );

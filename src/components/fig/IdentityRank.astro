@@ -7,7 +7,7 @@ const { lang } = Astro.props;
 const L = {
   en: {
     title: "Where the true author ranked among 100,000 candidate blogs",
-    head: "An anonymous text, 100,000 candidate authors",
+    head: "Share of test texts, by where the true author ranked among 100,000",
     first: "ranked 1st",
     top20: "2nd to 20th",
     rest: "outside the top 20",
@@ -21,7 +21,7 @@ const L = {
   },
   ja: {
     title: "候補ブログ 10 万件のなかで、本当の書き手は何位に来たか",
-    head: "匿名の文章 1 本に対して、書き手の候補が 10 万人",
+    head: "テスト文の割合: 候補 10 万人のなかで本当の書き手が何位だったか",
     first: "1 位",
     top20: "2〜20 位",
     rest: "20 位より下",
@@ -38,7 +38,7 @@ const x0 = 20;
 const W = 640;
 const segs = [
   { w: 0.2, cls: "fill-leak", label: L.first, share: L.s1, tcls: "t-leak" },
-  { w: 0.15, cls: "fill-hl", label: L.top20, share: L.s2, tcls: "" },
+  { w: 0.15, cls: "fill-ink", label: L.top20, share: L.s2, tcls: "" },
   { w: 0.65, cls: "box-soft", label: L.rest, share: L.s3, tcls: "t-2" },
 ];
 let acc = 0;
@@ -52,7 +52,7 @@ const placed = segs.map((s) => {
 <svg class="dg" viewBox="0 0 680 210" role="img" aria-labelledby={`irank-t-${lang}`}>
   <title id={`irank-t-${lang}`}>{L.title}</title>
   <text x={x0} y="28" class="b">{L.head}</text>
-  {placed.map((p) => <rect x={p.x} y="48" width={p.width} height="36" class={p.cls} />)}
+  {placed.map((p) => <rect x={p.x} y="48" width={p.width} height="36" class={p.cls} opacity={p.cls === "fill-ink" ? 0.45 : undefined} />)}
   <rect x={x0} y="48" width={W} height="36" class="ln-1" fill="none"></rect>
   {
     placed.map((p) => (

@@ -18,7 +18,8 @@ const L = {
     company: (n: number) => `Employer ${n}`,
     ip: "US IP",
     addr: "US address",
-    leak: "One house, many identities: where the scheme comes apart.",
+    view: "Each employer's view",
+    leak: "Investigator's view: one house, many identities.",
   },
   ja: {
     title: "ラップトップファームを、雇用主の側と捜査側から見る",
@@ -31,7 +32,8 @@ const L = {
     company: (n: number) => `雇用主 ${n}`,
     ip: "米国の IP",
     addr: "米国の住所",
-    leak: "1 軒の家に多数の身元が集まる。仕組みが崩れるのはここだ。",
+    view: "雇用主それぞれの見え方",
+    leak: "捜査側の見え方: 1 軒の家に多数の身元が集まる。",
   },
 }[lang];
 const ids = ["A", "B", "C"];
@@ -80,5 +82,7 @@ const ids = ["A", "B", "C"];
       </g>
     ))
   }
+  <text x="480" y="62" class="t-s b t-2">{L.view}</text>
+  <rect x="472" y="70" width="206" height="272" class="ln-1 soft dash" fill="none"></rect>
   <text x="10" y="384" class="b t-leak">{L.leak}</text>
 </svg>

@@ -18,6 +18,7 @@ const L = {
     file: "carrier's file",
     platform: "Platform's records",
     carrier: "Carrier's records",
+    joined: "After legal requests to both",
     handle: "handle",
     number: "number",
     name: "name, ID",
@@ -34,6 +35,7 @@ const L = {
     file: "契約の記録",
     platform: "プラットフォームの記録",
     carrier: "携帯会社の記録",
+    joined: "両方に照会したあと",
     handle: "ハンドル",
     number: "番号",
     name: "氏名・身分証",
@@ -46,7 +48,7 @@ const boxes = [
 ];
 ---
 
-<svg class="dg" viewBox="0 0 680 290" role="img" aria-labelledby={`ianc-t-${lang}`}>
+<svg class="dg" viewBox="0 0 680 340" role="img" aria-labelledby={`ianc-t-${lang}`}>
   <title id={`ianc-t-${lang}`}>{L.title}</title>
   <defs>
     <marker id={`ianc-a-${lang}`} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
@@ -84,7 +86,8 @@ const boxes = [
   {
     [
       { label: L.platform, cells: ["fill-hl", "fill-hl", "fill-bar"] },
-      { label: L.carrier, cells: ["fill-bar", "fill-hl", "fill-leak"] },
+      { label: L.carrier, cells: ["fill-bar", "fill-hl", "fill-hl"] },
+      { label: L.joined, cells: ["fill-hl", "fill-hl", "fill-leak"] },
     ].map((r, ri) => (
       <g>
         <text x="20" y={213 + ri * 48} class="b">

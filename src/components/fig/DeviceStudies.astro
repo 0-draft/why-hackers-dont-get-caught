@@ -9,13 +9,23 @@ const L = {
     title: "Share of unique fingerprints in three studies",
     unique: "unique",
     rows: [
-      { name: "Panopticlick (2010)", pct: 83.6, n: "470,161 browsers", who: "volunteers who visited a test site" },
-      { name: "AmIUnique (2016)", pct: 89.4, n: "118,934 browsers", who: "volunteers who visited a test site" },
+      {
+        name: "Panopticlick (2010)",
+        pct: 83.6,
+        n: "470,161 browsers",
+        who: "Volunteers who visited a fingerprinting test site",
+      },
+      {
+        name: "AmIUnique (2016)",
+        pct: 89.4,
+        n: "118,934 browsers",
+        who: "Volunteers who visited a fingerprinting test site",
+      },
       {
         name: "Hiding in the Crowd (2018)",
         pct: 33.6,
         n: "2,067,942 browsers",
-        who: "ordinary visitors to a large French site",
+        who: "Ordinary visitors to a large French website",
       },
     ],
   },
@@ -23,8 +33,13 @@ const L = {
     title: "3 つの研究で、フィンガープリントが一意だったブラウザの割合",
     unique: "一意",
     rows: [
-      { name: "Panopticlick (2010)", pct: 83.6, n: "470,161 台", who: "テストサイトに自分から来た人" },
-      { name: "AmIUnique (2016)", pct: 89.4, n: "118,934 台", who: "テストサイトに自分から来た人" },
+      {
+        name: "Panopticlick (2010)",
+        pct: 83.6,
+        n: "470,161 台",
+        who: "フィンガープリントのテストサイトに自分から来た人",
+      },
+      { name: "AmIUnique (2016)", pct: 89.4, n: "118,934 台", who: "フィンガープリントのテストサイトに自分から来た人" },
       { name: "Hiding in the Crowd (2018)", pct: 33.6, n: "2,067,942 台", who: "フランスの大手サイトのふつうの訪問者" },
     ],
   },
@@ -33,29 +48,38 @@ const W = 400;
 const x0 = 20;
 ---
 
-<svg class="dg" viewBox="0 0 680 330" role="img" aria-labelledby={`dstudy-t-${lang}`}>
+<svg class="dg" viewBox="0 0 680 380" role="img" aria-labelledby={`dstudy-t-${lang}`}>
   <title id={`dstudy-t-${lang}`}>{L.title}</title>
   {
     L.rows.map((r, i) => {
-      const y = 30 + i * 96;
+      // Rows 0-1 are test-site volunteers, row 2 ordinary visitors: a group gap after row 1.
+      const y = 52 + i * 84 + (i >= 2 ? 58 : 0);
       return (
         <g>
+          {(i === 0 || i === 2) && (
+            <g>
+              <line x1={x0} y1={y - 38} x2="660" y2={y - 38} class="ln-1" />
+              <text x={x0} y={y - 20} class="t-s b t-2">
+                {r.who}
+              </text>
+            </g>
+          )}
           <text x={x0} y={y} class="b">
             {r.name}
           </text>
           <text x={x0} y={y + 20} class="t-s t-2">
-            {r.n} · {r.who}
+            {r.n}
           </text>
-          <rect x={x0} y={y + 32} width={W} height="22" class="box-soft" />
-          <rect x={x0} y={y + 32} width={(W * r.pct) / 100} height="22" class="fill-leak" />
-          <text x={x0 + W + 12} y={y + 49} class="mono b">
+          <rect x={x0} y={y + 30} width={W} height="22" class="box-soft" />
+          <rect x={x0} y={y + 30} width={(W * r.pct) / 100} height="22" class="fill-leak" />
+          <text x={x0 + W + 12} y={y + 47} class="mono b">
             {r.pct}% {L.unique}
           </text>
         </g>
       );
     })
   }
-  <line x1={x0} y1="312" x2={x0 + W} y2="312" class="ln-1 soft"></line>
-  <text x={x0} y="326" class="t-s t-2">0%</text>
-  <text x={x0 + W} y="326" class="t-s t-2" text-anchor="end">100%</text>
+  <line x1={x0} y1="362" x2={x0 + W} y2="362" class="ln-1 soft"></line>
+  <text x={x0} y="376" class="t-s t-2">0%</text>
+  <text x={x0 + W} y="376" class="t-s t-2" text-anchor="end">100%</text>
 </svg>
