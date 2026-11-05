@@ -214,11 +214,16 @@ h3 {
 
 /* ---------- Prose ---------- */
 
-.prose {
+/* The measure applies to each block, not the column, so a wide figure can
+   use the whole article column while text keeps its line length. */
+.prose > * {
   max-width: var(--measure);
 }
-:lang(ja) .prose {
+:lang(ja) .prose > * {
   max-width: 40em;
+}
+.prose > .fig.wide {
+  max-width: none;
 }
 .prose > * + * {
   margin-top: 1.1em;

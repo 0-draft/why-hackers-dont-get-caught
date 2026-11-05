@@ -23,9 +23,7 @@ const { caption, size = "prose", id } = Astro.props;
     counter-increment: fig;
   }
   .fig.wide {
-    max-width: min(var(--wide), calc(100vw - 2 * var(--gutter)));
-    width: max-content;
-    min-width: 100%;
+    width: 100%;
   }
   .fig-body {
     background: var(--sheet);
