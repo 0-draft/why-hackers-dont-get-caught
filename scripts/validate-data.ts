@@ -16,6 +16,7 @@ const err = (m: string) => errors.push(m);
 // ---- sources ----
 const srcDir = join(root, "src/data/sources");
 const sourceOwner = new Map<string, string>();
+const urlOwner = new Map<string, string>();
 for (const f of readdirSync(srcDir).filter((x) => x.endsWith(".json"))) {
   const page = f.replace(/\.json$/, "");
   const parsed = sourceFileSchema.safeParse(JSON.parse(readFileSync(join(srcDir, f), "utf8")));
@@ -28,6 +29,12 @@ for (const f of readdirSync(srcDir).filter((x) => x.endsWith(".json"))) {
   for (const s of parsed.data) {
     if (sourceOwner.has(s.id)) err(`source id "${s.id}" is defined in both ${sourceOwner.get(s.id)} and ${page}`);
     sourceOwner.set(s.id, page);
+    // One document, one id: a page cites another page's source by its id
+    // rather than listing the same URL again.
+    const key = s.url.replace(/\/+$/, "").replace(/^http:/, "https:");
+    if (urlOwner.has(key))
+      err(`source "${s.id}" (${page}) repeats the URL of "${urlOwner.get(key)}"; cite that id instead`);
+    else urlOwner.set(key, `${s.id}`);
     if (s.url.startsWith("http://") && !/^http:\/\/(www\.)?diversify-project\.eu/.test(s.url))
       err(`source "${s.id}" uses http:// — use https:// if the site supports it`);
   }

@@ -1,8 +1,14 @@
 [
   {
     "id": "silk-road",
-    "name": { "en": "Ross Ulbricht", "ja": "ロス・ウルブリヒト" },
-    "alias": { "en": "Silk Road / \"Dread Pirate Roberts\"", "ja": "Silk Road／「Dread Pirate Roberts」" },
+    "name": {
+      "en": "Ross Ulbricht",
+      "ja": "ロス・ウルブリヒト"
+    },
+    "alias": {
+      "en": "Silk Road / \"Dread Pirate Roberts\"",
+      "ja": "Silk Road／「Dread Pirate Roberts」"
+    },
     "year": 2013,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "identity",
@@ -22,8 +28,14 @@
   },
   {
     "id": "sabu",
-    "name": { "en": "Hector Xavier Monsegur", "ja": "ヘクター・ザビエル・モンセグール" },
-    "alias": { "en": "\"Sabu\" / LulzSec", "ja": "「Sabu」／LulzSec" },
+    "name": {
+      "en": "Hector Xavier Monsegur",
+      "ja": "ヘクター・ザビエル・モンセグール"
+    },
+    "alias": {
+      "en": "\"Sabu\" / LulzSec",
+      "ja": "「Sabu」／LulzSec"
+    },
     "year": 2011,
     "used": ["network", "identity"],
     "failed": "network",
@@ -43,8 +55,14 @@
   },
   {
     "id": "hammond",
-    "name": { "en": "Jeremy Hammond", "ja": "ジェレミー・ハモンド" },
-    "alias": { "en": "\"Anarchaos\" / \"sup_g\" / AntiSec", "ja": "「Anarchaos」／「sup_g」／AntiSec" },
+    "name": {
+      "en": "Jeremy Hammond",
+      "ja": "ジェレミー・ハモンド"
+    },
+    "alias": {
+      "en": "\"Anarchaos\" / \"sup_g\" / AntiSec",
+      "ja": "「Anarchaos」／「sup_g」／AntiSec"
+    },
     "year": 2012,
     "used": ["network", "identity"],
     "failed": "people",
@@ -60,8 +78,14 @@
   },
   {
     "id": "eldo-kim",
-    "name": { "en": "Eldo Kim", "ja": "エルド・キム" },
-    "alias": { "en": "Harvard bomb hoax", "ja": "ハーバード大学爆破予告" },
+    "name": {
+      "en": "Eldo Kim",
+      "ja": "エルド・キム"
+    },
+    "alias": {
+      "en": "Harvard bomb hoax",
+      "ja": "ハーバード大学爆破予告"
+    },
     "year": 2013,
     "used": ["network", "identity"],
     "failed": "network",
@@ -77,8 +101,14 @@
   },
   {
     "id": "freedom-hosting",
-    "name": { "en": "Eric Eoin Marques", "ja": "エリック・エオイン・マルケス" },
-    "alias": { "en": "Freedom Hosting", "ja": "Freedom Hosting" },
+    "name": {
+      "en": "Eric Eoin Marques",
+      "ja": "エリック・エオイン・マルケス"
+    },
+    "alias": {
+      "en": "Freedom Hosting",
+      "ja": "Freedom Hosting"
+    },
     "year": 2013,
     "used": ["network", "infrastructure", "money"],
     "failed": "infrastructure",
@@ -94,8 +124,14 @@
   },
   {
     "id": "alphabay",
-    "name": { "en": "Alexandre Cazes", "ja": "アレクサンドル・カーズ" },
-    "alias": { "en": "\"Alpha02\" / AlphaBay", "ja": "「Alpha02」／AlphaBay" },
+    "name": {
+      "en": "Alexandre Cazes",
+      "ja": "アレクサンドル・カーズ"
+    },
+    "alias": {
+      "en": "\"Alpha02\" / AlphaBay",
+      "ja": "「Alpha02」／AlphaBay"
+    },
     "year": 2017,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "identity",
@@ -111,8 +147,14 @@
   },
   {
     "id": "silk-road-2",
-    "name": { "en": "Blake Benthall", "ja": "ブレイク・ベンサル" },
-    "alias": { "en": "\"Defcon\" / Silk Road 2.0", "ja": "「Defcon」／Silk Road 2.0" },
+    "name": {
+      "en": "Blake Benthall",
+      "ja": "ブレイク・ベンサル"
+    },
+    "alias": {
+      "en": "\"Defcon\" / Silk Road 2.0",
+      "ja": "「Defcon」／Silk Road 2.0"
+    },
     "year": 2014,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "infrastructure",
@@ -128,8 +170,14 @@
   },
   {
     "id": "playpen",
-    "name": { "en": "Steven W. Chase", "ja": "スティーブン・W・チェイス" },
-    "alias": { "en": "Playpen", "ja": "Playpen" },
+    "name": {
+      "en": "Steven W. Chase",
+      "ja": "スティーブン・W・チェイス"
+    },
+    "alias": {
+      "en": "Playpen",
+      "ja": "Playpen"
+    },
     "year": 2015,
     "used": ["network", "identity", "infrastructure"],
     "failed": "infrastructure",
@@ -145,8 +193,14 @@
   },
   {
     "id": "ferizi",
-    "name": { "en": "Ardit Ferizi", "ja": "アルディト・フェリジ" },
-    "alias": { "en": "\"Th3Dir3ctorY\"", "ja": "「Th3Dir3ctorY」" },
+    "name": {
+      "en": "Ardit Ferizi",
+      "ja": "アルディト・フェリジ"
+    },
+    "alias": {
+      "en": "\"Th3Dir3ctorY\"",
+      "ja": "「Th3Dir3ctorY」"
+    },
     "year": 2015,
     "used": ["identity"],
     "failed": "network",
@@ -162,8 +216,14 @@
   },
   {
     "id": "guccifer2",
-    "name": { "en": "GRU Units 26165 and 74455", "ja": "GRU 第26165部隊・第74455部隊" },
-    "alias": { "en": "\"Guccifer 2.0\" / DCLeaks", "ja": "「Guccifer 2.0」／DCLeaks" },
+    "name": {
+      "en": "GRU Units 26165 and 74455",
+      "ja": "GRU 第26165部隊・第74455部隊"
+    },
+    "alias": {
+      "en": "\"Guccifer 2.0\" / DCLeaks",
+      "ja": "「Guccifer 2.0」／DCLeaks"
+    },
     "year": 2018,
     "used": ["identity", "network", "money", "infrastructure", "attribution"],
     "failed": "infrastructure",
@@ -179,12 +239,18 @@
       "en": "The often-repeated network slip, that the operator once forgot to turn on the VPN and left a Moscow IP address in a US social media company's logs, comes from a single Daily Beast report based on an unnamed source. It is not in the indictment, and the indictment does not say how investigators obtained the activity on the Moscow server.",
       "ja": "よく引かれる「一度 VPN を入れ忘れ、米国の SNS 企業のログにモスクワの IP アドレスを残した」というネットワーク層の失敗は、匿名の情報源に基づく Daily Beast の記事1本だけが根拠である。起訴状には書かれていない。起訴状は、モスクワのサーバ上の操作を捜査側がどう把握したかも説明していない。"
     },
-    "sources": ["case-g2-indictment", "case-g2-dailybeast"]
+    "sources": ["case-g2-indictment", "attr-daily-beast-guccifer"]
   },
   {
     "id": "welcome-to-video",
-    "name": { "en": "Son Jong-woo", "ja": "ソン・ジョンウ" },
-    "alias": { "en": "Welcome to Video", "ja": "Welcome to Video" },
+    "name": {
+      "en": "Son Jong-woo",
+      "ja": "ソン・ジョンウ"
+    },
+    "alias": {
+      "en": "Welcome to Video",
+      "ja": "Welcome to Video"
+    },
     "year": 2018,
     "used": ["network", "money", "infrastructure"],
     "failed": "money",
@@ -204,7 +270,10 @@
       "en": "Graham Ivan Clark, Mason Sheppard and others",
       "ja": "グラハム・アイヴァン・クラーク、メイソン・シェパードら"
     },
-    "alias": { "en": "2020 Twitter hack", "ja": "2020年 Twitter 乗っ取り事件" },
+    "alias": {
+      "en": "2020 Twitter hack",
+      "ja": "2020年 Twitter 乗っ取り事件"
+    },
     "year": 2020,
     "used": ["identity", "money", "network"],
     "failed": "money",
@@ -220,8 +289,14 @@
   },
   {
     "id": "bitfinex",
-    "name": { "en": "Ilya Lichtenstein and Heather Morgan", "ja": "イリヤ・リヒテンシュタイン、ヘザー・モーガン" },
-    "alias": { "en": "Bitfinex hack laundering", "ja": "Bitfinex ハッキング資金の洗浄" },
+    "name": {
+      "en": "Ilya Lichtenstein and Heather Morgan",
+      "ja": "イリヤ・リヒテンシュタイン、ヘザー・モーガン"
+    },
+    "alias": {
+      "en": "Bitfinex hack laundering",
+      "ja": "Bitfinex ハッキング資金の洗浄"
+    },
     "year": 2022,
     "used": ["money", "identity"],
     "failed": "money",
@@ -237,8 +312,14 @@
   },
   {
     "id": "lapsus",
-    "name": { "en": "Arion Kurtaj", "ja": "アリオン・クルタイ" },
-    "alias": { "en": "\"White\" / Lapsus$", "ja": "「White」／Lapsus$" },
+    "name": {
+      "en": "Arion Kurtaj",
+      "ja": "アリオン・クルタイ"
+    },
+    "alias": {
+      "en": "\"White\" / Lapsus$",
+      "ja": "「White」／Lapsus$"
+    },
     "year": 2022,
     "used": ["identity", "network"],
     "failed": "network",
@@ -254,8 +335,14 @@
   },
   {
     "id": "wazawaka",
-    "name": { "en": "Mikhail Matveev", "ja": "ミハイル・マトヴェエフ" },
-    "alias": { "en": "\"Wazawaka\" / \"m1x\" / Babuk", "ja": "「Wazawaka」／「m1x」／Babuk" },
+    "name": {
+      "en": "Mikhail Matveev",
+      "ja": "ミハイル・マトヴェエフ"
+    },
+    "alias": {
+      "en": "\"Wazawaka\" / \"m1x\" / Babuk",
+      "ja": "「Wazawaka」／「m1x」／Babuk"
+    },
     "year": 2022,
     "used": ["identity", "network"],
     "failed": "identity",
@@ -271,8 +358,14 @@
   },
   {
     "id": "lockbitsupp",
-    "name": { "en": "Dmitry Khoroshev", "ja": "ドミトリー・ホロシェフ" },
-    "alias": { "en": "\"LockBitSupp\" / LockBit", "ja": "「LockBitSupp」／LockBit" },
+    "name": {
+      "en": "Dmitry Khoroshev",
+      "ja": "ドミトリー・ホロシェフ"
+    },
+    "alias": {
+      "en": "\"LockBitSupp\" / LockBit",
+      "ja": "「LockBitSupp」／LockBit"
+    },
     "year": 2024,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "infrastructure",
@@ -288,8 +381,14 @@
   },
   {
     "id": "incognito",
-    "name": { "en": "Rui-Siang Lin", "ja": "林睿庠（リン・ルイシャン）" },
-    "alias": { "en": "\"Pharoah\" / Incognito Market", "ja": "「Pharoah」／Incognito Market" },
+    "name": {
+      "en": "Rui-Siang Lin",
+      "ja": "林睿庠（リン・ルイシャン）"
+    },
+    "alias": {
+      "en": "\"Pharoah\" / Incognito Market",
+      "ja": "「Pharoah」／Incognito Market"
+    },
     "year": 2024,
     "used": ["network", "money", "identity"],
     "failed": "money",
@@ -305,8 +404,14 @@
   },
   {
     "id": "dprk-laptop-farm",
-    "name": { "en": "Christina Chapman", "ja": "クリスティーナ・チャップマン" },
-    "alias": { "en": "DPRK IT-worker laptop farm", "ja": "北朝鮮 IT 労働者のラップトップファーム" },
+    "name": {
+      "en": "Christina Chapman",
+      "ja": "クリスティーナ・チャップマン"
+    },
+    "alias": {
+      "en": "DPRK IT-worker laptop farm",
+      "ja": "北朝鮮 IT 労働者のラップトップファーム"
+    },
     "year": 2023,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "infrastructure",
@@ -322,8 +427,14 @@
   },
   {
     "id": "pc-remote",
-    "name": { "en": "Yusuke Katayama", "ja": "片山祐輔" },
-    "alias": { "en": "Remote-control virus case", "ja": "PC遠隔操作事件" },
+    "name": {
+      "en": "Yusuke Katayama",
+      "ja": "片山祐輔"
+    },
+    "alias": {
+      "en": "Remote-control virus case",
+      "ja": "PC遠隔操作事件"
+    },
     "year": 2013,
     "used": ["network", "infrastructure", "identity"],
     "failed": "behavior",
