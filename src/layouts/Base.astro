@@ -1,0 +1,226 @@
+---
+import "@fontsource-variable/archivo/wdth.css";
+import "@fontsource/line-seed-jp/400.css";
+import "@fontsource/line-seed-jp/700.css";
+import "@fontsource/line-seed-jp/800.css";
+import "@fontsource-variable/jetbrains-mono";
+import "../styles/global.css";
+import { type Lang, localePath, stripLocale, useT } from "../i18n/ui.ts";
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+}
+const { lang, title, description } = Astro.props;
+const t = useT(lang);
+const path = stripLocale(Astro.url.pathname);
+const other: Lang = lang === "en" ? "ja" : "en";
+const fullTitle = title ? `${title} | ${t("site.name")}` : `${t("site.name")} | ${t("home.h1a")}`;
+const desc = description ?? t("site.desc");
+const canonical = new URL(localePath(lang, path), Astro.site);
+const nav = [
+  { href: localePath(lang, "/#layers"), key: "nav.layers", match: "/layers/" },
+  { href: localePath(lang, "/cases/"), key: "nav.cases", match: "/cases/" },
+  { href: localePath(lang, "/sources/"), key: "nav.sources", match: "/sources/" },
+  { href: localePath(lang, "/about/"), key: "nav.about", match: "/about/" },
+] as const;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={new URL(localePath("en", path), Astro.site)} />
+    <link rel="alternate" hreflang="ja" href={new URL(localePath("ja", path), Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(localePath("en", path), Astro.site)} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === "ja" ? "ja_JP" : "en_US"} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script is:inline>
+      try {
+        const t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">{t("nav.skip")}</a>
+    <header class="top">
+      <div class="wrap top-in">
+        <a class="mark" href={localePath(lang, "/")} aria-label={t("site.name")}>
+          <span class="mark-word">tokumei</span><span class="mark-bar" aria-hidden="true"></span>
+        </a>
+        <nav aria-label="Main">
+          <ul>
+            {
+              nav.map((n) => (
+                <li>
+                  <a href={n.href} aria-current={path.startsWith(n.match) ? "page" : undefined}>
+                    {t(n.key)}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <div class="tools">
+          <a
+            class="lang"
+            href={localePath(other, path)}
+            hreflang={other}
+            lang={other}
+            aria-label={t("nav.langLabel")}
+            data-lang-switch>{t("nav.lang")}</a
+          >
+          <button class="theme" type="button" aria-label={t("nav.theme")} data-theme-toggle>
+            <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+              <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.5"></circle>
+              <path d="M10 2a8 8 0 0 1 0 16z" fill="currentColor"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="foot">
+      <div class="wrap foot-in">
+        <p>{t("foot.note")}</p>
+        <p><a href="https://github.com/kanywst/tokumei">{t("foot.repo")}</a></p>
+      </div>
+    </footer>
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+      btn?.addEventListener("click", () => {
+        const root = document.documentElement;
+        const current =
+          root.dataset.theme ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        const next = current === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem("theme", next);
+        } catch {}
+      });
+      // Carry the current hash (selected figure state) across the language switch.
+      const sw = document.querySelector<HTMLAnchorElement>("[data-lang-switch]");
+      sw?.addEventListener("click", () => {
+        if (location.hash) sw.href = sw.href.split("#")[0] + location.hash;
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .top {
+    border-bottom: 2px solid var(--ink);
+    background: var(--paper);
+  }
+  .top-in {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.75rem;
+    padding-block: 0.8rem;
+  }
+  .mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.25rem;
+    font-variation-settings: "wdth" 70;
+    letter-spacing: 0.01em;
+    font-family: var(--sans);
+  }
+  .mark-bar {
+    display: inline-block;
+    width: 2.6rem;
+    height: 0.95rem;
+    background: var(--bar);
+    box-shadow: 0 0 0 1px var(--bar-edge);
+    transform-origin: left;
+    transition: transform 160ms ease-out;
+  }
+  .mark:hover .mark-bar {
+    transform: scaleX(0.4);
+  }
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  nav a {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: var(--step--1);
+  }
+  nav a[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.35em;
+  }
+  .tools {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .lang {
+    font-size: var(--step--1);
+    font-weight: 700;
+    text-decoration: none;
+    border: 1.5px solid var(--ink);
+    padding: 0.15rem 0.6rem;
+  }
+  .lang:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .theme {
+    background: none;
+    border: 0;
+    color: var(--ink);
+    padding: 0.35rem;
+    cursor: pointer;
+    display: inline-flex;
+  }
+  main:focus {
+    outline: none;
+  }
+  .foot {
+    margin-top: 6rem;
+    border-top: 2px solid var(--ink);
+    color: var(--ink-2);
+    font-size: var(--step--1);
+  }
+  .foot-in {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem 3rem;
+    padding-block: 1.5rem 3rem;
+  }
+  .foot-in p {
+    margin: 0;
+    max-width: 60ch;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mark-bar {
+      transition: none;
+    }
+  }
+</style>

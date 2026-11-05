@@ -1,0 +1,12 @@
+---
+import { getCollection } from "astro:content";
+import Layer from "../../views/Layer.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("layers", (e) => e.id.startsWith("en/"));
+  return entries.map((entry) => ({ params: { slug: entry.data.layer }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+
+<Layer lang="en" entry={entry} />

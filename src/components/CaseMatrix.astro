@@ -1,0 +1,260 @@
+---
+import { CASES } from "../data/cases.ts";
+import { FAILURE_KINDS, LAYERS } from "../data/layers.ts";
+import { SOURCES } from "../data/sources.ts";
+import { type Lang, localePath, useT } from "../i18n/ui.ts";
+
+interface Props {
+  lang: Lang;
+  /** Home page version: the grid only, rows link to the case page. */
+  compact?: boolean;
+}
+const { lang, compact = false } = Astro.props;
+const t = useT(lang);
+---
+
+<div class:list={["cm", { compact }]}>
+  <div class="legend" aria-hidden="true">
+    <span><span class="sq used"></span>{t("cases.used")}</span>
+    <span><span class="sq failed"></span>{t("cases.failed")}</span>
+  </div>
+  <div class="scroll-x" tabindex="0" role="region" aria-label={t("cases.title")}>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col" class="c-name"><span class="sr">{t("cases.title")}</span></th>
+          {
+            FAILURE_KINDS.map((k) => (
+              <th scope="col" class="c-k">
+                <span>{LAYERS[k].name[lang]}</span>
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody>
+        {
+          CASES.map((c) => (
+            <tr id={compact ? undefined : c.id}>
+              <th scope="row" class="c-name">
+                <a href={compact ? localePath(lang, `/cases/#${c.id}`) : `#file-${c.id}`}>
+                  <span class="yr">{c.year}</span>
+                  <span class="nm">{c.name[lang]}</span>
+                  {c.alias && <span class="al">{c.alias[lang]}</span>}
+                </a>
+              </th>
+              {FAILURE_KINDS.map((k) => {
+                const state = c.failed === k ? "failed" : c.used.includes(k) ? "used" : "none";
+                return (
+                  <td class="c-k">
+                    <span class:list={["sq", state]} aria-hidden="true" />
+                    <span class="sr">
+                      {state === "failed" ? t("cases.failed") : state === "used" ? t("cases.used") : ""}
+                    </span>
+                  </td>
+                );
+              })}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  {
+    !compact && (
+      <ol class="files">
+        {CASES.map((c) => (
+          <li id={`file-${c.id}`}>
+            <h2>
+              <span class="yr">{c.year}</span> {c.name[lang]}
+              {c.alias && <span class="al">{c.alias[lang]}</span>}
+            </h2>
+            <p class="fl">
+              <span class="sq failed" aria-hidden="true" />
+              <a href={localePath(lang, c.failed === "people" ? "/cases/#people" : `/layers/${c.failed}/`)}>
+                {LAYERS[c.failed].name[lang]}
+              </a>
+            </p>
+            <dl>
+              <dt>{t("cases.mechanism")}</dt>
+              <dd>{c.mechanism[lang]}</dd>
+              {c.disputed && (
+                <>
+                  <dt class="disp">{t("cases.disputed")}</dt>
+                  <dd>{c.disputed[lang]}</dd>
+                </>
+              )}
+              <dt>{t("cases.outcome")}</dt>
+              <dd>{c.outcome[lang]}</dd>
+              <dt>{t("cases.sources")}</dt>
+              <dd>
+                <ul class="cs">
+                  {c.sources.map((id) => {
+                    const s = SOURCES[id];
+                    return s ? (
+                      <li>
+                        <a href={s.url} rel="noopener noreferrer">
+                          {s.publisher}: {s.title}
+                        </a>
+                      </li>
+                    ) : null;
+                  })}
+                </ul>
+              </dd>
+            </dl>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</div>
+
+<style>
+  .legend {
+    display: flex;
+    gap: 1.25rem;
+    font-size: var(--step--1);
+    color: var(--ink-2);
+    margin-bottom: 0.75rem;
+  }
+  .legend > span {
+    display: inline-flex;
+    gap: 0.45rem;
+    align-items: center;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 46rem;
+  }
+  thead th {
+    border-bottom: 2px solid var(--ink);
+    font-size: 0.78rem;
+    font-weight: 700;
+    vertical-align: bottom;
+    padding: 0 0 0.5rem;
+  }
+  .c-k {
+    width: 7.5%;
+    text-align: center;
+  }
+  thead .c-k span {
+    display: inline-block;
+    line-height: 1.2;
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  tbody tr:target {
+    background: linear-gradient(to right, var(--marker), transparent 60%);
+  }
+  .c-name {
+    text-align: left;
+    font-weight: 400;
+    padding: 0.4rem 1rem 0.4rem 0;
+  }
+  .c-name a {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    column-gap: 0.75rem;
+    text-decoration: none;
+  }
+  .c-name a:hover .nm {
+    text-decoration: underline;
+  }
+  .yr {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--ink-2);
+    padding-top: 0.12rem;
+  }
+  .nm {
+    font-weight: 700;
+    font-size: var(--step--1);
+  }
+  .al {
+    grid-column: 2;
+    font-size: 0.8rem;
+    color: var(--ink-2);
+    line-height: 1.35;
+  }
+  .sq {
+    display: inline-block;
+    width: 1.05rem;
+    height: 1.05rem;
+    vertical-align: middle;
+  }
+  .sq.used {
+    border: 1.5px solid var(--ink);
+  }
+  .sq.failed {
+    background: var(--leak);
+  }
+  .sq.none {
+    width: 4px;
+    height: 4px;
+    background: var(--rule);
+    border-radius: 50%;
+  }
+  td {
+    padding: 0.4rem 0;
+  }
+
+  .files {
+    list-style: none;
+    padding: 0;
+    margin: 4rem 0 0;
+    max-width: var(--measure);
+  }
+  .files > li {
+    border-top: 2px solid var(--ink);
+    padding: 1.25rem 0 2.5rem;
+    scroll-margin-top: 1.5rem;
+  }
+  .files h2 {
+    font-size: var(--step-2);
+    font-variation-settings: "wdth" 80;
+  }
+  .files h2 .yr {
+    font-size: var(--step-0);
+    vertical-align: 0.3em;
+    margin-right: 0.35rem;
+  }
+  .files h2 .al {
+    display: block;
+    font-size: var(--step-0);
+    font-weight: 400;
+    margin-top: 0.3rem;
+  }
+  .fl {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    margin: 0.75rem 0 0;
+  }
+  dl {
+    margin: 1.25rem 0 0;
+  }
+  dt {
+    font-size: var(--step--1);
+    color: var(--ink-2);
+    margin-top: 1rem;
+  }
+  dt.disp {
+    color: var(--ink);
+    font-weight: 700;
+    background: linear-gradient(transparent 15%, var(--marker) 15%, var(--marker) 85%, transparent 85%);
+    width: fit-content;
+    color: var(--marker-ink);
+  }
+  dd {
+    margin: 0.2rem 0 0;
+  }
+  .cs {
+    padding-left: 1.1rem;
+    margin: 0;
+    font-size: var(--step--1);
+  }
+</style>

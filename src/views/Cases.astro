@@ -1,0 +1,44 @@
+---
+import CaseMatrix from "../components/CaseMatrix.astro";
+import { LAYERS } from "../data/layers.ts";
+import { type Lang, useT } from "../i18n/ui.ts";
+import Base from "../layouts/Base.astro";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+---
+
+<Base lang={lang} title={t("cases.title")} description={t("cases.lede")}>
+  <div class="wrap page">
+    <h1>{t("cases.title")}</h1>
+    <p class="lede">{t("cases.lede")}</p>
+    <section id="people" class="people">
+      <p><strong>{LAYERS.people.name[lang]}</strong> {LAYERS.people.hides[lang]}. {LAYERS.people.breaks[lang]}.</p>
+    </section>
+    <CaseMatrix lang={lang} />
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2.5rem;
+  }
+  .lede {
+    max-width: 60ch;
+    font-size: var(--step-1);
+    line-height: 1.55;
+    margin: 1.25rem 0 1.5rem;
+  }
+  .people {
+    max-width: 60ch;
+    color: var(--ink-2);
+    font-size: var(--step--1);
+    margin-bottom: 2.5rem;
+  }
+  .people strong {
+    color: var(--ink);
+  }
+</style>

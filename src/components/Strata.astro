@@ -1,0 +1,177 @@
+---
+import { LAYER_SLUGS, LAYERS, type LayerSlug } from "../data/layers.ts";
+import { type Lang, localePath, useT } from "../i18n/ui.ts";
+
+interface Props {
+  lang: Lang;
+  current?: LayerSlug;
+  /** Sidebar version: names only. */
+  compact?: boolean;
+  /** How many case files failed at each layer, drawn as a tally. */
+  tally?: Partial<Record<LayerSlug, number>>;
+}
+const { lang, current, compact = false, tally } = Astro.props;
+const t = useT(lang);
+const label = lang === "ja" ? "本人" : "Person";
+const out = lang === "ja" ? "分析者" : "Analyst";
+---
+
+<div class:list={["strata", { compact }]}>
+  <p class="end top"><span class="pdot" aria-hidden="true"></span>{label}</p>
+  <ol>
+    {
+      LAYER_SLUGS.map((s) => (
+        <li class:list={{ cur: s === current }}>
+          <a href={localePath(lang, `/layers/${s}/`)} aria-current={s === current ? "page" : undefined}>
+            <span class="nm">{LAYERS[s].name[lang]}</span>
+            {!compact && (
+              <>
+                <span class="hides">
+                  <span class="k">{t("home.hides")}</span>
+                  {LAYERS[s].hides[lang]}
+                </span>
+                <span class="breaks">
+                  <span class="k">{t("home.breaks")}</span>
+                  {LAYERS[s].breaks[lang]}
+                </span>
+                {tally && (
+                  <span class="tally" aria-label={`${tally[s] ?? 0}`}>
+                    {Array.from({ length: tally[s] ?? 0 }, () => (
+                      <span class="tk" />
+                    ))}
+                  </span>
+                )}
+              </>
+            )}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+  <p class="end bottom">{out}</p>
+</div>
+
+<style>
+  .strata ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 2px solid var(--ink);
+  }
+  .end {
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--ink-2);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .end.top {
+    padding-bottom: 0.4rem;
+  }
+  .end.bottom {
+    padding-top: 0.4rem;
+    padding-left: 1rem;
+  }
+  .pdot {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--leak);
+    margin-left: -0.33rem;
+  }
+  li a {
+    display: grid;
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding: 0.55rem 0 0.55rem 1rem;
+    position: relative;
+  }
+  li:first-child a {
+    border-top: 1px solid var(--rule);
+  }
+  li a::before {
+    content: "";
+    position: absolute;
+    left: -2px;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: var(--ink);
+    transition: width 140ms ease-out;
+  }
+  li a:hover::before {
+    width: 6px;
+  }
+  .cur a::before {
+    width: 6px;
+    background: var(--bar);
+  }
+  .nm {
+    font-weight: 800;
+    font-variation-settings: "wdth" 80;
+  }
+  .compact .nm {
+    font-size: var(--step--1);
+  }
+  .compact .cur .nm {
+    background: linear-gradient(transparent 15%, var(--marker) 15%, var(--marker) 85%, transparent 85%);
+    color: var(--marker-ink);
+    justify-self: start;
+  }
+
+  /* Full version: one stratum per row. */
+  .strata:not(.compact) li a {
+    grid-template-columns: minmax(8rem, 1fr) minmax(0, 2fr) minmax(0, 2fr) 5rem;
+    gap: 0.5rem 2rem;
+    padding: 1.1rem 0 1.1rem 1.25rem;
+    align-items: baseline;
+  }
+  .strata:not(.compact) .nm {
+    font-size: var(--step-2);
+    font-variation-settings: "wdth" 72;
+    line-height: 1.1;
+  }
+  .strata:not(.compact) li a:hover .nm {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+  }
+  .hides,
+  .breaks {
+    font-size: var(--step--1);
+    line-height: 1.5;
+  }
+  .k {
+    display: block;
+    color: var(--ink-2);
+    font-size: 0.78rem;
+  }
+  .breaks {
+    color: var(--leak);
+  }
+  .breaks .k {
+    color: var(--ink-2);
+  }
+  .tally {
+    display: flex;
+    gap: 3px;
+    align-self: center;
+    flex-wrap: wrap;
+  }
+  .tk {
+    width: 6px;
+    height: 1.3rem;
+    background: var(--leak);
+  }
+  @media (max-width: 52rem) {
+    .strata:not(.compact) li a {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.4rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    li a::before {
+      transition: none;
+    }
+  }
+</style>

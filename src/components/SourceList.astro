@@ -1,0 +1,68 @@
+---
+import type { Source } from "../data/schema.ts";
+
+interface Props {
+  sources: Source[];
+}
+const { sources } = Astro.props;
+const lang = Astro.currentLocale === "ja" ? "ja" : "en";
+const primary = lang === "ja" ? "一次資料" : "primary";
+---
+
+<ol class="sl">
+  {
+    sources.map((s) => (
+      <li id={`src-${s.id}`}>
+        <span class="pub">{s.publisher}</span>
+        <a href={s.url} rel="noopener noreferrer" class="ttl">
+          {s.title}
+        </a>
+        <span class="meta">
+          <time datetime={s.date}>{s.date}</time>
+          {s.kind === "primary" && <span class="prim">{primary}</span>}
+        </span>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .sl {
+    margin: 0;
+    padding: 0 0 0 2.25rem;
+    font-size: var(--step--1);
+    line-height: 1.55;
+    border-top: 2px solid var(--ink);
+  }
+  .sl li {
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+    scroll-margin-top: 2rem;
+  }
+  .sl li::marker {
+    font-family: var(--mono);
+    color: var(--ink-2);
+  }
+  .sl li:target {
+    background: linear-gradient(to right, var(--marker), transparent 70%);
+  }
+  .pub {
+    display: block;
+    color: var(--ink-2);
+  }
+  .ttl {
+    font-weight: 700;
+  }
+  .meta {
+    display: flex;
+    gap: 0.75rem;
+    color: var(--ink-2);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+  }
+  .prim {
+    font-family: var(--sans);
+    border: 1px solid var(--ink-2);
+    padding: 0 0.35rem;
+  }
+</style>

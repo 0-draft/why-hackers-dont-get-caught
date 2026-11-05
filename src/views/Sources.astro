@@ -1,0 +1,60 @@
+---
+import SourceList from "../components/SourceList.astro";
+import { LAYER_SLUGS, LAYERS } from "../data/layers.ts";
+import { SOURCES_BY_PAGE } from "../data/sources.ts";
+import { type Lang, localePath, useT } from "../i18n/ui.ts";
+import Base from "../layouts/Base.astro";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const groups = [
+  ...LAYER_SLUGS.map((s) => ({ key: s, name: LAYERS[s].name[lang], href: localePath(lang, `/layers/${s}/`) })),
+  { key: "cases", name: t("cases.title"), href: localePath(lang, "/cases/") },
+].filter((g) => SOURCES_BY_PAGE[g.key]?.length);
+const total = Object.values(SOURCES_BY_PAGE).reduce((n, l) => n + l.length, 0);
+---
+
+<Base lang={lang} title={t("sources.title")} description={t("sources.lede")}>
+  <div class="wrap page">
+    <h1>{t("sources.title")}</h1>
+    <p class="lede">{t("sources.lede")} <span class="n">({total})</span></p>
+    {
+      groups.map((g) => (
+        <section class="grp" aria-labelledby={`g-${g.key}`}>
+          <h2 id={`g-${g.key}`}>
+            <a href={g.href}>{g.name}</a>
+          </h2>
+          <SourceList sources={SOURCES_BY_PAGE[g.key]!} />
+        </section>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2.5rem;
+  }
+  .lede {
+    max-width: 60ch;
+    margin: 1.25rem 0 2rem;
+  }
+  .n {
+    font-family: var(--mono);
+    color: var(--ink-2);
+  }
+  .grp {
+    margin-top: 3rem;
+    max-width: var(--measure);
+  }
+  .grp h2 {
+    font-size: var(--step-2);
+    margin-bottom: 0.75rem;
+  }
+  .grp h2 a {
+    text-decoration: none;
+  }
+</style>

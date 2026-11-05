@@ -1,0 +1,482 @@
+---
+import type { Lang } from "../i18n/ui.ts";
+import { useT } from "../i18n/ui.ts";
+import { DEFAULT_STATE } from "../lib/vantage.ts";
+import {
+  globalToggle,
+  recordTable,
+  routeRow,
+  scenarioNote,
+  scenarioTabs,
+  verdictBlock,
+} from "../lib/vantage-render.ts";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const s = DEFAULT_STATE;
+---
+
+<figure class="vantage" data-vantage data-lang={lang} aria-labelledby="vantage-cap">
+  <div class="v-top">
+    <div class="sc-row" role="group" aria-label={t("vantage.route")} set:html={scenarioTabs(lang, s)} />
+    <p class="sc-note" data-note set:html={scenarioNote(lang, s)} />
+  </div>
+
+  <div class="route-wrap">
+    <ol class="route" aria-label={t("vantage.observers")} data-route set:html={routeRow(lang, s)} />
+    <div class="global-row" data-global set:html={globalToggle(lang, s)} />
+  </div>
+
+  <div class="v-bottom">
+    <div class="record scroll-x" data-record set:html={recordTable(lang, s)} />
+    <div class="verdict" data-verdict-box aria-live="polite" set:html={verdictBlock(lang, s)} />
+  </div>
+
+  <figcaption id="vantage-cap">
+    <span class="key"
+      ><span class="bar" style="width:2.2em">&nbsp;</span>
+      {t("vantage.legendHidden")}</span
+    >
+    <span class="key"><span class="hl">abc</span> {t("vantage.legendVisible")}</span>
+    <span class="key"><span class="leak">abc</span> {t("vantage.legendLeak")}</span>
+    <span class="key"><span class="strands" aria-hidden="true"></span> {t("vantage.legendWire")}</span>
+    <span class="assume">{t("vantage.assume")}</span>
+  </figcaption>
+</figure>
+
+<script>
+  import {
+    DEFAULT_STATE,
+    formatState,
+    type Observer,
+    parseState,
+    ROUTES,
+    type Scenario,
+    type VantageState,
+  } from "../lib/vantage.ts";
+  import {
+    globalToggle,
+    recordTable,
+    routeRow,
+    scenarioNote,
+    scenarioTabs,
+    verdictBlock,
+  } from "../lib/vantage-render.ts";
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-vantage]")) {
+    const lang = root.dataset.lang === "ja" ? "ja" : "en";
+    let state: VantageState = parseState(location.hash) ?? { ...DEFAULT_STATE };
+    let prev = new Map<string, string>();
+
+    const q = (sel: string) => root.querySelector<HTMLElement>(sel)!;
+    const tabs = q(".sc-row");
+
+    const snapshot = () => {
+      const m = new Map<string, string>();
+      for (const td of root.querySelectorAll<HTMLElement>("td[data-k]")) m.set(td.dataset.k!, td.dataset.s!);
+      return m;
+    };
+
+    function render(changed: boolean) {
+      prev = snapshot();
+      tabs.innerHTML = scenarioTabs(lang, state);
+      q("[data-note]").innerHTML = scenarioNote(lang, state);
+      q("[data-route]").innerHTML = routeRow(lang, state);
+      q("[data-global]").innerHTML = globalToggle(lang, state);
+      q("[data-record]").innerHTML = recordTable(lang, state);
+      q("[data-verdict-box]").innerHTML = verdictBlock(lang, state);
+      root.toggleAttribute("data-global-on", state.observers.includes("global"));
+      if (changed) {
+        // Only cells whose state flipped animate: the bar sliding over a field
+        // is the point of the figure, so it must mean "this just changed".
+        for (const td of root.querySelectorAll<HTMLElement>("td[data-k]")) {
+          const was = prev.get(td.dataset.k!);
+          if (was !== undefined && was !== td.dataset.s) td.classList.add("flip");
+          if (was === undefined) td.classList.add("enter");
+        }
+        const h = `#${formatState(state)}`;
+        if (location.hash !== h) history.replaceState(null, "", h);
+      }
+    }
+
+    root.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      const sc = target.closest<HTMLElement>("[data-scenario]");
+      const ob = target.closest<HTMLElement>("[data-observer]");
+      if (sc) {
+        const scenario = sc.dataset.scenario as Scenario;
+        const route = ROUTES[scenario] as readonly string[];
+        const kept = state.observers.filter((o) => o === "global" || route.includes(o));
+        state = { scenario, observers: kept.length ? kept : [...DEFAULT_STATE.observers] };
+        render(true);
+        root.querySelector<HTMLElement>(`[data-scenario="${scenario}"]`)?.focus();
+      } else if (ob) {
+        const o = ob.dataset.observer as Observer;
+        const has = state.observers.includes(o);
+        state = { ...state, observers: has ? state.observers.filter((x) => x !== o) : [...state.observers, o] };
+        render(true);
+        root.querySelector<HTMLElement>(`[data-observer="${o}"]`)?.focus();
+      }
+    });
+
+    if (location.hash) render(false);
+    window.addEventListener("hashchange", () => {
+      const s = parseState(location.hash);
+      if (s) {
+        state = s;
+        render(false);
+      }
+    });
+  }
+</script>
+
+<style>
+  .vantage {
+    position: relative;
+    margin: 0;
+    background: var(--sheet);
+    border: 2px solid var(--ink);
+    padding: clamp(1rem, 0.6rem + 1.6vw, 2rem);
+    container-type: inline-size;
+  }
+  .v-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem 1.5rem;
+  }
+  .sc-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 1.5px solid var(--ink);
+  }
+  .vantage :global(.sc) {
+    font: inherit;
+    font-weight: 700;
+    font-size: var(--step--1);
+    background: transparent;
+    color: var(--ink);
+    border: 0;
+    border-right: 1.5px solid var(--ink);
+    padding: 0.4rem 0.85rem;
+    cursor: pointer;
+  }
+  .vantage :global(.sc:last-child) {
+    border-right: 0;
+  }
+  .vantage :global(.sc[aria-pressed="true"]) {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+  .sc-note {
+    margin: 0;
+    flex: 1 1 22rem;
+    color: var(--ink-2);
+    font-size: var(--step--1);
+    max-width: 62ch;
+  }
+
+  /* ---- Route ---- */
+  .route-wrap {
+    margin-top: 2rem;
+  }
+  .route {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .vantage :global(.node) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 6.5rem;
+  }
+  .vantage :global(.node .dot) {
+    position: relative;
+    z-index: 1;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 2px solid var(--ink);
+    background: var(--sheet);
+    border-radius: 50%;
+    margin-top: 1.5rem;
+  }
+  .vantage :global(.person .dot) {
+    background: var(--leak);
+    border-color: var(--leak);
+  }
+  .vantage :global(.node .nm) {
+    margin-top: 0.5rem;
+    font-size: var(--step--1);
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .vantage :global(.off) {
+    color: var(--ink-2);
+  }
+  .vantage :global(.off .dot) {
+    border-style: dashed;
+    border-color: var(--rule);
+    background: var(--sheet);
+  }
+  .vantage :global(.off .nm) {
+    font-weight: 400;
+  }
+  .vantage :global(.obs) {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0 0.25rem 0.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+  .vantage :global(.obs:hover .dot) {
+    background: var(--marker);
+  }
+  .vantage :global(.obs[aria-pressed="true"] .dot) {
+    background: var(--ink);
+    box-shadow: 0 0 0 4px var(--marker);
+  }
+  .vantage :global(.obs[aria-pressed="true"] .nm) {
+    background: linear-gradient(transparent 15%, var(--marker) 15%, var(--marker) 85%, transparent 85%);
+    color: var(--marker-ink);
+  }
+
+  /* Wires: one line per layer of encryption on that link. */
+  .vantage :global(.wire) {
+    position: absolute;
+    right: 50%;
+    width: 100%;
+    top: calc(1.5rem + 0.55rem);
+    height: calc(var(--n, 1) * 4px - 2px);
+    transform: translateY(-50%);
+    background: repeating-linear-gradient(to bottom, var(--ink) 0 2px, transparent 2px 4px);
+  }
+  .vantage :global(.wire.pass) {
+    height: 2px;
+    background: repeating-linear-gradient(to right, var(--rule) 0 4px, transparent 4px 8px);
+  }
+  .vantage[data-global-on] :global(.wire) {
+    outline: 3px solid var(--marker);
+    outline-offset: 3px;
+  }
+  .vantage :global(.wire-n) {
+    position: absolute;
+    right: 100%;
+    top: 0;
+    transform: translateX(50%);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink-2);
+    line-height: 1;
+  }
+  .global-row {
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .vantage :global(.obs.global) {
+    flex-direction: row;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: var(--step--1);
+    border: 1.5px dashed var(--ink);
+    padding: 0.35rem 0.75rem;
+  }
+  .vantage :global(.obs.global .dot) {
+    width: 0.8rem;
+    height: 0.8rem;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+  }
+  .vantage :global(.obs.global[aria-pressed="true"]) {
+    background: var(--marker);
+    color: var(--marker-ink);
+    border-style: solid;
+  }
+
+  /* ---- Record + verdict ---- */
+  .v-bottom {
+    margin-top: 1.75rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 1.5rem 2.5rem;
+    align-items: start;
+    border-top: 1px solid var(--rule);
+    padding-top: 1.5rem;
+  }
+  .record :global(table) {
+    border-collapse: collapse;
+    font-size: var(--step--1);
+    min-width: 100%;
+  }
+  .record :global(th),
+  .record :global(td) {
+    text-align: left;
+    padding: 0.45rem 1.25rem 0.45rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  .record :global(thead th) {
+    border-bottom: 2px solid var(--ink);
+  }
+  .record :global(tbody th) {
+    font-weight: 400;
+    color: var(--ink-2);
+  }
+  .record :global(.mono) {
+    font-family: var(--mono);
+    font-size: 0.86em;
+  }
+  .record :global(.bar) {
+    height: 1.05em;
+    vertical-align: middle;
+    transform-origin: left center;
+  }
+  .record :global(td.flip .bar),
+  .record :global(td.enter .bar) {
+    animation: slide 220ms ease-out;
+  }
+  .record :global(td.flip .hl),
+  .record :global(td.flip .leak) {
+    animation: reveal 220ms ease-out;
+  }
+  @keyframes slide {
+    from {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes reveal {
+    from {
+      opacity: 0;
+    }
+  }
+  .record :global(.empty) {
+    margin: 0;
+    color: var(--ink-2);
+  }
+  .verdict :global(.v-label) {
+    margin: 0;
+    font-size: var(--step-2);
+    font-weight: 800;
+    font-variation-settings: "wdth" 75;
+    line-height: 1.1;
+  }
+  .verdict :global([data-verdict="linked"]) {
+    color: var(--leak);
+  }
+  .verdict :global([data-verdict="correlatable"]) {
+    background: linear-gradient(transparent 55%, var(--marker) 55%);
+    color: var(--ink);
+    display: inline;
+  }
+  .verdict :global(.v-note) {
+    margin: 0.6rem 0 0;
+    font-size: var(--step--1);
+    color: var(--ink-2);
+  }
+  figcaption {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    font-size: 0.8rem;
+    color: var(--ink-2);
+  }
+  .key .bar {
+    height: 0.9em;
+    min-width: 0;
+    vertical-align: -0.1em;
+  }
+  .strands {
+    display: inline-block;
+    width: 1.8em;
+    height: 10px;
+    vertical-align: middle;
+    background: repeating-linear-gradient(to bottom, var(--ink) 0 2px, transparent 2px 4px);
+  }
+  .assume {
+    flex-basis: 100%;
+  }
+
+  .vantage :global(.sr),
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* Narrow: the route turns vertical, wires run down the left. */
+  @container (max-width: 40rem) {
+    .route {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .vantage :global(.node) {
+      flex-direction: row;
+      align-items: center;
+      min-height: 2.9rem;
+      text-align: left;
+      gap: 0.75rem;
+      padding-left: 0.4rem;
+    }
+    .vantage :global(.obs) {
+      flex-direction: row;
+      gap: 0.75rem;
+      padding: 0;
+    }
+    .vantage :global(.node .dot) {
+      margin-top: 0;
+      flex: none;
+    }
+    .vantage :global(.node .nm) {
+      margin-top: 0;
+    }
+    .vantage :global(.wire) {
+      right: auto;
+      left: calc(0.4rem + 0.55rem);
+      top: auto;
+      bottom: 50%;
+      width: calc(var(--n, 1) * 4px - 2px);
+      height: 100%;
+      transform: translateX(-50%);
+      background: repeating-linear-gradient(to right, var(--ink) 0 2px, transparent 2px 4px);
+    }
+    .vantage :global(.wire.pass) {
+      width: 2px;
+      background: repeating-linear-gradient(to bottom, var(--rule) 0 4px, transparent 4px 8px);
+    }
+    .vantage :global(.wire-n) {
+      right: auto;
+      left: 2.2rem;
+      top: -0.35rem;
+      transform: none;
+    }
+    .global-row {
+      justify-content: flex-start;
+    }
+    .v-bottom {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .record :global(td .bar),
+    .record :global(td span) {
+      animation: none !important;
+    }
+  }
+</style>

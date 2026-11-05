@@ -1,0 +1,380 @@
+/* tokumei — the redacted record.
+ * Three marks carry meaning everywhere: the black bar (hidden from this
+ * observer), the highlighter (readable), and magenta (points at the person).
+ * Nothing else is coloured. */
+
+:root {
+  --paper: #e9ebe6;
+  --sheet: #f6f7f3;
+  --ink: #1e2129;
+  --ink-2: #565b65;
+  --rule: #b9bdb8;
+  --rule-soft: #d6d9d3;
+  --bar: #000;
+  --bar-edge: transparent;
+  --marker: #f3e04b;
+  --marker-ink: #1e2129;
+  --leak: #c8104f;
+  --leak-soft: #f7d6e1;
+  --focus: #1d4fd8;
+
+  --sans: "Archivo Variable", "LINE Seed JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+  --jp: "LINE Seed JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+  --mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.3125rem;
+  --step-2: 1.75rem;
+  --step-3: clamp(2rem, 1.4rem + 2.4vw, 3rem);
+  --step-4: clamp(2.6rem, 1.6rem + 4.6vw, 5.25rem);
+
+  --measure: 68ch;
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --wide: 76rem;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #17191d;
+    --sheet: #1f2227;
+    --ink: #e3e5e0;
+    --ink-2: #a2a7b0;
+    --rule: #3b3f46;
+    --rule-soft: #2c3036;
+    --bar-edge: #5a5f68;
+    --marker: #6b5f10;
+    --marker-ink: #fff6c2;
+    --leak: #ff5c93;
+    --leak-soft: #4a1528;
+    --focus: #8fb2ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #17191d;
+  --sheet: #1f2227;
+  --ink: #e3e5e0;
+  --ink-2: #a2a7b0;
+  --rule: #3b3f46;
+  --rule-soft: #2c3036;
+  --bar-edge: #5a5f68;
+  --marker: #6b5f10;
+  --marker-ink: #fff6c2;
+  --leak: #ff5c93;
+  --leak-soft: #4a1528;
+  --focus: #8fb2ff;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: 1.7;
+  font-variation-settings: "wdth" 100;
+  font-kerning: normal;
+}
+
+:lang(ja) body,
+body:lang(ja) {
+  font-family: var(--jp);
+  line-height: 1.85;
+  line-break: strict;
+  overflow-wrap: anywhere;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+p,
+li,
+td,
+dd {
+  overflow-wrap: anywhere;
+}
+
+code,
+kbd,
+.mono {
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 {
+  font-size: var(--step-4);
+  font-variation-settings: "wdth" 72;
+  letter-spacing: -0.01em;
+}
+h2 {
+  font-size: var(--step-3);
+  font-variation-settings: "wdth" 78;
+}
+h3 {
+  font-size: var(--step-1);
+  font-variation-settings: "wdth" 90;
+}
+:lang(ja) h1 {
+  font-size: clamp(2.1rem, 1.3rem + 3.6vw, 4.2rem);
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+:lang(ja) h2 {
+  line-height: 1.35;
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+}
+.skip:focus {
+  left: var(--gutter);
+  top: 0.5rem;
+  background: var(--sheet);
+  padding: 0.5rem 0.75rem;
+  z-index: 10;
+}
+
+.wrap {
+  max-width: var(--wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- The three marks ---------- */
+
+/* Redaction bar: text is present for screen readers via the label. */
+.bar {
+  display: inline-block;
+  background: var(--bar);
+  color: transparent;
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px var(--bar-edge);
+  min-width: 3.5em;
+  line-height: 1.2;
+  user-select: none;
+}
+.hl {
+  background: linear-gradient(transparent 12%, var(--marker) 12%, var(--marker) 88%, transparent 88%);
+  color: var(--marker-ink);
+  padding-inline: 0.15em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.leak {
+  color: var(--leak);
+  font-weight: 700;
+  text-decoration: underline wavy var(--leak);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+/* ---------- Prose ---------- */
+
+.prose {
+  max-width: var(--measure);
+}
+:lang(ja) .prose {
+  max-width: 40em;
+}
+.prose > * + * {
+  margin-top: 1.1em;
+}
+.prose h2 {
+  margin-top: 2.6em;
+  font-size: var(--step-2);
+  font-variation-settings: "wdth" 85;
+}
+.prose h3 {
+  margin-top: 2em;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.25em;
+}
+.prose li + li {
+  margin-top: 0.4em;
+}
+.prose blockquote {
+  margin-inline: 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--ink);
+  color: var(--ink-2);
+}
+.prose table {
+  border-collapse: collapse;
+  font-size: var(--step--1);
+  width: 100%;
+}
+.prose th,
+.prose td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.prose th {
+  font-weight: 700;
+  border-bottom: 2px solid var(--ink);
+}
+
+.scroll-x {
+  /* positioned so absolutely-placed screen-reader text stays inside the clip */
+  position: relative;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
+
+/* ---------- Hand-drawn figures: <svg class="dg"> ----------
+ * 2px ink = things and the main path; 1px = leaders and labels;
+ * dashed = optional or out-of-band; magenta = a leak; yellow = what the
+ * observer in question can read; black fill = hidden. */
+.dg {
+  display: block;
+  height: auto;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink);
+  overflow: visible;
+}
+:lang(ja) .dg {
+  font-family: var(--jp);
+}
+.dg .ln {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.dg .ln-1 {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+.dg .dash {
+  stroke-dasharray: 5 4;
+}
+.dg .soft {
+  stroke: var(--rule);
+}
+.dg .box {
+  fill: var(--sheet);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.dg .box-soft {
+  fill: var(--paper);
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+.dg .fill-ink {
+  fill: var(--ink);
+}
+.dg .fill-bar {
+  fill: var(--bar);
+  stroke: var(--bar-edge);
+}
+.dg .fill-hl {
+  fill: var(--marker);
+}
+.dg .fill-leak {
+  fill: var(--leak);
+}
+.dg .fill-paper {
+  fill: var(--paper);
+}
+.dg .stroke-leak {
+  fill: none;
+  stroke: var(--leak);
+  stroke-width: 2;
+}
+.dg text {
+  fill: var(--ink);
+}
+.dg .t-s {
+  font-size: 12px;
+}
+.dg .t-l {
+  font-size: 17px;
+  font-weight: 700;
+}
+.dg .t-2 {
+  fill: var(--ink-2);
+}
+.dg .t-leak {
+  fill: var(--leak);
+  font-weight: 700;
+}
+.dg .t-on-hl {
+  fill: var(--marker-ink);
+}
+.dg .t-on-ink {
+  fill: var(--sheet);
+}
+.dg .mono {
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.dg .b {
+  font-weight: 700;
+}
+
+.layer-article {
+  counter-reset: fig;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

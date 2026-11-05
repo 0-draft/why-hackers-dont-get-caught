@@ -1,0 +1,112 @@
+---
+import { type Lang, localePath, useT } from "../i18n/ui.ts";
+import Base from "../layouts/Base.astro";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const L = (p: string) => localePath(lang, p);
+---
+
+<Base lang={lang} title={t("about.title")}>
+  <div class="wrap page">
+    <h1>{t("about.title")}</h1>
+    <div class="prose">
+      {
+        lang === "en" ? (
+          <>
+            <p class="lede">
+              tokumei (匿名, "anonymous") takes apart how people who attack networks hide who they are, one layer at a
+              time, and checks each layer against cases where investigators got through.
+            </p>
+            <h2>What it covers, and what it does not</h2>
+            <p>
+              Every page explains a mechanism and the way it fails. Nothing here is a setup guide: there are no
+              configurations, commands or tool recommendations, and weaknesses are described from the side of the
+              people looking for the attacker. The same material is taught in university courses, court records and
+              vendor threat reports; this site puts it in one place and draws it.
+            </p>
+            <h2>How the claims are checked</h2>
+            <ul>
+              <li>
+                Every number, date and name links to a source. Court filings, government statements, the project's own
+                documentation and the original papers come first; journalism fills gaps.
+              </li>
+              <li>
+                Where an account of a case is contested, the case file says so and shows both sides instead of picking
+                the better story.
+              </li>
+              <li>
+                The observer figure on the <a href={L("/")}>home page</a> is driven by a small model with unit tests,
+                so "who sees what" stays consistent with the text.
+              </li>
+              <li>
+                English and Japanese pages are checked by a script to carry the same sections, figures and citations.
+              </li>
+            </ul>
+            <h2>The marks</h2>
+            <p>
+              <span class="bar" style="width:3em">&nbsp;</span> hidden from the observer being discussed;{" "}
+              <span class="hl">highlighted</span> readable by them; <span class="leak">magenta</span> points at the
+              real person. Nothing else on the site is coloured.
+            </p>
+            <h2>Corrections</h2>
+            <p>
+              Found an error or a dead source? Open an issue on{" "}
+              <a href="https://github.com/kanywst/tokumei/issues">GitHub</a> with the page and the source that
+              contradicts it. The full source list is on the <a href={L("/sources/")}>sources page</a>.
+            </p>
+          </>
+        ) : (
+          <>
+            <p class="lede">
+              tokumei (匿名)
+              は、ネットワークを攻撃する人間がどうやって正体を隠しているのかを層ごとに分解し、実際に捜査側が突破した事例と突き合わせるサイトだ。
+            </p>
+            <h2>扱うもの、扱わないもの</h2>
+            <p>
+              各ページが説明するのは仕組みと、その破れ方だ。構築手順は載せない。設定もコマンドもツールの推薦もなく、弱点は攻撃者を探す側の視点で書いている。大学の講義や裁判記録、セキュリティ企業の脅威レポートで公開されている内容を、一か所に集めて図にした。
+            </p>
+            <h2>主張の裏付け</h2>
+            <ul>
+              <li>
+                数字・日付・人名にはすべて出典を付けた。裁判資料、政府発表、プロジェクト自身の文書、原論文を優先し、報道は補助に使っている。
+              </li>
+              <li>事例の経緯に争いがある場合は、都合のいい話を選ばず、そう明記して双方の言い分を並べた。</li>
+              <li>
+                <a href={L("/")}>トップページ</a>の観測者の図は、ユニットテスト付きの小さなモデルで動いている。「誰に何が見えるか」が本文と食い違わないようにするためだ。
+              </li>
+              <li>英語版と日本語版は、節・図・出典が揃っていることをスクリプトで検査している。</li>
+            </ul>
+            <h2>記号</h2>
+            <p>
+              <span class="bar" style="width:3em">&nbsp;</span> はその観測者から見えないもの、
+              <span class="hl">マーカー</span> は見えるもの、<span class="leak">マゼンタ</span>
+              は本人を指すもの。サイトで色が付いているのはこの三つだけだ。
+            </p>
+            <h2>訂正</h2>
+            <p>
+              誤りやリンク切れを見つけたら、<a href="https://github.com/kanywst/tokumei/issues">GitHub</a>
+              の issue に、該当ページと反証する出典を書いてほしい。出典の一覧は<a href={L("/sources/")}>出典ページ</a>にある。
+            </p>
+          </>
+        )
+      }
+    </div>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 2.5rem;
+  }
+  .prose {
+    margin-top: 1.5rem;
+  }
+  .lede {
+    font-size: var(--step-1);
+    line-height: 1.55;
+  }
+</style>
