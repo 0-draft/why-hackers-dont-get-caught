@@ -1,0 +1,217 @@
+---
+// Interactive: build a payment from the coins you hold. Every selected coin is
+// spent whole; what is left after the payment and the fee comes back as a
+// change output to a fresh address of yours.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    group: "Coins to spend",
+    pick: "Pick the coins to use as inputs:",
+    coin: "coin at addr",
+    inputs: "Inputs",
+    tx: "Transaction",
+    outputs: "Outputs",
+    shop: "to the shop",
+    change: "change: back to sender (new addr D)",
+    fee: "fee to the miner",
+    unused: "not used",
+    short: "Not enough: the inputs must cover 0.650 plus the fee.",
+    shortA: "Not enough",
+    shortB: "inputs must reach 0.651 BTC",
+    summary: (n: number, sum: string, ch: string) =>
+      `${n} input${n === 1 ? "" : "s"} worth ${sum} are spent whole: 0.650 to the shop, ${ch} back to you as change, 0.001 left as the fee. All of them now sit together in one public record.`,
+  },
+  ja: {
+    group: "使うコイン",
+    pick: "入力に使うコインを選ぶ:",
+    coin: "コイン・アドレス",
+    inputs: "入力",
+    tx: "取引",
+    outputs: "出力",
+    shop: "店へ",
+    change: "おつり: 送り手に戻る (新しい addr D)",
+    fee: "マイナーへの手数料",
+    unused: "使わない",
+    short: "足りない。入力は 0.650 と手数料の合計以上が必要だ。",
+    shortA: "足りない",
+    shortB: "入力の合計は 0.651 BTC 以上が必要",
+    summary: (n: number, sum: string, ch: string) =>
+      `入力 ${n} 個、計 ${sum} を丸ごと使う。0.650 は店へ、${ch} はおつりとして自分へ、0.001 は手数料として残る。これらが 1 件の公開記録にまとめて載る。`,
+  },
+}[lang];
+
+const coins = [
+  { id: "A", v: 0.3 },
+  { id: "B", v: 0.5 },
+  { id: "C", v: 0.2 },
+];
+const initial = [true, true, false];
+const iy = [40, 130, 220];
+const mk = `bltx-arr-${lang}`;
+const fmt = (n: number) => n.toFixed(3);
+const sum0 = coins.reduce((a, c, i) => a + (initial[i] ? c.v : 0), 0);
+const ch0 = sum0 - 0.651;
+---
+
+<div
+  class="bltx"
+  data-bltx
+  data-short={L.short}
+  data-tpl={JSON.stringify([L.summary(1, "§S", "§C"), L.summary(2, "§S", "§C"), L.summary(3, "§S", "§C")])}
+>
+  <p class="bltx-pick" id={`bltx-pick-${lang}`}>{L.pick}</p>
+  <div class="bltx-coins" role="group" aria-labelledby={`bltx-pick-${lang}`}>
+    {
+      coins.map((c, i) => (
+        <button type="button" data-coin={i} data-v={c.v} aria-pressed={initial[i] ? "true" : "false"}>
+          {fmt(c.v)} · {L.coin} {c.id}
+        </button>
+      ))
+    }
+  </div>
+  <svg class="dg" viewBox="0 0 680 330" role="img" aria-labelledby={`bltx-say-${lang}`}>
+    <defs>
+      <marker id={mk} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+      </marker>
+    </defs>
+    <text x="16" y="24" class="b t-s">{L.inputs}</text>
+    <text x="250" y="24" class="b t-s">{L.tx}</text>
+    <text x="450" y="24" class="b t-s">{L.outputs}</text>
+
+    {
+      coins.map((c, i) => (
+        <g data-in={i} data-on={initial[i] ? "" : undefined}>
+          <rect class="fill-hl in-on" x="16" y={iy[i]!} width="170" height="56" />
+          <rect class="ln-1 dash soft in-off" fill="none" x="16" y={iy[i]!} width="170" height="56" />
+          <text x="30" y={iy[i]! + 24} class="mono in-on-t">
+            addr {c.id}
+          </text>
+          <text x="30" y={iy[i]! + 44} class="mono in-on-t">
+            {fmt(c.v)} BTC
+          </text>
+          <text x="120" y={iy[i]! + 34} class="t-s t-2 in-off">
+            {L.unused}
+          </text>
+          <line class="ln-1 in-on" x1="186" y1={iy[i]! + 28} x2="250" y2="158" marker-end={`url(#${mk})`} />
+        </g>
+      ))
+    }
+
+    <rect class="box" x="250" y="118" width="130" height="80" />
+    <text x="315" y="152" text-anchor="middle" class="b">{L.tx}</text>
+    <text x="315" y="176" text-anchor="middle" class="mono" data-sum>{fmt(sum0)}</text>
+
+    <g data-ok data-off={ch0 < 0 ? "" : undefined}>
+      <line class="ln-1" x1="380" y1="140" x2="450" y2="78" marker-end={`url(#${mk})`} />
+      <line class="ln-1" x1="380" y1="176" x2="450" y2="178" marker-end={`url(#${mk})`} />
+      <rect class="fill-hl" x="450" y="50" width="214" height="56" />
+      <text x="464" y="74" class="t-on-hl t-s">{L.shop}</text>
+      <text x="464" y="94" class="t-on-hl mono">0.650 BTC</text>
+      <rect class="fill-hl" x="450" y="150" width="214" height="56" />
+      <text x="464" y="174" class="t-on-hl t-s">{L.change}</text>
+      <text x="464" y="194" class="t-on-hl mono" data-change>{fmt(Math.max(ch0, 0))} BTC</text>
+      <text x="450" y="240" class="t-s t-2">{L.fee}: 0.001 BTC</text>
+    </g>
+    <g data-short-g data-off={ch0 < 0 ? undefined : ""}>
+      <text x="450" y="150" class="b">{L.shortA}</text>
+      <text x="450" y="172" class="t-s">{L.shortB}</text>
+    </g>
+  </svg>
+  <p class="bltx-say" id={`bltx-say-${lang}`} aria-live="polite" data-say>
+    {L.summary(initial.filter(Boolean).length, fmt(sum0), fmt(ch0))}
+  </p>
+</div>
+
+<style>
+  .bltx-pick {
+    margin: 0 0 0.5rem;
+    font-size: var(--step--1);
+  }
+  .bltx-coins {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+  .bltx-coins button {
+    font: inherit;
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    padding: 0.3rem 0.7rem;
+    background: var(--sheet);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    cursor: pointer;
+  }
+  .bltx-coins button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+  .bltx svg {
+    min-width: 600px;
+  }
+  .bltx [data-off],
+  .bltx [data-in]:not([data-on]) .in-on,
+  .bltx [data-in][data-on] .in-off {
+    display: none;
+  }
+  .bltx [data-in][data-on] .in-on-t {
+    fill: var(--marker-ink);
+  }
+  .bltx-say {
+    margin: 0.9rem 0 0;
+    font-size: var(--step--1);
+    max-width: 68ch;
+    min-height: 4.5em;
+  }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-bltx]")) {
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("button[data-coin]")];
+    const ins = [...root.querySelectorAll<SVGGElement>("[data-in]")];
+    const sumEl = root.querySelector<SVGTextElement>("[data-sum]")!;
+    const changeEl = root.querySelector<SVGTextElement>("[data-change]")!;
+    const ok = root.querySelector<SVGGElement>("[data-ok]")!;
+    const short = root.querySelector<SVGGElement>("[data-short-g]")!;
+    const say = root.querySelector<HTMLElement>("[data-say]")!;
+    const tpl: string[] = JSON.parse(root.dataset.tpl ?? "[]");
+    const toggle = (el: Element, off: boolean) => (off ? el.setAttribute("data-off", "") : el.removeAttribute("data-off"));
+    const render = () => {
+      // Work in thousandths to avoid floating-point noise.
+      let sum = 0;
+      let n = 0;
+      buttons.forEach((b, i) => {
+        const on = b.getAttribute("aria-pressed") === "true";
+        if (on) {
+          sum += Math.round(Number(b.dataset.v) * 1000);
+          n++;
+        }
+        if (on) ins[i]!.setAttribute("data-on", "");
+        else ins[i]!.removeAttribute("data-on");
+      });
+      const change = sum - 651;
+      const f = (m: number) => (m / 1000).toFixed(3);
+      sumEl.textContent = f(sum);
+      toggle(ok, change < 0);
+      toggle(short, change >= 0);
+      if (change >= 0) {
+        changeEl.textContent = `${f(change)} BTC`;
+        say.textContent = (tpl[n - 1] ?? "").replace("§S", f(sum)).replace("§C", f(change));
+      } else {
+        say.textContent = root.dataset.short ?? "";
+      }
+    };
+    for (const b of buttons) {
+      b.addEventListener("click", () => {
+        b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"));
+        render();
+      });
+    }
+  }
+</script>

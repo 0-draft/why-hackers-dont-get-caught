@@ -1,0 +1,107 @@
+---
+// Signatures and certificates in one picture: a chain of signatures from a
+// root your device already trusts down to forum.example's public key, and the
+// server proving it holds the matching private key.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    root: "Root CA",
+    rootSub: "public key already stored in your device",
+    inter: "Intermediate CA",
+    interSub: "its certificate is signed by the root",
+    cert: "Certificate for forum.example",
+    name: "name: forum.example",
+    pub: "public key P",
+    signs: "signs",
+    server: "Server at 203.0.113.10",
+    priv: "private key for P (never sent)",
+    browser: "Your browser",
+    b1: "1. check each signature up to the root",
+    b2: "2. check the name matches the site",
+    b3: "3. check the server's handshake",
+    b3b: "    signature with P",
+    proof: "signature on this handshake",
+    sends: "sends certificate",
+  },
+  ja: {
+    root: "ルート認証局",
+    rootSub: "公開鍵が端末に最初から入っている",
+    inter: "中間認証局",
+    interSub: "その証明書にルートが署名している",
+    cert: "forum.example の証明書",
+    name: "名前: forum.example",
+    pub: "公開鍵 P",
+    signs: "署名",
+    server: "203.0.113.10 のサーバー",
+    priv: "P に対応する秘密鍵 (外に出さない)",
+    browser: "あなたのブラウザ",
+    b1: "1. ルートまで署名を順に確かめる",
+    b2: "2. 名前が接続先と一致するか確かめる",
+    b3: "3. サーバーがこのハンドシェイクに",
+    b3b: "    付けた署名を P で確かめる",
+    proof: "このハンドシェイクへの署名",
+    sends: "証明書を送る",
+  },
+}[lang];
+
+const mk = `bcc-arr-${lang}`;
+---
+
+<svg class="dg" viewBox="0 0 680 400" role="img" aria-label={`${L.root} → ${L.inter} → ${L.cert}. ${L.b1} ${L.b2} ${L.b3}${L.b3b}`}>
+  <defs>
+    <marker id={mk} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+    </marker>
+  </defs>
+
+  <!-- chain of trust -->
+  <rect class="box" x="16" y="16" width="290" height="62" />
+  <text x="30" y="40" class="b">{L.root}</text>
+  <text x="30" y="62" class="t-s t-2">{L.rootSub}</text>
+
+  <line class="ln" x1="80" y1="78" x2="80" y2="118" marker-end={`url(#${mk})`} />
+  <text x="92" y="103" class="t-s">{L.signs}</text>
+
+  <rect class="box" x="16" y="118" width="290" height="62" />
+  <text x="30" y="142" class="b">{L.inter}</text>
+  <text x="30" y="164" class="t-s t-2">{L.interSub}</text>
+
+  <line class="ln" x1="80" y1="180" x2="80" y2="220" marker-end={`url(#${mk})`} />
+  <text x="92" y="205" class="t-s">{L.signs}</text>
+
+  <rect class="box" x="16" y="220" width="290" height="108" />
+  <text x="30" y="244" class="b">{L.cert}</text>
+  <rect class="fill-hl" x="30" y="256" width="262" height="26" />
+  <text x="40" y="274" class="t-on-hl t-s">{L.name}</text>
+  <rect class="fill-hl" x="30" y="290" width="262" height="26" />
+  <text x="40" y="308" class="t-on-hl t-s">{L.pub}</text>
+
+  <!-- browser -->
+  <rect class="box" x="374" y="16" width="290" height="122" />
+  <text x="388" y="40" class="b">{L.browser}</text>
+  <text x="388" y="66" class="t-s">{L.b1}</text>
+  <text x="388" y="88" class="t-s">{L.b2}</text>
+  <text x="388" y="110" class="t-s">{L.b3}</text>
+  <text x="388" y="128" class="t-s">{L.b3b}</text>
+
+  <!-- server -->
+  <rect class="box" x="374" y="250" width="290" height="94" />
+  <text x="388" y="274" class="b">{L.server}</text>
+  <rect class="fill-bar" x="388" y="290" width="262" height="36" />
+  <text x="398" y="313" class="t-s t-on-ink">{L.priv}</text>
+
+  <!-- server sends the certificate and a signature made with the private key -->
+  <line class="ln" x1="420" y1="250" x2="420" y2="138" marker-end={`url(#${mk})`} />
+  <text x="428" y="180" class="t-s">{L.sends}</text>
+  <line class="ln" x1="624" y1="250" x2="624" y2="138" marker-end={`url(#${mk})`} />
+  <text x="616" y="222" class="t-s" text-anchor="end">{L.proof}</text>
+
+  <line class="ln-1 dash" x1="306" y1="274" x2="374" y2="274" />
+  <text x="16" y="372" class="t-s t-2">
+    {lang === "en" ? "Certificate and server key belong together: P is the public half of the server's private key." : "証明書とサーバーの鍵は対になる: P はサーバーの秘密鍵の公開側だ。"}
+  </text>
+</svg>

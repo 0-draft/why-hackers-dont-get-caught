@@ -1,0 +1,67 @@
+---
+// A public ledger: one new transaction is broadcast and every participant,
+// investigators included, appends it to an identical full copy.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    tx: "new transaction",
+    holders: ["Your wallet's node", "A stranger's node", "An exchange", "An investigator"],
+    newRow: "(new)",
+    note: "Same rows in every copy. Nobody needs permission to download one.",
+  },
+  ja: {
+    tx: "新しい取引",
+    holders: ["あなたのノード", "見知らぬ人のノード", "取引所", "捜査機関"],
+    newRow: "(新規)",
+    note: "どの写しにも同じ行が並ぶ。写しを取るのに誰の許可もいらない。",
+  },
+}[lang];
+
+const rows = ["tx 9a1f…", "tx 03bc…", "tx 77e2…"];
+const bx = [16, 182, 348, 514];
+const bw = 150;
+const mk = `blc-arr-${lang}`;
+---
+
+<svg class="dg" viewBox="0 0 680 330" role="img" aria-label={`${L.tx}: ${L.holders.join(", ")}. ${L.note}`}>
+  <defs>
+    <marker id={mk} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+    </marker>
+  </defs>
+  <rect class="fill-hl" x="250" y="16" width="180" height="40" />
+  <text x="340" y="34" text-anchor="middle" class="t-on-hl b t-s">{L.tx}</text>
+  <text x="340" y="50" text-anchor="middle" class="t-on-hl mono">tx 5d0c…</text>
+  {
+    bx.map((x) => (
+      <line class="ln-1" x1="340" y1="56" x2={x + bw / 2} y2="100" marker-end={`url(#${mk})`} />
+    ))
+  }
+  {
+    bx.map((x, i) => (
+      <g>
+        <rect class="box" x={x} y="100" width={bw} height="180" />
+        <text x={x + 12} y="124" class="b t-s">
+          {L.holders[i]!}
+        </text>
+        {rows.map((r, j) => (
+          <g>
+            <rect class="fill-hl" x={x + 12} y={138 + j * 32} width={bw - 24} height="24" />
+            <text x={x + 20} y={155 + j * 32} class="t-on-hl mono">
+              {r}
+            </text>
+          </g>
+        ))}
+        <rect class="ln-1 dash" fill="none" x={x + 12} y="234" width={bw - 24} height="24" />
+        <text x={x + 20} y="251" class="mono">
+          tx 5d0c… <tspan class="t-s t-2">{L.newRow}</tspan>
+        </text>
+      </g>
+    ))
+  }
+  <text x="16" y="310" class="t-s">{L.note}</text>
+</svg>

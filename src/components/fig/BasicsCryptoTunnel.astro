@@ -1,0 +1,362 @@
+---
+// Interactive: a VPN as a packet inside a packet. Toggle the tunnel on and off
+// and pick an observer to see which envelope it can open and which addresses
+// it reads.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type K = "hl" | "bar" | "leak";
+interface Strip {
+  label: string;
+  k: K;
+  t?: string | undefined;
+}
+interface Packet {
+  kind: "single" | "sealed" | "open" | "none";
+  title?: string;
+  outer: Strip[];
+  inner?: Strip[];
+}
+interface State {
+  pkt: Packet;
+  reads: Strip[];
+  say: string;
+}
+
+const you = "198.51.100.23";
+const vpn = "203.0.113.80";
+const site = "203.0.113.10";
+
+const T = {
+  en: {
+    tunnel: "Tunnel",
+    tunnelOpts: ["Without VPN", "With VPN"],
+    obs: "Observer",
+    obsOpts: ["ISP", "VPN provider", "Website"],
+    nodes: ["Person", "ISP", "VPN", "forum.example"],
+    from: "from",
+    to: "to",
+    content: "content",
+    packet: "Packet as this observer receives it",
+    outerT: "Outer packet: addressed to the VPN",
+    innerT: "Inner packet: encrypted with the tunnel key",
+    sealed: "unreadable without the tunnel key",
+    readsT: "What this observer reads",
+    reads: ["Sender address", "Destination", "Content"],
+    youL: `${you} (person)`,
+    vpnL: `${vpn} (VPN)`,
+    siteL: `${site} (forum.example)`,
+    itself: "itself",
+    tls: "TLS",
+    req: "the request",
+    none: "There is no VPN on this path.",
+    says: {
+      n0: "Without a VPN the ISP sees the person's address and the address of every website they connect to. HTTPS still hides the content.",
+      n1: "Without a VPN there is no one in this position. Pick the ISP or the website.",
+      n2: "The website receives the person's real address as the sender. With HTTPS it also reads the request, because it is the other end.",
+      v0: "With a VPN the ISP still sees the person's address, but every packet is addressed to the VPN server. The real destination is inside the encrypted inner packet.",
+      v1: "The VPN provider removes the outer packet and decrypts the inner one. It sees the person's address and every destination: it holds both ends. HTTPS content stays hidden from it.",
+      v2: "The website receives a packet the VPN sent from its own address. It reads the request but sees the VPN's address, not the person's.",
+    },
+  },
+  ja: {
+    tunnel: "トンネル",
+    tunnelOpts: ["VPN なし", "VPN あり"],
+    obs: "観測者",
+    obsOpts: ["ISP", "VPN", "サイト"],
+    nodes: ["本人", "ISP", "VPN", "forum.example"],
+    from: "送信元",
+    to: "宛先",
+    content: "中身",
+    packet: "この観測者が受け取るパケット",
+    outerT: "外側のパケット: VPN 宛て",
+    innerT: "内側のパケット: トンネルの鍵で暗号化",
+    sealed: "トンネルの鍵がなければ読めない",
+    readsT: "この観測者が読めるもの",
+    reads: ["送信元", "宛先", "中身"],
+    youL: `${you} (本人)`,
+    vpnL: `${vpn} (VPN)`,
+    siteL: `${site} (forum.example)`,
+    itself: "自分自身",
+    tls: "TLS",
+    req: "要求の中身",
+    none: "この経路に VPN はいない。",
+    says: {
+      n0: "VPN がなければ、ISP には本人のアドレスと、接続先すべてのアドレスが見える。中身は HTTPS が隠す。",
+      n1: "VPN がなければ、この位置には誰もいない。ISP かサイトを選んでほしい。",
+      n2: "Web サイトには送信元として本人の本当のアドレスが届く。HTTPS の相手側なので、要求の中身も読める。",
+      v0: "VPN を使っても ISP には本人のアドレスが見える。ただし、どのパケットも宛先は VPN サーバーになり、本当の宛先は暗号化された内側のパケットの中にある。",
+      v1: "VPN 事業者は外側を外し、内側を復号する。本人のアドレスと、すべての宛先が見える。両端を握る位置だ。HTTPS の中身は見えない。",
+      v2: "Web サイトに届くのは、VPN が自分のアドレスから送り直したパケットだ。要求は読めるが、見えるのは VPN のアドレスで、本人のものではない。",
+    },
+  },
+}[lang];
+
+const s = (label: string, k: K, t?: string): Strip => ({ label, k, t });
+const states: Record<string, State> = {
+  "0-0": {
+    pkt: {
+      kind: "single",
+      outer: [s(T.from, "leak", T.youL), s(T.to, "hl", T.siteL), s(T.content, "bar", T.tls)],
+    },
+    reads: [s(T.reads[0]!, "leak", T.youL), s(T.reads[1]!, "hl", T.siteL), s(T.reads[2]!, "bar")],
+    say: T.says.n0,
+  },
+  "0-1": { pkt: { kind: "none", outer: [] }, reads: [], say: T.says.n1 },
+  "0-2": {
+    pkt: {
+      kind: "single",
+      outer: [s(T.from, "leak", T.youL), s(T.to, "hl", T.siteL), s(T.content, "hl", T.req)],
+    },
+    reads: [s(T.reads[0]!, "leak", T.youL), s(T.reads[1]!, "hl", T.itself), s(T.reads[2]!, "hl", T.req)],
+    say: T.says.n2,
+  },
+  "1-0": {
+    pkt: { kind: "sealed", outer: [s(T.from, "leak", T.youL), s(T.to, "hl", T.vpnL)] },
+    reads: [s(T.reads[0]!, "leak", T.youL), s(T.reads[1]!, "hl", T.vpnL), s(T.reads[2]!, "bar")],
+    say: T.says.v0,
+  },
+  "1-1": {
+    pkt: {
+      kind: "open",
+      outer: [s(T.from, "leak", T.youL), s(T.to, "hl", T.vpnL)],
+      inner: [s(T.to, "hl", T.siteL), s(T.content, "bar", T.tls)],
+    },
+    reads: [s(T.reads[0]!, "leak", T.youL), s(T.reads[1]!, "hl", T.siteL), s(T.reads[2]!, "bar")],
+    say: T.says.v1,
+  },
+  "1-2": {
+    pkt: {
+      kind: "single",
+      outer: [s(T.from, "hl", T.vpnL), s(T.to, "hl", T.siteL), s(T.content, "hl", T.req)],
+    },
+    reads: [s(T.reads[0]!, "hl", T.vpnL), s(T.reads[1]!, "hl", T.itself), s(T.reads[2]!, "hl", T.req)],
+    say: T.says.v2,
+  },
+};
+
+const nodeX = [20, 240, 460, 680];
+const nodeW = 200;
+---
+
+<div class="bctu" data-bctu data-v="1" data-o="0" data-says={JSON.stringify(Object.fromEntries(Object.entries(states).map(([k, v]) => [k, v.say])))}>
+  <div class="bctu-ctl">
+    <div class="bctu-grp" role="group" aria-label={T.tunnel}>
+      {
+        T.tunnelOpts.map((o, i) => (
+          <button type="button" data-set="v" data-val={i} aria-pressed={i === 1 ? "true" : "false"}>
+            {o}
+          </button>
+        ))
+      }
+    </div>
+    <div class="bctu-grp" role="group" aria-label={T.obs}>
+      {
+        T.obsOpts.map((o, i) => (
+          <button type="button" data-set="o" data-val={i} aria-pressed={i === 0 ? "true" : "false"}>
+            {o}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <svg class="dg" viewBox="0 0 900 400" role="img" aria-labelledby={`bctu-say-${lang}`}>
+    {
+      Object.entries(states).map(([key, st]) => {
+        const [vOn, obs] = key.split("-").map(Number) as [number, number];
+        const obsNode = obs === 0 ? 1 : obs === 1 ? 2 : 3;
+        return (
+          <g data-k={key} data-off={key !== "1-0" ? "" : undefined}>
+            {/* route */}
+            {T.nodes.map((n, i) => {
+              const ghost = i === 2 && !vOn;
+              return (
+                <g>
+                  <rect class={ghost ? "ln-1 dash soft" : "box"} fill={ghost ? "none" : undefined} x={nodeX[i]!} y="12" width={nodeW - 40} height="40" />
+                  <text x={nodeX[i]! + (nodeW - 40) / 2} y="37" text-anchor="middle" class:list={[ghost ? "t-2" : "b", "t-s"]}>
+                    {n}
+                  </text>
+                  {i < 3 && (vOn || i === 0) && <line class="ln" x1={nodeX[i]! + nodeW - 40} y1="32" x2={nodeX[i + 1]!} y2="32" />}
+                </g>
+              );
+            })}
+            {!vOn && <path class="ln" d={`M ${nodeX[1]! + 80} 52 V 64 H ${nodeX[3]! + 80} V 52`} />}
+            <rect class="fill-hl" x={nodeX[obsNode]!} y="72" width={nodeW - 40} height="8" />
+
+            {/* packet */}
+            <text x="20" y="114" class="b t-s">
+              {T.packet}
+            </text>
+            {st.pkt.kind === "none" && (
+              <text x="20" y="160" class="t-2">
+                {T.none}
+              </text>
+            )}
+            {st.pkt.kind === "single" && (
+              <g>
+                <rect class="box" x="20" y="126" width="450" height="150" />
+                {st.pkt.outer.map((r, j) => (
+                  <g>
+                    <text x="36" y={164 + j * 40} class="t-s">
+                      {r.label}
+                    </text>
+                    <rect class={r.k === "hl" ? "fill-hl" : r.k === "bar" ? "fill-bar" : "stroke-leak"} x="120" y={144 + j * 40} width="334" height="30" />
+                    {r.t && (
+                      <text x="132" y={164 + j * 40} class:list={["t-s", r.k === "hl" && "t-on-hl", r.k === "leak" && "t-leak", r.k === "bar" && "t-on-ink"]}>
+                        {r.t}
+                      </text>
+                    )}
+                  </g>
+                ))}
+              </g>
+            )}
+            {(st.pkt.kind === "sealed" || st.pkt.kind === "open") && (
+              <g>
+                <rect class="box" x="20" y="126" width="450" height="264" />
+                <text x="36" y="150" class="b t-s">
+                  {T.outerT}
+                </text>
+                {st.pkt.outer.map((r, j) => (
+                  <g>
+                    <text x="36" y={182 + j * 40} class="t-s">
+                      {r.label}
+                    </text>
+                    <rect class={r.k === "hl" ? "fill-hl" : "stroke-leak"} x="120" y={162 + j * 40} width="334" height="30" />
+                    <text x="132" y={182 + j * 40} class:list={["t-s", r.k === "hl" && "t-on-hl", r.k === "leak" && "t-leak"]}>
+                      {r.t}
+                    </text>
+                  </g>
+                ))}
+                <rect class="box-soft" x="36" y="248" width="418" height="128" />
+                <text x="50" y="270" class="b t-s">
+                  {T.innerT}
+                </text>
+                {st.pkt.kind === "sealed" && (
+                  <g>
+                    <rect class="fill-bar" x="50" y="284" width="390" height="78" />
+                    <text x="245" y="328" text-anchor="middle" class="t-s t-on-ink">
+                      {T.sealed}
+                    </text>
+                  </g>
+                )}
+                {st.pkt.kind === "open" &&
+                  st.pkt.inner!.map((r, j) => (
+                    <g>
+                      <text x="50" y={304 + j * 40} class="t-s">
+                        {r.label}
+                      </text>
+                      <rect class={r.k === "hl" ? "fill-hl" : "fill-bar"} x="134" y={284 + j * 40} width="306" height="30" />
+                      <text x="146" y={304 + j * 40} class:list={["t-s", r.k === "hl" ? "t-on-hl" : "t-on-ink"]}>
+                        {r.t}
+                      </text>
+                    </g>
+                  ))}
+              </g>
+            )}
+
+            {/* what this observer reads */}
+            {st.reads.length > 0 && (
+              <g>
+                <text x="510" y="114" class="b t-s">
+                  {T.readsT}
+                </text>
+                {st.reads.map((r, j) => (
+                  <g>
+                    <text x="510" y={164 + j * 48} class="t-s">
+                      {r.label}
+                    </text>
+                    <rect class={r.k === "hl" ? "fill-hl" : r.k === "bar" ? "fill-bar" : "stroke-leak"} x="630" y={144 + j * 48} width="250" height="30" />
+                    {r.t && (
+                      <text x="642" y={164 + j * 48} class:list={["t-s", r.k === "hl" && "t-on-hl", r.k === "leak" && "t-leak"]}>
+                        {r.t}
+                      </text>
+                    )}
+                  </g>
+                ))}
+              </g>
+            )}
+          </g>
+        );
+      })
+    }
+  </svg>
+  <p class="bctu-say" id={`bctu-say-${lang}`} aria-live="polite" data-say>{states["1-0"]!.say}</p>
+</div>
+
+<style>
+  .bctu-ctl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin-bottom: 0.9rem;
+  }
+  .bctu-grp {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .bctu-grp button {
+    font: inherit;
+    font-size: var(--step--1);
+    padding: 0.3rem 0.7rem;
+    background: var(--sheet);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    cursor: pointer;
+  }
+  .bctu-grp button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+  .bctu svg {
+    min-width: 680px;
+  }
+  .bctu [data-off] {
+    display: none;
+  }
+  .bctu-say {
+    margin: 0.9rem 0 0;
+    font-size: var(--step--1);
+    max-width: 68ch;
+    min-height: 4.5em;
+  }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-bctu]")) {
+    const say = root.querySelector<HTMLElement>("[data-say]")!;
+    const says: Record<string, string> = JSON.parse(root.dataset.says ?? "{}");
+    const groups = [...root.querySelectorAll<SVGGElement>("[data-k]")];
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("button[data-set]")];
+    const render = () => {
+      const key = `${root.dataset.v}-${root.dataset.o}`;
+      for (const g of groups) {
+        if (g.dataset.k === key) g.removeAttribute("data-off");
+        else g.setAttribute("data-off", "");
+      }
+      for (const b of buttons) {
+        const cur = b.dataset.set === "v" ? root.dataset.v : root.dataset.o;
+        b.setAttribute("aria-pressed", String(b.dataset.val === cur));
+      }
+      say.textContent = says[key] ?? "";
+    };
+    for (const b of buttons) {
+      b.addEventListener("click", () => {
+        root.dataset[b.dataset.set as "v" | "o"] = b.dataset.val!;
+        render();
+      });
+      b.addEventListener("keydown", (e) => {
+        const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const peers = buttons.filter((x) => x.dataset.set === b.dataset.set);
+        const n = peers[(peers.indexOf(b) + d + peers.length) % peers.length]!;
+        n.click();
+        n.focus();
+      });
+    }
+  }
+</script>

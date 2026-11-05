@@ -1,0 +1,119 @@
+---
+title: "What encryption hides, and what it doesn't"
+summary: "Encryption makes the contents of a message unreadable to everyone on the path; the addresses, sizes and timing that carry the message stay in the open, and that is where most of this site's stories happen."
+basics: encryption
+order: 2
+---
+
+import Cite from "../../../components/Cite.astro";
+import Fig from "../../../components/Fig.astro";
+import BasicsCryptoSymmetric from "../../../components/fig/BasicsCryptoSymmetric.astro";
+import BasicsCryptoMix from "../../../components/fig/BasicsCryptoMix.astro";
+import BasicsCryptoCert from "../../../components/fig/BasicsCryptoCert.astro";
+import BasicsCryptoTls from "../../../components/fig/BasicsCryptoTls.astro";
+import BasicsCryptoTunnel from "../../../components/fig/BasicsCryptoTunnel.astro";
+import BasicsCryptoOnion from "../../../components/fig/BasicsCryptoOnion.astro";
+import BasicsCryptoRecord from "../../../components/fig/BasicsCryptoRecord.astro";
+import BasicsCryptoTiming from "../../../components/fig/BasicsCryptoTiming.astro";
+
+Every message you send online passes through machines you do not control: the café's Wi-Fi router, your internet provider, a dozen networks in between. Encryption is what stops those machines from reading it. It is very good at that job, and it does nothing else. This page builds up the few ideas you need for the rest of the site: one shared key, agreeing on that key in public, proving who is on the other end, and then the three ways those pieces get stacked (HTTPS, VPNs and Tor). The last section is about what none of them hide.
+
+The page on [packets](/basics/packets/) explains what a packet and an IP address are. Here the packet is taken as given: a small envelope with a "from" and a "to" written on the outside. One example runs through every figure on this page: a person whose home connection has the address 198.51.100.23 logs in as anon_4471 on the website forum.example, whose server is at 203.0.113.10.
+
+## One key that locks and unlocks
+
+The oldest form of encryption uses a single secret key. The person's browser runs its message and the key through a cipher and gets ciphertext, a string that looks random. The server at forum.example runs the ciphertext and the same key back through the cipher and gets the message. Anyone in between who lacks the key sees only the random-looking string.
+
+This is called symmetric encryption, because both ends hold the same key. The cipher used almost everywhere today is AES, standardised by the US National Institute of Standards and Technology in 2001. It works on 128-bit blocks with keys of 128, 192 or 256 bits.<Cite id="crypto-fips197" /> Nobody knows a practical way to recover an AES key from ciphertext, so the security rests entirely on keeping the key secret.
+
+<Fig caption="Symmetric encryption. The same key K encrypts and decrypts. An observer on the path sees only ciphertext (black). The weak point is not the cipher but the key: it has to reach both ends without the path seeing it. The message and ciphertext are illustrative.">
+  <BasicsCryptoSymmetric lang="en" />
+</Fig>
+
+That leaves an obvious problem. The browser and the server have never met, so how do they both get K? Sending it over the same network would hand it to everyone on the path.
+
+## Agreeing on a key in public
+
+In 1976 Whitfield Diffie and Martin Hellman published a way for two parties to agree on a shared secret while every message between them is overheard.<Cite id="crypto-dh-1976" /> The usual way to picture it is with paint.
+
+The browser and the server agree in public on a common colour. Each then picks a secret colour and mixes it with the common one, and they swap the mixtures in public. Finally each adds its own secret colour to the mixture it received. Both end up with the same colour: common plus the browser's secret plus the server's secret. An eavesdropper has the common colour and both mixtures, but to get the final colour they would have to separate a mixture back into its parts, and paint does not un-mix.
+
+The analogy has limits worth stating. In the real exchange nothing is "added" twice: each side applies its own secret to the value it received, and the result is the same because the order of applying the two secrets does not matter. And the difficulty is not physical. It is a specific mathematical problem (the discrete logarithm) that is easy for small numbers, as the figure shows, and believed to be impractical only at the sizes real systems use. Finally, the exchange tells the browser that it shares a key with someone, not with whom; the next section deals with that.
+
+The real version replaces paint with arithmetic that is easy in one direction and hard to reverse. Step through it with small numbers:
+
+<Fig caption="Diffie–Hellman key agreement. The figure opens on the final step, with both sides holding the same key and the wire carrying only public values; step back to see how they got there. Grey labels give the paint analogy; the boxes give the real arithmetic with toy-sized numbers. Yellow values cross the network and anyone can read them; black values never leave their owner. Real systems use numbers or elliptic-curve points far too large to reverse." size="wide">
+  <BasicsCryptoMix lang="en" />
+</Fig>
+
+Computing 5⁶ mod 23 is quick. Going back from 8 to the 6 means searching, and at real sizes nobody knows how to do that search in practice. TLS 1.3, the protocol behind HTTPS, runs exactly this kind of exchange at the start of every connection, often over the elliptic curve X25519 rather than plain numbers, and then uses the agreed secret as the key for a symmetric cipher.<Cite id="crypto-rfc8446" /> The expensive public-key step happens once; AES or a similar cipher does the bulk work.
+
+The same idea gives public-key encryption. Picture a padlock that the owner hands out open, by the thousand: anyone can snap one shut on a box, and only the owner has the key that opens it. The open padlock is the public key and the owner's key is the private key. What the picture leaves out is the important part: a padlock does not tell you who handed it to you. If someone on the path swaps in their own padlock, you lock your box for them. That is the subject of the next section.
+
+## Proving who is on the other end
+
+Key agreement alone has a gap. If someone sits on the path and runs one exchange with the browser and another with the server, both think they have a private channel, and the intermediary reads everything. The browser needs to know that the party it agreed a key with is really forum.example.
+
+Digital signatures close the gap. A signature is made with a private key and checked with the matching public key; it shows that the holder of the private key produced this exact data and that nobody changed it since.<Cite id="crypto-fips186" /> A certificate is a signed statement that binds a name, such as forum.example, to a public key. It is signed by a certificate authority, whose own certificate is signed by a root authority whose public key ships with your browser or operating system.<Cite id="crypto-rfc5280" />
+
+<Fig caption="A certificate chain and the handshake signature. Your device already trusts the root. Each certificate in the chain is signed by the one above it. The server then signs the handshake with the private key matching the public key P in its certificate, which only the real forum.example can do.">
+  <BasicsCryptoCert lang="en" />
+</Fig>
+
+In TLS 1.3 the server sends its certificate chain and then a signature over the handshake so far, made with its private key. The browser checks the chain, checks that the name matches the site it asked for, and checks the signature.<Cite id="crypto-rfc8446" /> An intermediary cannot produce that signature without the private key.
+
+Certificates also tend to become public records. Certificate Transparency defines append-only public logs of issued certificates that anyone can audit and search.<Cite id="infra-ct-rfc9162" /> That is a defender's tool, and the [infrastructure chapter](/layers/infrastructure/) shows how investigators use it.
+
+## What HTTPS hides on the wire
+
+HTTPS is ordinary web traffic carried inside TLS. It is worth being exact about which parts of a request it covers, because people tend to assume it covers everything. The TLS 1.3 specification puts it plainly: "TLS does not hide the length of the data it transmits".<Cite id="crypto-rfc8446" />
+
+<Fig caption="The person's request to forum.example as seen by the Wi-Fi operator or ISP. Switch between plain HTTP, HTTPS, and HTTPS with encrypted DNS and Encrypted Client Hello (ECH); the default is HTTPS. Yellow is readable, black is hidden, the magenta outline is the field that points at the person. Addresses are from documentation ranges; the path and sizes are illustrative." size="wide">
+  <BasicsCryptoTls lang="en" />
+</Fig>
+
+Toggle the figure and three things stand out.
+
+- **The addresses never change.** The IP header is outside TLS, because routers need it to deliver the packet. The ISP always sees <span class="leak">the person's address</span> and <span class="hl">the server's address</span>.
+- **The site name usually leaks twice.** First in the DNS lookup that turns forum.example into an address, and then in the server name indication (SNI) that the browser sends in its very first TLS message so the server knows which certificate to present. DNS over HTTPS puts the lookup inside an encrypted connection to the resolver, which still sees it.<Cite id="crypto-rfc8484" /> The Encrypted Client Hello extension, published as RFC 9849 in March 2026, encrypts the real name; observers see only the public name of the front-end server, which can stand in front of many sites.<Cite id="crypto-rfc9849" />
+- **Size and timing stay visible in every mode.** TLS lets endpoints pad records to blur lengths, but the protocol leaves that optional.<Cite id="crypto-rfc8446" />
+
+What HTTPS does hide, it hides well: the path after the domain, the headers including login cookies, and the page itself.
+
+## A packet inside a packet
+
+A VPN uses encapsulation. The person's device takes the packet it would have sent, encrypts the whole thing, including the original "to" address, and puts it inside a new packet addressed to the VPN server. WireGuard, a widely used VPN protocol, describes itself as encrypting packets and carrying them inside UDP to the peer's endpoint.<Cite id="crypto-wireguard" /> The VPN server removes the outer packet, decrypts the inner one, and sends it on from its own address.
+
+<Fig caption="A VPN as a packet inside a packet. Turn the tunnel on and off and pick an observer; the default is the ISP with the tunnel on. The ISP reads only the outer envelope; the VPN provider opens both and holds both ends; the website sees the VPN's address. Addresses are from documentation ranges." size="wide">
+  <BasicsCryptoTunnel lang="en" />
+</Fig>
+
+The figure makes the trade visible. The VPN hides the person's destinations from the ISP and their address from the website, and in exchange one company sees <span class="leak">the person's address</span> next to <span class="hl">every destination</span>. The [network chapter](/layers/network/) shows what happened when such companies were asked for their records.
+
+## Three keys for three relays
+
+Tor removes the single party who holds both ends by using three relays: a guard, a middle and an exit. The client needs a separate key with each one, and it gets them with the same key agreement as above, run three times. In the words of the Tor design paper, the client "constructs circuits incrementally, negotiating a symmetric key with each OR on the circuit, one hop at a time" (OR is onion router, the paper's word for a relay).<Cite id="crypto-tor-design" /> It runs the first handshake with the guard, then sends the second through the guard to the middle, then the third through both to the exit. The current specification uses Diffie–Hellman handshakes over Curve25519 for this.<Cite id="crypto-tor-spec-create" />
+
+<Fig caption="How a Tor client gets one key per relay. Each later handshake travels through the relays already in the circuit, wrapped in their keys, but the key it produces is shared only by the client and the new relay. The guard relays the exchange that creates K2 and cannot compute K2. The resulting cell is wrapped three times." size="wide">
+  <BasicsCryptoOnion lang="en" />
+</Fig>
+
+The client then wraps every cell three times, with the exit's key innermost. Each relay can remove exactly one layer, which tells it only where to forward the cell. The guard learns the person's address but not the destination; the exit learns the destination but not the person's address.<Cite id="net-tor-overview" /> The [network chapter](/layers/network/) has an interactive figure that peels a cell relay by relay.
+
+Put the three setups side by side and the pattern is easy to read. Each row below is one observer, each column one field of the same request, and the only thing that changes between the panels is what each observer can no longer read.
+
+<Fig caption="The same request in three setups, as each observer on the path sees it. Yellow is readable, black is hidden, the magenta outline is the person's own address. TLS turns content and account black for the ISP; Tor also splits sender and destination between relays so that no single row holds both. The timing and volume column stays yellow in every row." size="wide">
+  <BasicsCryptoRecord lang="en" />
+</Fig>
+
+## What no encryption hides
+
+All of the above protects contents and, with Tor, the link between the two ends. None of it hides that packets exist, how big they are, or when they move. These are the metadata, and the network has to see them to deliver anything.
+
+<Fig caption="Traffic correlation. Top: bursts the ISP sees between the person and the guard. Bottom: bursts forum.example sees arriving from the exit. Contents are encrypted and neither side sees both addresses, but the two series have the same shape, shifted by the network delay. Burst times and sizes are illustrative." size="wide">
+  <BasicsCryptoTiming lang="en" />
+</Fig>
+
+That is the basis of traffic correlation. An observer who watches traffic going into Tor and coming out of it can match the two by shape, without decrypting anything. The RAPTOR study showed that a single network operator is often positioned to see both sides because internet routing is asymmetric, and it matched flows on the live Tor network with 95% accuracy.<Cite id="net-raptor-usenix" /> Even one side can be enough to guess which site is loading: a classifier trained on packet sizes and directions reached 98.3% accuracy in a closed-world lab test.<Cite id="net-df-paper" />
+
+So when the chapters ahead ask what an observer can see, the answer is rarely "nothing". Encryption decides whether the observer reads the <span class="hl">letter</span>. It does not decide whether they can see the <span class="hl">envelope</span>, or who posts envelopes at the same moment. Continue with the [network chapter](/layers/network/).

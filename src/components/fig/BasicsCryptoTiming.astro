@@ -1,0 +1,98 @@
+---
+// Traffic correlation as two aligned time series: bursts seen on the entry
+// side and on the exit side have the same shape, shifted by the latency.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    rows: ["Entry side: the ISP sees the person", "Exit side: forum.example sees the exit"],
+    src: "src",
+    dst: "dst",
+    time: "time →",
+    note: "Every bar is a burst of encrypted packets. Its position (when) and height (how many bytes) are readable.",
+    match: "same shape, shifted about 40 ms → linkable",
+  },
+  ja: {
+    rows: ["入口側: ISP に本人が見える", "出口側: forum.example に出口が見える"],
+    src: "送信元",
+    dst: "宛先",
+    time: "時間 →",
+    note: "棒の 1 本 1 本は暗号化されたパケットのまとまり。位置 (いつ) と高さ (何バイト) は読める。",
+    match: "同じ形が約 40 ms ずれて現れる → 結び付けられる",
+  },
+}[lang];
+
+type K = "hl" | "bar" | "leak";
+const chips: { k: K; t?: string }[][] = [
+  [{ k: "leak", t: "198.51.100.23" }, { k: "bar" }],
+  [{ k: "bar" }, { k: "hl", t: "forum.example" }],
+];
+
+// Illustrative bursts: [time in ms, size]
+const bursts: [number, number][] = [
+  [20, 30],
+  [40, 12],
+  [60, 22],
+  [300, 40],
+  [320, 40],
+  [340, 16],
+  [560, 26],
+  [800, 36],
+  [820, 10],
+  [840, 24],
+  [960, 18],
+];
+const shift = 40;
+const base = [110, 220];
+const x0 = 270;
+const px = (t: number) => x0 + t * 0.58;
+const cls = (k: K) => (k === "hl" ? "fill-hl" : k === "bar" ? "fill-bar" : "stroke-leak");
+---
+
+<svg class="dg" viewBox="0 0 900 300" role="img" aria-label={`${L.rows.join(". ")}. ${L.match}. ${L.note}`}>
+  {
+    L.rows.map((r, i) => {
+      const b = base[i] ?? 0;
+      return (
+        <g>
+          <text x="20" y={b - 66} class="t-s b">
+            {r}
+          </text>
+          {[L.src, L.dst].map((lab, j) => {
+            const c = chips[i]?.[j];
+            const y = b - 52 + j * 26;
+            return (
+              <g>
+                <text x="20" y={y + 15} class="t-s">
+                  {lab}
+                </text>
+                <rect class={cls(c?.k ?? "bar")} x="76" y={y} width="160" height="20" />
+                {c?.t && (
+                  <text x="86" y={y + 15} class:list={["mono", c.k === "leak" ? "t-leak" : "t-on-hl"]}>
+                    {c.t}
+                  </text>
+                )}
+              </g>
+            );
+          })}
+          <line class="ln-1" x1={x0} y1={b} x2="880" y2={b} />
+          {bursts.map(([t, h]) => (
+            <rect class="fill-hl" x={px(t + (i === 1 ? shift : 0))} y={b - h} width="7" height={h} />
+          ))}
+        </g>
+      );
+    })
+  }
+  {
+    [20, 300, 800].map((t) => (
+      <line class="stroke-leak dash" x1={px(t) + 3} y1={(base[0] ?? 0) + 6} x2={px(t + shift) + 3} y2={(base[1] ?? 0) - 46} />
+    ))
+  }
+  <text x="880" y="240" text-anchor="end" class="t-s t-2">{L.time}</text>
+  <line class="stroke-leak dash" x1="20" y1="256" x2="52" y2="256" />
+  <text x="62" y="260" class="t-s">{L.match}</text>
+  <text x="20" y="286" class="t-s">{L.note}</text>
+</svg>

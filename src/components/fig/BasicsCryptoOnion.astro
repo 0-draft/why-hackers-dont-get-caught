@@ -1,0 +1,129 @@
+---
+// How a Tor client ends up with three keys: it runs a key exchange with the
+// guard, then through the guard with the middle, then through both with the
+// exit. The result is a cell wrapped once per relay.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    nodes: ["Person (Tor client)", "Guard", "Middle", "Exit"],
+    ips: ["198.51.100.23", "192.0.2.14", "192.0.2.77", "192.0.2.201"],
+    rows: [
+      "1  key exchange with the guard → K1",
+      "2  through the guard, key exchange with the middle → K2",
+      "3  through guard and middle, key exchange with the exit → K3",
+    ],
+    cell: "The cell the person sends",
+    req: "request for forum.example",
+    peel: [
+      "Guard removes K1: learns only the next hop.",
+      "Middle removes K2: learns only the next hop.",
+      "Exit removes K3: sees the request, not who sent it.",
+    ],
+  },
+  ja: {
+    nodes: ["本人 (Tor クライアント)", "ガード", "中間", "出口"],
+    ips: ["198.51.100.23", "192.0.2.14", "192.0.2.77", "192.0.2.201"],
+    rows: ["1  ガードと鍵交換 → K1", "2  ガード経由で中間と鍵交換 → K2", "3  ガードと中間を経由して出口と鍵交換 → K3"],
+    cell: "本人が送るセル",
+    req: "forum.example への要求",
+    peel: [
+      "ガードは K1 を外す: わかるのは次の転送先だけ。",
+      "中間は K2 を外す: わかるのは次の転送先だけ。",
+      "出口は K3 を外す: 要求は見えるが、送り主は見えない。",
+    ],
+  },
+}[lang];
+
+// Column centres for person, guard, middle, exit.
+const cx = [110, 360, 580, 800];
+const boxW = [190, 140, 140, 140];
+const chipW = 44;
+const chipH = 26;
+const chip = (c: number) => (cx[c] ?? 0) - chipW / 2;
+
+interface Seg {
+  x1: number;
+  x2: number;
+}
+interface Row {
+  y: number;
+  label: string;
+  key: string;
+  target: number;
+  segs: Seg[];
+  via: { x: number; c: number; k: string }[];
+}
+const rows: Row[] = [0, 1, 2].map((r) => {
+  const target = r + 1;
+  const segs: Seg[] = [];
+  for (let j = 0; j < target; j++) segs.push({ x1: chip(j) + chipW, x2: chip(j + 1) });
+  const via = [];
+  for (let j = 1; j < target; j++) via.push({ x: chip(j), c: cx[j] ?? 0, k: `K${j}` });
+  return { y: 128 + r * 64, label: L.rows[r] ?? "", key: `K${target}`, target, segs, via };
+});
+---
+
+<svg class="dg" viewBox="0 0 900 440" role="img" aria-label={[...L.rows, ...L.peel].join(" ")}>
+  {
+    L.nodes.map((n, i) => (
+      <g>
+        <rect class="box" x={(cx[i] ?? 0) - (boxW[i] ?? 0) / 2} y="16" width={boxW[i]} height="56" />
+        <text x={cx[i]} y="40" text-anchor="middle" class="b t-s">
+          {n}
+        </text>
+        <text x={cx[i]} y="60" text-anchor="middle" class="mono t-2">
+          {L.ips[i]}
+        </text>
+      </g>
+    ))
+  }
+  {
+    rows.map((row) => (
+      <g>
+        <text x="20" y={row.y - 14} class="t-s">
+          {row.label}
+        </text>
+        <rect class="fill-bar" x={chip(0)} y={row.y} width={chipW} height={chipH} />
+        <text x={cx[0]} y={row.y + 18} text-anchor="middle" class="b t-on-ink t-s">
+          {row.key}
+        </text>
+        {row.segs.map((s) => (
+          <line class="ln" x1={s.x1} y1={row.y + chipH / 2} x2={s.x2} y2={row.y + chipH / 2} />
+        ))}
+        {row.via.map((v) => (
+          <g>
+            <rect class="box-soft" x={v.x} y={row.y} width={chipW} height={chipH} />
+            <text x={v.c} y={row.y + 17} text-anchor="middle" class="t-s t-2">
+              {v.k}
+            </text>
+          </g>
+        ))}
+        <rect class="fill-bar" x={chip(row.target)} y={row.y} width={chipW} height={chipH} />
+        <text x={cx[row.target]} y={row.y + 18} text-anchor="middle" class="b t-on-ink t-s">
+          {row.key}
+        </text>
+      </g>
+    ))
+  }
+  <line class="ln-1 soft" x1="20" y1="314" x2="880" y2="314" />
+  <text x="20" y="340" class="b t-s">{L.cell}</text>
+  <rect class="box" x="20" y="350" width="440" height="80" />
+  <text x="32" y="395" class="b t-s">K1</text>
+  <rect class="box" x="66" y="358" width="386" height="64" />
+  <text x="78" y="395" class="b t-s">K2</text>
+  <rect class="box" x="112" y="366" width="332" height="48" />
+  <text x="124" y="395" class="b t-s">K3</text>
+  <rect class="fill-hl" x="158" y="374" width="278" height="32" />
+  <text x="170" y="395" class="t-on-hl t-s">{L.req}</text>
+  {
+    L.peel.map((p, i) => (
+      <text x="490" y={372 + i * 24} class="t-s">
+        {p}
+      </text>
+    ))
+  }
+</svg>

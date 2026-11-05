@@ -1,0 +1,212 @@
+---
+// Interactive: Diffie-Hellman key agreement, step by step, with the paint
+// analogy written above each value and the real (toy-sized) numbers inside.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    group: "Key agreement steps",
+    steps: ["1 Public start", "2 Secrets", "3 Exchange mixes", "4 Same key"],
+    cols: ["Browser", "On the wire (anyone)", "forum.example"],
+    paint: {
+      common: "common paint (public)",
+      secret: "secret colour",
+      mix: "mix: common + secret",
+      final: "add own secret: same colour",
+      seen: "everyone sees this",
+      sent: "sent in the open",
+      none: "(no secret is ever sent)",
+    },
+    params: "p = 23, g = 5",
+    knows: "Knows 23, 5, 8 and 19.",
+    lacks: "Needs a or b to get 2.",
+    say: [
+      "Paint: both start from the same common colour, which anyone may see. Numbers: the browser and the server agree in public on a prime p = 23 and a base g = 5.",
+      "Each picks a secret and keeps it. Paint: a private colour. Numbers: the browser picks a = 6, the server picks b = 15. Neither value ever leaves its owner.",
+      "Each combines the public value with their secret and sends the result. Paint: un-mixing a colour back into its parts is impractical. Numbers: 5⁶ mod 23 = 8 and 5¹⁵ mod 23 = 19 travel in the open.",
+      "Each applies their own secret to the other's value, and both arrive at 2. The eavesdropper holds 23, 5, 8 and 19 but would have to recover a or b from them. With numbers this small that is trivial; at the sizes real systems use, no practical method is known.",
+    ],
+  },
+  ja: {
+    group: "鍵共有の段階",
+    steps: ["1 公開の出発点", "2 秘密", "3 混ぜたものを交換", "4 同じ鍵"],
+    cols: ["ブラウザ", "通信路 (誰でも見える)", "forum.example"],
+    paint: {
+      common: "共通の絵の具 (公開)",
+      secret: "秘密の色",
+      mix: "混ぜたもの: 共通 + 秘密",
+      final: "自分の秘密を足す → 同じ色",
+      seen: "誰でも見える",
+      sent: "公開の場で送る",
+      none: "(秘密は一度も送らない)",
+    },
+    params: "p = 23, g = 5",
+    knows: "知っているのは 23, 5, 8, 19。",
+    lacks: "2 を得るには a か b が要る。",
+    say: [
+      "絵の具でいえば、両者は誰に見られてもよい共通の色から始める。数でいえば、素数 p = 23 と底 g = 5 を公開の場で決める。",
+      "それぞれが秘密を 1 つ選んで手元に置く。絵の具なら自分だけの色。数なら、ブラウザは a = 6、サーバーは b = 15 を選ぶ。この値は持ち主の外に出ない。",
+      "それぞれが公開の値に自分の秘密を混ぜて送る。混ざった色を元の色に分けるのは事実上できない。数なら 5⁶ mod 23 = 8 と 5¹⁵ mod 23 = 19 が公開の通信路を流れる。",
+      "相手から届いた値に自分の秘密を作用させると、両者とも 2 にたどり着く。盗聴者の手元には 23, 5, 8, 19 があるが、2 を出すにはそこから a か b を求めなければならない。この小さな数なら簡単だが、実際のシステムが使う大きさでは現実的な方法が知られていない。",
+    ],
+  },
+}[lang];
+
+const colX = [20, 240, 460];
+const colW = 200;
+const rowY = [70, 140, 210, 280];
+const tokX = (c: number) => colX[c]! + 14;
+const tokW = colW - 28;
+const mk = `bcm-arr-${lang}`;
+---
+
+<div class="bcm" data-step="4" data-bcm data-lines={JSON.stringify(L.say)}>
+  <div class="bcm-steps" role="group" aria-label={L.group}>
+    {
+      L.steps.map((s, i) => (
+        <button type="button" data-go={i + 1} aria-pressed={i === 3 ? "true" : "false"}>
+          {s}
+        </button>
+      ))
+    }
+  </div>
+  <svg class="dg" viewBox="0 0 680 340" role="img" aria-label={L.say.join(" ")}>
+    <defs>
+      <marker id={mk} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+      </marker>
+    </defs>
+    {
+      L.cols.map((c, i) => (
+        <g>
+          <text x={colX[i]! + colW / 2} y="24" text-anchor="middle" class="b">
+            {c}
+          </text>
+          <rect class="box-soft" x={colX[i]!} y="34" width={colW} height="296" />
+        </g>
+      ))
+    }
+
+    <!-- step 1: public parameters, everywhere -->
+    {
+      [0, 1, 2].map((c) => (
+        <g>
+          <text x={tokX(c)} y={rowY[0]! - 8} class="t-s t-2">
+            {c === 1 ? L.paint.seen : L.paint.common}
+          </text>
+          <rect class="fill-hl" x={tokX(c)} y={rowY[0]!} width={tokW} height="30" />
+          <text x={tokX(c) + 10} y={rowY[0]! + 20} class="mono t-on-hl">
+            {L.params}
+          </text>
+        </g>
+      ))
+    }
+
+    <!-- step 2: secrets -->
+    <g class="s2">
+      <text x={tokX(0)} y={rowY[1]! - 8} class="t-s t-2">{L.paint.secret}</text>
+      <rect class="fill-bar" x={tokX(0)} y={rowY[1]!} width={tokW} height="30" />
+      <text x={tokX(0) + 10} y={rowY[1]! + 20} class="mono t-on-ink">a = 6</text>
+      <text x={tokX(2)} y={rowY[1]! - 8} class="t-s t-2">{L.paint.secret}</text>
+      <rect class="fill-bar" x={tokX(2)} y={rowY[1]!} width={tokW} height="30" />
+      <text x={tokX(2) + 10} y={rowY[1]! + 20} class="mono t-on-ink">b = 15</text>
+      <text x={colX[1]! + colW / 2} y={rowY[1]! + 20} text-anchor="middle" class="t-s t-2">{L.paint.none}</text>
+    </g>
+
+    <!-- step 3: mixes sent in the open -->
+    <g class="s3">
+      <text x={tokX(0)} y={rowY[2]! - 8} class="t-s t-2">{L.paint.mix}</text>
+      <rect class="fill-hl" x={tokX(0)} y={rowY[2]!} width={tokW} height="30" />
+      <text x={tokX(0) + 10} y={rowY[2]! + 20} class="mono t-on-hl">A = 5⁶ mod 23 = 8</text>
+      <text x={tokX(2)} y={rowY[2]! - 8} class="t-s t-2">{L.paint.mix}</text>
+      <rect class="fill-hl" x={tokX(2)} y={rowY[2]!} width={tokW} height="30" />
+      <text x={tokX(2) + 10} y={rowY[2]! + 20} class="mono t-on-hl">B = 5¹⁵ mod 23 = 19</text>
+      <text x={tokX(1)} y={rowY[2]! - 8} class="t-s t-2">{L.paint.sent}</text>
+      <rect class="fill-hl" x={tokX(1)} y={rowY[2]!} width="80" height="30" />
+      <text x={tokX(1) + 40} y={rowY[2]! + 20} text-anchor="middle" class="mono t-on-hl">A = 8</text>
+      <rect class="fill-hl" x={tokX(1) + 92} y={rowY[2]!} width="80" height="30" />
+      <text x={tokX(1) + 132} y={rowY[2]! + 20} text-anchor="middle" class="mono t-on-hl">B = 19</text>
+      <line class="ln" x1={tokX(0) + tokW} y1={rowY[2]! + 15} x2={tokX(1)} y2={rowY[2]! + 15} marker-end={`url(#${mk})`} />
+      <line class="ln" x1={tokX(2)} y1={rowY[2]! + 15} x2={tokX(1) + 172} y2={rowY[2]! + 15} marker-end={`url(#${mk})`} />
+    </g>
+
+    <!-- step 4: the shared key -->
+    <g class="s4">
+      <text x={tokX(0)} y={rowY[3]! - 8} class="t-s t-2">{L.paint.final}</text>
+      <rect class="fill-bar" x={tokX(0)} y={rowY[3]!} width={tokW} height="30" />
+      <text x={tokX(0) + 10} y={rowY[3]! + 20} class="mono t-on-ink">19⁶ mod 23 = 2</text>
+      <text x={tokX(2)} y={rowY[3]! - 8} class="t-s t-2">{L.paint.final}</text>
+      <rect class="fill-bar" x={tokX(2)} y={rowY[3]!} width={tokW} height="30" />
+      <text x={tokX(2) + 10} y={rowY[3]! + 20} class="mono t-on-ink">8¹⁵ mod 23 = 2</text>
+      <text x={tokX(1)} y={rowY[3]! + 6} class="t-s">{L.knows}</text>
+      <text x={tokX(1)} y={rowY[3]! + 26} class="t-s">{L.lacks}</text>
+    </g>
+  </svg>
+  <p class="bcm-say" aria-live="polite" data-say>{L.say[3]}</p>
+</div>
+
+<style>
+  .bcm-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+  .bcm-steps button {
+    font: inherit;
+    font-size: var(--step--1);
+    padding: 0.3rem 0.7rem;
+    background: var(--sheet);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    cursor: pointer;
+  }
+  .bcm-steps button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+  .bcm svg {
+    min-width: 600px;
+  }
+  .bcm-say {
+    margin: 0.9rem 0 0;
+    font-size: var(--step--1);
+    max-width: 68ch;
+    min-height: 4.5em;
+  }
+  .bcm[data-step="1"] .s2,
+  .bcm[data-step="1"] .s3,
+  .bcm[data-step="1"] .s4,
+  .bcm[data-step="2"] .s3,
+  .bcm[data-step="2"] .s4,
+  .bcm[data-step="3"] .s4 {
+    display: none;
+  }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-bcm]")) {
+    const say = root.querySelector<HTMLElement>("[data-say]")!;
+    const lines: string[] = JSON.parse(root.dataset.lines ?? "[]");
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("button[data-go]")];
+    const go = (n: number) => {
+      root.dataset.step = String(n);
+      for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.go === String(n)));
+      say.textContent = lines[n - 1] ?? "";
+    };
+    buttons.forEach((b, i) => {
+      b.addEventListener("click", () => go(i + 1));
+      b.addEventListener("keydown", (e) => {
+        const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const n = (i + d + buttons.length) % buttons.length;
+        go(n + 1);
+        buttons[n]!.focus();
+      });
+    });
+  }
+</script>

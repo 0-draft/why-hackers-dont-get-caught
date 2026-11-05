@@ -1,0 +1,172 @@
+---
+// Small multiples: the same record (one request from the person to
+// forum.example) as each observer on the path sees it, with no encryption,
+// with TLS, and with Tor plus TLS.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type K = "hl" | "bar" | "leak";
+type Cell = [K, string?];
+
+const P = "198.51.100.23";
+const S = "forum.example";
+const G = "192.0.2.14";
+const M = "192.0.2.77";
+const X = "192.0.2.201";
+const A = "anon_4471";
+
+const L = {
+  en: {
+    fields: ["Sender address", "Destination", "Content", "Timing and volume", "Account"],
+    panels: ["No encryption (HTTP)", "TLS (HTTPS)", "Tor + TLS"],
+    obs: {
+      isp: "ISP",
+      site: "Website",
+      guard: "Guard",
+      middle: "Middle",
+      exit: "Exit",
+    },
+    req: "the request",
+    seen: "seen",
+  },
+  ja: {
+    fields: ["送信元", "宛先", "中身", "時刻と量", "アカウント"],
+    panels: ["暗号なし (HTTP)", "TLS (HTTPS)", "Tor + TLS"],
+    obs: {
+      isp: "ISP",
+      site: "サイト",
+      guard: "ガード",
+      middle: "中間",
+      exit: "出口",
+    },
+    req: "要求の中身",
+    seen: "見える",
+  },
+}[lang];
+
+const t = L.seen;
+const panels: { title: string; rows: { who: string; ip?: string; cells: Cell[] }[] }[] = [
+  {
+    title: L.panels[0] ?? "",
+    rows: [
+      {
+        who: L.obs.isp,
+        cells: [
+          ["leak", P],
+          ["hl", S],
+          ["hl", L.req],
+          ["hl", t],
+          ["hl", A],
+        ],
+      },
+      {
+        who: L.obs.site,
+        cells: [
+          ["leak", P],
+          ["hl", S],
+          ["hl", L.req],
+          ["hl", t],
+          ["hl", A],
+        ],
+      },
+    ],
+  },
+  {
+    title: L.panels[1] ?? "",
+    rows: [
+      { who: L.obs.isp, cells: [["leak", P], ["hl", S], ["bar"], ["hl", t], ["bar"]] },
+      {
+        who: L.obs.site,
+        cells: [
+          ["leak", P],
+          ["hl", S],
+          ["hl", L.req],
+          ["hl", t],
+          ["hl", A],
+        ],
+      },
+    ],
+  },
+  {
+    title: L.panels[2] ?? "",
+    rows: [
+      { who: L.obs.isp, cells: [["leak", P], ["hl", G], ["bar"], ["hl", t], ["bar"]] },
+      { who: L.obs.guard, ip: G, cells: [["leak", P], ["hl", M], ["bar"], ["hl", t], ["bar"]] },
+      { who: L.obs.middle, ip: M, cells: [["hl", G], ["hl", X], ["bar"], ["hl", t], ["bar"]] },
+      { who: L.obs.exit, ip: X, cells: [["hl", M], ["hl", S], ["bar"], ["hl", t], ["bar"]] },
+      {
+        who: L.obs.site,
+        cells: [
+          ["hl", X],
+          ["hl", S],
+          ["hl", L.req],
+          ["hl", t],
+          ["hl", A],
+        ],
+      },
+    ],
+  },
+];
+
+const x0 = 180;
+const cw = 140;
+const rh = 32;
+const ch = 24;
+let y = 52;
+const layout = panels.map((p) => {
+  const top = y;
+  y += 34 + p.rows.length * rh + 14;
+  return { ...p, top };
+});
+const H = y;
+const fill = (k: K) => (k === "hl" ? "fill-hl" : k === "bar" ? "fill-bar" : "stroke-leak");
+const mono = (s: string) => /^[\d.]+$|\.example$|^anon_/.test(s);
+---
+
+<svg class="dg" viewBox={`0 0 900 ${H}`} role="img" aria-label={L.panels.join(", ")}>
+  {
+    L.fields.map((f, i) => (
+      <text x={x0 + i * cw + 4} y="30" class="t-s b">
+        {f}
+      </text>
+    ))
+  }
+  <line class="ln-1" x1="20" y1="40" x2="880" y2="40" />
+  {
+    layout.map((p) => (
+      <g>
+        <text x="20" y={p.top + 22} class="b">
+          {p.title}
+        </text>
+        {p.rows.map((r, j) => {
+          const ry = p.top + 34 + j * rh;
+          return (
+            <g>
+              <text x="20" y={ry + 17} class="t-s">
+                {r.who}
+                {r.ip && <tspan class="mono t-2"> {r.ip}</tspan>}
+              </text>
+              {r.cells.map(([k, v], i) => (
+                <g>
+                  <rect class={fill(k)} x={x0 + i * cw} y={ry} width={cw - 8} height={ch} />
+                  {v && (
+                    <text
+                      x={x0 + i * cw + 8}
+                      y={ry + 16}
+                      class:list={[mono(v) ? "mono" : "t-s", k === "leak" ? "t-leak" : "t-on-hl"]}
+                    >
+                      {v}
+                    </text>
+                  )}
+                </g>
+              ))}
+            </g>
+          );
+        })}
+        <line class="ln-1 soft" x1="20" y1={p.top + 34 + p.rows.length * rh + 6} x2="880" y2={p.top + 34 + p.rows.length * rh + 6} />
+      </g>
+    ))
+  }
+</svg>

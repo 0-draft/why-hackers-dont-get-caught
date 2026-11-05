@@ -1,0 +1,86 @@
+---
+// Private key → public key → address, each step one-way. Spending is a
+// signature made with the private key and checked against the public key.
+// The owner's name appears nowhere in the chain.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    priv: "Private key",
+    privSub: "a 256-bit random number",
+    privWho: "only the owner",
+    pub: "Public key",
+    pubSub: "revealed when spending",
+    addr: "Address",
+    addrSub: "published to get paid",
+    oneWay: "one-way",
+    spend: "To spend: sign with the private key. Every node checks the signature against the public key.",
+    name: "owner's name",
+    nowhere: "not part of this chain",
+  },
+  ja: {
+    priv: "秘密鍵",
+    privSub: "256 ビットの乱数",
+    privWho: "持ち主だけが持つ",
+    pub: "公開鍵",
+    pubSub: "使うときに公開される",
+    addr: "アドレス",
+    addrSub: "受け取るために公開する",
+    oneWay: "一方向",
+    spend: "使うときは秘密鍵で署名する。どのノードも、その署名を公開鍵で確かめる。",
+    name: "持ち主の名前",
+    nowhere: "この連なりのどこにもない",
+  },
+}[lang];
+
+const mk = `blk-arr-${lang}`;
+const boxes = [
+  { x: 16, title: L.priv, sub: L.privSub, val: "a1b2 c3d4 e5f6 0718…", k: "bar" },
+  { x: 248, title: L.pub, sub: L.pubSub, val: "03 9f4e 2a7b 51c8…", k: "hl" },
+  { x: 480, title: L.addr, sub: L.addrSub, val: "bc1q…example", k: "hl" },
+] as const;
+const bw = 184;
+---
+
+<svg class="dg" viewBox="0 0 680 300" role="img" aria-label={`${L.priv} → ${L.pub} → ${L.addr}. ${L.spend}`}>
+  <defs>
+    <marker id={mk} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+    </marker>
+  </defs>
+  {
+    boxes.map((b, i) => (
+      <g>
+        <rect class="box" x={b.x} y="40" width={bw} height="110" />
+        <text x={b.x + 14} y="64" class="b">
+          {b.title}
+        </text>
+        <text x={b.x + 14} y="84" class="t-s t-2">
+          {b.sub}
+        </text>
+        <rect class={b.k === "bar" ? "fill-bar" : "fill-hl"} x={b.x + 14} y="98" width={bw - 28} height="34" />
+        <text x={b.x + 24} y="120" class:list={["mono", b.k === "bar" ? "t-on-ink" : "t-on-hl"]}>
+          {b.val}
+        </text>
+        {i < 2 && (
+          <g>
+            <line class="ln" x1={b.x + bw} y1="95" x2={b.x + 232} y2="95" marker-end={`url(#${mk})`} />
+            <text x={b.x + bw + 24} y="84" text-anchor="middle" class="t-s">
+              {L.oneWay}
+            </text>
+          </g>
+        )}
+      </g>
+    ))
+  }
+  <text x={16 + 14} y="172" class="t-s">{L.privWho}</text>
+
+  <text x="16" y="212" class="t-s">{L.spend}</text>
+
+  <rect class="ln-1 dash soft" fill="none" x="16" y="236" width="648" height="44" />
+  <text x="30" y="263" class="t-s t-2">{L.name}:</text>
+  <text x="180" y="263" class="t-s t-2">{L.nowhere}</text>
+</svg>

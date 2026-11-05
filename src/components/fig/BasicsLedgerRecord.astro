@@ -1,0 +1,62 @@
+---
+// What a Bitcoin ledger entry contains, and what it does not.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    inT: "In the ledger",
+    inSub: "readable by anyone, kept for good",
+    inRows: [
+      "transaction id",
+      "block height and time",
+      "input addresses and amounts",
+      "output addresses and amounts",
+      "fee",
+    ],
+    outT: "Not in the ledger",
+    outSub: "never written to the chain",
+    outRows: ["names", "the sender's IP address", "email or phone number", "what the payment was for"],
+    where: "These live elsewhere: exchange accounts, shop orders, server logs.",
+  },
+  ja: {
+    inT: "台帳にあるもの",
+    inSub: "誰でも読めて、消えない",
+    inRows: ["取引 ID", "ブロック番号と時刻", "入力のアドレスと金額", "出力のアドレスと金額", "手数料"],
+    outT: "台帳にないもの",
+    outSub: "チェーンには書かれない",
+    outRows: ["名前", "送信者の IP アドレス", "メールアドレスや電話番号", "何の支払いか"],
+    where: "これらは別の場所にある: 取引所の口座、店の注文、サーバーのログ。",
+  },
+}[lang];
+---
+
+<svg class="dg" viewBox="0 0 680 320" role="img" aria-label={`${L.inT}: ${L.inRows.join(", ")}. ${L.outT}: ${L.outRows.join(", ")}. ${L.where}`}>
+  <text x="16" y="26" class="b">{L.inT}</text>
+  <text x="16" y="46" class="t-s t-2">{L.inSub}</text>
+  {
+    L.inRows.map((r, i) => (
+      <g>
+        <rect class="fill-hl" x="16" y={62 + i * 40} width="300" height="30" />
+        <text x="28" y={82 + i * 40} class="t-on-hl t-s">
+          {r}
+        </text>
+      </g>
+    ))
+  }
+  <text x="364" y="26" class="b">{L.outT}</text>
+  <text x="364" y="46" class="t-s t-2">{L.outSub}</text>
+  {
+    L.outRows.map((r, i) => (
+      <g>
+        <rect class="ln-1 dash soft" fill="none" x="364" y={62 + i * 40} width="300" height="30" />
+        <text x="376" y={82 + i * 40} class="t-s t-2">
+          {r}
+        </text>
+      </g>
+    ))
+  }
+  <text x="16" y="300" class="t-s t-leak">{L.where}</text>
+</svg>

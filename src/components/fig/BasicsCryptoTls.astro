@@ -1,0 +1,264 @@
+---
+// Interactive: one web request as a record of fields, and what an observer on
+// the path (Wi-Fi operator, ISP) can read with plain HTTP, with HTTPS, and with
+// HTTPS plus encrypted DNS and Encrypted Client Hello.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type K = "hl" | "bar" | "leak";
+interface Row {
+  k: K;
+  v: string;
+  s: string;
+}
+
+const L = {
+  en: {
+    group: "Connection type",
+    modes: ["HTTP (no TLS)", "HTTPS (TLS 1.3)", "HTTPS + encrypted DNS + ECH"],
+    head: "What a Wi-Fi operator or ISP on the path can read",
+    fields: [
+      "The person's IP address",
+      "Server IP address",
+      "DNS lookup",
+      "Server name (SNI)",
+      "Path",
+      "Headers, cookies",
+      "Body",
+      "Size",
+      "Timing",
+    ],
+    st: {
+      read: "readable",
+      hid: "hidden",
+      pub: "only the shared front name",
+      dns: "encrypted to the resolver",
+    },
+    vals: {
+      src: "198.51.100.23",
+      dst: "203.0.113.10",
+      dns: "forum.example → 203.0.113.10",
+      sni: "forum.example",
+      front: "cdn.example (public name)",
+      path: "/account/messages",
+      hdr: "Cookie: session=…",
+      body: "the page itself",
+      size: "about 48 KB down",
+      time: "03:14:07.315 UTC",
+    },
+    say: [
+      "Without TLS everything travels as written. Anyone on the path can read the page, the cookies that log you in, and change them.",
+      "TLS encrypts the path, headers and body. The addresses, the DNS lookup and the server name in the first handshake message stay readable, and so do the size and timing of every packet.",
+      "Encrypted DNS moves the lookup into a tunnel to the resolver (which still sees it). ECH encrypts the real server name; the observer sees only the public name of the front server. Addresses, size and timing are unchanged.",
+    ],
+  },
+  ja: {
+    group: "接続の種類",
+    modes: ["HTTP (TLS なし)", "HTTPS (TLS 1.3)", "HTTPS + 暗号化 DNS + ECH"],
+    head: "経路上の Wi-Fi 運営者や ISP が読めるもの",
+    fields: [
+      "本人の IP アドレス",
+      "サーバーの IP アドレス",
+      "DNS 問い合わせ",
+      "サーバー名 (SNI)",
+      "パス",
+      "ヘッダー・Cookie",
+      "本文",
+      "サイズ",
+      "時刻",
+    ],
+    st: {
+      read: "読める",
+      hid: "隠れる",
+      pub: "共用の表向きの名前だけ",
+      dns: "リゾルバ宛てに暗号化",
+    },
+    vals: {
+      src: "198.51.100.23",
+      dst: "203.0.113.10",
+      dns: "forum.example → 203.0.113.10",
+      sni: "forum.example",
+      front: "cdn.example (公開名)",
+      path: "/account/messages",
+      hdr: "Cookie: session=…",
+      body: "ページそのもの",
+      size: "受信 約 48 KB",
+      time: "03:14:07.315 UTC",
+    },
+    say: [
+      "TLS がなければ、すべてが書いたとおりに流れる。経路上の誰でも、ページの中身もログイン用の Cookie も読めるし、書き換えもできる。",
+      "TLS はパス・ヘッダー・本文を暗号化する。アドレス、DNS の問い合わせ、最初のハンドシェイクに載るサーバー名は読めるままで、各パケットのサイズと時刻も見える。",
+      "暗号化 DNS は問い合わせをリゾルバまでのトンネルに入れる (リゾルバ自身には見える)。ECH は本当のサーバー名を暗号化し、観測者に見えるのは表向きのサーバーの公開名だけになる。アドレス、サイズ、時刻は変わらない。",
+    ],
+  },
+}[lang];
+
+const v = L.vals;
+const st = L.st;
+const r = (k: K, val: string, s: string): Row => ({ k, v: val, s });
+const H = "—";
+const states: Row[][] = [
+  [
+    r("leak", v.src, st.read),
+    r("hl", v.dst, st.read),
+    r("hl", v.dns, st.read),
+    r("hl", v.sni, st.read),
+    r("hl", v.path, st.read),
+    r("hl", v.hdr, st.read),
+    r("hl", v.body, st.read),
+    r("hl", v.size, st.read),
+    r("hl", v.time, st.read),
+  ],
+  [
+    r("leak", v.src, st.read),
+    r("hl", v.dst, st.read),
+    r("hl", v.dns, st.read),
+    r("hl", v.sni, st.read),
+    r("bar", H, st.hid),
+    r("bar", H, st.hid),
+    r("bar", H, st.hid),
+    r("hl", v.size, st.read),
+    r("hl", v.time, st.read),
+  ],
+  [
+    r("leak", v.src, st.read),
+    r("hl", v.dst, st.read),
+    r("bar", H, st.dns),
+    r("hl", v.front, st.pub),
+    r("bar", H, st.hid),
+    r("bar", H, st.hid),
+    r("bar", H, st.hid),
+    r("hl", v.size, st.read),
+    r("hl", v.time, st.read),
+  ],
+];
+
+const literal = new Set([v.src, v.dst, v.dns, v.sni, v.path, v.hdr, v.time]);
+const y0 = 58;
+const rh = 38;
+const vx = 230;
+const vw = 360;
+---
+
+<div class="bct" data-bct data-lines={JSON.stringify(L.say)}>
+  <div class="bct-modes" role="group" aria-label={L.group}>
+    {
+      L.modes.map((m, i) => (
+        <button type="button" data-go={i} aria-pressed={i === 1 ? "true" : "false"}>
+          {m}
+        </button>
+      ))
+    }
+  </div>
+  <svg class="dg" viewBox={`0 0 900 ${y0 + rh * 9 + 8}`} role="img" aria-labelledby={`bct-say-${lang}`}>
+    <text x="20" y="28" class="b">{L.head}</text>
+    <line class="ln-1" x1="20" y1="40" x2="880" y2="40" />
+    {
+      L.fields.map((f, i) => (
+        <g>
+          <text x="20" y={y0 + i * rh + 18} class="t-s">
+            {f}
+          </text>
+          {i > 0 && <line class="ln-1 soft" x1="20" y1={y0 + i * rh - 5} x2="880" y2={y0 + i * rh - 5} />}
+        </g>
+      ))
+    }
+    {
+      states.map((rows, m) => (
+        <g data-mode={m} data-off={m !== 1 ? "" : undefined}>
+          {rows.map((row, i) => {
+            const y = y0 + i * rh;
+            return (
+              <g>
+                {row.k === "hl" && <rect class="fill-hl" x={vx} y={y} width={vw} height="26" />}
+                {row.k === "bar" && <rect class="fill-bar" x={vx} y={y} width={vw} height="26" />}
+                {row.k === "leak" && <rect class="stroke-leak" x={vx} y={y} width={vw} height="26" />}
+                {row.k !== "bar" && (
+                  <text
+                    x={vx + 12}
+                    y={y + 18}
+                    class:list={[
+                      row.k === "hl" && "t-on-hl",
+                      row.k === "leak" && "t-leak",
+                      literal.has(row.v) ? "mono" : "t-s",
+                    ]}
+                  >
+                    {row.v}
+                  </text>
+                )}
+                <text x={vx + vw + 18} y={y + 18} class:list={["t-s", row.k === "bar" && "b"]}>
+                  {row.s}
+                </text>
+              </g>
+            );
+          })}
+        </g>
+      ))
+    }
+  </svg>
+  <p class="bct-say" id={`bct-say-${lang}`} aria-live="polite" data-say>{L.say[1]}</p>
+</div>
+
+<style>
+  .bct-modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.9rem;
+  }
+  .bct-modes button {
+    font: inherit;
+    font-size: var(--step--1);
+    padding: 0.3rem 0.7rem;
+    background: var(--sheet);
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+    cursor: pointer;
+  }
+  .bct-modes button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+  .bct svg {
+    min-width: 680px;
+  }
+  .bct [data-off] {
+    display: none;
+  }
+  .bct-say {
+    margin: 0.9rem 0 0;
+    font-size: var(--step--1);
+    max-width: 68ch;
+    min-height: 4.5em;
+  }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-bct]")) {
+    const say = root.querySelector<HTMLElement>("[data-say]")!;
+    const lines: string[] = JSON.parse(root.dataset.lines ?? "[]");
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>("button[data-go]")];
+    const groups = [...root.querySelectorAll<SVGGElement>("[data-mode]")];
+    const go = (n: number) => {
+      buttons.forEach((b, i) => b.setAttribute("aria-pressed", String(i === n)));
+      groups.forEach((g, i) => {
+        if (i === n) g.removeAttribute("data-off");
+        else g.setAttribute("data-off", "");
+      });
+      say.textContent = lines[n] ?? "";
+    };
+    buttons.forEach((b, i) => {
+      b.addEventListener("click", () => go(i));
+      b.addEventListener("keydown", (e) => {
+        const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const n = (i + d + buttons.length) % buttons.length;
+        go(n);
+        buttons[n]!.focus();
+      });
+    });
+  }
+</script>

@@ -1,0 +1,100 @@
+---
+title: "Blockchains in five minutes"
+summary: "A blockchain is a ledger that anyone can copy and nobody can quietly rewrite; it records every payment between addresses for good, and it records no names, which is why the names have to come from somewhere else."
+basics: ledgers
+order: 4
+---
+
+import Cite from "../../../components/Cite.astro";
+import Fig from "../../../components/Fig.astro";
+import BasicsLedgerCopies from "../../../components/fig/BasicsLedgerCopies.astro";
+import BasicsLedgerKeys from "../../../components/fig/BasicsLedgerKeys.astro";
+import BasicsLedgerTx from "../../../components/fig/BasicsLedgerTx.astro";
+import BasicsLedgerBlocks from "../../../components/fig/BasicsLedgerBlocks.astro";
+import BasicsLedgerRecord from "../../../components/fig/BasicsLedgerRecord.astro";
+import BasicsLedgerKyc from "../../../components/fig/BasicsLedgerKyc.astro";
+import BasicsLedgerCompare from "../../../components/fig/BasicsLedgerCompare.astro";
+
+Cryptocurrency is often described as anonymous money. The design says something more specific. Bitcoin keeps a single ledger of every payment ever made, hands a full copy to anyone who asks, and leaves the owners' names out of it. That combination is why ransomware crews and darknet markets use it, and also why so many of them were traced. This page explains the moving parts with Bitcoin as the example, then shows what Monero changes. The [money chapter](/layers/money/) builds on all of it.
+
+## A notebook everyone can copy
+
+A bank keeps its ledger private and you trust the bank to keep it straight. Bitcoin turns that around. Every new transaction is announced to all nodes, the computers that run the software, and each node keeps its own complete copy of the history. The white paper's design is that "transactions must be publicly announced" and that participants agree on a single history of the order in which they were received.<Cite id="ledger-bitcoin-whitepaper" />
+
+<Fig caption="One new transaction, tx 5d0c…, reaches every copy of the ledger; the same transaction is built and confirmed in the figures below. Anyone can run a node and hold a full copy: your wallet, a stranger, an exchange, an investigator. All rows are readable to all of them (yellow). Transaction ids are shortened and illustrative.">
+  <BasicsLedgerCopies lang="en" />
+</Fig>
+
+Note who appears in that figure. An investigator does not need a warrant to read the ledger. They download it like everybody else.
+
+## Addresses are made from keys
+
+There are no accounts in the ledger, only addresses. An address is derived from a public key, which is derived from a private key, a large random number. Each step is easy forwards and impractical to reverse. A hash function turns any data into a short fixed-length fingerprint; the same input always gives the same fingerprint, and a one-bit change gives a completely different one. In the classic address format, the public key is hashed and the hash is encoded as the address string.<Cite id="ledger-devguide-tx" />
+
+<Fig caption="From private key to address. Each arrow is one-way. The private key (black) stays with the owner; the public key and address (yellow) end up in the ledger. The owner's name is not part of the chain at all. Key and address values are placeholders.">
+  <BasicsLedgerKeys lang="en" />
+</Fig>
+
+Spending is a signature. To move coins held at an address, the owner signs the new transaction with the private key, and every node checks the signature against the public key before accepting it. The white paper defines a coin as exactly that: "a chain of digital signatures".<Cite id="ledger-bitcoin-whitepaper" /> Whoever holds the private key can spend; nobody else can, and nobody asks for a name. The [encryption basics](/basics/encryption/) page explains how signatures work.
+
+Because addresses cost nothing, one person usually has many of them. Wallet software creates a fresh address for each payment it receives, following advice that goes back to the white paper: "a new key pair should be used for each transaction to keep them from being linked to a common owner".<Cite id="ledger-bitcoin-whitepaper" /> So the question an investigator asks is rarely "whose address is this?" It is "which addresses belong together?
+
+## Spending coins: inputs, outputs and change
+
+A Bitcoin wallet does not hold a balance. It holds separate coins, each the output of some earlier transaction. A coin cannot be split in place. The developer guide is precise about it: "the full value of the included UTXOs must be spent or given to a miner as a transaction fee" (UTXO stands for unspent transaction output).<Cite id="ledger-devguide-tx" /> To pay less than a coin is worth, you spend the whole coin and send the rest back to yourself as a change output.
+
+<Fig caption="Build a payment from your coins. Toggle the coins to use as inputs. Every selected coin is spent whole; the shop gets 0.650, the miner keeps a 0.001 fee, and the rest goes back to the sender as change, at a new address. The default (coins A and B) is the payment used in the rest of this page. Amounts are illustrative.">
+  <BasicsLedgerTx lang="en" />
+</Fig>
+
+The white paper describes the same shape: usually one output for the payment and one returning the change, if any, to the sender.<Cite id="ledger-bitcoin-whitepaper" /> That shape is useful to investigators. When one transaction spends coins from several addresses, all their private keys had to sign it, so the addresses probably share an owner. The white paper itself warned that "some linking is still unavoidable with multi-input transactions".<Cite id="ledger-bitcoin-whitepaper" /> A 2013 study turned this and the change pattern into clustering heuristics that grouped addresses into owners at scale.<Cite id="meiklejohn-2013" /> The [money chapter](/layers/money/) shows the clustering step by step.
+
+## Blocks and confirmations
+
+New transactions do not enter the ledger one by one. Miners collect them into blocks, and each block's header stores a hash of the previous block's header, "chaining the blocks together".<Cite id="ledger-devguide-chain" /> The network adjusts the difficulty of mining so that a block arrives about every 10 minutes on average.<Cite id="ledger-bitcoin-whitepaper" />
+
+<Fig caption="A transaction waits, then gets buried. Step through it: once in a block it has one confirmation, and every block added on top adds another. Each block shows the hash of the block before it and its own hash. The last step edits one amount in block 870,000 and shows where the chain breaks. Block heights and hashes are illustrative." size="wide">
+  <BasicsLedgerBlocks lang="en" />
+</Fig>
+
+The chaining is what makes the ledger hard to rewrite. To change a transaction in an old block, an attacker would have to redo that block and every block after it, and, in the developer guide's words, that "requires (on average) as much hashing power" as the whole network spent on those blocks.<Cite id="ledger-devguide-chain" /> The white paper calculates that for an attacker with less than half the network's computing power, the chance of catching up drops exponentially with each block added on top.<Cite id="ledger-bitcoin-whitepaper" /> That is why recipients wait for confirmations before treating a payment as final.
+
+## Public forever, but without names
+
+Put the pieces together and a Bitcoin ledger entry holds addresses, amounts, a time and a fee, kept by thousands of nodes for as long as Bitcoin exists. The white paper's privacy section describes the result: "The public can see that someone is sending an amount to someone else, but without information linking the transaction to anyone."<Cite id="ledger-bitcoin-whitepaper" />
+
+<Fig caption="What a Bitcoin ledger entry contains (yellow: readable by anyone, permanently) and what it does not (dashed). The missing fields exist elsewhere, held by exchanges, shops and the operators of servers, and they are the ones that point at a person (magenta).">
+  <BasicsLedgerRecord lang="en" />
+</Fig>
+
+Those two properties pull in opposite directions. No names means a fresh address reveals nothing on its own. Forever means that the day one address in a cluster is tied to a person, every past payment of the cluster is tied to them as well, and nothing can be deleted. An investigator does not have to watch in real time; they can come back years later with better tools.
+
+Concretely, anyone holding a copy can take one address and list every payment it ever received and sent, follow each output forward to wherever it was spent next, and note the exact times. None of that needs anyone's cooperation. What the ledger cannot answer is who controls an address. That answer sits in someone else's records.
+
+## Where names come in: exchanges
+
+Most people buy and sell cryptocurrency through exchanges, and exchanges are regulated. The Financial Action Task Force, which sets the international anti-money-laundering standards, applies its customer due diligence rules to virtual asset service providers and adds a "travel rule": the provider must obtain, hold and pass on information about the sender and the recipient of a transfer.<Cite id="ledger-fatf-2021" /> In Japan, for example, the Act on Prevention of Transfer of Criminal Proceeds requires covered businesses, crypto exchanges among them, to verify a customer's name, address and date of birth against an official document, to keep the verification records for seven years, and to pass information about the customer and the recipient along with crypto transfers to other exchanges.<Cite id="ledger-jafic-overview" />
+
+<Fig caption="Where the name comes from. The exchange holds a verified customer record (magenta) next to the addresses it paid out to (yellow). The investigator follows payments on the public ledger to one of those addresses and asks the exchange, through legal process, who the customer was. Addresses and amounts are illustrative." size="wide">
+  <BasicsLedgerKyc lang="en" />
+</Fig>
+
+This is the step that ends most of the ledger-based cases on this site, such as [Welcome to Video](/cases/#welcome-to-video). The ledger supplies a path between addresses; a regulated business at one end of that path supplies the name.
+
+## Bitcoin and Monero: what each hides
+
+Monero was designed to remove the readable fields. Three mechanisms do most of the work:
+
+- **Ring signatures for the sender.** Each input is signed in a way that proves it is one of a group of earlier outputs without saying which. "There is no way an outside observer can tell which of the possible signers" made the signature.<Cite id="ledger-xmr-ringsig" /> Since the August 2022 network upgrade the ring has 16 members: the real one and 15 decoys taken from other people's transactions.<Cite id="ledger-xmr-018" />
+- **RingCT for amounts.** Ring Confidential Transactions hide transaction amounts, and they have been mandatory since September 2017.<Cite id="ledger-xmr-ringct" />
+- **Stealth addresses for the recipient.** The sender creates a fresh one-time address for each payment on the recipient's behalf, and these "cannot be linked back to either the recipient's published address" or each other.<Cite id="ledger-xmr-stealth" />
+
+<Fig caption="The same payment on two ledgers. On Bitcoin every field is readable. On Monero the input is one of 16 ring members, the amount is hidden (black), and the shop receives at a one-time address. The fact of the transaction, its fee and its time stay visible on both. Values are illustrative." size="wide">
+  <BasicsLedgerCompare lang="en" />
+</Fig>
+
+Even so, a Monero transaction is not invisible. Anyone can still see that it exists, when it was mined, what fee it paid and how many inputs and outputs it has. What changes is the investigator's starting point: instead of following a payment hop by hop through the chain, they mostly have to work from the places where coins are bought, sold or swapped for other currencies.
+
+None of this was perfect from the start. A 2018 study of the early Monero chain found that about 62% of inputs with decoys could be traced by elimination, and that the newest ring member was the real one about 80% of the time.<Cite id="money-moser-2018" /> Later releases raised the ring size and changed how decoys are chosen.<Cite id="ledger-xmr-ringsig" /> And Monero hides nothing at the edges: coins are still bought and sold at exchanges that keep customer records, which is where the [money chapter](/layers/money/) picks up.
+
+The short version for the rest of the site: on Bitcoin, <span class="hl">the whole flow of money is public</span> and the work is finding the one point where <span class="leak">a name attaches</span>. On Monero, the flow inside the chain is mostly hidden, and the work moves to the points where money enters and leaves it.

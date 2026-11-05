@@ -1,0 +1,130 @@
+---
+// Small multiples: the same payment as it appears on a Bitcoin ledger and on a
+// Monero ledger. Monero hides the amount, hides which of 16 ring members is
+// the real input, and pays a one-time address instead of the published one.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    group: "Ledger",
+    opts: ["Bitcoin", "Monero"],
+    rows: ["Sender (input)", "Amount", "Recipient", "Fee and time"],
+    btc: {
+      input: "addr A (0.300) and addr B (0.500)",
+      amount: "0.650 to the shop, 0.149 change",
+      recip: "addr S: the shop's published address",
+      fee: "0.001 fee, block time 14:02",
+    },
+    xmr: {
+      ring: "16 earlier outputs; one is really being spent, the ledger does not say which",
+      amount: "hidden (commitments only)",
+      recip: "one-time addresses, not linkable to the shop's published address",
+      fee: "fee and block time still public",
+    },
+    say: [
+      "Bitcoin: the payment built in the figure above, exactly as everyone sees it. Each input points at the earlier output being spent, so payments can be followed hop by hop.",
+      "Monero: each input is a ring of 16 earlier outputs, 15 of them decoys taken from other people's transactions. Amounts are hidden, and the recipient gets a fresh one-time address. The fact that a transaction happened, its fee and its time remain visible.",
+    ],
+  },
+  ja: {
+    group: "台帳",
+    opts: ["Bitcoin", "Monero"],
+    rows: ["送り手 (入力)", "金額", "受け手", "手数料と時刻"],
+    btc: {
+      input: "addr A (0.300) と addr B (0.500)",
+      amount: "店へ 0.650、おつり 0.149",
+      recip: "addr S: 店が公開しているアドレス",
+      fee: "手数料 0.001、ブロック時刻 14:02",
+    },
+    xmr: {
+      ring: "過去の出力 16 個。本当に使われるのは 1 つだが、台帳はどれかを示さない",
+      amount: "隠れる (コミットメントだけが載る)",
+      recip: "使い捨てのアドレス。店の公開アドレスとは結び付かない",
+      fee: "手数料とブロック時刻は公開のまま",
+    },
+    say: [
+      "Bitcoin: 上の図で組み立てた支払いが、そのまま誰にでも見える。各入力は使われる過去の出力そのものを指すので、支払いを 1 段ずつ追える。",
+      "Monero では、各入力が過去の出力 16 個の輪 (リング) になり、そのうち 15 個は他人の取引から取ったおとりだ。金額は隠れ、受け手には毎回新しい使い捨てアドレスが使われる。取引があったこと、手数料、時刻は見えたままだ。",
+    ],
+  },
+}[lang];
+
+const vx = 200;
+const vw = 680;
+---
+
+<svg class="dg" viewBox="0 0 900 600" role="img" aria-label={L.say.join(" ")}>
+  {
+    [0, 1].map((m) => {
+      const top = m * 300;
+      const rowY = [top + 52, top + 140, top + 194, top + 248];
+      const y = (i: number) => rowY[i] ?? 0;
+      return (
+        <g>
+          <text x="20" y={top + 26} class="b t-l">
+            {L.opts[m]}
+          </text>
+          {L.rows.map((r, i) => (
+            <g>
+              <text x="20" y={y(i) + 20} class="t-s b">
+                {r}
+              </text>
+              {i > 0 && <line class="ln-1 soft" x1="20" y1={y(i) - 10} x2="880" y2={y(i) - 10} />}
+            </g>
+          ))}
+          {m === 0 ? (
+            <g>
+              <rect class="fill-hl" x={vx} y={y(0)} width="300" height="30" />
+              <text x={vx + 12} y={y(0) + 20} class="t-on-hl t-s">
+                {L.btc.input}
+              </text>
+              <rect class="fill-hl" x={vx} y={y(1)} width={vw} height="30" />
+              <text x={vx + 12} y={y(1) + 20} class="t-on-hl t-s">
+                {L.btc.amount}
+              </text>
+              <rect class="fill-hl" x={vx} y={y(2)} width={vw} height="30" />
+              <text x={vx + 12} y={y(2) + 20} class="t-on-hl t-s">
+                {L.btc.recip}
+              </text>
+              <rect class="fill-hl" x={vx} y={y(3)} width={vw} height="30" />
+              <text x={vx + 12} y={y(3) + 20} class="t-on-hl t-s">
+                {L.btc.fee}
+              </text>
+            </g>
+          ) : (
+            <g>
+              {Array.from({ length: 16 }, (_, i) => (
+                <rect class="fill-hl" x={vx + i * 42} y={y(0)} width="36" height="30" />
+              ))}
+              <text x={vx} y={y(0) + 52} class="t-s">
+                {L.xmr.ring}
+              </text>
+              <rect class="fill-bar" x={vx} y={y(1)} width={vw} height="30" />
+              <text x={vx + 12} y={y(1) + 20} class="t-on-ink t-s">
+                {L.xmr.amount}
+              </text>
+              <rect class="fill-hl" x={vx} y={y(2)} width={vw} height="30" />
+              <text x={vx + 12} y={y(2) + 20} class="t-on-hl t-s">
+                {L.xmr.recip}
+              </text>
+              <rect class="fill-hl" x={vx} y={y(3)} width={vw} height="30" />
+              <text x={vx + 12} y={y(3) + 20} class="t-on-hl t-s">
+                {L.xmr.fee}
+              </text>
+            </g>
+          )}
+          {m === 0 && <line class="ln-1" x1="20" y1="292" x2="880" y2="292" />}
+        </g>
+      );
+    })
+  }
+</svg>
+
+<style>
+  svg {
+    min-width: 680px;
+  }
+</style>

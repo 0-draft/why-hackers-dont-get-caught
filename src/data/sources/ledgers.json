@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ledger-bitcoin-whitepaper",
+    "title": "Bitcoin: A Peer-to-Peer Electronic Cash System",
+    "publisher": "Satoshi Nakamoto",
+    "date": "2008-10-31",
+    "url": "https://bitcoin.org/bitcoin.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "ledger-devguide-tx",
+    "title": "Bitcoin Developer Guide: Transactions",
+    "publisher": "Bitcoin Project (developer.bitcoin.org)",
+    "date": "2026",
+    "url": "https://developer.bitcoin.org/devguide/transactions.html",
+    "kind": "reference"
+  },
+  {
+    "id": "ledger-devguide-chain",
+    "title": "Bitcoin Developer Guide: Block Chain",
+    "publisher": "Bitcoin Project (developer.bitcoin.org)",
+    "date": "2026",
+    "url": "https://developer.bitcoin.org/devguide/block_chain.html",
+    "kind": "reference"
+  },
+  {
+    "id": "ledger-fatf-2021",
+    "title": "Updated Guidance for a Risk-Based Approach to Virtual Assets and Virtual Asset Service Providers",
+    "publisher": "FATF",
+    "date": "2021-10-28",
+    "url": "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Guidance-rba-virtual-assets-2021.html",
+    "kind": "primary"
+  },
+  {
+    "id": "ledger-jafic-overview",
+    "title": "犯罪収益移転防止法の概要 (令和6年4月1日時点)",
+    "publisher": "警察庁 (JAFIC)",
+    "date": "2024-04-01",
+    "url": "https://www.npa.go.jp/sosikihanzai/jafic/hourei/data/hougaiyou20240401.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "ledger-xmr-ringsig",
+    "title": "Moneropedia: Ring Signatures",
+    "publisher": "The Monero Project",
+    "date": "2026",
+    "url": "https://www.getmonero.org/resources/moneropedia/ringsignatures.html",
+    "kind": "primary"
+  },
+  {
+    "id": "ledger-xmr-018",
+    "title": "Monero 0.18.0.0 'Fluorine Fermi' released",
+    "publisher": "The Monero Project",
+    "date": "2022-07-19",
+    "url": "https://www.getmonero.org/2022/07/19/monero-0.18.0.0-released.html",
+    "kind": "primary"
+  },
+  {
+    "id": "ledger-xmr-ringct",
+    "title": "Moneropedia: Ring Confidential Transactions",
+    "publisher": "The Monero Project",
+    "date": "2026",
+    "url": "https://www.getmonero.org/resources/moneropedia/ringCT.html",
+    "kind": "primary"
+  },
+  {
+    "id": "ledger-xmr-stealth",
+    "title": "Moneropedia: Stealth Address",
+    "publisher": "The Monero Project",
+    "date": "2026",
+    "url": "https://www.getmonero.org/resources/moneropedia/stealthaddress.html",
+    "kind": "primary"
+  }
+]
