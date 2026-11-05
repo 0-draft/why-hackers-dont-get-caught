@@ -60,6 +60,10 @@ export const dict = {
     "out.caught.d": "One layer gave way, or they travelled within reach. The case files show which.",
     "out.caught.link": "Case files",
     "out.name": "Name",
+    "home.ledgerTitle": "Named, never arrested",
+    "home.ledgerLede":
+      "Ten US indictments of people hacking for or on behalf of a state, 2014 to 2025. Every square is a named defendant.",
+    "home.ledgerMore": "Why they stay out of reach",
     "home.vantageTitle": "How they hide: who can see what",
     "home.layersTitle": "The layers they hide behind",
     "home.layersLede":
@@ -133,6 +137,10 @@ export const dict = {
     "out.caught.d": "一枚の層が破れたか、手の届く場所へ出てきた。どちらだったかは事例ページにある。",
     "out.caught.link": "事例",
     "out.name": "名前",
+    "home.ledgerTitle": "名指しされても、捕まらない",
+    "home.ledgerLede":
+      "国家のために、あるいは国家の後ろ盾でハッキングした人物を米国が起訴した 10 件 (2014〜2025 年)。マス 1 つが、名指しされた被告 1 人。",
+    "home.ledgerMore": "手が届かない理由",
     "home.vantageTitle": "どう隠れるか: 誰に何が見えているか",
     "home.layersTitle": "身を隠す層",
     "home.layersLede": "本人に近い側から外側へ並べた。層ごとに隠すものが違い、破れ方にも癖がある。",

@@ -1,5 +1,6 @@
 ---
 import CaseMatrix from "../components/CaseMatrix.astro";
+import ReachLedger from "../components/fig/ReachLedger.astro";
 import Outcomes from "../components/Outcomes.astro";
 import Strata from "../components/Strata.astro";
 import Vantage from "../components/Vantage.astro";
@@ -28,6 +29,15 @@ for (const c of CASES)
   <section class="wrap" aria-labelledby="o-h">
     <h2 id="o-h" class="sec">{t("home.outcomesTitle")}</h2>
     <Outcomes lang={lang} />
+  </section>
+
+  <section class="wrap" aria-labelledby="ledger-h">
+    <h2 id="ledger-h" class="sec">{t("home.ledgerTitle")}</h2>
+    <p class="sec-lede">{t("home.ledgerLede")}</p>
+    <div class="ledger">
+      <ReachLedger lang={lang} />
+    </div>
+    <p class="more"><a href={localePath(lang, "/out-of-reach/")}>{t("home.ledgerMore")}</a></p>
   </section>
 
   <section class="wrap" aria-labelledby="v-h">
@@ -114,6 +124,11 @@ for (const c of CASES)
     margin: -0.5rem 0 1.75rem;
     max-width: 60ch;
     color: var(--ink-2);
+  }
+  .ledger {
+    background: var(--sheet);
+    border: 2px solid var(--ink);
+    padding: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
   }
   .more {
     margin-top: 1.25rem;
