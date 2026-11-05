@@ -22,6 +22,7 @@ const canonical = new URL(localePath(lang, path), Astro.site);
 const nav = [
   { href: localePath(lang, "/#layers"), key: "nav.layers", match: "/layers/" },
   { href: localePath(lang, "/cases/"), key: "nav.cases", match: "/cases/" },
+  { href: localePath(lang, "/out-of-reach/"), key: "nav.reach", match: "/out-of-reach/" },
   { href: localePath(lang, "/sources/"), key: "nav.sources", match: "/sources/" },
   { href: localePath(lang, "/about/"), key: "nav.about", match: "/about/" },
 ] as const;

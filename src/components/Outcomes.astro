@@ -1,0 +1,167 @@
+---
+import { type Lang, localePath, useT } from "../i18n/ui.ts";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const ja = lang === "ja";
+const row = { name: ja ? "名前" : "Name", where: ja ? "所在" : "Where", custody: ja ? "身柄" : "In custody" };
+const known = ja ? "判明" : "known";
+const no = ja ? "なし" : "no";
+const yes = ja ? "確保" : "yes";
+type Cell = { kind: "bar" | "hl" | "leak" | "plain"; text: string };
+const cols: { key: string; title: string; desc: string; link?: { href: string; label: string }; cells: Cell[] }[] = [
+  {
+    key: "none",
+    title: t("out.none.t"),
+    desc: t("out.none.d"),
+    cells: [
+      { kind: "bar", text: "" },
+      { kind: "bar", text: "" },
+      { kind: "plain", text: no },
+    ],
+  },
+  {
+    key: "reach",
+    title: t("out.reach.t"),
+    desc: t("out.reach.d"),
+    link: { href: localePath(lang, "/out-of-reach/"), label: t("out.reach.link") },
+    cells: [
+      { kind: "hl", text: known },
+      { kind: "hl", text: known },
+      { kind: "plain", text: no },
+    ],
+  },
+  {
+    key: "caught",
+    title: t("out.caught.t"),
+    desc: t("out.caught.d"),
+    link: { href: localePath(lang, "/cases/"), label: t("out.caught.link") },
+    cells: [
+      { kind: "leak", text: known },
+      { kind: "leak", text: known },
+      { kind: "leak", text: yes },
+    ],
+  },
+];
+const hidden = ja ? "不明" : "unknown";
+---
+
+<ol class="outcomes">
+  {
+    cols.map((c) => (
+      <li class:list={["oc", c.key]}>
+        <h3>{c.title}</h3>
+        <dl class="rec">
+          {[row.name, row.where, row.custody].map((label, i) => {
+            const cell = c.cells[i]!;
+            return (
+              <div>
+                <dt>{label}</dt>
+                <dd>
+                  {cell.kind === "bar" ? (
+                    <>
+                      <span class="bar" style="width:5.5em" aria-hidden="true">
+                        &nbsp;
+                      </span>
+                      <span class="sr">{hidden}</span>
+                    </>
+                  ) : (
+                    <span class={cell.kind === "plain" ? undefined : cell.kind}>{cell.text}</span>
+                  )}
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+        <p class="desc">{c.desc}</p>
+        {c.link && (
+          <p class="lk">
+            <a href={c.link.href}>{c.link.label}</a>
+          </p>
+        )}
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .outcomes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+  .oc {
+    padding: 1.4rem 1.5rem 1.6rem;
+    border-left: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+  }
+  .oc:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .oc:last-child {
+    padding-right: 0;
+  }
+  h3 {
+    font-size: var(--step-2);
+    font-variation-settings: "wdth" 72;
+  }
+  .caught h3 {
+    color: var(--leak);
+  }
+  .rec {
+    margin: 1.1rem 0 0;
+    font-size: var(--step--1);
+  }
+  .rec > div {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    border-bottom: 1px solid var(--rule-soft);
+    padding: 0.35rem 0;
+    align-items: center;
+  }
+  .rec dt {
+    color: var(--ink-2);
+  }
+  .rec dd {
+    margin: 0;
+  }
+  .rec .bar {
+    height: 1em;
+    vertical-align: middle;
+  }
+  .desc {
+    margin: 1rem 0 0;
+    font-size: var(--step--1);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .lk {
+    margin: 0.75rem 0 0;
+    font-weight: 700;
+    font-size: var(--step--1);
+  }
+  @media (max-width: 52rem) {
+    .outcomes {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .oc,
+    .oc:first-child,
+    .oc:last-child {
+      border-left: 0;
+      border-top: 1px solid var(--rule);
+      padding: 1.25rem 0;
+    }
+    .oc:first-child {
+      border-top: 0;
+    }
+  }
+</style>
