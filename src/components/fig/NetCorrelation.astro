@@ -1,0 +1,133 @@
+---
+// Traffic correlation: the entry side and the exit side of one Tor circuit
+// show the same bursts, shifted by network latency. Matching the shapes links
+// the person to the website without any relay seeing both.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const T = {
+  en: {
+    rows: ["Entry side, seen by the ISP", "Exit side, seen by forum.example"],
+    sender: "sender address",
+    dest: "destination",
+    exitT: "192.0.2.201 (exit)",
+    you: "198.51.100.23",
+    axis: (ms: number) => (ms === 0 ? "0 s" : `${ms / 1000} s`),
+    vol: "bytes per moment",
+    same: "Same bursts, about 40 ms later on the exit side",
+    verdict: "linkable by timing",
+    note: "Illustrative traffic. Neither observer sees both addresses; together they do.",
+  },
+  ja: {
+    rows: ["入口側 (ISP が見る)", "出口側 (forum.example が見る)"],
+    sender: "送信元",
+    dest: "宛先",
+    exitT: "192.0.2.201 (出口)",
+    you: "198.51.100.23",
+    axis: (ms: number) => `${ms / 1000} 秒`,
+    vol: "その瞬間の通信量",
+    same: "同じ山が、出口側では約 40 ms 遅れて現れる",
+    verdict: "タイミングで突き合わせ可能",
+    note: "通信は説明用。どちらの観測者も両方のアドレスは見ていない。2 つを合わせると見える。",
+  },
+}[lang];
+
+// [start ms, duration ms, height 0..1]
+const bursts: [number, number, number][] = [
+  [80, 60, 0.45],
+  [300, 120, 1],
+  [470, 40, 0.3],
+  [820, 160, 0.8],
+  [1100, 40, 0.4],
+  [1180, 40, 0.65],
+  [1500, 200, 0.95],
+  [1820, 60, 0.3],
+];
+const SHIFT = 40;
+const X0 = 300;
+const sx = (ms: number) => X0 + ms * 0.3;
+const rows = [
+  { base: 130, shift: 0 },
+  { base: 270, shift: SHIFT },
+];
+const MAXH = 64;
+const linked = [1, 3, 6];
+---
+
+<svg class="dg" viewBox="0 0 920 390" role="img" aria-label={`${T.same}: ${T.verdict}. ${T.note}`}>
+  {
+    rows.map((r, i) => (
+      <g>
+        <text x="20" y={r.base - 76} class="b t-s">
+          {T.rows[i]}
+        </text>
+        <text x="20" y={r.base - 52} class="t-s t-2">
+          {T.sender}
+        </text>
+        {i === 0 ? (
+          <g>
+            <rect class="stroke-leak" x="20" y={r.base - 46} width="150" height="24" />
+            <text x="28" y={r.base - 29} class="mono t-leak">
+              {T.you}
+            </text>
+          </g>
+        ) : (
+          <g>
+            <rect class="fill-hl" x="20" y={r.base - 46} width="150" height="24" />
+            <text x="28" y={r.base - 29} class="mono t-on-hl">
+              {T.exitT}
+            </text>
+          </g>
+        )}
+        <text x="20" y={r.base - 6} class="t-s t-2">
+          {T.dest}
+        </text>
+        {i === 0 ? (
+          <rect class="fill-bar" x="20" y={r.base} width="150" height="24" />
+        ) : (
+          <g>
+            <rect class="fill-hl" x="20" y={r.base} width="150" height="24" />
+            <text x="28" y={r.base + 17} class="mono t-on-hl">
+              forum.example
+            </text>
+          </g>
+        )}
+        <line class="ln-1" x1={X0 - 10} y1={r.base} x2="910" y2={r.base} />
+        {bursts.map(([t, d, hgt]) => (
+          <rect class="box" x={sx(t + r.shift)} y={r.base - hgt * MAXH} width={d * 0.3} height={hgt * MAXH} />
+        ))}
+      </g>
+    ))
+  }
+  {
+    linked.map((k) => {
+      const [t, , hgt] = bursts[k]!;
+      return (
+        <line
+          class="stroke-leak dash"
+          x1={sx(t)}
+          y1={rows[0]!.base + 4}
+          x2={sx(t + SHIFT)}
+          y2={rows[1]!.base - hgt * MAXH - 4}
+          style="stroke-width:1.5"
+        />
+      );
+    })
+  }
+  <text x={X0 - 10} y={rows[0]!.base - MAXH - 12} class="t-s t-2">{T.vol}</text>
+  {
+    [0, 500, 1000, 1500, 2000].map((ms) => (
+      <g>
+        <line class="ln-1" x1={sx(ms)} y1={rows[1]!.base} x2={sx(ms)} y2={rows[1]!.base + 6} />
+        <text x={sx(ms)} y={rows[1]!.base + 22} text-anchor="middle" class="t-s t-2">
+          {T.axis(ms)}
+        </text>
+      </g>
+    ))
+  }
+  <text x="20" y="338" class="t-s">{T.same}</text>
+  <text x="20" y="360" class="b t-leak">→ {T.verdict}</text>
+  <text x="20" y="382" class="t-s t-2">{T.note}</text>
+</svg>

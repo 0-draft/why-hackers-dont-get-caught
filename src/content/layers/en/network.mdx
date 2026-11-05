@@ -10,6 +10,7 @@ import Fig from "../../../components/Fig.astro";
 import NetPeel from "../../../components/fig/NetPeel.astro";
 import NetWhoSees from "../../../components/fig/NetWhoSees.astro";
 import NetOrbRotation from "../../../components/fig/NetOrbRotation.astro";
+import NetCorrelation from "../../../components/fig/NetCorrelation.astro";
 
 A packet cannot be delivered without a source address, so every server you touch learns where to send the reply. Someone who wants to act without being found has to make that address belong to somebody else: a VPN company, a stranger's router, or three volunteers on the Tor network. Each option changes who holds the missing piece, and none of them makes the piece disappear.
 
@@ -27,12 +28,6 @@ A VPN or a proxy is a single relay. The destination sees the relay's address ins
 
 Whether that company keeps the picture is a matter of policy, not mechanism, and policies have failed in court records. In 2017 the FBI investigated a cyberstalking campaign run through PureVPN, which advertised that it kept no logs that could identify users. The affidavit states that PureVPN "was able to determine that their service was accessed by the same customer from two originating IP addresses": the suspect's home connection and his employer's network.<Cite id="net-purevpn-affidavit" /><Cite id="net-purevpn-tf" /> The provider had no record of what he did, but it had connection records, and that was enough. In a 2016 child-exploitation investigation that became public in 2018, Highwinds, then the owner of IPVanish, answered a second summons with the subscriber's name, email address and connection times, which led investigators to the suspect's home ISP.<Cite id="net-ipvanish-tf" />
 
-<Fig caption="Who can link you to where you went. Each cell shows what one observer learns: your identity (magenta) and your destination (yellow); black means hidden. A cell outlined in magenta is an observer that holds both ends. Assumes HTTPS to an ordinary website." size="wide">
-  <NetWhoSees lang="en" />
-</Fig>
-
-The table shows the shape of the problem. With one hop, some party always holds both ends. Tor's design spreads the ends across relays run by different people, so no single relay is outlined. Chaining a VPN after Tor puts a fixed account at the end of every circuit, and that account was paid for by someone.
-
 ## Borrowed addresses: residential proxies and router botnets
 
 The destination does not only ask where traffic comes from. It also asks what kind of address it is. Datacenter and VPN ranges are easy to flag; a home broadband address looks like a customer. So a market grew for residential addresses, and much of the supply comes from devices whose owners never agreed to relay anyone's traffic.
@@ -43,7 +38,7 @@ State operators use the same trick with routers. In January 2024 the Justice Dep
 
 Mandiant calls the organised version of this an ORB network (operational relay box): a mesh of leased virtual servers and compromised, often end-of-life routers and IoT devices, administered by contractors and rented to several espionage groups at once. The traffic leaves through exit nodes close to the target, so it "blends in" for the analysts reviewing it, and an address can stay in the network for as few as 31 days.<Cite id="net-orb-mandiant" />
 
-<Fig caption="Why IP blocklists age quickly against an ORB network. Top: the defender sees only the exit node. Bottom: a blocklist built from addresses seen by day 40 no longer matches any node carrying traffic on day 75. Node lifetimes are illustrative; Mandiant reports addresses lasting as few as 31 days." size="wide">
+<Fig caption="Why IP blocklists age quickly against an ORB network. Top: the defender sees only the exit node. Bottom: a blocklist built from addresses seen by day 40 no longer matches any node carrying traffic on day 75. Hatched spans are on the blocklist; the yellow row is the exit node shown above. Node lifetimes are illustrative; Mandiant reports addresses lasting as few as 31 days." size="wide">
   <NetOrbRotation lang="en" />
 </Fig>
 
@@ -51,9 +46,9 @@ For a defender, the consequence is that the source address answers almost nothin
 
 ## Tor: three relays, three layers
 
-Tor removes the single party who sees both ends. The client picks three relays, a guard, a middle and an exit, and builds the circuit one hop at a time, negotiating a separate set of keys with each. In the words of the Tor Project, "each relay along the way knows only which relay gave it data and which relay it is giving data to".<Cite id="net-tor-overview" /> Every cell the client sends is wrapped three times, once per relay key. Each relay removes the one layer it can, reads its forwarding instruction, and passes on a cell it cannot read further.
+Tor removes the single party who sees both ends. The client picks three relays, a guard, a middle and an exit, and builds the circuit one hop at a time, negotiating a separate set of keys with each. In the words of the Tor Project, "each relay along the way knows only which relay gave it data and which relay it is giving data to".<Cite id="net-tor-overview" /> Tor moves data in small fixed-size packets it calls cells. Every cell the client sends is wrapped three times, once per relay key, like a letter sealed in three envelopes. Each relay opens the one envelope addressed to it, reads where to send the rest, and passes on what it cannot open.
 
-<Fig caption="Peeling a Tor cell. Step through the circuit: each relay removes the layer encrypted to its own key, which tells it only the next hop. Only the guard sees your address; only the exit sees the destination. The traffic to the website is still protected by TLS after the exit." size="wide">
+<Fig caption="One request at four points on a Tor circuit. Each relay opens only the envelope sealed to its own key, which tells it the next hop and nothing more. Only the guard sees your address (magenta); only the exit sees the destination. Between the exit and forum.example the content is still protected by TLS." size="wide">
   <NetPeel lang="en" />
 </Fig>
 
@@ -65,9 +60,21 @@ Several details matter for how this fails or holds:
 - **Onion services hide the server too.** The service keeps circuits open to a few introduction points and publishes a signed descriptor. A client picks a rendezvous relay, and both sides build circuits to it, so six relays sit between them and neither learns the other's address. The service only makes outgoing connections and needs no open port.<Cite id="net-onion-overview" />
 - **Bridges hide the fact of using Tor.** They are unlisted entry relays, and pluggable transports such as obfs4 and Snowflake disguise the first hop for users on censored networks.<Cite id="net-tor-bridges" />
 
+<Fig caption="Who can link you to where you went, for five ways of routing the same visit. Each cell shows what one observer learns: your identity (magenta outline) and your destination (yellow); black means hidden. The magenta tag marks an observer that holds both ends on its own. Assumes HTTPS to forum.example." size="wide">
+  <NetWhoSees lang="en" />
+</Fig>
+
+The table puts the two halves of this chapter side by side. With one hop, some party always holds both ends. Tor spreads the ends across relays run by different people, so no relay is tagged. Chaining a VPN after Tor puts a fixed account at the end of every circuit, and that account was paid for by someone.
+
 ## Where it gives way
 
-Tor forwards cells as soon as they arrive. That keeps it fast enough for browsing, and it leaves a gap the Tor Project has been open about since the start: anyone who can watch traffic entering the network and traffic leaving it can match the two by timing and volume. The entry-guard design exists because of this, and the 2014 security advisory calls defeating such traffic confirmation "an open research problem".<Cite id="net-tor-guards" /><Cite id="net-relay-early" /> Watching both ends does not require owning relays. The RAPTOR study showed that a single autonomous system can see both ends of many circuits because internet routing is asymmetric, and it ran the correlation against live Tor traffic with 95% accuracy.<Cite id="net-raptor-usenix" /> Mixnets such as Loopix add random delays and cover traffic so that timing stops lining up, at the cost of seconds of latency; Tor accepted the opposite trade-off.<Cite id="net-loopix" />
+Tor forwards cells as soon as they arrive. That keeps it fast enough for browsing, and it leaves a gap the Tor Project has been open about since the start: anyone who can watch traffic entering the network and traffic leaving it can match the two by timing and volume. The entry-guard design exists because of this, and the 2014 security advisory calls defeating such traffic confirmation "an open research problem".<Cite id="net-tor-guards" /><Cite id="net-relay-early" /> Watching both ends does not require owning relays. The RAPTOR study showed that a single autonomous system can see both ends of many circuits because internet routing is asymmetric, and it ran the correlation against live Tor traffic with 95% accuracy.<Cite id="net-raptor-usenix" />
+
+<Fig caption="Traffic correlation. The ISP sees bursts leaving your address for a guard; the website sees the same bursts arriving from an exit a few tens of milliseconds later. Matching the two shapes links you to the site even though no relay saw both. This is what the home page figure means by “linkable by timing”." size="wide">
+  <NetCorrelation lang="en" />
+</Fig>
+
+Mixnets such as Loopix add random delays and cover traffic so that timing stops lining up, at the cost of seconds of latency; Tor accepted the opposite trade-off.<Cite id="net-loopix" />
 
 The documented attacks on Tor users have mostly used relays the attacker ran:
 

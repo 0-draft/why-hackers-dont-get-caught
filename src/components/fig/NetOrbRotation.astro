@@ -48,6 +48,7 @@ const ty0 = 236;
 const rh = 30;
 const built = 40;
 const today = 75;
+const exitIp = "198.51.100.143";
 ---
 
 <svg class="dg" viewBox="0 0 900 496" role="img" aria-label={`${T.sees}: ${T.path[3]!}. ${T.built}; ${T.today}.`}>
@@ -67,16 +68,21 @@ const today = 75;
       </g>
     ))
   }
+  <defs>
+    <pattern id="orb-hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+      <line class="ln-1" x1="0" y1="0" x2="0" y2="6" />
+    </pattern>
+  </defs>
   <text x="20" y="84" class="t-s t-2">{T.sees}</text>
   {[0, 1, 2].map((i) => <rect class="fill-bar" x={px[i]! + 16} y="94" width={bw - 32} height="24" />)}
   <rect class="fill-hl" x={px[3]! + 8} y="94" width={bw - 16} height="24" />
-  <text x={px[3]! + bw / 2} y="111" text-anchor="middle" class="mono t-on-hl">198.51.100.143</text>
+  <text x={px[3]! + bw / 2} y="111" text-anchor="middle" class="mono t-on-hl">{exitIp}</text>
   <text x={px[3]! + bw / 2} y="138" text-anchor="middle" class="t-s t-2">{T.near}</text>
 
   <line class="ln-1 soft" x1="20" y1="160" x2="880" y2="160" />
 
   <text x="20" y="190" class="b t-s">{T.tl}</text>
-  <rect class="fill-hl" x="420" y="178" width="20" height="14" />
+  <rect class="ln-1" x="420" y="178" width="20" height="14" style="fill:url(#orb-hatch)" />
   <text x="446" y="190" class="t-s">{T.keyOn}</text>
   <rect class="box-soft" x="640" y="178" width="20" height="14" />
   <text x="666" y="190" class="t-s">{T.keyOff}</text>
@@ -93,10 +99,15 @@ const today = 75;
       const listed = a <= built;
       return (
         <g>
-          <text x="20" y={y + 14} class="mono">
+          {ip === exitIp && <rect class="fill-hl" x="14" y={y - 2} width="124" height="22" />}
+          <text x="20" y={y + 14} class:list={["mono", ip === exitIp && "t-on-hl"]}>
             {ip}
           </text>
-          <rect class={listed ? "fill-hl" : "box-soft"} x={tx(a)} y={y} width={tx(b) - tx(a)} height="18" />
+          {listed ? (
+            <rect class="ln-1" x={tx(a)} y={y} width={tx(b) - tx(a)} height="18" style="fill:url(#orb-hatch)" />
+          ) : (
+            <rect class="box-soft" x={tx(a)} y={y} width={tx(b) - tx(a)} height="18" />
+          )}
         </g>
       );
     })

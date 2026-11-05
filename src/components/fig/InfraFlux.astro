@@ -1,6 +1,6 @@
 ---
-// Fast flux: one domain, a new address (and in double flux a new name server)
-// at every lookup, all relaying to one backend that is never resolved.
+// Fast flux: the same name gives a new address at every lookup, so an
+// address blocked at 00:05 no longer matches at 00:10.
 interface Props {
   lang: "en" | "ja";
 }
@@ -8,20 +8,24 @@ const { lang } = Astro.props;
 
 const T = {
   en: {
-    title: "DNS answers for update.example",
-    cols: ["Lookup", "Name server", "Address (A record)"],
-    pool: "Compromised hosts (relays)",
+    title: "Asking for update.example every five minutes",
+    cols: ["Lookup", "Name asked", "Name server", "Address returned", "Blocklist"],
+    pool: "Compromised host (relay)",
+    added: "added 00:05",
+    miss: ["no match", "no match", "no match"],
     backend: "backend",
     backendSub: "never in DNS",
-    note: "Single flux: only the address changes. Double flux: the name server changes too.",
+    note: "Only the address column matters to a blocklist, and it changes every time. In double flux the name server rotates too.",
   },
   ja: {
-    title: "update.example の DNS 応答",
-    cols: ["問い合わせ", "ネームサーバ", "アドレス (A レコード)"],
+    title: "update.example を 5 分ごとに問い合わせる",
+    cols: ["問い合わせ", "尋ねた名前", "ネームサーバ", "返ってきたアドレス", "ブロックリスト"],
     pool: "乗っ取られたホスト (中継)",
+    added: "00:05 に追加",
+    miss: ["一致なし", "一致なし", "一致なし"],
     backend: "バックエンド",
     backendSub: "DNS には出ない",
-    note: "シングルフラックスはアドレスだけが変わる。ダブルフラックスはネームサーバも変わる。",
+    note: "ブロックリストが見るのはアドレスの列だけで、それが毎回変わる。ダブルフラックスではネームサーバも入れ替わる。",
   },
 }[lang];
 
@@ -30,49 +34,70 @@ const rows = [
   ["00:05", "ns4.flux.example", "203.0.113.88"],
   ["00:10", "ns2.flux.example", "198.51.100.240"],
   ["00:15", "ns9.flux.example", "203.0.113.5"],
-];
-const y0 = 76;
+] as const;
+const y0 = 80;
 const rh = 58;
-const be = { x: 790, y: y0 + 40, w: 110, h: 120 };
+const cx = { t: 20, name: 100, ns: 250, a: 420, bl: 590, pool: 740 };
+const be = { x: 950, y: y0 + 40, w: 100, h: 120 };
 ---
 
-<svg class="dg" viewBox="0 0 920 360" role="img" aria-label={`${T.title}. ${T.note}`}>
+<svg class="dg" viewBox="0 0 1070 370" role="img" aria-label={`${T.title}. ${T.note}`}>
   <text x="20" y="22" class="b">{T.title}</text>
-  <text x="20" y="54" class="t-s t-2">{T.cols[0]}</text>
-  <text x="100" y="54" class="t-s t-2">{T.cols[1]}</text>
-  <text x="280" y="54" class="t-s t-2">{T.cols[2]}</text>
-  <text x="560" y="54" class="t-s t-2">{T.pool}</text>
+  <text x={cx.t} y="58" class="t-s t-2">{T.cols[0]}</text>
+  <text x={cx.name} y="58" class="t-s t-2">{T.cols[1]}</text>
+  <text x={cx.ns} y="58" class="t-s t-2">{T.cols[2]}</text>
+  <text x={cx.a} y="58" class="t-s b">{T.cols[3]}</text>
+  <text x={cx.bl} y="58" class="t-s t-2">{T.cols[4]}</text>
+  <text x={cx.pool} y="58" class="t-s t-2">{T.pool}</text>
   {
     rows.map(([t, ns, ip], i) => {
       const y = y0 + rh * i;
       const cy = y + 15;
       return (
         <g>
-          <text x="20" y={cy + 4} class="mono">
+          <text x={cx.t} y={cy + 4} class="mono">
             {t}
           </text>
-          <rect class="fill-hl" x="100" y={y} width="160" height="30" />
-          <text x="110" y={cy + 4} class="mono t-on-hl">
+          <text x={cx.name} y={cy + 4} class="mono">
+            update.example
+          </text>
+          <rect class="box-soft" x={cx.ns} y={y} width="155" height="30" />
+          <text x={cx.ns + 8} y={cy + 4} class="mono t-2">
             {ns}
           </text>
-          <rect class="fill-hl" x="280" y={y} width="150" height="30" />
-          <text x="290" y={cy + 4} class="mono t-on-hl">
+          <rect class="fill-hl" x={cx.a} y={y} width="150" height="30" />
+          <text x={cx.a + 10} y={cy + 4} class="mono t-on-hl">
             {ip}
           </text>
-          <line class="ln" x1="430" y1={cy} x2="552" y2={cy} />
-          <path class="fill-ink" d={`M 560 ${cy} l -9 -5 v 10 z`} />
-          <rect class="box" x="560" y={y} width="150" height="30" />
-          <text x="572" y={cy + 4} class="mono">
+          {i === 1 && (
+            <g>
+              <line class="ln" x1={cx.a - 4} y1={cy} x2={cx.a + 154} y2={cy} />
+              <text x={cx.bl} y={cy + 4} class="t-s b">
+                {T.added}
+              </text>
+            </g>
+          )}
+          {i > 1 && (
+            <text x={cx.bl} y={cy + 4} class="t-s">
+              {T.miss[i - 2]}
+            </text>
+          )}
+          <line class="ln" x1="700" y1={cy} x2={cx.pool - 8} y2={cy} />
+          <path class="fill-ink" d={`M ${cx.pool} ${cy} l -9 -5 v 10 z`} />
+          <rect class="box" x={cx.pool} y={y} width="150" height="30" />
+          <text x={cx.pool + 10} y={cy + 4} class="mono">
             {ip}
           </text>
-          <line class="ln-1" x1="710" y1={cy} x2={be.x} y2={be.y + 20 + i * 27} />
+          <line class="ln-1" x1={cx.pool + 150} y1={cy} x2={be.x} y2={be.y + 20 + i * 27} />
         </g>
       );
     })
   }
+  <!-- the stale entry: from the 00:05 block down to the 00:10 lookup it misses -->
+  <path class="ln-1 dash" d={`M ${cx.bl + 40} ${y0 + rh + 24} V ${y0 + rh * 2 + 2}`} />
   <rect class="fill-bar" x={be.x} y={be.y} width={be.w} height={be.h} />
   <text x={be.x + be.w / 2} y={be.y + be.h + 22} text-anchor="middle" class="b t-s">{T.backend}</text>
   <text x={be.x + be.w / 2} y={be.y + be.h + 40} text-anchor="middle" class="t-s t-2">{T.backendSub}</text>
-  <line class="ln-1 soft" x1="20" y1="316" x2="900" y2="316" />
-  <text x="20" y="342" class="t-s t-2">{T.note}</text>
+  <line class="ln-1 soft" x1="20" y1="326" x2="1050" y2="326" />
+  <text x="20" y="352" class="t-s t-2">{T.note}</text>
 </svg>

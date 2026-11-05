@@ -22,6 +22,7 @@ const N = {
       via: "logged in via",
       host: "hosted on",
       paid: "paid from",
+      also: "also paid",
       same: "same phrases",
       on: "run on",
     },
@@ -37,9 +38,10 @@ const N = {
     msk: ["モスクワのサーバ", "GRU 74455 部隊"],
     e: {
       posted: "投稿",
-      via: "ログインに使用",
-      host: "ホスト",
+      via: "ログイン",
+      host: "置き場所",
       paid: "支払い元",
+      also: "同じ資金",
       same: "同じフレーズ",
       on: "実行場所",
     },
@@ -50,30 +52,32 @@ const h = 56;
 const nodes: Record<string, Node> = {
   g2: { id: "g2", x: 20, y: 70, w: 170, a: N.g2[0]!, b: N.g2[1]!, kind: "persona" },
   dcl: { id: "dcl", x: 20, y: 300, w: 170, a: N.dcl[0]!, b: N.dcl[1]!, kind: "persona" },
-  post: { id: "post", x: 300, y: 20, w: 210, a: N.post[0]!, b: N.post[1]! },
-  vpn: { id: "vpn", x: 300, y: 150, w: 210, a: N.vpn[0]!, b: N.vpn[1]! },
-  srv: { id: "srv", x: 300, y: 300, w: 210, a: N.srv[0]!, b: N.srv[1]! },
+  post: { id: "post", x: 300, y: 20, w: 200, a: N.post[0]!, b: N.post[1]! },
+  vpn: { id: "vpn", x: 300, y: 150, w: 200, a: N.vpn[0]!, b: N.vpn[1]! },
+  srv: { id: "srv", x: 300, y: 300, w: 200, a: N.srv[0]!, b: N.srv[1]! },
   search: { id: "search", x: 620, y: 20, w: 190, a: N.search[0]!, b: N.search[1]! },
   pool: { id: "pool", x: 620, y: 225, w: 190, a: N.pool[0]!, b: N.pool[1]! },
-  msk: { id: "msk", x: 920, y: 20, w: 150, a: N.msk[0]!, b: N.msk[1]!, kind: "org" },
+  msk: { id: "msk", x: 930, y: 20, w: 150, a: N.msk[0]!, b: N.msk[1]!, kind: "org" },
 };
 
-// edges: from (right side) -> to (left side), label, leak?
-const edges: [string, string, string, boolean][] = [
-  ["g2", "post", N.e.posted, false],
-  ["g2", "vpn", N.e.via, false],
-  ["dcl", "srv", N.e.host, false],
-  ["post", "search", N.e.same, true],
-  ["search", "msk", N.e.on, true],
-  ["vpn", "pool", N.e.paid, true],
-  ["srv", "pool", N.e.paid, true],
+// One traced path from DCLeaks to the GRU server, numbered in reading order.
+// Geometry: each edge runs from the right side of the left node to the left
+// side of the right node; the number gives the order along the path.
+const edges: [string, string, string, number][] = [
+  ["dcl", "srv", N.e.host, 1],
+  ["srv", "pool", N.e.paid, 2],
+  ["vpn", "pool", N.e.also, 3],
+  ["g2", "vpn", N.e.via, 4],
+  ["g2", "post", N.e.posted, 5],
+  ["post", "search", N.e.same, 6],
+  ["search", "msk", N.e.on, 7],
 ];
 const cy = (n: Node) => n.y + h / 2;
 ---
 
-<svg class="dg" viewBox="0 0 1090 380" role="img" aria-label={Object.values(nodes).map((n) => `${n.a} (${n.b})`).join("; ")}>
+<svg class="dg" viewBox="0 0 1100 380" role="img" aria-label={Object.values(nodes).map((n) => `${n.a} (${n.b})`).join("; ")}>
   {
-    edges.map(([f, t, label, leak]) => {
+    edges.map(([f, t, label, n]) => {
       const a = nodes[f]!;
       const b = nodes[t]!;
       const x1 = a.x + a.w;
@@ -84,9 +88,13 @@ const cy = (n: Node) => n.y + h / 2;
       const my = (y1 + y2) / 2;
       return (
         <g>
-          <line class={leak ? "stroke-leak" : "ln-1"} x1={x1} y1={y1} x2={x2} y2={y2} style={leak ? "stroke-width:3" : undefined} />
-          <rect class="fill-paper" x={mx - 46} y={my - 11} width="92" height="20" />
-          <text x={mx} y={my + 4} text-anchor="middle" class:list={["t-s", leak ? "t-leak" : "t-2"]}>
+          <line class="stroke-leak" x1={x1} y1={y1} x2={x2} y2={y2} style="stroke-width:3" />
+          <rect class="fill-paper" x={mx - 52} y={my - 11} width="108" height="22" />
+          <circle class="fill-leak" cx={mx - 40} cy={my} r="9" />
+          <text x={mx - 40} y={my + 4} text-anchor="middle" class="t-s b t-on-ink">
+            {n}
+          </text>
+          <text x={mx - 27} y={my + 4} class="t-s t-leak">
             {label}
           </text>
         </g>
