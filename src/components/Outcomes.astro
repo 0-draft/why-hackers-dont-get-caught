@@ -14,7 +14,13 @@ const known = ja ? "判明" : "known";
 const no = ja ? "なし" : "no";
 const yes = ja ? "確保" : "yes";
 type Cell = { kind: "bar" | "hl" | "leak" | "plain"; text: string };
-const cols: { key: string; title: string; desc: string; link?: { href: string; label: string } | undefined; cells: Cell[] }[] = [
+const cols: {
+  key: string;
+  title: string;
+  desc: string;
+  link?: { href: string; label: string } | undefined;
+  cells: Cell[];
+}[] = [
   {
     key: "none",
     title: t("out.none.t"),
