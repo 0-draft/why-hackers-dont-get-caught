@@ -83,7 +83,7 @@ export const OBSERVER_LABEL: Record<Observer, Text> = {
   isp: { en: "ISP", ja: "ISP" },
   vpn: { en: "VPN provider", ja: "VPN 事業者" },
   guard: { en: "Tor guard", ja: "Tor ガード" },
-  middle: { en: "Tor middle", ja: "Tor 中継" },
+  middle: { en: "Tor middle", ja: "Tor 中間" },
   exit: { en: "Tor exit", ja: "Tor 出口" },
   site: { en: "Website", ja: "Web サイト" },
   global: { en: "Global watcher", ja: "全経路の監視者" },
@@ -319,7 +319,43 @@ export interface VantageState {
   observers: Observer[];
 }
 
-export const DEFAULT_STATE: VantageState = { scenario: "tor", observers: ["guard"] };
+// The default shows the point of the figure without a click: two Tor relays
+// that each see half the picture can still be joined by timing.
+export const DEFAULT_STATE: VantageState = { scenario: "tor", observers: ["guard", "exit"] };
+
+export type Role = "both" | "you" | "site" | "neither";
+
+/** What one observer on the route learns, in two words, for the label under its node. */
+export function roleOf(scenario: Scenario, hop: Hop): Role | null {
+  const rec = view(scenario, hop);
+  if (!rec) return null;
+  const k = knows(rec);
+  return k.who && k.what ? "both" : k.who ? "you" : k.what ? "site" : "neither";
+}
+
+export const ROLE_LABEL: Record<Role, Text> = {
+  both: { en: "sees both", ja: "両方見える" },
+  you: { en: "sees you", ja: "本人が見える" },
+  site: { en: "sees the site", ja: "行き先が見える" },
+  neither: { en: "sees neither", ja: "どちらも見えない" },
+};
+
+/** Worked examples offered under the figure. */
+export const PRESETS: { state: VantageState; label: Text }[] = [
+  { state: { scenario: "vpn", observers: ["vpn"] }, label: { en: "A VPN provider alone", ja: "VPN 事業者だけで" } },
+  {
+    state: { scenario: "tor", observers: ["guard"] },
+    label: { en: "One Tor relay alone", ja: "Tor リレー 1 つだけで" },
+  },
+  {
+    state: { scenario: "tor", observers: ["guard", "exit"] },
+    label: { en: "Tor guard and exit together", ja: "Tor のガードと出口が組むと" },
+  },
+  {
+    state: { scenario: "torLogin", observers: ["site"] },
+    label: { en: "Tor, but logged in", ja: "Tor でも本人ログインなら" },
+  },
+];
 
 /** `#v=tor:guard,exit` <-> state. Unknown parts are dropped, not guessed. */
 export function parseState(hash: string): VantageState | null {

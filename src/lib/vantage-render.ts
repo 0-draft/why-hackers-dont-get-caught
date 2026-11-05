@@ -4,13 +4,17 @@
 import {
   FIELD_LABEL,
   FIELDS,
+  formatState,
   HOPS,
   type Hop,
   type Lang,
   layersOn,
   OBSERVER_LABEL,
   type Observer,
+  PRESETS,
+  ROLE_LABEL,
   ROUTES,
+  roleOf,
   SCENARIO_LABEL,
   SCENARIO_NOTE,
   SCENARIOS,
@@ -87,9 +91,10 @@ export function routeRow(lang: Lang, s: VantageState): string {
       cells.push(
         `<li class="node on${pressed ? " picked" : ""}" data-hop="${hop}">` +
           `<span class="wire" style="--n:${n}" aria-hidden="true"></span>` +
-          `<span class="wire-n" title="${esc(L.layers(n))}"><span class="sr">${esc(L.layers(n))}</span><span aria-hidden="true">${n}</span></span>` +
+          `<span class="wire-n" title="${esc(L.layers(n))}"><span class="sr">${esc(L.layers(n))}. </span><span aria-hidden="true">${n}</span></span>` +
           `<button type="button" class="obs" data-observer="${hop}" aria-pressed="${pressed}">` +
-          `<span class="dot" aria-hidden="true"></span><span class="nm">${esc(OBSERVER_LABEL[hop][lang])}</span></button></li>`,
+          `<span class="dot" aria-hidden="true"></span><span class="nm">${esc(OBSERVER_LABEL[hop][lang])}</span>` +
+          `<span class="role" data-role="${roleOf(s.scenario, hop)}">${esc(ROLE_LABEL[roleOf(s.scenario, hop)!][lang])}</span></button></li>`,
       );
       prev = hop;
     } else {
@@ -141,4 +146,11 @@ export function verdictBlock(lang: Lang, s: VantageState): string {
 
 export function scenarioNote(lang: Lang, s: VantageState): string {
   return esc(SCENARIO_NOTE[s.scenario][lang]);
+}
+
+export function presetLinks(lang: Lang): string {
+  const lead = lang === "ja" ? "試す:" : "Try:";
+  return `<span class="pl-k">${lead}</span>${PRESETS.map(
+    (p) => `<a href="#${formatState(p.state)}" data-preset="${formatState(p.state)}">${esc(p.label[lang])}</a>`,
+  ).join("")}`;
 }

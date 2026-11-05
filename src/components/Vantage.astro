@@ -30,6 +30,8 @@ const s = DEFAULT_STATE;
     <div class="global-row" data-global set:html={globalToggle(lang, s)} />
   </div>
 
+  <p class="presets" set:html={presetLinks(lang)} />
+
   <div class="v-bottom">
     <div class="record scroll-x" data-record set:html={recordTable(lang, s)} />
     <div class="verdict" data-verdict-box aria-live="polite" set:html={verdictBlock(lang, s)} />
@@ -89,6 +91,10 @@ const s = DEFAULT_STATE;
       q("[data-record]").innerHTML = recordTable(lang, state);
       q("[data-verdict-box]").innerHTML = verdictBlock(lang, state);
       root.toggleAttribute("data-global-on", state.observers.includes("global"));
+      const cur = formatState(state);
+      for (const a of root.querySelectorAll<HTMLAnchorElement>("[data-preset]")) {
+        a.setAttribute("aria-current", String(a.dataset.preset === cur));
+      }
       if (changed) {
         // Only cells whose state flipped animate: the bar sliding over a field
         // is the point of the figure, so it must mean "this just changed".
@@ -122,7 +128,7 @@ const s = DEFAULT_STATE;
       }
     });
 
-    if (location.hash) render(false);
+    render(false);
     window.addEventListener("hashchange", () => {
       const s = parseState(location.hash);
       if (s) {
@@ -280,6 +286,41 @@ const s = DEFAULT_STATE;
     font-size: 0.72rem;
     color: var(--ink-2);
     line-height: 1;
+  }
+  .vantage :global(.role) {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--ink-2);
+    line-height: 1.2;
+  }
+  .vantage :global(.role[data-role="you"]),
+  .vantage :global(.role[data-role="both"]) {
+    color: var(--leak);
+    font-weight: 700;
+  }
+  .presets {
+    margin: 1.25rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.6rem;
+    font-size: var(--step--1);
+    align-items: baseline;
+  }
+  .presets :global(.pl-k) {
+    color: var(--ink-2);
+  }
+  .presets :global(a) {
+    font-weight: 700;
+    border: 1.5px solid var(--ink);
+    padding: 0.15rem 0.6rem;
+    text-decoration: none;
+  }
+  .presets :global(a:hover),
+  .presets :global(a[aria-current="true"]) {
+    background: var(--marker);
+    color: var(--marker-ink);
   }
   .global-row {
     margin-top: 0.75rem;

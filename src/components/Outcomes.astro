@@ -13,7 +13,7 @@ const row = { name: ja ? "名前" : "Name", where: ja ? "所在" : "Where", cust
 const known = ja ? "判明" : "known";
 const no = ja ? "なし" : "no";
 const yes = ja ? "確保" : "yes";
-type Cell = { kind: "bar" | "hl" | "leak" | "plain"; text: string };
+type Cell = { kind: "bar" | "hl" | "leak" | "plain" | "custody"; text: string };
 const cols: {
   key: string;
   title: string;
@@ -36,9 +36,11 @@ const cols: {
     title: t("out.reach.t"),
     desc: t("out.reach.d"),
     link: hasReach ? { href: localePath(lang, "/out-of-reach/"), label: t("out.reach.link") } : undefined,
+    // Same identification as "caught": only custody differs. Identification is
+    // not the hard part; reach is.
     cells: [
-      { kind: "hl", text: known },
-      { kind: "hl", text: known },
+      { kind: "leak", text: known },
+      { kind: "leak", text: known },
       { kind: "plain", text: no },
     ],
   },
@@ -50,7 +52,7 @@ const cols: {
     cells: [
       { kind: "leak", text: known },
       { kind: "leak", text: known },
-      { kind: "leak", text: yes },
+      { kind: "custody", text: yes },
     ],
   },
 ];
@@ -122,8 +124,10 @@ const hidden = ja ? "不明" : "unknown";
     font-size: var(--step-2);
     font-variation-settings: "wdth" 72;
   }
-  .caught h3 {
-    color: var(--leak);
+  .custody {
+    font-weight: 800;
+    border: 2px solid var(--ink);
+    padding: 0 0.4rem;
   }
   .rec {
     margin: 1.1rem 0 0;

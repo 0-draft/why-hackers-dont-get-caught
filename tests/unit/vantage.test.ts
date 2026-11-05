@@ -133,3 +133,23 @@ describe("state hash", () => {
     expect(parseState("#v=tor")).toEqual({ scenario: "tor", observers: [] });
   });
 });
+
+import { DEFAULT_STATE, PRESETS, roleOf } from "../../src/lib/vantage.ts";
+
+describe("roles and presets", () => {
+  it("labels each Tor relay with what it learns", () => {
+    expect(roleOf("tor", "guard")).toBe("you");
+    expect(roleOf("tor", "middle")).toBe("neither");
+    expect(roleOf("tor", "exit")).toBe("site");
+    expect(roleOf("vpn", "vpn")).toBe("both");
+    expect(roleOf("vpnTor", "guard")).toBe("neither");
+    expect(roleOf("direct", "guard")).toBeNull();
+  });
+  it("defaults to a state that already makes the point", () => {
+    expect(verdict(DEFAULT_STATE.scenario, DEFAULT_STATE.observers)).toBe("correlatable");
+  });
+  it("offers presets covering every verdict", () => {
+    const seen = new Set(PRESETS.map((p) => verdict(p.state.scenario, p.state.observers)));
+    expect(seen).toEqual(new Set(["linked", "correlatable", "unlinked"]));
+  });
+});

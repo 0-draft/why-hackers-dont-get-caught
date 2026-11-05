@@ -73,17 +73,20 @@ test.describe("observer figure", () => {
     await page.goto("/");
     const fig = page.locator("[data-vantage]");
     await expect(fig.locator("table")).toBeVisible();
-    await expect(fig.locator(".v-label")).toHaveText("Not linkable");
+    await expect(fig.locator(".v-label")).toHaveText("Linkable by timing");
+    await expect(fig.locator('[data-hop="guard"] .role')).toHaveText("sees you");
     await ctx.close();
   });
 
-  test("guard and exit together can correlate a Tor user", async ({ page }) => {
+  test("one relay alone links nothing; the presets switch state", async ({ page }) => {
     await page.goto("/");
     const fig = page.locator("[data-vantage]");
     await fig.locator('[data-observer="exit"]').click();
-    await expect(fig.locator(".v-label")).toHaveText("Linkable by timing");
-    await expect(page).toHaveURL(/#v=tor:guard,exit$/);
-    await expect(fig.locator("thead th")).toHaveCount(2);
+    await expect(fig.locator(".v-label")).toHaveText("Not linkable");
+    await expect(page).toHaveURL(/#v=tor:guard$/);
+    await fig.locator('[data-preset="v=vpn:vpn"]').click();
+    await expect(fig.locator(".v-label")).toHaveText("Identified");
+    await expect(fig.locator('[data-preset="v=vpn:vpn"]')).toHaveAttribute("aria-current", "true");
   });
 
   test("logging in gives the person away to the website", async ({ page }) => {
