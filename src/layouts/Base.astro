@@ -21,6 +21,7 @@ const canonical = new URL(localePath(lang, path), Astro.site);
 const hasReach = (await getCollection("essays", (e) => !e.data.draft && e.data.essay === "out-of-reach")).length > 0;
 const allNav = [
   { href: localePath(lang, "/out-of-reach/"), key: "nav.reach", match: "/out-of-reach/" },
+  { href: localePath(lang, "/#basics"), key: "nav.basics", match: "/basics/" },
   { href: localePath(lang, "/#layers"), key: "nav.layers", match: "/layers/" },
   { href: localePath(lang, "/cases/"), key: "nav.cases", match: "/cases/" },
   { href: localePath(lang, "/sources/"), key: "nav.sources", match: "/sources/" },

@@ -37,6 +37,7 @@ export const dict = {
     "site.desc":
       "How attackers hide who they are, layer by layer, and the single layer that gives each of them away. A visual explainer with sources.",
     "nav.skip": "Skip to content",
+    "nav.basics": "Basics",
     "nav.layers": "How they hide",
     "nav.cases": "When caught",
     "nav.reach": "Why not caught",
@@ -60,6 +61,10 @@ export const dict = {
     "out.caught.d": "One layer gave way, or they travelled within reach. The case files show which.",
     "out.caught.link": "Case files",
     "out.name": "Name",
+    "home.basicsTitle": "First, the basics",
+    "home.basicsLede":
+      "The layer chapters lean on a few ideas: how data crosses the internet, what encryption hides, who keeps which records, and how a public ledger works. Each is drawn step by step.",
+    "layer.prereqs": "Read first",
     "home.ledgerTitle": "Named, never arrested",
     "home.ledgerLede":
       "Ten US indictments of people hacking for or on behalf of a state, 2014 to 2025. Every square is a named defendant.",
@@ -98,7 +103,8 @@ export const dict = {
       "Each row is one documented case. Outlined cells are layers the person relied on. The filled cell is the one investigators got through first. Sorted by year.",
     "cases.used": "relied on",
     "cases.failed": "gave way",
-    "cases.mechanism": "What happened",
+    "cases.background": "The case",
+    "cases.mechanism": "How the anonymity failed",
     "cases.outcome": "Outcome",
     "cases.disputed": "Disputed",
     "cases.sources": "Sources",
@@ -115,6 +121,7 @@ export const dict = {
     "site.name": "Why hackers don’t get caught",
     "site.desc": "攻撃者はどうやって正体を隠すのか。レイヤーごとに分解し、実際にどの層で破れたかを出典つきで図解する。",
     "nav.skip": "本文へ移動",
+    "nav.basics": "基礎",
     "nav.layers": "隠れ方",
     "nav.cases": "捕まった事例",
     "nav.reach": "捕まらない理由",
@@ -137,6 +144,10 @@ export const dict = {
     "out.caught.d": "一枚の層が破れたか、手の届く場所へ出てきた。どちらだったかは事例ページにある。",
     "out.caught.link": "事例",
     "out.name": "名前",
+    "home.basicsTitle": "まず基礎から",
+    "home.basicsLede":
+      "各レイヤーの章は、いくつかの前提に立っている。データがどうやってインターネットを渡るか、暗号は何を隠すのか、誰がどんな記録を持っているか、公開台帳はどう動くか。それぞれを図で一歩ずつ説明する。",
+    "layer.prereqs": "先に読む",
     "home.ledgerTitle": "名指しされても、捕まらない",
     "home.ledgerLede":
       "国家のために、あるいは国家の後ろ盾でハッキングした人物を米国が起訴した 10 件 (2014〜2025 年)。マス 1 つが、名指しされた被告 1 人。",
@@ -174,7 +185,8 @@ export const dict = {
       "1 行が 1 事例。枠だけのマスは本人が頼っていた層、塗りつぶしたマスは捜査側が最初に突破した層。年代順。",
     "cases.used": "頼っていた",
     "cases.failed": "破れた",
-    "cases.mechanism": "何が起きたか",
+    "cases.background": "どんな事件か",
+    "cases.mechanism": "匿名性はどう破れたか",
     "cases.outcome": "結末",
     "cases.disputed": "異論あり",
     "cases.sources": "出典",

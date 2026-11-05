@@ -77,6 +77,12 @@ const t = useT(lang);
               </a>
             </p>
             <dl>
+              {c.background && (
+                <>
+                  <dt>{t("cases.background")}</dt>
+                  <dd>{c.background[lang]}</dd>
+                </>
+              )}
               <dt>{t("cases.mechanism")}</dt>
               <dd>{c.mechanism[lang]}</dd>
               {c.disputed && (

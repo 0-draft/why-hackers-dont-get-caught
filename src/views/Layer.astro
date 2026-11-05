@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, render } from "astro:content";
 import BaseLink from "../components/BaseLink.astro";
+import BasicsList from "../components/BasicsList.astro";
 import SourceList from "../components/SourceList.astro";
 import Strata from "../components/Strata.astro";
 import { CASES } from "../data/cases.ts";
@@ -44,6 +45,14 @@ const sources = SOURCES_BY_PAGE[slug] ?? [];
             <dd><span class="leak-inline" aria-hidden="true"></span>{meta.breaks[lang]}</dd>
           </div>
         </dl>
+        {
+          entry.data.prereqs && (
+            <div class="pre">
+              <p class="pre-k">{t("layer.prereqs")}</p>
+              <BasicsList lang={lang} only={entry.data.prereqs} compact />
+            </div>
+          )
+        }
       </header>
 
       <div class="prose">
@@ -159,6 +168,18 @@ const sources = SOURCES_BY_PAGE[slug] ?? [];
   .leak-inline {
     background: var(--leak);
     box-shadow: none;
+  }
+  .pre {
+    margin: -1rem 0 2.5rem;
+    display: flex;
+    gap: 0.25rem 1.25rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+  .pre-k {
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--ink-2);
   }
   .cases,
   .srcs {
