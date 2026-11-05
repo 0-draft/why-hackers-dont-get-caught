@@ -1,4 +1,5 @@
 ---
+import { getCollection } from "astro:content";
 import SourceList from "../components/SourceList.astro";
 import { LAYER_SLUGS, LAYERS } from "../data/layers.ts";
 import { SOURCES_BY_PAGE } from "../data/sources.ts";
@@ -13,6 +14,14 @@ const t = useT(lang);
 const groups = [
   ...LAYER_SLUGS.map((s) => ({ key: s, name: LAYERS[s].name[lang], href: localePath(lang, `/layers/${s}/`) })),
   { key: "cases", name: t("cases.title"), href: localePath(lang, "/cases/") },
+  ...(await getCollection("essays", (e) => e.id.startsWith(`${lang}/`) && !e.data.draft)).map((e) => ({
+    key: e.data.essay,
+    name: e.data.title,
+    href: localePath(lang, `/${e.data.essay}/`),
+  })),
+  ...(await getCollection("basics", (e) => e.id.startsWith(`${lang}/`) && !e.data.draft))
+    .toSorted((a, b) => a.data.order - b.data.order)
+    .map((e) => ({ key: e.data.basics, name: e.data.title, href: localePath(lang, `/basics/${e.data.basics}/`) })),
 ].filter((g) => SOURCES_BY_PAGE[g.key]?.length);
 const total = Object.values(SOURCES_BY_PAGE).reduce((n, l) => n + l.length, 0);
 ---

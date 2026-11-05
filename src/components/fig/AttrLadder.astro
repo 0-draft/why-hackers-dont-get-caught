@@ -1,4 +1,6 @@
 ---
+import { localePath } from "../../i18n/ui.ts";
+
 // How far attribution got, case by case: technical overlap, an assessment,
 // a name in an indictment, custody. One square per defendant where people are
 // named; one square per case below that. Grey = overlap only, ink outline =
@@ -128,7 +130,7 @@ const rows = T.rungs.map((r) => {
   return { ...r, top, h };
 });
 const height = y + 4;
-const href = lang === "ja" ? "/ja/out-of-reach/" : "/out-of-reach/";
+const href = localePath(lang, "/out-of-reach/");
 const mid = `al-arr-${lang}`;
 ---
 
