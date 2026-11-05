@@ -7,14 +7,19 @@ interface Props {
 const { sources } = Astro.props;
 const lang = Astro.currentLocale === "ja" ? "ja" : "en";
 const primary = lang === "ja" ? "一次資料" : "primary";
+// Titles stay in their original language; mark Japanese ones so screen readers
+// and the language checks treat them as such.
+const langOf = (s: string) => (/[぀-ヿ一-鿿]/.test(s) ? "ja" : undefined);
 ---
 
 <ol class="sl">
   {
     sources.map((s) => (
       <li id={`src-${s.id}`}>
-        <span class="pub">{s.publisher}</span>
-        <a href={s.url} rel="noopener noreferrer" class="ttl">
+        <span class="pub" lang={langOf(s.publisher)}>
+          {s.publisher}
+        </span>
+        <a href={s.url} rel="noopener noreferrer" class="ttl" lang={langOf(s.title)}>
           {s.title}
         </a>
         <span class="meta">

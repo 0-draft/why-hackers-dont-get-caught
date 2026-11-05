@@ -36,7 +36,13 @@ for (const path of PAGES) {
     expect(axe.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`)).toEqual([]);
 
     if (lang === "en") {
-      const text = (await page.locator("main").textContent()) ?? "";
+      // Elements explicitly marked as another language (original-language
+      // source titles) are allowed.
+      const text = await page.locator("main").evaluate((m) => {
+        const c = m.cloneNode(true) as HTMLElement;
+        for (const el of c.querySelectorAll('[lang]:not([lang="en"])')) el.remove();
+        return c.textContent ?? "";
+      });
       expect(text.match(/[぀-ヿ一-鿿]+/g) ?? [], "Japanese text on an English page").toEqual([]);
     }
   });

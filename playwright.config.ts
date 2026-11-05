@@ -6,14 +6,14 @@ export default defineConfig({
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [["github"], ["html", { open: "never" }]] : "list",
-  use: { baseURL: "http://127.0.0.1:4329", trace: "retain-on-failure" },
+  use: { baseURL: "http://127.0.0.1:4377", trace: "retain-on-failure" },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "mobile", use: { ...devices["Pixel 7"] } },
   ],
   webServer: {
-    command: "pnpm exec astro preview --port 4329 --host 127.0.0.1",
-    url: "http://127.0.0.1:4329",
+    command: "node scripts/serve-dist.ts",
+    url: "http://127.0.0.1:4377",
     reuseExistingServer: !process.env.CI,
   },
 });

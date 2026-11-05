@@ -94,7 +94,11 @@ const t = useT(lang);
                     const s = SOURCES[id];
                     return s ? (
                       <li>
-                        <a href={s.url} rel="noopener noreferrer">
+                        <a
+                          href={s.url}
+                          rel="noopener noreferrer"
+                          lang={/[぀-ヿ一-鿿]/.test(s.title + s.publisher) ? "ja" : undefined}
+                        >
                           {s.publisher}: {s.title}
                         </a>
                       </li>
