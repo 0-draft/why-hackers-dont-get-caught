@@ -1,0 +1,85 @@
+---
+title: "Device: the machine as a witness"
+summary: "A computer behind Tor still describes itself, stamps the files it makes, and runs code that strangers send it; each of those can point back at its owner."
+layer: device
+---
+
+import Cite from "../../../components/Cite.astro";
+import Fig from "../../../components/Fig.astro";
+import DeviceBits from "../../../components/fig/DeviceBits.astro";
+import DeviceSplit from "../../../components/fig/DeviceSplit.astro";
+import DeviceStudies from "../../../components/fig/DeviceStudies.astro";
+
+Hiding the address only covers the path between a person and a server. The machine at the end of that path still answers questions about itself, writes its own details into the files it saves, and runs whatever code a web page or a video file hands it. This layer is about keeping the device from describing, or reporting, the person who uses it.
+
+## What a machine says besides its address
+
+A browser or an operating system talks to the network in more ways than the one the user is thinking about. WebRTC, the browser's real-time media stack, gathers candidate addresses with STUN requests so two peers can find a path to each other. RFC 8828 notes that when the browser is allowed to make those direct connections, they can go around a configured proxy or VPN and <span class="leak">reveal the public IP address of the client</span>, which is why it defines a mode that forces all WebRTC traffic through the proxy<Cite id="device-rfc8828" />. The same pattern appears with name lookups that go to the ISP's resolver instead of through the tunnel, and with IPv6 when a VPN only carries IPv4: one side channel, and the address is out.
+
+The hardware leaves its own traces. Phones randomise their Wi-Fi MAC address while scanning so that passers-by cannot track them, but a 2017 study of real devices found the feature neither universally implemented nor effective, and showed ways to recover the real address<Cite id="device-mac-2017" />.
+
+Files are the slower leak, because they keep working long after the session ends. Documents can carry author names and edit histories, and photos can carry camera models and GPS coordinates. Software carries the same kind of trace: the Stuxnet driver contained the debug path `b:\myrtus\src\objfre_w2k_x86\i386\guava.pdb`, a folder name from the author's build machine that the compiler copied into the binary<Cite id="device-stuxnet-eset" />.
+
+None of these are proof on their own, because they can be planted. The Olympic Destroyer malware carried a Rich header (build metadata written by Microsoft's linker) copied from Lazarus samples, and Kaspersky showed it was forged because it named a compiler that did not match the code<Cite id="attr-securelist-rich-header" />. The forgery is itself telling: someone knew analysts read these fields.
+
+## Being recognised without an address
+
+A fingerprint is the set of things a browser tells every site without being asked: the time zone, the preferred languages, the screen and window size, the graphics card's name as reported through WebGL, the fonts installed, the way it draws a hidden canvas. No single value names anyone. Together they can single out one browser, which lets a site or a tracker recognise the same visitor again even after the IP address has changed.
+
+The useful unit is the bit. Each bit of identifying information halves the crowd someone could be. About 20 bits are enough to pick one browser out of a million, and Eckersley's 2010 study measured at least 18.1 bits in the fingerprints it collected<Cite id="device-eckersley-2010" />.
+
+<Fig caption="Illustrative: each attribute splits the crowd a browser hides in. An ordinary browser runs out of crowd after a handful of attributes; Tor Browser reports the same values as other Tor Browser users, so most attributes add nothing.">
+  <DeviceBits lang="en" />
+</Fig>
+
+How unique real browsers are depends on who is measured. Eckersley's Panopticlick found 83.6% of 470,161 browsers unique, and 94.2% of those with Flash or Java<Cite id="device-eckersley-2010" />. AmIUnique found 89.4% of 118,934<Cite id="device-fp-survey" />. Both samples were people who had chosen to visit a fingerprinting test site, which skews toward unusual, privacy-curious setups. When Gómez-Boix, Laperdrix and Baudry collected 2,067,942 fingerprints from ordinary visitors to a large French website, only 33.6% were unique, and 18.5% on mobile<Cite id="device-fp-survey" />.
+
+<Fig caption="The same measurement on different crowds. Test-site volunteers look far more unique than ordinary visitors.">
+  <DeviceStudies lang="en" />
+</Fig>
+
+A third is still a lot. For an investigator, it means a large share of visitors can be recognised across sessions without cookies, and a browser that is unique on a hidden service may be unique on a clear-web site too.
+
+## Uniformity versus noise
+
+There are two ways to answer fingerprinting, and they protect against different observers.
+
+Tor Browser aims for uniformity: every user should report the same values, so the fingerprint says only "Tor Browser on this platform". It blocks canvas image extraction, limits the fonts a page can enumerate, restricts the languages a page can learn, and since version 9.0 uses letterboxing, which rounds the content window to multiples of 200 by 100 pixels so that window size falls into a few buckets<Cite id="device-tor-fp" /><Cite id="device-tor-90" />. The project says plainly that making every user identical is practically impossible; the goal is to keep the number of distinguishable buckets small<Cite id="device-tor-fp" />. The anonymity set is the population of people in the same bucket.
+
+Brave takes the other route. It randomises fingerprintable values such as canvas and audio output in ways a person cannot see, aiming to make every browser look different between websites and between sessions, so a tracker cannot join visits together<Cite id="device-brave-farbling" />. That defeats cross-site tracking, but it does not put the user in a crowd. Against an observer who only needs to recognise one session, randomisation gives no anonymity set to hide in.
+
+## Systems built around the leak
+
+Three designs try to take the device out of the equation, and each solves a different part of it.
+
+Tails is amnesic. It starts from the same clean state every time, keeps nothing on the disk unless the user turns on an encrypted persistent volume, and sends everything through Tor<Cite id="device-tails" />. Its threat model is what is left on the machine afterwards: a seized laptop that ran Tails has little to tell a forensic examiner.
+
+Whonix splits the system in two. The Gateway runs Tor; the Workstation runs the applications and has no network path except through the Gateway. Traffic from the Workstation reaches Tor or nothing<Cite id="device-whonix-tech" />. The Workstation is never told the real public address, so even malware with root privileges there cannot discover it<Cite id="device-whonix-about" />.
+
+<Fig caption="The same exploit on two designs. On one machine, code that asks the operating system for its address gets the real one and can send it straight out. On a Whonix-style split, the Workstation only knows an internal address and has no route except through the Gateway.">
+  <DeviceSplit lang="en" />
+</Fig>
+
+Qubes OS isolates activities from each other. Work, personal browsing and untrusted files run in separate virtual machines on the Xen hypervisor, and disposable qubes are destroyed when closed<Cite id="device-qubes" />. Its design goal is that compromising one domain leaves the others intact; it explicitly does not isolate applications inside the same domain<Cite id="device-qubes-goals" />.
+
+These are three separate properties: no traces afterwards, no knowledge of the real address, and no spread between activities. A system with one of them does not have the other two.
+
+## Where it gives way: code that runs on the endpoint
+
+In the documented cases where law enforcement unmasked Tor users through their devices, Tor's encryption was never broken. They ran code on the user's machine and had it report from outside the tunnel.
+
+In 2013 the FBI took control of Freedom Hosting, a host for many hidden services, and served visitors code that used a Firefox vulnerability to unmask Tor users; it probably reached thousands of computers<Cite id="case-fh-mittr" />. The operator, Eric Eoin Marques, was later sentenced to 27 years<Cite id="case-fh-sentence" />. That case broke at the infrastructure layer for Marques himself; the exploit was aimed at his visitors. See the [Freedom Hosting case](/cases/#freedom-hosting).
+
+In 2015 the FBI seized the Playpen site and ran it from a government server from 20 February until 4 March<Cite id="device-eldred" />. A warrant authorised a "network investigative technique" that made each visitor's computer send back its real IP address, host name, operating system user name and MAC address, among other items<Cite id="device-levin" />. According to EFF, thousands of computers around the world were searched under that one warrant<Cite id="device-playpen-eff" />. See the [Playpen case](/cases/#playpen).
+
+Buster Hernandez, who preyed on children online, used Tails, and an earlier FBI attempt to unmask him failed because its tool was not built for Tails<Cite id="device-hernandez-vice" />. According to reporting in 2020, Facebook paid a security firm a six-figure sum to develop an exploit for a flaw in the video player in Tails. With a warrant, the FBI had a victim send him a booby-trapped video, which revealed his real IP address when he watched it<Cite id="device-hernandez-vice" />. Tails had done what it promises: nothing was left on the disk. The leak happened during the session, which amnesia does not cover.
+
+The pattern repeats: the network layer held, and the device spoke for itself. A Whonix-style split is aimed at exactly this, because code inside the Workstation has no real address to read and no route to send one. It does not help if the exploit reaches the Gateway or the host underneath.
+
+## Common misconceptions
+
+- "Tor protects the whole computer." Tor protects traffic that goes through it. A WebRTC request, a DNS lookup or exploit code that opens its own connection does not.
+- "Tails cannot be exploited." Tails removes traces after shutdown. The Hernandez exploit ran during a live session and reported the address then.
+- "Most browsers are uniquely identifiable." On test sites, 84 to 89% were. Among ordinary visitors to a large site it was about a third, which is still enough to recognise many people.
+- "Randomising the fingerprint is stronger than blending in." Noise stops trackers joining sites together, but it does not make anyone look like anyone else. Tor Browser's approach gives an anonymity set; noise does not.
+- "Build paths and compiler metadata prove who wrote a file." They are easy to forge, and Olympic Destroyer forged one. Analysts weigh them with other evidence.

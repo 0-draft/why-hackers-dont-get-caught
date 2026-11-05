@@ -1,0 +1,138 @@
+[
+  {
+    "id": "device-rfc8828",
+    "title": "WebRTC IP Address Handling Requirements (RFC 8828)",
+    "publisher": "IETF / RFC Editor",
+    "date": "2021-01",
+    "url": "https://www.rfc-editor.org/rfc/rfc8828.html",
+    "kind": "primary"
+  },
+  {
+    "id": "device-mac-2017",
+    "title": "A Study of MAC Address Randomization in Mobile Devices and When it Fails",
+    "publisher": "Martin et al., Proceedings on Privacy Enhancing Technologies 2017(4)",
+    "date": "2017-10",
+    "url": "https://petsymposium.org/popets/2017/popets-2017-0054.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "device-stuxnet-eset",
+    "title": "Stuxnet Under the Microscope",
+    "publisher": "ESET",
+    "date": "2011",
+    "url": "https://web-assets.esetstatic.com/wls/en/papers/white-papers/Stuxnet_Under_the_Microscope.pdf",
+    "kind": "report"
+  },
+  {
+    "id": "device-eckersley-2010",
+    "title": "How Unique Is Your Web Browser?",
+    "publisher": "Peter Eckersley, Electronic Frontier Foundation (PETS 2010)",
+    "date": "2010-07",
+    "url": "https://coveryourtracks.eff.org/static/browser-uniqueness.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "device-fp-survey",
+    "title": "Browser Fingerprinting: A survey",
+    "publisher": "Laperdrix, Bielova, Baudry and Avoine (arXiv; ACM Transactions on the Web)",
+    "date": "2019-05",
+    "url": "https://arxiv.org/abs/1905.01051",
+    "kind": "primary"
+  },
+  {
+    "id": "device-tor-fp",
+    "title": "Fingerprinting protections",
+    "publisher": "Tor Project support",
+    "date": "2026",
+    "url": "https://support.torproject.org/tor-browser/features/fingerprinting-protections/",
+    "kind": "primary"
+  },
+  {
+    "id": "device-tor-90",
+    "title": "New Release: Tor Browser 9.0",
+    "publisher": "Tor Project blog",
+    "date": "2019-10-22",
+    "url": "https://blog.torproject.org/new-release-tor-browser-90/",
+    "kind": "primary"
+  },
+  {
+    "id": "device-brave-farbling",
+    "title": "Fingerprint randomization",
+    "publisher": "Brave",
+    "date": "2020-03-05",
+    "url": "https://brave.com/privacy-updates/3-fingerprint-randomization/",
+    "kind": "primary"
+  },
+  {
+    "id": "device-tails",
+    "title": "How Tails works",
+    "publisher": "Tails",
+    "date": "2026",
+    "url": "https://tails.net/about/index.en.html",
+    "kind": "primary"
+  },
+  {
+    "id": "device-whonix-tech",
+    "title": "Technical Introduction",
+    "publisher": "Whonix documentation",
+    "date": "2026",
+    "url": "https://www.whonix.org/wiki/Dev/Technical_Introduction",
+    "kind": "primary"
+  },
+  {
+    "id": "device-whonix-about",
+    "title": "About Whonix",
+    "publisher": "Whonix documentation",
+    "date": "2026",
+    "url": "https://www.whonix.org/wiki/About",
+    "kind": "primary"
+  },
+  {
+    "id": "device-qubes",
+    "title": "Glossary",
+    "publisher": "Qubes OS documentation",
+    "date": "2026",
+    "url": "https://doc.qubes-os.org/en/latest/user/reference/glossary.html",
+    "kind": "primary"
+  },
+  {
+    "id": "device-qubes-goals",
+    "title": "Security design goals",
+    "publisher": "Qubes OS documentation",
+    "date": "2026",
+    "url": "https://doc.qubes-os.org/en/latest/developer/system/security-design-goals.html",
+    "kind": "primary"
+  },
+  {
+    "id": "device-eldred",
+    "title": "United States v. Eldred, No. 17-3367",
+    "publisher": "U.S. Court of Appeals for the Second Circuit",
+    "date": "2019-08-05",
+    "url": "https://www.govinfo.gov/content/pkg/USCOURTS-ca2-17-03367/pdf/USCOURTS-ca2-17-03367-0.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "device-levin",
+    "title": "United States v. Levin, No. 16-1567",
+    "publisher": "U.S. Court of Appeals for the First Circuit",
+    "date": "2017-10-27",
+    "url": "https://www.govinfo.gov/content/pkg/USCOURTS-ca1-16-01567/pdf/USCOURTS-ca1-16-01567-0.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "device-playpen-eff",
+    "title": "The Playpen Cases: Mass Hacking by U.S. Law Enforcement",
+    "publisher": "Electronic Frontier Foundation",
+    "date": "2016",
+    "url": "https://www.eff.org/cases/playpen-cases-mass-hacking-us-law-enforcement",
+    "kind": "report"
+  },
+  {
+    "id": "device-hernandez-vice",
+    "title": "Facebook Helped the FBI Hack a Child Predator",
+    "publisher": "Vice (Motherboard)",
+    "date": "2020-06-10",
+    "url": "https://www.vice.com/en/article/facebook-helped-fbi-hack-child-predator-buster-hernandez/",
+    "kind": "press"
+  }
+]

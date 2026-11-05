@@ -1,0 +1,61 @@
+---
+// Share of browsers with a unique fingerprint in three studies, and who was sampled.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+const L = {
+  en: {
+    title: "Share of unique fingerprints in three studies",
+    unique: "unique",
+    rows: [
+      { name: "Panopticlick (2010)", pct: 83.6, n: "470,161 browsers", who: "volunteers who visited a test site" },
+      { name: "AmIUnique (2016)", pct: 89.4, n: "118,934 browsers", who: "volunteers who visited a test site" },
+      {
+        name: "Hiding in the Crowd (2018)",
+        pct: 33.6,
+        n: "2,067,942 browsers",
+        who: "ordinary visitors to a large French site",
+      },
+    ],
+  },
+  ja: {
+    title: "3 つの研究で、フィンガープリントが一意だったブラウザの割合",
+    unique: "一意",
+    rows: [
+      { name: "Panopticlick (2010)", pct: 83.6, n: "470,161 台", who: "テストサイトに自分から来た人" },
+      { name: "AmIUnique (2016)", pct: 89.4, n: "118,934 台", who: "テストサイトに自分から来た人" },
+      { name: "Hiding in the Crowd (2018)", pct: 33.6, n: "2,067,942 台", who: "フランスの大手サイトのふつうの訪問者" },
+    ],
+  },
+}[lang];
+const W = 400;
+const x0 = 20;
+---
+
+<svg class="dg" viewBox="0 0 680 330" role="img" aria-labelledby={`dstudy-t-${lang}`}>
+  <title id={`dstudy-t-${lang}`}>{L.title}</title>
+  {
+    L.rows.map((r, i) => {
+      const y = 30 + i * 96;
+      return (
+        <g>
+          <text x={x0} y={y} class="b">
+            {r.name}
+          </text>
+          <text x={x0} y={y + 20} class="t-s t-2">
+            {r.n} · {r.who}
+          </text>
+          <rect x={x0} y={y + 32} width={W} height="22" class="box-soft" />
+          <rect x={x0} y={y + 32} width={(W * r.pct) / 100} height="22" class="fill-leak" />
+          <text x={x0 + W + 12} y={y + 49} class="mono b">
+            {r.pct}% {L.unique}
+          </text>
+        </g>
+      );
+    })
+  }
+  <line x1={x0} y1="312" x2={x0 + W} y2="312" class="ln-1 soft"></line>
+  <text x={x0} y="326" class="t-s t-2">0%</text>
+  <text x={x0 + W} y="326" class="t-s t-2" text-anchor="end">100%</text>
+</svg>

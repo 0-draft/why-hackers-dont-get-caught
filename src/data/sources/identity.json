@@ -1,0 +1,50 @@
+[
+  {
+    "id": "identity-ulbricht-complaint",
+    "title": "United States v. Ross William Ulbricht: sealed complaint sworn by FBI Special Agent Christopher Tarbell (copy at the Internet Archive)",
+    "publisher": "U.S. District Court, Southern District of New York",
+    "date": "2013-09-27",
+    "url": "https://archive.org/details/801019-ulbrichtcriminalcomplaint",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-ic3-dprk",
+    "title": "North Korean IT Workers Conducting Data Extortion (I-012325-PSA)",
+    "publisher": "FBI Internet Crime Complaint Center",
+    "date": "2025-01-23",
+    "url": "https://www.ic3.gov/PSA/2025/PSA250123",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-gsma-2021",
+    "title": "Access to Mobile Services and Proof of Identity 2021",
+    "publisher": "GSMA",
+    "date": "2021",
+    "url": "https://www.gsma.com/solutions-and-impact/connectivity-for-good/mobile-for-development/gsma_resources/access-to-mobile-services-and-proof-of-identity-2021/",
+    "kind": "report"
+  },
+  {
+    "id": "identity-narayanan-2012",
+    "title": "On the Feasibility of Internet-Scale Author Identification",
+    "publisher": "Narayanan et al., IEEE Symposium on Security and Privacy",
+    "date": "2012-05",
+    "url": "https://people.eecs.berkeley.edu/~dawnsong/papers/2012%20On%20the%20Feasibility%20of%20Internet-Scale%20Author%20Identification.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-brennan-2012",
+    "title": "Adversarial stylometry: Circumventing authorship recognition to preserve privacy and anonymity",
+    "publisher": "Brennan, Afroz and Greenstadt, ACM Transactions on Information and System Security",
+    "date": "2012-11",
+    "url": "https://dl.acm.org/doi/10.1145/2382448.2382450",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-stylo-replication",
+    "title": "Reproduction and Replication of an Adversarial Stylometry Experiment",
+    "publisher": "Wang, Juola and Riddell (arXiv)",
+    "date": "2022-08-15",
+    "url": "https://arxiv.org/abs/2208.07395",
+    "kind": "primary"
+  }
+]

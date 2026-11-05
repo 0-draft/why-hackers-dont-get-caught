@@ -1,0 +1,165 @@
+---
+// Illustrative activity log, shaped like the APT28 compile-time findings:
+// weekday office hours in UTC+4. Re-reading it in different clocks shows
+// which offset turns it into an ordinary working week.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+const L = {
+  en: {
+    title: "A week of logged activity, read in three different clocks",
+    controls: "Read the log in",
+    days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    office: "08:00–18:00, Mon–Fri",
+    axis: "hour of day in the chosen clock",
+    note: "Illustrative data, shaped like FireEye's published APT28 compile-time statistics.",
+    verdict: {
+      0: "Work starts at 04:00 and stops at 14:00. An odd day for anyone.",
+      4: "An 08:00 start, quiet evenings and weekends: an office week in UTC+4.",
+      8: "Work starts at noon and runs to 22:00. Too late to be a normal office.",
+    } as Record<number, string>,
+  },
+  ja: {
+    title: "1 週間の活動ログを、3 つの時計で読み直す",
+    controls: "ログを読む時計",
+    days: ["月", "火", "水", "木", "金", "土", "日"],
+    office: "月〜金の 8〜18 時",
+    axis: "選んだ時計での時刻",
+    note: "データは説明用。FireEye が公表した APT28 のコンパイル時刻の統計の形に合わせてある。",
+    verdict: {
+      0: "朝 4 時に始まり、14 時に終わる。ふつうの勤務には見えない。",
+      4: "朝 8 時に始まり、夜と週末は静か。UTC+4 のオフィスの 1 週間だ。",
+      8: "正午に始まり、22 時まで続く。オフィスの勤務としては遅すぎる。",
+    } as Record<number, string>,
+  },
+}[lang];
+
+// Active (weekday, hour) pairs in the actor's local time, UTC+4.
+const LOCAL = 4;
+const active: [number, number][] = [];
+for (let d = 0; d < 5; d++) {
+  for (const h of [8, 9, 10, 11, 12, 13, 14, 15, 16, 17]) active.push([d, h]);
+}
+active.push([1, 20], [3, 21], [5, 10]);
+
+const OFFSETS = [0, 4, 8];
+function shifted(offset: number) {
+  const set = new Set<string>();
+  for (const [d, h] of active) {
+    const t = d * 24 + h + (offset - LOCAL) + 7 * 24;
+    const td = Math.floor(t / 24) % 7;
+    set.add(`${td}-${t % 24}`);
+  }
+  return set;
+}
+const cw = 25;
+const ch = 26;
+const x0 = 50;
+const y0 = 56;
+const fmt = (o: number) => (o === 0 ? "UTC" : `UTC+${o}`);
+---
+
+<div class="bclk" data-bclk>
+  <div class="ctl" role="group" aria-label={L.controls}>
+    {
+      OFFSETS.map((o) => (
+        <button type="button" class="sc" data-o={o} aria-pressed={String(o === 0)}>
+          {fmt(o)}
+        </button>
+      ))
+    }
+  </div>
+  <svg class="dg" viewBox="0 0 680 350" role="img" aria-labelledby={`bclk-t-${lang}`}>
+    <title id={`bclk-t-${lang}`}>{L.title}</title>
+    {
+      [0, 3, 6, 9, 12, 15, 18, 21].map((h) => (
+        <text x={x0 + h * cw} y={y0 - 10} class="mono t-2">
+          {String(h).padStart(2, "0")}
+        </text>
+      ))
+    }
+    {
+      L.days.map((d, i) => (
+        <text x={x0 - 12} y={y0 + i * ch + 19} class="t-s" text-anchor="end">
+          {d}
+        </text>
+      ))
+    }
+    {
+      OFFSETS.map((o) => {
+        const set = shifted(o);
+        return (
+          <g data-grid={o} display={o === 0 ? "inline" : "none"}>
+            {Array.from({ length: 7 }, (_, d) =>
+              Array.from({ length: 24 }, (_, h) => (
+                <rect
+                  x={x0 + h * cw + 1}
+                  y={y0 + d * ch + 1}
+                  width={cw - 2}
+                  height={ch - 2}
+                  class={set.has(`${d}-${h}`) ? "fill-hl" : "box-soft"}
+                />
+              )),
+            )}
+          </g>
+        );
+      })
+    }
+    <rect x={x0 + 8 * cw} y={y0 - 3} width={10 * cw} height={5 * ch + 6} class="ln dash" fill="none"></rect>
+    <text x={x0 + 8 * cw} y={y0 + 7 * ch + 22} class="t-s b">{L.office}</text>
+    <text x={x0 + 24 * cw} y={y0 + 7 * ch + 22} class="t-s t-2" text-anchor="end">{L.axis}</text>
+    {
+      OFFSETS.map((o) => (
+        <text x="20" y={y0 + 7 * ch + 62} class="t-s b" data-verdict={o} display={o === 0 ? "inline" : "none"}>
+          {L.verdict[o]}
+        </text>
+      ))
+    }
+    <text x="20" y={y0 + 7 * ch + 90} class="t-s t-2">{L.note}</text>
+  </svg>
+</div>
+
+<style>
+  .ctl {
+    display: inline-flex;
+    flex-wrap: wrap;
+    border: 1.5px solid var(--ink);
+    margin-bottom: 1rem;
+  }
+  .sc {
+    font: inherit;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: var(--step--1);
+    background: transparent;
+    color: var(--ink);
+    border: 0;
+    border-right: 1.5px solid var(--ink);
+    padding: 0.4rem 0.85rem;
+    cursor: pointer;
+  }
+  .sc:last-child {
+    border-right: 0;
+  }
+  .sc[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+</style>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-bclk]")) {
+    const buttons = root.querySelectorAll<HTMLButtonElement>("button[data-o]");
+    for (const b of buttons) {
+      b.addEventListener("click", () => {
+        const o = b.dataset.o;
+        for (const x of buttons) x.setAttribute("aria-pressed", String(x === b));
+        for (const g of root.querySelectorAll<SVGElement>("[data-grid], [data-verdict]")) {
+          const key = g.dataset.grid ?? g.dataset.verdict;
+          g.setAttribute("display", key === o ? "inline" : "none");
+        }
+      });
+    }
+  }
+</script>

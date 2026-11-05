@@ -1,0 +1,90 @@
+---
+// Illustrative: each attribute a browser reveals splits the crowd it hides in.
+// 20 bits of identifying information single out one browser in ~1 million.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+const L = {
+  en: {
+    title: "How attributes shrink the crowd a browser hides in",
+    ordinary: "A typical browser",
+    tor: "Tor Browser",
+    start: "start",
+    rows: ["Time zone", "Language", "Window size", "Graphics card", "Installed fonts"],
+    left: "left in the crowd",
+    one: "1: unique",
+    note: "Illustrative numbers. Real attributes overlap, so their bits do not simply add up.",
+  },
+  ja: {
+    title: "属性が増えるたびに、ブラウザが紛れられる群衆が小さくなる",
+    ordinary: "ふつうのブラウザ",
+    tor: "Tor Browser",
+    start: "出発点",
+    rows: ["タイムゾーン", "言語", "ウィンドウサイズ", "GPU", "インストール済みフォント"],
+    left: "残る群衆",
+    one: "1: 一意",
+    note: "数値は説明用。実際の属性は互いに重なるので、ビット数は単純には足し算にならない。",
+  },
+}[lang];
+
+const TOTAL = 20;
+const ordinary = [3, 2, 4, 4, 7];
+const tor = [0, 1, 1, 0, 0];
+const W = 200;
+const px = W / TOTAL;
+
+function series(bits: number[]) {
+  let acc = 0;
+  return [0, ...bits].map((b, i) => {
+    acc += b;
+    const left = 2 ** (TOTAL - acc);
+    return {
+      label: i === 0 ? L.start : L.rows[i - 1],
+      add: b,
+      acc,
+      left: left === 1 ? L.one : left.toLocaleString("en-US"),
+      i,
+    };
+  });
+}
+const cols = [
+  { x: 20, head: L.ordinary, rows: series(ordinary) },
+  { x: 360, head: L.tor, rows: series(tor) },
+];
+const rowH = 44;
+const top = 64;
+---
+
+<svg class="dg" viewBox="0 0 680 380" role="img" aria-labelledby={`dbits-t-${lang}`}>
+  <title id={`dbits-t-${lang}`}>{L.title}</title>
+  {
+    cols.map((c) => (
+      <g>
+        <text x={c.x} y="28" class="t-l">
+          {c.head}
+        </text>
+        <text x={c.x + W + 10} y="50" class="t-s t-2">
+          {L.left}
+        </text>
+        {c.rows.map((r) => {
+          const y = top + r.i * rowH;
+          return (
+            <g>
+              <text x={c.x} y={y} class="t-s">
+                {r.label}
+                {r.i > 0 ? ` +${r.add} bit` : ""}
+              </text>
+              <rect x={c.x} y={y + 8} width={W} height="14" class="box-soft" />
+              {r.acc > 0 && <rect x={c.x} y={y + 8} width={r.acc * px} height="14" class="fill-leak" />}
+              <text x={c.x + W + 10} y={y + 20} class={r.acc >= TOTAL ? "mono t-leak" : "mono"}>
+                {r.left}
+              </text>
+            </g>
+          );
+        })}
+      </g>
+    ))
+  }
+  <text x="20" y="350" class="t-s t-2">{L.note}</text>
+</svg>

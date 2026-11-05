@@ -1,0 +1,74 @@
+---
+title: "Behavior: habits and people"
+summary: "Working hours, holidays, language and the people someone trusts all keep a pattern, and a pattern can be read without breaking any technical layer."
+layer: behavior
+---
+
+import Cite from "../../../components/Cite.astro";
+import Fig from "../../../components/Fig.astro";
+import BehaviorClock from "../../../components/fig/BehaviorClock.astro";
+import BehaviorFarm from "../../../components/fig/BehaviorFarm.astro";
+
+The technical layers can all hold and the person can still be found, because a person has a routine. They work at certain hours, take certain holidays, write in a certain language, talk to certain people and trust some of them. This layer is about that routine, and about the people around an operation, who know things no protocol can hide.
+
+## The clock
+
+Every logged event has a timestamp, and a timestamp is a time of day somewhere. When an analyst collects enough events from one actor, the shape of a working week appears, and the only question is which time zone makes it look normal.
+
+Malware carries its own clock. A Windows executable records the time its author compiled it. FireEye's 2014 report on APT28 found that more than 96% of the group's samples were compiled on weekdays, and 89% between 08:00 and 18:00 in UTC+4, the time zone of Moscow and St Petersburg at the time<Cite id="behavior-apt28" />.
+
+<Fig caption="Illustrative data, shaped like the APT28 compile-time statistics. The log is the same in every view; only the clock used to read it changes. Read in UTC+4, it becomes an ordinary office week.">
+  <BehaviorClock lang="en" />
+</Fig>
+
+Other evidence fills in where the clock is vague. Mandiant's 2013 report on APT1 traced the operators' own remote desktop connections to their attack infrastructure: of 832 source IP addresses, 817 belonged to networks in China<Cite id="behavior-apt1-report" />. The clock suggests a time zone; the addresses say which country in it.
+
+Reading a clock this way has known pitfalls, and an analyst checks them before trusting the result. Daylight saving time moves a working day by an hour twice a year, so data spanning months smears the edges. Timestamps can come from the attacker's machine, a compromised server in another country, or a build system set to UTC, and each tells a different story. A group can also work in shifts, which flattens the curve, or deliberately keep someone else's hours. What survives these checks is usually a band of two or three neighbouring time zones, not a city.
+
+## Holidays and gaps
+
+A working week also has gaps that belong to a calendar. Proofpoint observed that one of the main distributors of the Dridex banking malware was completely inactive from 24 December 2015 through 10 January 2016, with test runs starting again on 11 January and volume back to normal two days later. Proofpoint linked the shape of that break to the Orthodox calendar used in Russia and much of Eastern Europe, where Christmas falls on 7 January and the week before it is a New Year holiday<Cite id="behavior-dridex-holiday" />. A Western defender expecting a quiet Christmas Day would have seen nothing unusual; the gap that matters is the one that ends on the eleventh.
+
+Measured activity can also disagree with what a group says about itself. Group-IB, analysing Conti's attacks in 2022, found the group active about 14 hours a day, starting near noon in GMT+3 and slowing after 21:00, with weekends worked and only the New Year holidays off<Cite id="behavior-conti-groupib" />. A large operation has shifts and roles, and its clock is the sum of many people's clocks.
+
+Timing evidence can be faked as easily as a compile timestamp can be edited. It is strongest when it agrees with evidence from other layers, such as infrastructure in the same country or language settings that match.
+
+## Talking
+
+Most operations depend on communication: recruiting, selling, negotiating, coordinating. Every message is a sample of the writer's language, interests and schedule, and stored messages outlive the operation. A detail dropped in chat, such as a past arrest or a city, can be matched against records the other side already holds.
+
+The best-known story of a single slip is a disputed one. Fox News, which broke the story of Hector Monsegur's arrest, reported that Sabu of LulzSec normally hid behind proxies but once logged into an IRC server from his own IP address<Cite id="case-sabu-fox" />. Monsegur has rejected that account and says he was identified from an older dox about him, not from a single unprotected login<Cite id="case-sabu-register" />. The site lists the case as disputed for that reason. See the [Sabu case](/cases/#sabu).
+
+## People: informants, insiders and undercover officers
+
+The most reliable way into a group is often a member of it. This is the `people` failure on the case matrix: no protocol or habit failed, someone who knew the truth told it.
+
+The carding forum DarkMarket was believed to be run by a member called "Master Splyntr". In 2008 German public radio reported that Master Splyntr was an FBI agent, J. Keith Mularski, and the FBI said the sting, which had run for about two years, had produced 56 arrests<Cite id="behavior-darkmarket-fbi" />. The people buying and selling stolen card data had been doing it on a forum run by the investigator.
+
+An informant can work from inside a group's conversations. After his arrest in June 2011, Monsegur cooperated with the FBI and kept running his Sabu persona under its direction; prosecutors credited him with helping identify other members of LulzSec and AntiSec<Cite id="case-sabu-sentence" />. Jeremy Hammond discussed the Stratfor hack in chats with Sabu, and mentioned past arrests and time in federal prison; the FBI matched those details against arrest records to narrow the suspects to him<Cite id="case-hammond-computerworld" />. See the [Hammond case](/cases/#hammond).
+
+Trust is the asset these operations exploit. Technical care does not help when the person on the other side of the chat is reporting to an investigator, and no protocol can tell a loyal partner from one who has already been arrested.
+
+## Remote work that hides a country
+
+A behaviour pattern can also be manufactured. North Korean IT workers have been placed in remote jobs at U.S. companies using stolen or borrowed U.S. identities. The company ships its laptop to a home in the United States; the person living there keeps it running and connects it to remote-access hardware such as KVM switches, and the worker abroad operates it from overseas<Cite id="behavior-dprk-2025-doj" />. To the employer, the worker appears to connect from a U.S. residential address<Cite id="case-dprk-charges" />.
+
+<Fig caption="A laptop farm. Each employer sees a U.S. IP address and a U.S. shipping address. The worker abroad stays out of view, but every identity in the scheme now runs through one house.">
+  <BehaviorFarm lang="en" />
+</Fig>
+
+The arrangement hides the worker's location, and in doing so concentrates many personas in one place. Christina Chapman, sentenced in July 2025 to 102 months, hosted such a farm at her home in Arizona: the scheme used 68 stolen identities, placed workers at 309 U.S. companies and generated more than $17 million<Cite id="case-dprk-sentence" />. Searching one house linked all of them at once. In June 2025 the Justice Department announced searches of 29 known or suspected laptop farms across 16 states<Cite id="behavior-dprk-2025-doj" />. See the [laptop farm case](/cases/#dprk-laptop-farm).
+
+## Where it gives way
+
+The behaviour layer rarely fails in a single moment. It fails through accumulation: enough timestamps to show a clock, enough messages to show a person, enough trust for an informant or an undercover officer to do their work. Most of the cases on this site have a behavioural element, but the decisive one is usually somewhere else.
+
+The Japanese remote-control virus case of 2012 is the exception that shows the layer on its own. The culprit posted threats from other people's infected computers, and police first arrested four innocent owners because they trusted the IP addresses. What identified the real author was physical behaviour: one of his own puzzle emails led to a memory card on the collar of a cat on Enoshima, and security cameras there had recorded him near the cat<Cite id="case-pcr-cat" />. Released on bail, he was watched burying a smartphone by a river in Tokyo, and the phone held traces of a fake "real culprit" email<Cite id="case-pcr-phone" />. See the [remote-control virus case](/cases/#pc-remote).
+
+## Common misconceptions
+
+- "Attackers can be located by their working hours alone." Timing gives a candidate time zone, and it can be faked. Analysts weigh it with infrastructure and language evidence.
+- "Criminal groups keep office hours." Some actors look like it. Conti's measured activity ran about 14 hours a day, weekends included.
+- "Sabu was caught because he forgot to hide his IP address once." Widely reported, and denied by Monsegur. It is a disputed account.
+- "Careful technology protects against informants." Hammond's chats went to Sabu, who was already working for the FBI. No encryption changes who is reading on the other end.
+- "A U.S. IP and a U.S. address mean a U.S. worker." For laptop farms, both belong to the facilitator's house.

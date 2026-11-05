@@ -1,0 +1,99 @@
+---
+// A phone number as an identity anchor: the platform holds the number,
+// the carrier holds the registration behind it.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+const L = {
+  en: {
+    title: "How a verification text ties an account to a registered person",
+    acct: "Account",
+    acctSub: ["signs up with a", "phone number"],
+    phone: "Phone number",
+    phoneSub: ["SIM card from", "a carrier"],
+    reg: "Registration",
+    regSub: ["name and ID", "document"],
+    code: "SMS code",
+    file: "carrier's file",
+    platform: "Platform's records",
+    carrier: "Carrier's records",
+    handle: "handle",
+    number: "number",
+    name: "name, ID",
+  },
+  ja: {
+    title: "確認 SMS が、アカウントと登録された本人を結ぶ",
+    acct: "アカウント",
+    acctSub: ["電話番号で", "登録する"],
+    phone: "電話番号",
+    phoneSub: ["携帯会社が", "発行した SIM"],
+    reg: "契約者情報",
+    regSub: ["氏名と", "本人確認書類"],
+    code: "確認コード",
+    file: "契約の記録",
+    platform: "プラットフォームの記録",
+    carrier: "携帯会社の記録",
+    handle: "ハンドル",
+    number: "番号",
+    name: "氏名・身分証",
+  },
+}[lang];
+const boxes = [
+  { x: 20, head: L.acct, sub: L.acctSub },
+  { x: 260, head: L.phone, sub: L.phoneSub },
+  { x: 500, head: L.reg, sub: L.regSub, leak: true },
+];
+---
+
+<svg class="dg" viewBox="0 0 680 290" role="img" aria-labelledby={`ianc-t-${lang}`}>
+  <title id={`ianc-t-${lang}`}>{L.title}</title>
+  <defs>
+    <marker id={`ianc-a-${lang}`} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+    </marker>
+  </defs>
+  {
+    boxes.map((b) => (
+      <g>
+        <rect x={b.x} y="30" width="160" height="96" class={b.leak ? "box stroke-leak" : "box"} />
+        <text x={b.x + 14} y="58" class={b.leak ? "b t-leak" : "b"}>
+          {b.head}
+        </text>
+        {b.sub.map((line, i) => (
+          <text x={b.x + 14} y={84 + i * 18} class="t-s t-2">
+            {line}
+          </text>
+        ))}
+      </g>
+    ))
+  }
+  <line x1="180" y1="78" x2="258" y2="78" class="ln" marker-end={`url(#ianc-a-${lang})`}></line>
+  <text x="219" y="66" class="t-s" text-anchor="middle">{L.code}</text>
+  <line x1="420" y1="78" x2="498" y2="78" class="ln" marker-end={`url(#ianc-a-${lang})`}></line>
+  <text x="459" y="66" class="t-s" text-anchor="middle">{L.file}</text>
+
+  <!-- what each record holder can read -->
+  {
+    [L.handle, L.number, L.name].map((h, i) => (
+      <text x={250 + i * 140} y="180" class="t-s t-2">
+        {h}
+      </text>
+    ))
+  }
+  {
+    [
+      { label: L.platform, cells: ["fill-hl", "fill-hl", "fill-bar"] },
+      { label: L.carrier, cells: ["fill-bar", "fill-hl", "fill-leak"] },
+    ].map((r, ri) => (
+      <g>
+        <text x="20" y={213 + ri * 48} class="b">
+          {r.label}
+        </text>
+        {r.cells.map((c, ci) => (
+          <rect x={250 + ci * 140} y={194 + ri * 48} width="124" height="26" class={c} />
+        ))}
+      </g>
+    ))
+  }
+</svg>

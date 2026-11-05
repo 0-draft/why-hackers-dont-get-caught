@@ -1,0 +1,72 @@
+---
+title: "Identity: keeping personas apart"
+summary: "A pseudonym protects someone only while nothing connects it to their other names; one shared handle, email address or phone number joins the two."
+layer: identity
+---
+
+import Cite from "../../../components/Cite.astro";
+import Fig from "../../../components/Fig.astro";
+import IdentityAnchor from "../../../components/fig/IdentityAnchor.astro";
+import IdentityLinks from "../../../components/fig/IdentityLinks.astro";
+import IdentityRank from "../../../components/fig/IdentityRank.astro";
+
+Someone who runs a hidden service or posts as a pseudonym still has an ordinary life online: a real-name email, a phone, old forum accounts. The identity layer is the separation between those two sets of names. It does not hide traffic or files; it hides the fact that two accounts belong to one person, and it holds only as long as nothing is shared between them.
+
+## A persona is a graph
+
+Investigators do not look for a single clue that names someone. They build a graph. Each account, handle, email address, phone number, payment address and writing sample is a node, and anything two nodes share is an edge: the same handle on two forums, an email address in a post, a phone number used to verify two accounts, a login from the same address at the same time.
+
+From that angle, a persona is safe only while it forms a separate component, a cluster with no edges to the cluster that contains a real name. The work of keeping personas apart, often called compartmentalisation, is the work of never creating such an edge. It has to hold for every account over every year the persona exists, while the investigator needs one edge, found once, and can look back through archived posts, leaked databases and records held by providers.
+
+## The reused edge
+
+The most cited example is Ross Ulbricht, convicted as the operator of Silk Road. The criminal complaint traces it step by step. On 27 January 2011, shortly after Silk Road went online, a user called "altoid" posted on the Shroomery forum asking whether anyone had heard of it, the only message that account ever posted. Two days later an "altoid" account posted a similar message on Bitcoin Talk. On 11 October 2011 the same Bitcoin Talk account posted in an unrelated thread, looking for "an IT pro in the Bitcoin community" for a startup, and asked for replies to <span class="leak">rossulbricht at gmail dot com</span>. Google's subscriber records showed the account was registered to "Ross Ulbricht"<Cite id="identity-ulbricht-complaint" />.
+
+<Fig caption="The Ulbricht graph, simplified from the criminal complaint. Without the October 2011 post, the promoter of Silk Road and the owner of a Gmail account are two unrelated clusters. The post adds one edge, and the clusters become one.">
+  <IdentityLinks lang="en" />
+</Fig>
+
+Nothing in that chain required breaking encryption. The forum posts were public and had sat in archives for about two years by the time they mattered, and the last step needed only a request to Google. The step that joins the clusters is the one that a careful person would never make deliberately, and Ulbricht made it in a context, recruiting for a business, where using a contactable address felt natural. See the [Silk Road case](/cases/#silk-road).
+
+AlphaBay followed the same shape. For a short period after its forum launched in December 2014, AlphaBay's welcome and password-recovery emails carried a personal Hotmail address, `pimp_alex_91@hotmail.com`, in the header. Investigators followed the address to an older tech-forum profile under the handle "Alpha02", to PayPal accounts and to a company belonging to Alexandre Cazes<Cite id="case-ab-forfeiture" />. AlphaBay was taken down in July 2017<Cite id="case-ab-doj" />. See the [AlphaBay case](/cases/#alphabay).
+
+The same pattern shows up at scale. The FBI's January 2025 advisory on North Korean IT workers tells employers to look for the same phone numbers and email addresses on resumes that claim to come from different applicants<Cite id="identity-ic3-dprk" />. Each reuse is an edge between personas that were supposed to be strangers.
+
+Old breaches make the graph denser. When a forum's user database leaks, every account's email address, password hash and registration IP becomes a searchable record, and the same details often recur across forums for years. Brian Krebs connected the ransomware broker known as Wazawaka to Mikhail Matveev this way: the persona's forum accounts shared a small set of passwords and webmail addresses, one of those addresses had registered a VKontakte account in Matveev's name, and the phone number on that account reappeared in a domain registration<Cite id="case-waz-krebs" />. U.S. authorities charged Matveev the following year<Cite id="case-waz-doj" />. No single record named him. The chain of shared details did. See the [Wazawaka case](/cases/#wazawaka).
+
+## Identity that someone else holds
+
+Some identifiers are not chosen by the user at all. A phone number is issued by a carrier, and in many countries the carrier must record who the customer is. GSMA counted 157 countries that required registration of prepaid SIM cards as of 2021<Cite id="identity-gsma-2021" />. In those countries a number that receives a sign-up code is tied to a name and an identity document in the carrier's records, even if the platform that sent the code never asks for either.
+
+<Fig caption="A verification text ties an account to the carrier's registration. The platform sees the handle and the number but not the name; the carrier sees the number and the name but not the handle. A legal request to both joins the two rows.">
+  <IdentityAnchor lang="en" />
+</Fig>
+
+This is why phone verification matters to the identity layer even when the platform's own records look harmless. The edge from account to person exists; it is just stored somewhere else.
+
+## Writing style as an identifier
+
+Even with no shared names, a persona writes. Stylometry treats word choice, function-word frequency, punctuation and spelling as features, and trains a classifier to match an anonymous text to known authors.
+
+Narayanan and colleagues tested this at internet scale in 2012. With texts from 100,000 candidate authors, their classifiers named the correct author first in over 20% of cases, and put the correct author among the top 20 guesses in about 35%. When the classifier was allowed to decline to guess on texts it was unsure about, the precision of its first guess rose from 20% to over 80%, at the cost of halving the number of texts it answered<Cite id="identity-narayanan-2012" />.
+
+<Fig caption="Narayanan et al., 2012: where the true author ranked among 100,000 candidates. A shortlist is not an identification, but it turns a needle in a haystack into a lead an investigator can check by other means.">
+  <IdentityRank lang="en" />
+</Fig>
+
+Stylometry has a known weakness on the other side. Brennan, Afroz and Greenstadt studied writers who deliberately disguised their style or imitated another author, and found that standard methods lost much of their accuracy<Cite id="identity-brennan-2012" />. A 2022 replication reached the same conclusion, but argued the effect may be overstated because the original study had no control group<Cite id="identity-stylo-replication" />. In practice it works best as a filter that narrows a large pool to a few candidates, which other edges then confirm or rule out.
+
+## Where it gives way
+
+The cases on this site that failed at the identity layer share one feature: the edge that broke the persona was created early, before the persona mattered, and in a setting that felt low-stakes. Ulbricht's post was a hiring ad; the AlphaBay header was a detail of the forum's email setup in its first weeks. By the time each operation was large enough to draw a serious investigation, the edge was already archived.
+
+That timing is what makes the layer fragile from the operator's side and productive from the investigator's. A persona cannot be cleaned up after the fact, because the early posts, registrations and leaked headers are held by other people. Investigators therefore spend effort on the beginning of a persona's history, when the person behind it was least careful.
+
+Reuse also travels across layers. A reused email address is an identity failure, but it is often found through the infrastructure (a mail header) or through money (an exchange account opened with the same address). The case pages mark the layer where the decisive edge was found.
+
+## Common misconceptions
+
+- "A new handle is a new identity." A handle is one node. If it shares an email address, a phone number, a password hash in a leaked database or a writing style with an older account, it is part of the same graph.
+- "Deleting old posts removes the link." Archives, scraped copies and records held by platforms remain. The Ulbricht posts were about two years old when investigators used them.
+- "Phone verification only gives the platform a number." In the 157 countries GSMA counted, the carrier holds the name behind the number<Cite id="identity-gsma-2021" />.
+- "Stylometry can name an anonymous author." At internet scale it produced a correct first guess about one time in five in the 2012 study; it narrows the field rather than settling it.

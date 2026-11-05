@@ -1,0 +1,77 @@
+---
+// Narayanan et al. 2012: where the true author landed among 100,000 candidates.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+const L = {
+  en: {
+    title: "Where the true author ranked among 100,000 candidate blogs",
+    head: "An anonymous text, 100,000 candidate authors",
+    first: "ranked 1st",
+    top20: "2nd to 20th",
+    rest: "outside the top 20",
+    s1: "about 20%",
+    s2: "about 15%",
+    s3: "about 65%",
+    read: [
+      "One time in five, the classifier's first guess was right.",
+      "About a third of the time, the right author was in a shortlist of 20.",
+    ],
+  },
+  ja: {
+    title: "候補ブログ 10 万件のなかで、本当の書き手は何位に来たか",
+    head: "匿名の文章 1 本に対して、書き手の候補が 10 万人",
+    first: "1 位",
+    top20: "2〜20 位",
+    rest: "20 位より下",
+    s1: "約 20%",
+    s2: "約 15%",
+    s3: "約 65%",
+    read: [
+      "5 回に 1 回は、分類器の第一候補が正解だった。",
+      "3 回に 1 回は、正解が上位 20 人の短いリストに入っていた。",
+    ],
+  },
+}[lang];
+const x0 = 20;
+const W = 640;
+const segs = [
+  { w: 0.2, cls: "fill-leak", label: L.first, share: L.s1, tcls: "t-leak" },
+  { w: 0.15, cls: "fill-hl", label: L.top20, share: L.s2, tcls: "" },
+  { w: 0.65, cls: "box-soft", label: L.rest, share: L.s3, tcls: "t-2" },
+];
+let acc = 0;
+const placed = segs.map((s) => {
+  const x = x0 + acc * W;
+  acc += s.w;
+  return { ...s, x, width: s.w * W };
+});
+---
+
+<svg class="dg" viewBox="0 0 680 210" role="img" aria-labelledby={`irank-t-${lang}`}>
+  <title id={`irank-t-${lang}`}>{L.title}</title>
+  <text x={x0} y="28" class="b">{L.head}</text>
+  {placed.map((p) => <rect x={p.x} y="48" width={p.width} height="36" class={p.cls} />)}
+  <rect x={x0} y="48" width={W} height="36" class="ln-1" fill="none"></rect>
+  {
+    placed.map((p) => (
+      <g>
+        <line x1={p.x} y1="84" x2={p.x} y2="100" class="ln-1" />
+        <text x={p.x + 4} y="116" class={`t-s b ${p.tcls}`}>
+          {p.label}
+        </text>
+        <text x={p.x + 4} y="134" class="mono">
+          {p.share}
+        </text>
+      </g>
+    ))
+  }
+  {
+    L.read.map((line, i) => (
+      <text x={x0} y={170 + i * 18} class="t-s t-2">
+        {line}
+      </text>
+    ))
+  }
+</svg>

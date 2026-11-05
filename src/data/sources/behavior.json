@@ -1,0 +1,50 @@
+[
+  {
+    "id": "behavior-apt28",
+    "title": "Russian APT28 Group Linked to NATO, Political Attacks",
+    "publisher": "Threatpost",
+    "date": "2014-10-28",
+    "url": "https://threatpost.com/russian-apt28-group-linked-to-nato-political-attacks/109049/",
+    "kind": "press"
+  },
+  {
+    "id": "behavior-apt1-report",
+    "title": "APT1: Exposing One of China's Cyber Espionage Units (copy at the National Security Archive)",
+    "publisher": "Mandiant",
+    "date": "2013-02",
+    "url": "https://nsarchive.gwu.edu/media/21484/ocr",
+    "kind": "report"
+  },
+  {
+    "id": "behavior-dridex-holiday",
+    "title": "An Orthodox Holiday For Some Unorthodox Actors",
+    "publisher": "Proofpoint",
+    "date": "2016-01-14",
+    "url": "https://www.proofpoint.com/us/threat-insight/post/An-Orthodox-Holiday-For-Some-Unorthodox-Actors",
+    "kind": "report"
+  },
+  {
+    "id": "behavior-conti-groupib",
+    "title": "The Conti Enterprise: ransomware gang that published data belonging to 850 companies",
+    "publisher": "Group-IB",
+    "date": "2022-06-23",
+    "url": "https://www.group-ib.com/media-center/press-releases/conti-armada-report/",
+    "kind": "report"
+  },
+  {
+    "id": "behavior-darkmarket-fbi",
+    "title": "FBI Says Dark Market Sting Netted 56 Arrests",
+    "publisher": "CSO Online",
+    "date": "2008-10-17",
+    "url": "https://www.csoonline.com/article/522518/malware-cybercrime-fbi-says-dark-market-sting-netted-56-arrests.html",
+    "kind": "press"
+  },
+  {
+    "id": "behavior-dprk-2025-doj",
+    "title": "Justice Department Announces Coordinated, Nationwide Actions to Combat North Korean Remote Information Technology Workers’ Illicit Revenue Generation Schemes",
+    "publisher": "U.S. Department of Justice, Office of Public Affairs",
+    "date": "2025-06-30",
+    "url": "https://www.justice.gov/opa/pr/justice-department-announces-coordinated-nationwide-actions-combat-north-korean-remote",
+    "kind": "primary"
+  }
+]

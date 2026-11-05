@@ -1,0 +1,84 @@
+---
+// Laptop farm: the employer sees a US connection and a US address; the
+// worker operating the laptop remotely stays out of sight. The house is the
+// point where many identities meet.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+const L = {
+  en: {
+    title: "A laptop farm, as seen by the employer and by an investigator",
+    worker: ["Worker", "abroad"],
+    workerSub: "location hidden",
+    remote: "remote",
+    home: "A home in the US",
+    laptop: "laptop issued to",
+    who: (x: string) => `identity ${x}`,
+    company: (n: number) => `Employer ${n}`,
+    ip: "US IP",
+    addr: "US address",
+    leak: "One house, many identities: where the scheme comes apart.",
+  },
+  ja: {
+    title: "ラップトップファームを、雇用主の側と捜査側から見る",
+    worker: ["国外の", "作業者"],
+    workerSub: "所在は見えない",
+    remote: "遠隔",
+    home: "米国内の住宅",
+    laptop: "支給先の名義",
+    who: (x: string) => `身元 ${x}`,
+    company: (n: number) => `雇用主 ${n}`,
+    ip: "米国の IP",
+    addr: "米国の住所",
+    leak: "1 軒の家に多数の身元が集まる。仕組みが崩れるのはここだ。",
+  },
+}[lang];
+const ids = ["A", "B", "C"];
+---
+
+<svg class="dg" viewBox="0 0 680 400" role="img" aria-labelledby={`bfarm-t-${lang}`}>
+  <title id={`bfarm-t-${lang}`}>{L.title}</title>
+  <defs>
+    <marker id={`bfarm-a-${lang}`} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+    </marker>
+  </defs>
+
+  <rect x="10" y="150" width="120" height="84" class="fill-ink"></rect>
+  {L.worker.map((line, i) => <text x="22" y={178 + i * 18} class="t-s b t-on-ink">{line}</text>)}
+  <text x="22" y="220" class="t-s t-on-ink">{L.workerSub}</text>
+  <line x1="130" y1="192" x2="178" y2="192" class="ln" marker-end={`url(#bfarm-a-${lang})`}></line>
+  <text x="154" y="180" class="t-s" text-anchor="middle">{L.remote}</text>
+
+  <rect x="180" y="30" width="260" height="320" class="box"></rect>
+  <rect x="180" y="30" width="260" height="320" class="stroke-leak"></rect>
+  <text x="196" y="58" class="b t-leak">{L.home}</text>
+  {
+    ids.map((id, i) => (
+      <g>
+        <rect x="196" y={78 + i * 88} width="228" height="60" class="box" />
+        <text x="210" y={104 + i * 88} class="t-s">
+          {L.laptop}
+        </text>
+        <text x="210" y={124 + i * 88} class="t-s b">
+          {L.who(id)}
+        </text>
+        <line x1="424" y1={108 + i * 88} x2="478" y2={108 + i * 88} class="ln" marker-end={`url(#bfarm-a-${lang})`} />
+        <rect x="480" y={78 + i * 88} width="190" height="60" class="box" />
+        <text x="494" y={100 + i * 88} class="t-s b">
+          {L.company(i + 1)}
+        </text>
+        <rect x="494" y={110 + i * 88} width="80" height="18" class="fill-hl" />
+        <text x="500" y={123 + i * 88} class="t-s t-on-hl">
+          {L.ip}
+        </text>
+        <rect x="580" y={110 + i * 88} width="80" height="18" class="fill-hl" />
+        <text x="586" y={123 + i * 88} class="t-s t-on-hl">
+          {L.addr}
+        </text>
+      </g>
+    ))
+  }
+  <text x="10" y="384" class="b t-leak">{L.leak}</text>
+</svg>
