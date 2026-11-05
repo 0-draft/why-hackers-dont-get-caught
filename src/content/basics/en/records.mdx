@@ -1,0 +1,93 @@
+---
+title: "The paper trail"
+summary: "Most people who are identified online are identified from ordinary business records, kept by companies for billing and security, and handed over one legal request at a time."
+basics: records
+order: 3
+---
+
+import Cite from "../../../components/Cite.astro";
+import Fig from "../../../components/Fig.astro";
+import BasicsRecordsHolders from "../../../components/fig/BasicsRecordsHolders.astro";
+import BasicsRecordsLookup from "../../../components/fig/BasicsRecordsLookup.astro";
+import BasicsRecordsChain from "../../../components/fig/BasicsRecordsChain.astro";
+import BasicsRecordsJoin from "../../../components/fig/BasicsRecordsJoin.astro";
+import BasicsRecordsRoutes from "../../../components/fig/BasicsRecordsRoutes.astro";
+import BasicsRecordsTime from "../../../components/fig/BasicsRecordsTime.astro";
+import BasicsRecordsLegal from "../../../components/fig/BasicsRecordsLegal.astro";
+
+An investigator rarely watches anyone in real time. They work backwards from things that were written down: a line in a server log, an address assignment at an ISP, a login record at an email provider, a copy of a passport at a cryptocurrency exchange. None of these records was created to catch anyone. They exist because companies need them to run, bill and secure their services. This page shows who holds which of them, how an investigator moves from one to the next, and where that movement stops.
+
+## Who holds what
+
+Each company a person deals with keeps a different slice. The [packets page](/basics/packets/) showed the ISP's piece: which customer line had which public address at which time. Other parties hold other pieces, and the pieces that point at a person are usually not the ones that record activity.
+
+<Fig caption="Who holds which record. Magenta marks records that point at a person (a name, an ID document, a payment card); yellow marks activity records (addresses, times, content). Dashed cells depend on the provider's policy. This is the typical picture, not a legal requirement for any one company." size="wide">
+  <BasicsRecordsHolders lang="en" />
+</Fig>
+
+Platforms are an example of how much a single company holds. Meta's guidelines for law enforcement say that a subpoena can compel basic subscriber records, which include the name, length of service, credit card information, email addresses and recent login and logout IP addresses.<Cite id="basics-meta-le" /> Domain registrars collect contact data for each registrant, though since 2018 most of it is no longer published in public WHOIS.<Cite id="infra-icann-tempspec" /> Under US rules, cryptocurrency exchanges generally count as money transmitters, and their anti-money-laundering programmes must include verifying customer identification, which is why an exchange account is often the record that names someone in a [money case](/layers/money/).<Cite id="basics-fincen-cvc" /> A VPN provider may keep almost nothing, or, as the PureVPN case showed, enough connection records to link a customer's home and work addresses.<Cite id="net-purevpn-affidavit" />
+
+## From a log line to a name
+
+The classic chain has four links, and the first one is public. Every block of IP addresses is allocated through one of five regional internet registries, which publish who holds each block.<Cite id="basics-iana-numbers" /> A lookup in the registry's database, through the older WHOIS service or its successor RDAP, tells the investigator which network the address belongs to.<Cite id="basics-rfc9083" /> If that network is a consumer ISP, the next step is a legal request to it: who was using this address, at this second, on this port.
+
+<Fig caption="The lookup in three cases, for the same log line: forum.example saw 198.51.100.23 at 03:14:07 UTC. With its own public address, the ISP's assignment record gives the line. Behind carrier-grade NAT, the source port is what lets the ISP's NAT log pick one home. Without the port, the chain stops at a crowd." size="wide">
+  <BasicsRecordsLookup lang="en" />
+</Fig>
+
+The same lookup takes several separate requests in practice, each to a different holder and each a chance for the chain to break. Step through it:
+
+<Fig caption="Follow the chain from one log line to a name. Each step shows the record in hand, who holds it, and the common ways the chain breaks at that point. The last link reaches a customer account, not necessarily the person who typed." size="wide">
+  <BasicsRecordsChain lang="en" />
+</Fig>
+
+The real cases on this site follow this chain more often than anything exotic. Ardit Ferizi broke into a US retailer's server from an address in Malaysia, and the same address had logged in to his own Facebook and Twitter accounts; the platforms' login records closed the chain.<Cite id="net-ferizi-affidavit" /> ([case](/cases/#ferizi)) In the case of Hector Monsegur, "Sabu", Fox News reported that he once logged in to a chat server from his own address without masking it and that this one entry was enough; Monsegur has disputed that account.<Cite id="case-sabu-register" /> ([case](/cases/#sabu))
+
+Each of those cases is a join: two records held by different companies that share one column, matched once both are in an investigator's hands. The shared column can be an address and a time, a phone number or an email address. The record that holds a name only needs to share one value with the record that holds the activity.
+
+<Fig caption="A records join. Two tables held by different companies share one column (yellow). Matching it links the pseudonymous account anon_4471 to the record that holds a name, so the join line is magenta. Pick the shared column: address and time, phone number, or email address." size="wide">
+  <BasicsRecordsJoin lang="en" />
+</Fig>
+
+## Where the chain breaks
+
+Each link can fail, and they fail for ordinary reasons. The server may not have kept the log, or kept it without the source port, which behind carrier-grade NAT leaves a crowd of candidates instead of one line.<Cite id="basics-rfc6302" /> The ISP may have deleted the assignment records: how long they keep them depends on national law and on their own policy, and in the EU the Court of Justice has ruled out general, indiscriminate retention of traffic data to fight crime in general, while allowing general retention of the IP addresses assigned to the source of a communication for a period limited to what is strictly necessary.<Cite id="basics-cjeu-lqdn" /> And the address may belong to a company rather than an ISP, which is the point of using a relay.
+
+<Fig caption="The same chain for three routes. A VPN adds a company, often in another country, whose own logs decide whether the chain continues. With Tor, the exit relay's operator saw only another relay, and no single relay knows both the user and the destination." size="wide">
+  <BasicsRecordsRoutes lang="en" />
+</Fig>
+
+A VPN does not end the chain by itself; it inserts a link that the investigator has to pass through, under that company's policy and that country's law. Tor is different in kind: each relay knows only the relay before it and the relay after it, so there is no single record to request.<Cite id="net-tor-overview" /> That is why investigations of Tor users, described in the [network chapter](/layers/network/), went around the network instead: through the [device](/layers/device/), the [account](/layers/identity/) or the [server](/layers/infrastructure/).
+
+Even a complete chain ends at a contract, not a person. The subscriber is whoever pays for the line. Showing who was at the keyboard takes more evidence, and getting that wrong is how innocent people end up arrested, as in the [Japanese remote-control virus case](/cases/#pc-remote).
+
+## Clocks and time zones
+
+Every link in the chain is a match on time, often to the second, because addresses and ports are reassigned constantly. A timestamp without a time zone is ambiguous by hours. RFC 6302 asks servers to log timestamps accurate to the second, from a traceable time source, and recommends UTC, for exactly this reason.<Cite id="basics-rfc6302" /> In practice, logs arrive from many systems in many zones, some in local time with no offset written, some in UTC. The investigator converts all of them to UTC before asking anyone anything.
+
+<Fig caption="One timestamp, two readings. forum.example's server in Tokyo wrote 12:14:07 local time without an offset. Read as UTC (top), the lookup lands nine hours late, on line 4410, which held the address by then. Converted from UTC+9 (bottom), it is 03:14:07 UTC and lands on line 7781. Assignment times are illustrative." size="prose">
+  <BasicsRecordsTime lang="en" />
+</Fig>
+
+A one-hour mistake around a daylight-saving change, or a server clock that drifted a few minutes, can have the same effect. This is one of the dull places where a correct chain of reasoning produces the wrong name.
+
+## The legal request
+
+None of these companies hands over customer records because someone asks nicely. In the United States, the Stored Communications Act sets the levels. Basic subscriber information, including name, address, session times and the network address assigned, can be obtained with a subpoena. More detailed records need a court order based on "specific and articulable facts", and content generally needs a warrant.<Cite id="basics-usc-2703" /> The same law lets the government ask a provider to preserve records for 90 days, renewable for another 90, while the formal request is prepared.<Cite id="basics-usc-2703" />
+
+Across a border it becomes slow. A foreign investigator has no power to compel a US company. For records the company will not hand over on its own, and above all for the content of messages, the route is a request under a mutual legal assistance treaty (MLAT), sent government to government. In the US it lands at the Justice Department's Office of International Affairs, which gathers evidence on behalf of foreign investigators, and US law still requires the usual legal process before a provider may hand over content.<Cite id="basics-doj-oia" /><Cite id="basics-prg-2013" /> The Justice Department's inspector general describes the rest: every treaty country designates a central authority, usually its justice ministry; OIA executes incoming requests with US Attorneys' Offices and the FBI, especially for electronic evidence from communications providers; and a federal statute lets a US court issue an order or warrant on the strength of the foreign request alone.<Cite id="basics-oig-mlat" /> Put together, a request passes through two governments and a court before the provider sees it. A 2013 review commissioned by the White House found that requests to the US took on average about ten months to fulfil.<Cite id="basics-prg-2013" /> Logs with a retention period of weeks do not survive that.
+
+<Fig caption="Two routes to the same record. Domestically, one legal order goes from the investigator to the provider. Across a border, the request passes through two central authorities and a foreign court before reaching the provider, and the answer comes back the same way. The dashed route is the Budapest Convention's 24/7 network, which can get data preserved quickly while the slow request is under way." size="wide">
+  <BasicsRecordsLegal lang="en" />
+</Fig>
+
+The Council of Europe's Convention on Cybercrime, opened for signature in Budapest on 23 November 2001, exists largely to speed this up. Its parties commit to preserving data quickly on request from another party and to keep a contact point available around the clock.<Cite id="basics-coe-185" /> A second additional protocol, opened for signature in 2022, would go further and let authorities ask service providers in other parties directly for subscriber information and domain registration data. It enters into force only once five parties have ratified it.<Cite id="basics-coe-224" /> The EU's regulation on electronic evidence, which has applied since 18 August 2026, lets a judicial authority in one member state order a provider in another to produce data within ten days, or eight hours in an emergency.<Cite id="basics-eu-eevidence" />
+
+These instruments only help between countries that join them and cooperate in practice. When the chain leads to a state that does neither, it stops at a name on a charge sheet, which is the subject of [Named, never arrested](/out-of-reach/).
+
+## Common misconceptions
+
+- **"An IP address identifies a person."** It identifies a line or an account at a moment. Behind carrier-grade NAT it identifies only a group of lines unless the port is logged too.<Cite id="basics-europol-cgn" />
+- **"The police can look up who had an address."** Only the ISP can, from its own records, and only in answer to legal process.<Cite id="basics-usc-2703" />
+- **"Logs are kept forever."** Retention is limited by law and by cost. Many chains break simply because the records were gone by the time anyone asked.<Cite id="basics-cjeu-lqdn" />
+- **"Using a foreign provider makes records unreachable."** It makes them slower to reach. Treaties, preservation requests and direct-cooperation agreements exist for exactly this case.<Cite id="basics-coe-185" />

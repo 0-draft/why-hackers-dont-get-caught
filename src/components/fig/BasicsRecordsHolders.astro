@@ -1,0 +1,187 @@
+---
+// Who holds what: the kinds of party an investigation goes to, and the
+// kinds of record each one typically keeps. Magenta = points at a person;
+// yellow = activity record; dashed = depends on the provider; line = usually
+// not held.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type S = "id" | "yes" | "maybe" | "no";
+type C = [S, string[]];
+
+const T = {
+  en: {
+    title: "Who holds which record",
+    cols: ["Who you are", "How you paid", "Addresses and times", "What you did"],
+    rows: [
+      "Home or mobile ISP",
+      "VPN provider",
+      "Platform (mail, social)",
+      "Domain registrar",
+      "Hosting provider",
+      "Exchange, payments",
+    ],
+    cells: [
+      [
+        ["id", ["contract name,", "service address"]],
+        ["id", ["billing account"]],
+        ["yes", ["which customer had", "which address, when"]],
+        ["no", []],
+      ],
+      [
+        ["maybe", ["an email; often", "no name asked"]],
+        ["id", ["card or crypto", "payment"]],
+        ["maybe", ["real address and", "times, if logged"]],
+        ["no", []],
+      ],
+      [
+        ["id", ["phone, email,", "recovery details"]],
+        ["maybe", ["if on a paid plan"]],
+        ["yes", ["login addresses", "and times"]],
+        ["yes", ["messages, posts,", "files"]],
+      ],
+      [
+        ["id", ["registrant contact", "(not public)"]],
+        ["id", ["payment"]],
+        ["maybe", ["account logins"]],
+        ["no", []],
+      ],
+      [
+        ["id", ["account details"]],
+        ["id", ["payment"]],
+        ["yes", ["control-panel", "logins"]],
+        ["yes", ["the server's disks", "and its logs"]],
+      ],
+      [
+        ["id", ["ID document, selfie,", "address (KYC)"]],
+        ["id", ["bank account,", "deposit addresses"]],
+        ["yes", ["login addresses", "and times"]],
+        ["yes", ["every deposit", "and withdrawal"]],
+      ],
+    ] as C[][],
+    legend: ["points at a person", "activity record", "depends on the provider", "usually not held"],
+  },
+  ja: {
+    title: "どの記録を誰が持っているか",
+    cols: ["誰か", "どう払ったか", "アドレスと時刻", "何をしたか"],
+    rows: [
+      "固定・携帯の ISP",
+      "VPN 事業者",
+      "プラットフォーム",
+      "ドメイン登録業者",
+      "ホスティング事業者",
+      "取引所・決済",
+    ],
+    cells: [
+      [
+        ["id", ["契約者名、", "設置場所の住所"]],
+        ["id", ["料金の支払い口座"]],
+        ["yes", ["どの契約者がいつ", "どのアドレスか"]],
+        ["no", []],
+      ],
+      [
+        ["maybe", ["メールアドレス。", "名前は聞かないことも"]],
+        ["id", ["カードか暗号資産", "での支払い"]],
+        ["maybe", ["本当のアドレスと", "時刻 (残していれば)"]],
+        ["no", []],
+      ],
+      [
+        ["id", ["電話番号、メール、", "復旧用の連絡先"]],
+        ["maybe", ["有料プランなら"]],
+        ["yes", ["ログイン元の", "アドレスと時刻"]],
+        ["yes", ["メッセージ、投稿、", "ファイル"]],
+      ],
+      [
+        ["id", ["登録者の連絡先", "(公開はされない)"]],
+        ["id", ["支払い"]],
+        ["maybe", ["アカウントのログイン"]],
+        ["no", []],
+      ],
+      [
+        ["id", ["契約者情報"]],
+        ["id", ["支払い"]],
+        ["yes", ["管理画面への", "ログイン"]],
+        ["yes", ["サーバーのディスク", "とログ"]],
+      ],
+      [
+        ["id", ["身分証、顔写真、", "住所 (KYC)"]],
+        ["id", ["銀行口座、", "入金アドレス"]],
+        ["yes", ["ログイン元の", "アドレスと時刻"]],
+        ["yes", ["すべての入出金"]],
+      ],
+    ] as C[][],
+    legend: ["人を指す", "行動の記録", "事業者による", "ふつうは持たない"],
+  },
+}[lang];
+
+const x0 = 196;
+const cw = 166;
+const gap = 6;
+const y0 = 66;
+const rh = 56;
+const H = y0 + rh * 6 + 56;
+---
+
+<svg class="dg" viewBox={`0 0 900 ${H}`} role="img" aria-label={T.title}>
+  {
+    T.cols.map((c, j) => (
+      <text x={x0 + j * (cw + gap)} y={y0 - 14} class="b t-s">
+        {c}
+      </text>
+    ))
+  }
+  {
+    T.rows.map((r, i) => {
+      const y = y0 + i * rh;
+      return (
+        <g>
+          <line class="ln-1 soft" x1="20" y1={y} x2="880" y2={y} />
+          <text x="20" y={y + rh / 2 + 4} class="b t-s">
+            {r}
+          </text>
+          {T.cells[i]!.map(([s, lines], j) => {
+            const x = x0 + j * (cw + gap);
+            const ty = y + rh / 2 + 4 - (lines.length - 1) * 8;
+            return (
+              <g>
+                {s === "id" && <rect class="stroke-leak" x={x} y={y + 6} width={cw} height={rh - 12} />}
+                {s === "yes" && <rect class="fill-hl" x={x} y={y + 6} width={cw} height={rh - 12} />}
+                {s === "maybe" && <rect class="ln-1 dash" x={x} y={y + 6} width={cw} height={rh - 12} />}
+                {s === "no" && <line class="ln-1 soft" x1={x + 12} y1={y + rh / 2} x2={x + 52} y2={y + rh / 2} />}
+                {lines.map((t, k) => (
+                  <text
+                    x={x + 10}
+                    y={ty + k * 16}
+                    class:list={["t-s", s === "id" && "t-leak", s === "yes" && "t-on-hl", s === "maybe" && "t-2"]}
+                  >
+                    {t}
+                  </text>
+                ))}
+              </g>
+            );
+          })}
+        </g>
+      );
+    })
+  }
+  <line class="ln-1 soft" x1="20" y1={y0 + rh * 6} x2="880" y2={y0 + rh * 6}></line>
+  {
+    T.legend.map((t, i) => {
+      const x = 20 + i * 215;
+      const y = y0 + rh * 6 + 22;
+      return (
+        <g>
+          {i === 0 && <rect class="stroke-leak" x={x} y={y} width="22" height="14" />}
+          {i === 1 && <rect class="fill-hl" x={x} y={y} width="22" height="14" />}
+          {i === 2 && <rect class="ln-1 dash" x={x} y={y} width="22" height="14" />}
+          {i === 3 && <line class="ln-1 soft" x1={x} y1={y + 7} x2={x + 22} y2={y + 7} />}
+          <text x={x + 30} y={y + 12} class="t-s">
+            {t}
+          </text>
+        </g>
+      );
+    })
+  }
+</svg>

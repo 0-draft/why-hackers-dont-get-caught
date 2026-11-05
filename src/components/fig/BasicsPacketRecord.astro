@@ -1,0 +1,107 @@
+---
+// The packet as a record, using the five fields of the home-page figure.
+// Two small multiples: the same login to forum.example seen from the path
+// (the person's ISP) over plain HTTP and over HTTPS.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type K = "hl" | "bar" | "leak";
+const L = {
+  en: {
+    title: "The same packet as a record, seen by the ISP",
+    frames: ["Plain HTTP", "HTTPS (TLS)"],
+    fields: ["Sender address", "Destination", "Content", "Timing and volume", "Account"],
+    foot: ["everything is readable", "TLS hides content and account"],
+    vals: [
+      [
+        ["leak", "198.51.100.23 (your line)"],
+        ["hl", "203.0.113.10 forum.example"],
+        ["hl", "POST /login, your message"],
+        ["hl", "03:14:07 UTC, 1,500 bytes"],
+        ["hl", "anon_4471"],
+      ],
+      [
+        ["leak", "198.51.100.23 (your line)"],
+        ["hl", "203.0.113.10 forum.example"],
+        ["bar", ""],
+        ["hl", "03:14:07 UTC, 1,500 bytes"],
+        ["bar", ""],
+      ],
+    ] as [K, string][][],
+  },
+  ja: {
+    title: "同じパケットを記録として見る (ISP から)",
+    frames: ["暗号化なしの HTTP", "HTTPS (TLS)"],
+    fields: ["送信元アドレス", "宛先", "中身", "時刻と量", "アカウント"],
+    foot: ["すべて読める", "TLS が中身とアカウントを隠す"],
+    vals: [
+      [
+        ["leak", "198.51.100.23 (あなたの回線)"],
+        ["hl", "203.0.113.10 forum.example"],
+        ["hl", "POST /login、投稿の本文"],
+        ["hl", "03:14:07 UTC、1,500 バイト"],
+        ["hl", "anon_4471"],
+      ],
+      [
+        ["leak", "198.51.100.23 (あなたの回線)"],
+        ["hl", "203.0.113.10 forum.example"],
+        ["bar", ""],
+        ["hl", "03:14:07 UTC、1,500 バイト"],
+        ["bar", ""],
+      ],
+    ] as [K, string][][],
+  },
+}[lang];
+
+const fx = [20, 470];
+const lw = 120;
+const vw = 290;
+const y0 = 64;
+const rh = 44;
+---
+
+<svg class="dg" viewBox="0 0 900 340" role="img" aria-label={L.title}>
+  <text x="20" y="22" class="b t-s">{L.title}</text>
+  {
+    fx.map((x, f) => (
+      <g>
+        <text x={x} y="50" class="b">
+          {L.frames[f]}
+        </text>
+        {L.fields.map((name, i) => {
+          const y = y0 + i * rh;
+          const [k, t] = L.vals[f]![i]!;
+          return (
+            <g>
+              <text x={x} y={y + 24} class="t-s t-2">
+                {name}
+              </text>
+              <rect
+                class={k === "hl" ? "fill-hl" : k === "bar" ? "fill-bar" : "stroke-leak"}
+                x={x + lw}
+                y={y + 4}
+                width={vw}
+                height="32"
+              />
+              {t && (
+                <text
+                  x={x + lw + 12}
+                  y={y + 25}
+                  class:list={[/\d/.test(t) || t.includes("_") ? "mono" : "t-s", k === "leak" ? "t-leak" : "t-on-hl"]}
+                >
+                  {t}
+                </text>
+              )}
+            </g>
+          );
+        })}
+        <text x={x + lw} y={y0 + 5 * rh + 26} class="t-s t-2">
+          {L.foot[f]}
+        </text>
+      </g>
+    ))
+  }
+  <line class="ln-1 soft" x1="445" y1="36" x2="445" y2="320"></line>
+</svg>

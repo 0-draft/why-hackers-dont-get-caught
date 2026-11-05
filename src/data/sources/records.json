@@ -1,0 +1,98 @@
+[
+  {
+    "id": "basics-meta-le",
+    "title": "Information for law enforcement authorities",
+    "publisher": "Meta",
+    "date": "2025",
+    "url": "https://www.meta.com/safety/communities/law/guidelines/",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-fincen-cvc",
+    "title": "Application of FinCEN's Regulations to Certain Business Models Involving Convertible Virtual Currencies (FIN-2019-G001)",
+    "publisher": "FinCEN",
+    "date": "2019-05-09",
+    "url": "https://www.fincen.gov/sites/default/files/2019-05/FinCEN%20Guidance%20CVC%20FINAL%20508.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-iana-numbers",
+    "title": "Number Resources",
+    "publisher": "IANA",
+    "date": "2024",
+    "url": "https://www.iana.org/numbers",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc9083",
+    "title": "RFC 9083: JSON Responses for the Registration Data Access Protocol (RDAP)",
+    "publisher": "IETF",
+    "date": "2021-06",
+    "url": "https://www.rfc-editor.org/rfc/rfc9083.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-cjeu-lqdn",
+    "title": "Press release No 123/20: Judgments in Case C-623/17 Privacy International and in Joined Cases C-511/18 La Quadrature du Net and Others",
+    "publisher": "Court of Justice of the European Union",
+    "date": "2020-10-06",
+    "url": "https://curia.europa.eu/jcms/upload/docs/application/pdf/2020-10/cp200123en.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-usc-2703",
+    "title": "18 U.S. Code § 2703: Required disclosure of customer communications or records",
+    "publisher": "Legal Information Institute, Cornell Law School",
+    "date": "2024",
+    "url": "https://www.law.cornell.edu/uscode/text/18/2703",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-doj-oia",
+    "title": "Office of International Affairs (OIA)",
+    "publisher": "US Department of Justice, Criminal Division",
+    "date": "2024",
+    "url": "https://www.justice.gov/criminal/criminal-oia",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-prg-2013",
+    "title": "Liberty and Security in a Changing World: Report and Recommendations of the President's Review Group on Intelligence and Communications Technologies",
+    "publisher": "President's Review Group on Intelligence and Communications Technologies (White House)",
+    "date": "2013-12-12",
+    "url": "https://obamawhitehouse.archives.gov/sites/default/files/docs/2013-12-12_rg_final_report.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-oig-mlat",
+    "title": "Audit of the Criminal Division's Process for Incoming Mutual Legal Assistance Requests (Report 21-097)",
+    "publisher": "US Department of Justice, Office of the Inspector General",
+    "date": "2021-07",
+    "url": "https://oig.justice.gov/sites/default/files/reports/21-097.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-coe-185",
+    "title": "Convention on Cybercrime (ETS No. 185), Budapest, 23.XI.2001 (treaty text)",
+    "publisher": "Council of Europe (copy hosted by the Organization of American States)",
+    "date": "2001-11-23",
+    "url": "https://www.oas.org/juridico/english/cyb_pry_convention.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-coe-224",
+    "title": "Second Additional Protocol to the Convention on Cybercrime on enhanced co-operation and disclosure of electronic evidence (CETS No. 224)",
+    "publisher": "Council of Europe",
+    "date": "2022-05-12",
+    "url": "https://www.coe.int/en/web/conventions/full-list?module=treaty-detail&treatynum=224",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-eu-eevidence",
+    "title": "Regulation (EU) 2023/1543 on European Production Orders and European Preservation Orders for electronic evidence",
+    "publisher": "EUR-Lex",
+    "date": "2023-07-12",
+    "url": "https://eur-lex.europa.eu/eli/reg/2023/1543/oj",
+    "kind": "primary"
+  }
+]

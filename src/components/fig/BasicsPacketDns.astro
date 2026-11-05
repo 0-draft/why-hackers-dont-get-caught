@@ -1,0 +1,227 @@
+---
+// Interactive: a DNS lookup for forum.example in five numbered steps, with
+// QNAME minimisation. All steps and the "who learns what" row stay visible;
+// the selected step is highlighted and explained below.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    controls: "Step through the lookup",
+    stepNames: ["Ask", "Root", ".example", "forum.example", "Answer"],
+    laptop: ["Your laptop", "192.168.1.10"],
+    resolver: ["Resolver", "192.0.2.53"],
+    servers: ["Root servers", ".example servers", "forum.example's server"],
+    reply: ["ask the .example servers", "ask forum.example's server", "203.0.113.10"],
+    wire: "your ISP carries this",
+    learnTitle: "Who learns what",
+    who: ["ISP, on the wire", "Resolver", "Root", ".example", "forum.example's server"],
+    learn: [
+      ["your line + the name", "if DNS is unencrypted"],
+      ["198.51.100.23", "+ forum.example"],
+      ["example", "resolver's address"],
+      ["forum.example", "resolver's address"],
+      ["forum.example", "resolver's address"],
+    ],
+    notes: [
+      "1. Your laptop asks the resolver for forum.example. The question comes from your home address, 198.51.100.23, so the resolver learns who asked for which name. Unless the query is encrypted, your ISP can read it on the way.",
+      "2. The resolver asks a root server. With query minimisation it sends only the top-level part, example, and the root answers with the servers responsible for .example. The root sees the resolver's address, not yours.",
+      "3. The resolver asks the .example servers about forum.example. They point it to the server that holds forum.example's records.",
+      "4. The resolver asks forum.example's own server and gets the address 203.0.113.10. That server learns that someone using this resolver looked up its name.",
+      "5. The resolver hands 203.0.113.10 back to your laptop and keeps it in its cache for a while. Only the resolver (and your ISP, if the query was unencrypted) saw your address next to the name.",
+    ],
+  },
+  ja: {
+    controls: "名前解決を順にたどる",
+    stepNames: ["質問", "ルート", ".example", "forum.example", "答え"],
+    laptop: ["ノート PC", "192.168.1.10"],
+    resolver: ["リゾルバー", "192.0.2.53"],
+    servers: ["ルートサーバー", ".example のサーバー", "forum.example のサーバー"],
+    reply: [".example に聞いて", "forum.example に聞いて", "203.0.113.10"],
+    wire: "ここを運ぶのは ISP",
+    learnTitle: "誰が何を知るか",
+    who: ["ISP (回線の途中)", "リゾルバー", "ルート", ".example", "forum.example"],
+    learn: [
+      ["回線 + 名前", "暗号化 DNS でなければ"],
+      ["198.51.100.23", "+ forum.example"],
+      ["example", "リゾルバーのアドレス"],
+      ["forum.example", "リゾルバーのアドレス"],
+      ["forum.example", "リゾルバーのアドレス"],
+    ],
+    notes: [
+      "1. ノート PC がリゾルバーに forum.example を尋ねる。問い合わせは自宅のアドレス 198.51.100.23 から来るので、リゾルバーは誰がどの名前を聞いたかを知る。問い合わせが暗号化されていなければ、途中で ISP も読める。",
+      "2. リゾルバーがルートサーバーに尋ねる。クエリ名の最小化を使うと、送るのはトップレベルの example だけで、ルートは .example を受け持つサーバーを教える。ルートに見えるのはリゾルバーのアドレスで、あなたのアドレスではない。",
+      "3. リゾルバーが .example のサーバーに forum.example について尋ねる。答えは、forum.example の情報を持つサーバーの場所だ。",
+      "4. リゾルバーが forum.example 自身のサーバーに尋ね、アドレス 203.0.113.10 を受け取る。このサーバーは、このリゾルバーを使う誰かが自分の名前を引いたことを知る。",
+      "5. リゾルバーが 203.0.113.10 をノート PC に返し、しばらくキャッシュに残す。あなたのアドレスと名前を並べて見たのは、リゾルバー (と、暗号化されていなければ ISP) だけだ。",
+    ],
+  },
+}[lang];
+
+const sy = [60, 178, 296];
+const cx = [20, 194, 368, 542, 716];
+const cw = 164;
+// highlight boxes behind each step's label: [x, y, w]
+const hl: [number, number, number][] = [
+  [154, 155, 132],
+  [538, 38, 92],
+  [538, 156, 136],
+  [538, 274, 136],
+  [164, 185, 112],
+];
+const active = [[0, 1], [2], [3], [4], [1]];
+---
+
+<div class="bpd" data-bpd data-notes={JSON.stringify(L.notes)}>
+  <div class="bpd-steps" role="group" aria-label={L.controls}>
+    {
+      L.stepNames.map((n, i) => (
+        <button type="button" class="bpd-btn" aria-pressed={i === 0 ? "true" : "false"}>
+          <span class="bpd-n">{i + 1}</span> {n}
+        </button>
+      ))
+    }
+  </div>
+  <svg class="dg" viewBox="0 0 900 440" role="img" aria-labelledby="bpd-note">
+    {
+      hl.map(([x, y, w], i) => (
+        <g data-step={i} data-off={i !== 0 ? "" : undefined}>
+          <rect class="fill-hl" x={x} y={y} width={w} height="18" />
+          {active[i]!.map((c) => (
+            <rect class="ln" x={cx[c]! - 4} y="356" width={cw + 8} height="74" fill="none" />
+          ))}
+        </g>
+      ))
+    }
+
+    <rect class="box" x="20" y="146" width="120" height="64"></rect>
+    <text x="80" y="173" text-anchor="middle" class="b t-s">{L.laptop[0]}</text>
+    <text x="80" y="193" text-anchor="middle" class="mono t-2">{L.laptop[1]}</text>
+    <line class="ln" x1="140" y1="178" x2="300" y2="178"></line>
+    <text x="220" y="169" text-anchor="middle" class="mono">1 forum.example ?</text>
+    <text x="220" y="199" text-anchor="middle" class="mono">5 203.0.113.10</text>
+    <line class="ln-1 dash" x1="220" y1="210" x2="220" y2="226"></line>
+    <text x="220" y="242" text-anchor="middle" class="t-s t-2">{L.wire}</text>
+
+    <rect class="box" x="300" y="146" width="190" height="64"></rect>
+    <text x="395" y="173" text-anchor="middle" class="b t-s">{L.resolver[0]}</text>
+    <text x="395" y="193" text-anchor="middle" class="mono t-2">{L.resolver[1]}</text>
+    <line class="ln" x1="490" y1="178" x2="530" y2="178"></line>
+    <line class="ln" x1="530" y1="60" x2="530" y2="296"></line>
+
+    {
+      sy.map((y, i) => (
+        <g>
+          <line class="ln" x1="530" y1={y} x2="711" y2={y} />
+          <polygon class="fill-ink" points={`720,${y} 711,${y - 4} 711,${y + 4}`} />
+          <text x="544" y={y - 9} class="mono">
+            {i + 2} {i === 0 ? "example ?" : "forum.example ?"}
+          </text>
+          <text x="544" y={y + 19} class:list={["t-2", i === 2 ? "mono" : "t-s"]}>
+            {L.reply[i]}
+          </text>
+          <rect class="box" x="720" y={y - 28} width="160" height="56" />
+          <text x="800" y={y + 5} text-anchor="middle" class="b t-s">
+            {L.servers[i]}
+          </text>
+        </g>
+      ))
+    }
+
+    <line class="ln-1 soft" x1="20" y1="326" x2="880" y2="326"></line>
+    <text x="20" y="348" class="b t-s">{L.learnTitle}</text>
+    {
+      L.who.map((w, i) => (
+        <g>
+          <text x={cx[i]!} y="372" class="t-s t-2">
+            {w}
+          </text>
+          <rect class:list={[i < 2 ? "stroke-leak" : "fill-hl"]} x={cx[i]!} y="380" width={cw} height="44" />
+          <text x={cx[i]! + 10} y="398" class:list={[i < 2 ? "t-leak" : "t-on-hl", i >= 1 ? "mono" : "t-s"]}>
+            {L.learn[i]![0]}
+          </text>
+          <text x={cx[i]! + 10} y="416" class:list={["t-s", i < 2 ? "t-2" : "t-on-hl"]}>
+            {L.learn[i]![1]}
+          </text>
+        </g>
+      ))
+    }
+  </svg>
+  <p class="bpd-note" id="bpd-note" aria-live="polite">{L.notes[0]}</p>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-bpd]")) {
+    const btns = [...root.querySelectorAll<HTMLButtonElement>(".bpd-btn")];
+    const groups = [...root.querySelectorAll<SVGGElement>("[data-step]")];
+    const note = root.querySelector<HTMLElement>(".bpd-note")!;
+    const notes: string[] = JSON.parse(root.dataset.notes ?? "[]");
+    const show = (i: number) => {
+      btns.forEach((b, j) => b.setAttribute("aria-pressed", String(i === j)));
+      groups.forEach((g, j) => {
+        if (i === j) g.removeAttribute("data-off");
+        else g.setAttribute("data-off", "");
+      });
+      note.textContent = notes[i] ?? "";
+    };
+    btns.forEach((b, i) => {
+      b.addEventListener("click", () => show(i));
+      b.addEventListener("keydown", (e) => {
+        const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const n = (i + d + btns.length) % btns.length;
+        show(n);
+        btns[n]!.focus();
+      });
+    });
+  }
+</script>
+
+<style>
+  .bpd-steps {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1.5px solid var(--ink);
+    margin-bottom: 1rem;
+    width: max-content;
+    max-width: 100%;
+  }
+  .bpd-btn {
+    font: inherit;
+    font-weight: 700;
+    font-size: var(--step--1);
+    background: transparent;
+    color: var(--ink);
+    border: 0;
+    border-right: 1px solid var(--rule);
+    padding: 0.45rem 0.85rem;
+    cursor: pointer;
+  }
+  .bpd-btn:last-child {
+    border-right: 0;
+  }
+  .bpd-btn[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+  .bpd-n {
+    font-family: var(--mono);
+    font-weight: 400;
+    margin-right: 0.2rem;
+  }
+  .bpd svg {
+    min-width: 640px;
+  }
+  .bpd [data-off] {
+    display: none;
+  }
+  .bpd-note {
+    margin: 0.75rem 0 0;
+    font-size: var(--step--1);
+    max-width: 68ch;
+    min-height: 4.8em;
+  }
+</style>

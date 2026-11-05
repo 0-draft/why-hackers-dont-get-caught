@@ -1,0 +1,144 @@
+---
+// Domestic order vs. a mutual legal assistance request, with the Budapest
+// Convention's 24/7 preservation route as a dashed shortcut.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Lane = { label: string[]; boxes: string[][]; ret: string; dashed?: boolean };
+const T = {
+  en: {
+    title: "Two routes to the same record",
+    lanes: [
+      {
+        label: ["Same country"],
+        boxes: [["Investigator"], ["Subpoena or", "court order"], ["Provider"]],
+        ret: "records come back directly",
+      },
+      {
+        label: ["Across a", "border (MLAT)"],
+        boxes: [
+          ["Investigator"],
+          ["Own central", "authority"],
+          ["Their central", "authority"],
+          ["Their court", "or prosecutor"],
+          ["Provider"],
+        ],
+        ret: "records come back the same way: about 10 months on average to the US (2013)",
+      },
+      {
+        label: ["24/7 network", "(Budapest)"],
+        boxes: [["Investigator"], ["24/7 contact", "point"], ["Provider:", "preserve now"]],
+        ret: "data is frozen, not yet handed over",
+        dashed: true,
+      },
+    ] as Lane[],
+  },
+  ja: {
+    title: "同じ記録に至る 2 つの道",
+    lanes: [
+      {
+        label: ["同じ国の中"],
+        boxes: [["捜査機関"], ["召喚状や", "裁判所の命令"], ["事業者"]],
+        ret: "記録は直接返ってくる",
+      },
+      {
+        label: ["国をまたぐ", "(MLAT)"],
+        boxes: [
+          ["捜査機関"],
+          ["自国の", "中央当局"],
+          ["相手国の", "中央当局"],
+          ["相手国の", "裁判所・検察"],
+          ["事業者"],
+        ],
+        ret: "記録は同じ道を戻る: 米国あての依頼で平均約 10 か月 (2013 年)",
+      },
+      {
+        label: ["24/7 窓口", "(ブダペスト)"],
+        boxes: [["捜査機関"], ["24 時間の", "連絡窓口"], ["事業者:", "すぐ保全"]],
+        ret: "データは凍結されるが、まだ渡されない",
+        dashed: true,
+      },
+    ] as Lane[],
+  },
+}[lang];
+
+const bx = [160, 308, 456, 604, 752];
+const bw = 136;
+const bh = 52;
+const laneY = [24, 140, 256];
+---
+
+<svg class="dg" viewBox="0 0 900 350" role="img" aria-label={T.title}>
+  {
+    T.lanes.map((lane, r) => {
+      const y = laneY[r]!;
+      const n = lane.boxes.length;
+      const mid = y + bh / 2;
+      return (
+        <g>
+          {lane.label.map((t, k) => (
+            <text x="20" y={mid + 4 - (lane.label.length - 1) * 8 + k * 16} class="b t-s">
+              {t}
+            </text>
+          ))}
+          {lane.boxes.map((b, i) => (
+            <g>
+              <rect
+                class:list={[lane.dashed && i > 0 ? "ln-1 dash" : "box"]}
+                fill={lane.dashed && i > 0 ? "none" : undefined}
+                x={bx[i]!}
+                y={y}
+                width={bw}
+                height={bh}
+              />
+              {b.map((t, k) => (
+                <text
+                  x={bx[i]! + bw / 2}
+                  y={mid + 4 - (b.length - 1) * 8 + k * 16}
+                  text-anchor="middle"
+                  class:list={["t-s", k === 0 && "b"]}
+                >
+                  {t}
+                </text>
+              ))}
+              {i < n - 1 && (
+                <g>
+                  <line
+                    class:list={["ln", lane.dashed && "dash"]}
+                    x1={bx[i]! + bw}
+                    y1={mid}
+                    x2={bx[i + 1]! - 8}
+                    y2={mid}
+                  />
+                  <polygon class="fill-ink" points={`${bx[i + 1]!},${mid} ${bx[i + 1]! - 9},${mid - 4} ${bx[i + 1]! - 9},${mid + 4}`} />
+                </g>
+              )}
+            </g>
+          ))}
+          {!lane.dashed && (
+            <g>
+              <path
+                class="ln-1"
+                d={`M${bx[n - 1]! + bw / 2},${y + bh} L${bx[n - 1]! + bw / 2},${y + bh + 22} L${bx[0]! + bw / 2},${y + bh + 22} L${bx[0]! + bw / 2},${y + bh + 9}`}
+              />
+              <polygon
+                class="fill-ink"
+                points={`${bx[0]! + bw / 2},${y + bh} ${bx[0]! + bw / 2 - 4},${y + bh + 9} ${bx[0]! + bw / 2 + 4},${y + bh + 9}`}
+              />
+              <text x={bx[0]! + bw / 2 + 12} y={y + bh + 40} class="t-s t-2">
+                {lane.ret}
+              </text>
+            </g>
+          )}
+          {lane.dashed && (
+            <text x={bx[3]!} y={mid + 4} class="t-s t-2">
+              {lane.ret}
+            </text>
+          )}
+        </g>
+      );
+    })
+  }
+</svg>

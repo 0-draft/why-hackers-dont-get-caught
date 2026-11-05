@@ -1,0 +1,111 @@
+---
+// Carrier-grade NAT as two small multiples: three homes share the public
+// address 198.51.100.23. Left: the server logged only address + time, so every
+// home is a candidate. Right: it also logged the source port, and the ISP's NAT
+// log maps that port to one home router (100.64.12.7:40123).
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    title: "Three homes behind one public address",
+    panels: ["Server logged address + time", "Server logged address + port + time"],
+    logs: ["03:14:07Z 198.51.100.23", "03:14:07Z 198.51.100.23:51022"],
+    homes: ["Home A", "Home B", "Home C"],
+    router: "router",
+    cgn: ["ISP's shared NAT", "public address", "198.51.100.23"],
+    noPort: ["no port: the NAT log", "cannot pick one home"],
+    natLog: "ISP's NAT log at 03:14:07Z",
+    result: ["3 candidates (often far more)", "1 home: B, router 100.64.12.7"],
+  },
+  ja: {
+    title: "1 つの公開アドレスの後ろに 3 軒の家",
+    panels: ["サーバーの記録: アドレス + 時刻", "サーバーの記録: アドレス + ポート + 時刻"],
+    logs: ["03:14:07Z 198.51.100.23", "03:14:07Z 198.51.100.23:51022"],
+    homes: ["家 A", "家 B", "家 C"],
+    router: "ルーター",
+    cgn: ["ISP の共用 NAT", "公開アドレス", "198.51.100.23"],
+    noPort: ["ポートがないので", "NAT ログでも絞れない"],
+    natLog: "ISP の NAT ログ 03:14:07Z",
+    result: ["候補は 3 軒 (実際はもっと多い)", "1 軒: 家 B (100.64.12.7)"],
+  },
+}[lang];
+
+const px = [20, 470];
+const homeY = [92, 150, 208];
+const homeIp = ["100.64.12.5", "100.64.12.7", "100.64.12.9"];
+---
+
+<svg class="dg" viewBox="0 0 900 340" role="img" aria-label={L.title}>
+  <line class="ln-1 soft" x1="450" y1="10" x2="450" y2="330"></line>
+  {
+    px.map((x, m) => (
+      <g>
+        <text x={x} y="22" class="b t-s">
+          {L.panels[m]}
+        </text>
+        <rect class="fill-hl" x={x} y="32" width={m === 0 ? 190 : 240} height="30" />
+        <text x={x + 12} y="52" class="mono t-on-hl">
+          {L.logs[m]}
+        </text>
+
+        {homeY.map((y, i) => {
+          const cand = m === 0;
+          const hit = m === 1 && i === 1;
+          return (
+            <g>
+              <rect class={cand ? "fill-hl" : hit ? "stroke-leak" : "box"} x={x} y={y} width="170" height="46" />
+              <text x={x + 12} y={y + 19} class:list={["b t-s", cand && "t-on-hl", hit && "t-leak"]}>
+                {L.homes[i]}
+              </text>
+              <text x={x + 12} y={y + 37} class:list={["mono", cand && "t-on-hl", hit && "t-leak"]}>
+                {homeIp[i]}
+              </text>
+              <line class="ln-1" x1={x + 170} y1={y + 23} x2={x + 196} y2={y + 23} />
+            </g>
+          );
+        })}
+        <line class="ln-1" x1={x + 196} y1={homeY[0]! + 23} x2={x + 196} y2={homeY[2]! + 23} />
+        <line class="ln-1" x1={x + 196} y1="173" x2={x + 214} y2="173" />
+        <polygon class="fill-ink" points={`${x + 222},173 ${x + 213},169 ${x + 213},177`} />
+        <rect class="box" x={x + 222} y="128" width="180" height="90" />
+        <text x={x + 312} y="152" text-anchor="middle" class="b t-s">
+          {L.cgn[0]}
+        </text>
+        <text x={x + 312} y="172" text-anchor="middle" class="t-s t-2">
+          {L.cgn[1]}
+        </text>
+        <text x={x + 312} y="196" text-anchor="middle" class="mono">
+          {L.cgn[2]}
+        </text>
+
+        {m === 0 ? (
+          <g>
+            <rect class="ln-1 dash" x={x + 222} y="240" width="180" height="48" fill="none" />
+            <text x={x + 234} y="260" class="t-s t-2">
+              {L.noPort[0]}
+            </text>
+            <text x={x + 234} y="278" class="t-s t-2">
+              {L.noPort[1]}
+            </text>
+          </g>
+        ) : (
+          <g>
+            <rect class="box" x={x + 182} y="240" width="220" height="48" />
+            <text x={x + 194} y="258" class="t-s b">
+              {L.natLog}
+            </text>
+            <text x={x + 194} y="278" class="mono t-leak">
+              :51022 {"<-"} 100.64.12.7:40123
+            </text>
+          </g>
+        )}
+        <text x={x} y="318" class:list={["t-s b", m === 1 && "t-leak"]}>
+          {L.result[m]}
+        </text>
+      </g>
+    ))
+  }
+</svg>

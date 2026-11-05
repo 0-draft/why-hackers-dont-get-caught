@@ -1,0 +1,114 @@
+---
+// What an ISP sees of one HTTPS visit without breaking any encryption: a
+// timeline of packets (up = sent, down = received; bar height = size).
+// Yellow = readable, black = encrypted. Bottom: the two lists.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    title: "One visit to forum.example, as your ISP sees it",
+    sent: "sent",
+    recv: "received",
+    dns: "DNS: forum.example",
+    sni: "TLS hello: forum.example (SNI)",
+    load: "page loads: about 1 MB, under a second",
+    quiet: "you read the page: nothing sent",
+    post: "you submit a form: a few KB up",
+    readTitle: "Readable without breaking encryption",
+    read: [
+      "your line, so the customer",
+      "server address 203.0.113.10",
+      "the name (DNS, SNI)",
+      "when, how long, how much",
+    ],
+    hidTitle: "Hidden by TLS",
+    hid: ["which page (/login, /post/...)", "what you typed", "what the page said"],
+  },
+  ja: {
+    title: "forum.example への 1 回の訪問を ISP から見る",
+    sent: "送信",
+    recv: "受信",
+    dns: "DNS: forum.example",
+    sni: "TLS の最初の挨拶: forum.example (SNI)",
+    load: "ページ読み込み: 約 1 MB、1 秒足らず",
+    quiet: "ページを読んでいる: 何も送っていない",
+    post: "フォームを送信: 上り数 KB",
+    readTitle: "暗号を破らずに読めるもの",
+    read: [
+      "回線、つまり契約者",
+      "サーバーのアドレス 203.0.113.10",
+      "名前 (DNS と SNI)",
+      "いつ、どれだけの時間、どれだけの量",
+    ],
+    hidTitle: "TLS で隠れるもの",
+    hid: ["どのページか (/login, /post/...)", "何を入力したか", "ページに何が書いてあったか"],
+  },
+}[lang];
+
+const ax = 150; // axis y
+type B = [x: number, h: number, up: boolean, hl: boolean];
+const bars: B[] = [
+  [60, 14, true, true],
+  [70, 18, false, true],
+  [104, 8, true, true],
+  [112, 8, false, true],
+  [120, 8, true, true],
+  [134, 26, true, true],
+  [146, 44, false, false],
+];
+for (let i = 0; i < 16; i++) {
+  const x = 162 + i * 11;
+  bars.push([x, 46 + ((i * 37) % 40), false, false]);
+  if (i % 4 === 1) bars.push([x + 5, 8, true, false]);
+}
+bars.push([640, 40, true, false], [652, 20, false, false]);
+for (let i = 0; i < 6; i++) bars.push([668 + i * 11, 30 + ((i * 23) % 36), false, false]);
+---
+
+<svg class="dg" viewBox="0 0 900 420" role="img" aria-label={L.title}>
+  <text x="20" y="22" class="b t-s">{L.title}</text>
+  <line class="ln" x1="40" y1={ax} x2="860" y2={ax}></line>
+  <text x="860" y={ax - 10} text-anchor="end" class="t-s t-2">{L.sent}</text>
+  <text x="860" y={ax + 22} text-anchor="end" class="t-s t-2">{L.recv}</text>
+  {
+    bars.map(([x, h, up, hl]) => (
+      <rect class={hl ? "fill-hl" : "fill-bar"} x={x} y={up ? ax - h - 1 : ax + 1} width="6" height={h} />
+    ))
+  }
+
+  <line class="ln-1" x1="63" y1="58" x2="63" y2="130"></line>
+  <text x="58" y="52" class="mono">{L.dns}</text>
+  <line class="ln-1" x1="137" y1="88" x2="137" y2="118"></line>
+  <text x="132" y="82" class="t-s">{L.sni}</text>
+  <text x="162" y={ax + 110} class="t-s">{L.load}</text>
+  <text x="490" y={ax - 14} text-anchor="middle" class="t-s t-2">{L.quiet}</text>
+  <line class="ln-1" x1="643" y1="88" x2="643" y2="104"></line>
+  <text x="638" y="82" class="t-s">{L.post}</text>
+
+  <line class="ln-1 soft" x1="20" y1="282" x2="880" y2="282"></line>
+  <text x="20" y="308" class="b t-s">{L.readTitle}</text>
+  {
+    L.read.map((t, i) => (
+      <g>
+        <rect class:list={[i === 0 ? "stroke-leak" : "fill-hl"]} x="20" y={318 + i * 24} width="300" height="20" />
+        <text x="30" y={332 + i * 24} class:list={["t-s", i === 0 ? "t-leak" : "t-on-hl"]}>
+          {t}
+        </text>
+      </g>
+    ))
+  }
+  <text x="480" y="308" class="b t-s">{L.hidTitle}</text>
+  {
+    L.hid.map((t, i) => (
+      <g>
+        <rect class="fill-bar" x="480" y={318 + i * 24} width="300" height="20" />
+        <text x="490" y={332 + i * 24} class="t-s t-on-ink">
+          {t}
+        </text>
+      </g>
+    ))
+  }
+</svg>

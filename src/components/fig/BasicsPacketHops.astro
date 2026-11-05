@@ -1,0 +1,317 @@
+---
+// Interactive: step a packet from a laptop at home through the home router,
+// the ISP and an internet exchange to a server. Each step shows the packet's
+// header as it leaves that box, what the box reads, and what it may write down.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type K = "hl" | "bar" | "leak" | "none";
+interface Step {
+  vals: { k: K; t?: string; changed?: boolean }[]; // source, destination, TTL, content
+  reads: string[];
+  log: { k: K; lines: string[] };
+  note: string;
+}
+
+const L = {
+  en: {
+    controls: "Step the packet along its route",
+    nodes: ["Laptop", "Home router", "ISP", "Exchange (IXP)", "Server"],
+    pktTitle: "The packet's header after this point",
+    rows: ["Source", "Destination", "TTL", "Content"],
+    readsTitle: "What this box reads",
+    logTitle: "What it may write down",
+    changed: "rewritten",
+  },
+  ja: {
+    controls: "パケットを経路にそって進める",
+    nodes: ["ノート PC", "家のルーター", "ISP", "IX (相互接続点)", "サーバー"],
+    pktTitle: "ここを出た時点のヘッダー",
+    rows: ["送信元", "宛先", "TTL", "中身"],
+    readsTitle: "この機器が読むもの",
+    logTitle: "書き残しうるもの",
+    changed: "書き換え",
+  },
+}[lang];
+
+const privSrc = "192.168.1.10:52144";
+const pubSrc = "198.51.100.23:51022";
+const dst = "203.0.113.10:443";
+
+const steps: Step[] =
+  lang === "en"
+    ? [
+        {
+          vals: [
+            { k: "hl", t: privSrc },
+            { k: "hl", t: dst },
+            { k: "hl", t: "64" },
+            { k: "hl", t: "your request" },
+          ],
+          reads: ["Everything. It built the packet."],
+          log: { k: "hl", lines: ["browser history, DNS cache,", "app and system logs"] },
+          note: "Your laptop builds the packet. Its source address 192.168.1.10 is private: it means something only inside your home, and thousands of other homes use the same number.",
+        },
+        {
+          vals: [{ k: "hl", t: pubSrc, changed: true }, { k: "hl", t: dst }, { k: "hl", t: "63" }, { k: "bar" }],
+          reads: ["Addresses and ports. It swaps your private", "source for its one public address (NAT)."],
+          log: {
+            k: "hl",
+            lines: ["NAT table, while the connection lasts:", `${privSrc.padEnd(18)} <-> ${pubSrc}`],
+          },
+          note: "The home router rewrites the source to its own public address and a port it picked, and remembers the swap so replies find their way back to the right device. TTL drops by one.",
+        },
+        {
+          vals: [{ k: "hl", t: pubSrc }, { k: "hl", t: dst }, { k: "hl", t: "61" }, { k: "bar" }],
+          reads: ["The destination, to choose the next hop.", "It knows which customer owns this line."],
+          log: {
+            k: "leak",
+            lines: [
+              "2026-03-13T22:05:12Z 198.51.100.23",
+              "  assigned to line 7781",
+              "flow record, if collected:",
+              `  ${pubSrc} -> ${dst}`,
+            ],
+          },
+          note: "The ISP's routers look up the destination and pass the packet on; each one lowers TTL by one. The ISP gave this public address to your line, so its assignment record ties the address to a paying customer.",
+        },
+        {
+          vals: [{ k: "hl", t: pubSrc }, { k: "hl", t: dst }, { k: "hl", t: "61" }, { k: "bar" }],
+          reads: ["Not the IP header. It is a shared switch", "where networks hand traffic to each other."],
+          log: { k: "hl", lines: ["sampled traffic statistics (sFlow):", "headers of a small fraction of packets"] },
+          note: "At an internet exchange the ISP's router hands the packet across a shared switch to the router of the server's network. The switch forwards by hardware address and leaves TTL alone. An exchange may sample a fraction of the packets for traffic statistics.",
+        },
+        {
+          vals: [
+            { k: "hl", t: pubSrc },
+            { k: "hl", t: dst },
+            { k: "hl", t: "58" },
+            { k: "hl", t: "your request" },
+          ],
+          reads: ["Everything. It ends the encrypted", "connection and reads the request."],
+          log: {
+            k: "hl",
+            lines: ["198.51.100.23:51022 [14/Mar/2026:03:14:07 +0000]", '  "POST /login" 200'],
+          },
+          note: "After a few more routers the packet arrives. The server sees the home router's public address and port, not the laptop's, and writes them into its access log with a timestamp. That log line is where most investigations start.",
+        },
+      ]
+    : [
+        {
+          vals: [
+            { k: "hl", t: privSrc },
+            { k: "hl", t: dst },
+            { k: "hl", t: "64" },
+            { k: "hl", t: "あなたの要求" },
+          ],
+          reads: ["全部。パケットを作った本人だ。"],
+          log: { k: "hl", lines: ["閲覧履歴、DNS キャッシュ、", "アプリや OS のログ"] },
+          note: "ノート PC がパケットを作る。送信元の 192.168.1.10 はプライベートアドレスで、家の中でしか意味を持たない。同じ番号をよその何千もの家が使っている。",
+        },
+        {
+          vals: [{ k: "hl", t: pubSrc, changed: true }, { k: "hl", t: dst }, { k: "hl", t: "63" }, { k: "bar" }],
+          reads: ["アドレスとポート。手元のアドレスを", "自分の公開アドレス 1 つに付け替える (NAT)。"],
+          log: {
+            k: "hl",
+            lines: ["NAT テーブル (接続が続くあいだ):", `${privSrc.padEnd(18)} <-> ${pubSrc}`],
+          },
+          note: "家のルーターが送信元を自分の公開アドレスと自分で選んだポートに書き換え、その対応を覚えておく。返事を正しい機器に戻すためだ。TTL が 1 減る。",
+        },
+        {
+          vals: [{ k: "hl", t: pubSrc }, { k: "hl", t: dst }, { k: "hl", t: "61" }, { k: "bar" }],
+          reads: ["次の転送先を決めるための宛先。", "この回線がどの契約者のものかも知っている。"],
+          log: {
+            k: "leak",
+            lines: [
+              "2026-03-13T22:05:12Z 198.51.100.23",
+              "  回線 7781 に割り当て",
+              "フローレコード (取っていれば):",
+              `  ${pubSrc} -> ${dst}`,
+            ],
+          },
+          note: "ISP のルーターが宛先を調べて次へ渡す。ルーターを 1 台通るごとに TTL が 1 減る。この公開アドレスを回線に割り当てたのは ISP なので、その割り当て記録がアドレスと料金を払っている契約者を結びつける。",
+        },
+        {
+          vals: [{ k: "hl", t: pubSrc }, { k: "hl", t: dst }, { k: "hl", t: "61" }, { k: "bar" }],
+          reads: ["IP ヘッダーは読まない。ネットワーク同士が", "トラフィックを受け渡す共用のスイッチだ。"],
+          log: { k: "hl", lines: ["統計用のサンプリング (sFlow):", "ごく一部のパケットのヘッダー"] },
+          note: "IX では、ISP のルーターが共用スイッチを通してサーバー側ネットワークのルーターへパケットを渡す。スイッチはハードウェアアドレスで転送し、TTL には触れない。IX はトラフィック統計のために一部のパケットを抜き取って見ることがある。",
+        },
+        {
+          vals: [
+            { k: "hl", t: pubSrc },
+            { k: "hl", t: dst },
+            { k: "hl", t: "58" },
+            { k: "hl", t: "あなたの要求" },
+          ],
+          reads: ["全部。暗号化された接続をここで終えて、", "要求を読む。"],
+          log: {
+            k: "hl",
+            lines: ["198.51.100.23:51022 [14/Mar/2026:03:14:07 +0000]", '  "POST /login" 200'],
+          },
+          note: "さらに何台かのルーターを経てパケットが届く。サーバーに見えるのは家のルーターの公開アドレスとポートで、ノート PC のアドレスではない。サーバーはそれを時刻と一緒にアクセスログに書く。捜査の多くはこの 1 行から始まる。",
+        },
+      ];
+
+const nodeX = [20, 200, 380, 560, 740];
+const nodeW = 140;
+const rowY = [166, 210, 254, 298];
+---
+
+<div class="bph" data-bph data-notes={JSON.stringify(steps.map((s) => s.note))}>
+  <div class="bph-steps" role="group" aria-label={L.controls}>
+    {
+      steps.map((_, i) => (
+        <button type="button" class="bph-btn" data-i={i} aria-pressed={i === 0 ? "true" : "false"}>
+          <span class="bph-n">{i + 1}</span> {L.nodes[i]}
+        </button>
+      ))
+    }
+  </div>
+
+  <svg class="dg" viewBox="0 0 900 360" role="img" aria-labelledby="bph-note">
+    {
+      L.nodes.map((n, i) => (
+        <g>
+          <rect class="box" x={nodeX[i]!} y="16" width={nodeW} height="44" />
+          <text x={nodeX[i]! + nodeW / 2} y="43" text-anchor="middle" class="b t-s">
+            {n}
+          </text>
+          {i < 4 && <line class="ln" x1={nodeX[i]! + nodeW} y1="38" x2={nodeX[i + 1]!} y2="38" />}
+        </g>
+      ))
+    }
+    <line class="ln-1 soft" x1="20" y1="96" x2="880" y2="96"></line>
+
+    {
+      steps.map((s, i) => (
+        <g data-step={i} data-off={i !== 0 ? "" : undefined}>
+          <rect class="fill-hl" x={nodeX[i]!} y="66" width={nodeW} height="8" />
+          <text x="20" y="128" class="b t-s">
+            {L.pktTitle}
+          </text>
+          {s.vals.map((v, j) => (
+            <g>
+              <text x="20" y={rowY[j]! + 4} class="t-s t-2">
+                {L.rows[j]}
+              </text>
+              {v.k === "hl" && <rect class="fill-hl" x="120" y={rowY[j]! - 16} width="300" height="30" />}
+              {v.k === "bar" && <rect class="fill-bar" x="120" y={rowY[j]! - 16} width="300" height="30" />}
+              {v.t && (
+                <text x="134" y={rowY[j]! + 4} class:list={["t-on-hl", /\d/.test(v.t) ? "mono" : "t-s"]}>
+                  {v.t}
+                </text>
+              )}
+              {v.changed && (
+                <text x="412" y={rowY[j]! + 4} text-anchor="end" class="t-on-hl t-s b">
+                  {L.changed}
+                </text>
+              )}
+            </g>
+          ))}
+
+          <text x="470" y="128" class="b t-s">
+            {L.readsTitle}
+          </text>
+          {s.reads.map((r, j) => (
+            <text x="470" y={156 + j * 18} class="t-s">
+              {r}
+            </text>
+          ))}
+          <text x="470" y="216" class="b t-s">
+            {L.logTitle}
+          </text>
+          <rect
+            class:list={[s.log.k === "leak" ? "stroke-leak" : "box"]}
+            x="470"
+            y="228"
+            width="410"
+            height={24 + s.log.lines.length * 20}
+          />
+          {s.log.lines.map((t, j) => (
+            <text x="484" y={250 + j * 20} class:list={["mono", s.log.k === "leak" && j < 2 && "t-leak"]}>
+              {t}
+            </text>
+          ))}
+        </g>
+      ))
+    }
+  </svg>
+  <p class="bph-note" id="bph-note" aria-live="polite">{steps[0]!.note}</p>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-bph]")) {
+    const btns = [...root.querySelectorAll<HTMLButtonElement>(".bph-btn")];
+    const groups = [...root.querySelectorAll<SVGGElement>("[data-step]")];
+    const note = root.querySelector<HTMLElement>(".bph-note")!;
+    const notes: string[] = JSON.parse(root.dataset.notes ?? "[]");
+    const show = (i: number) => {
+      btns.forEach((b, j) => b.setAttribute("aria-pressed", String(i === j)));
+      groups.forEach((g, j) => {
+        if (i === j) g.removeAttribute("data-off");
+        else g.setAttribute("data-off", "");
+      });
+      note.textContent = notes[i] ?? "";
+    };
+    btns.forEach((b, i) => {
+      b.addEventListener("click", () => show(i));
+      b.addEventListener("keydown", (e) => {
+        const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const n = (i + d + btns.length) % btns.length;
+        show(n);
+        btns[n]!.focus();
+      });
+    });
+  }
+</script>
+
+<style>
+  .bph-steps {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1.5px solid var(--ink);
+    margin-bottom: 1rem;
+    width: max-content;
+    max-width: 100%;
+  }
+  .bph-btn {
+    font: inherit;
+    font-weight: 700;
+    font-size: var(--step--1);
+    background: transparent;
+    color: var(--ink);
+    border: 0;
+    border-right: 1px solid var(--rule);
+    padding: 0.45rem 0.85rem;
+    cursor: pointer;
+  }
+  .bph-btn:last-child {
+    border-right: 0;
+  }
+  .bph-btn[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+  .bph-n {
+    font-family: var(--mono);
+    font-weight: 400;
+    margin-right: 0.2rem;
+  }
+  .bph svg {
+    min-width: 640px;
+  }
+  .bph [data-off] {
+    display: none;
+  }
+  .bph-note {
+    margin: 0.75rem 0 0;
+    font-size: var(--step--1);
+    max-width: 68ch;
+    min-height: 4.8em;
+  }
+</style>

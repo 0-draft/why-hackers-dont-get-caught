@@ -1,0 +1,111 @@
+---
+title: "What travels on the wire"
+summary: "A message crosses the internet as numbered packets, each wearing an envelope that every box on the way can read; this page shows what is written on that envelope and who writes it down."
+basics: packets
+order: 1
+---
+
+import Cite from "../../../components/Cite.astro";
+import Fig from "../../../components/Fig.astro";
+import BasicsPacketSplit from "../../../components/fig/BasicsPacketSplit.astro";
+import BasicsPacketHeader from "../../../components/fig/BasicsPacketHeader.astro";
+import BasicsPacketRecord from "../../../components/fig/BasicsPacketRecord.astro";
+import BasicsPacketHops from "../../../components/fig/BasicsPacketHops.astro";
+import BasicsPacketNat from "../../../components/fig/BasicsPacketNat.astro";
+import BasicsPacketDns from "../../../components/fig/BasicsPacketDns.astro";
+import BasicsPacketPorts from "../../../components/fig/BasicsPacketPorts.astro";
+import BasicsPacketIspView from "../../../components/fig/BasicsPacketIspView.astro";
+
+When you open a web page, nothing travels to you as one piece. Your request and the reply are cut into small parcels, and each parcel carries a label saying where it came from and where it is going. Most of what the rest of this site calls "hiding" is about that label: who can read it, and who keeps a copy. This page explains the label and the machines that read it, from the laptop on your desk to the server on the other side.
+
+The addresses in the figures come from blocks reserved for documentation, so none of them belongs to a real network.<Cite id="basics-rfc5737" /> They follow one scene throughout: a person whose home connection has the public address 198.51.100.23 logs in to a forum at forum.example (server 203.0.113.10) at 03:14:07 UTC on 14 March 2026, as the account anon_4471.
+
+## A message becomes packets
+
+Networks carry data in packets of limited size. On Ethernet, the most common kind of local network, an IP packet can be at most 1,500 bytes long.<Cite id="basics-rfc894" /> A web page, a photo or even a long form submission is larger than that, so the sending computer cuts it into slices, wraps each slice in a header and sends the slices one after another. The receiver puts them back in order.
+
+<Fig caption="A 4,000-byte message leaves as three packets. Every packet carries a full copy of the header (yellow, because every router on the way can read it) and one slice of the message. The slices can arrive out of order; numbering in the TCP header lets the receiver reassemble them." size="prose">
+  <BasicsPacketSplit lang="en" />
+</Fig>
+
+Two consequences follow. First, every packet carries the addresses, not just the first one, so anyone who sees any part of the conversation sees who is talking to whom. Second, the packets are independent: each one is forwarded on its own, and a network does not need to understand the message to deliver it.
+
+## The envelope: the IP header
+
+The header the Internet Protocol puts in front of each slice is defined in RFC 791, published in 1981 and still the format of every IPv4 packet.<Cite id="basics-rfc791" /> It is 20 bytes long in the usual case and holds a dozen fields. Two matter most here: the <span class="hl">destination address</span>, which every router reads to decide where to send the packet next, and the <span class="leak">source address</span>, which tells the other side where to send replies.
+
+<Fig caption="An IPv4 header (RFC 791) drawn 32 bits per row, followed by the start of the TCP header and the data. Everything in yellow travels in the clear even when the content is encrypted. The source address is outlined in magenta because it is the field that leads back to the sender's connection." size="prose">
+  <BasicsPacketHeader lang="en" />
+</Fig>
+
+The comparison with a letter is close. The header is the outside of the envelope: postal workers have to read it, and they can copy it down. The data is the letter inside. With HTTPS the letter is sealed by TLS, but the envelope cannot be sealed, because nobody could deliver it. The time-to-live field (TTL) is a hop counter: each router lowers it by one and discards the packet when it reaches zero, so a packet caught in a routing loop does not circle forever.<Cite id="basics-rfc791" />
+
+IPv6, the newer version, uses a different header with longer addresses, but the same two fields sit in it, in the clear, for the same reason.<Cite id="basics-rfc8200" />
+
+The same packet can also be read as a record with five fields, the ones the figure on the home page uses: who sent it, where it goes, what it says, when and how much, and which account it belongs to. Encryption changes only some of them.
+
+<Fig caption="The login to forum.example as a record, seen by the person's ISP. Left, plain HTTP: every field is readable. Right, HTTPS: TLS hides the content and the account name, but the addresses, the site's name (sent in the TLS hello) and the timing and size stay readable. The sender address is magenta because the ISP knows whose line it is." size="wide">
+  <BasicsPacketRecord lang="en" />
+</Fig>
+
+## Hop by hop
+
+No single machine knows the whole route. Each router looks at the destination, picks the neighbour that is closer to it, and hands the packet on. Between your laptop and a server there are several such hands: your home router, several routers inside your ISP, often an internet exchange where networks meet, and the routers of the server's own network.
+
+<Fig caption="Step a packet from a laptop to a server. At each box: the header as it leaves, what the box reads, and what it may write down. The home router rewrites the source; the ISP's assignment record is the entry that ties the public address to a paying customer (magenta). Times are in UTC." size="wide">
+  <BasicsPacketHops lang="en" />
+</Fig>
+
+Forwarding a packet does not require keeping a record of it, and most routers keep none per packet. Records come from somewhere else. The ISP keeps track of which customer line was given which public address, because it needs that to run the service and bill for it. Networks can also export flow records, one line per conversation with the addresses, ports, start and end time and byte counts, using formats such as IPFIX.<Cite id="basics-rfc7011" /> Exchanges and large networks can also sample a small fraction of packet headers with sFlow to see where their traffic goes.<Cite id="basics-rfc3176" /> And the server at the end writes an access log line for each request, with the address and the time. That last line is where most investigations start, as the [records page](/basics/records/) shows.
+
+## Private addresses and NAT
+
+There are not enough IPv4 addresses for every device. Three blocks, 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16, are set aside for private use and are never routed on the public internet; any home or office may use them internally.<Cite id="basics-rfc1918" /> The laptop's 192.168.1.10 is such an address. Thousands of other homes use the same number.
+
+To reach the internet, the home router performs network address translation (NAT). It replaces the private source address with its own public address and a port number it chooses, and keeps a table so that replies get back to the right device. Every device in the house shares one public address.
+
+Many ISPs now do the same thing one level up. With carrier-grade NAT (CGN), customer routers get addresses from a block reserved for this purpose, 100.64.0.0/10, and the ISP translates them to a smaller pool of public addresses shared by many customers at once.<Cite id="basics-rfc6598" /> In October 2017 Europol said that CGN was used for 90% of mobile internet access and 50% of fixed-line access, that one address could be shared by several thousand people, and that mobile providers using it often could not tell which subscriber had used an address.<Cite id="basics-europol-cgn" />
+
+<Fig caption="Three homes behind the shared public address 198.51.100.23, in two panels. Left: the server logged only the address and the time, so every home behind the address is a candidate. Right: it also logged source port 51022, and the ISP's NAT log maps that port to one home router, 100.64.12.7." size="wide">
+  <BasicsPacketNat lang="en" />
+</Fig>
+
+The fix is in the logs, not the network. The IETF's logging recommendation for servers says that, because addresses are shared, a server should log the source port and an accurate timestamp along with the address.<Cite id="basics-rfc6302" /> The ISP, for its part, has to log which port range each customer was given when. If either side is missing, the trail stops at a crowd.
+
+## Names: the DNS lookup
+
+People type names, packets need numbers. The Domain Name System (DNS) translates one to the other.<Cite id="basics-rfc1034" /> Your device asks a resolver, usually run by your ISP or a public service, and the resolver asks the hierarchy on your behalf: the root servers, then the servers for the top-level domain, then the server for the domain itself. With query minimisation, the resolver tells each server only as much of the name as that server needs to answer.<Cite id="basics-rfc9156" />
+
+<Fig caption="Looking up forum.example in five numbered steps; select a step to read what happens. The resolver does the walking; each server in the hierarchy sees the resolver's address, not yours, and (with query minimisation) only part of the name. The resolver itself sees your address and the full name, and so does your ISP if the query is sent unencrypted." size="wide">
+  <BasicsPacketDns lang="en" />
+</Fig>
+
+The privacy point is who learns the full name together with your address: <span class="leak">the resolver</span>, always, and anyone on the path if the query travels in plain text, which classic DNS does. DNS over TLS and DNS over HTTPS encrypt the query between you and the resolver.<Cite id="basics-rfc7858" /><Cite id="crypto-rfc8484" /> That hides the name from the ISP's wire, but not from the resolver, which now becomes the party that holds the record.
+
+## Ports and connections
+
+An address gets a packet to a machine; a port number gets it to the right program on that machine. Servers listen on well-known ports, such as 443 for HTTPS, and the client picks a temporary port for its side of each connection; the IANA registry records which numbers are assigned to which services.<Cite id="basics-rfc6335" /> Four numbers together, source address, source port, destination address and destination port, name one conversation. That is why the source port matters so much behind NAT: it is the only number that tells two customers on the same public address apart.
+
+<Fig caption="A connection is named by four numbers. TCP opens it with a three-way handshake (SYN, SYN-ACK, ACK), then carries the encrypted data, then closes it. The handshake and the headers are readable to every box on the path; only the data inside is encrypted." size="prose">
+  <BasicsPacketPorts lang="en" />
+</Fig>
+
+TCP, the protocol most web traffic uses, sets up each connection with three packets before any data flows: the client sends SYN, the server answers SYN-ACK, the client confirms with ACK.<Cite id="basics-rfc9293" /> It numbers the bytes it sends so the receiver can put slices back in order and ask for missing ones again. None of this is encrypted. TLS protects the data inside the connection, not the fact of the connection.
+
+## What an ISP sees without breaking encryption
+
+Put the pieces together and look from the ISP's position. It does not need to break anything. It sees which of its customers sent each packet, the server's address, and usually the name: once in the DNS query, unless DNS is encrypted, and once more in the opening message of TLS, where the client states which site it wants in a field called Server Name Indication (SNI), sent in clear text.<Cite id="basics-rfc6066" /> A newer extension, Encrypted Client Hello, hides that name from the path when both browser and site support it.<Cite id="crypto-rfc9849" /> The ISP also sees when each connection starts and ends and how many bytes go each way.
+
+<Fig caption="One HTTPS visit as the ISP sees it: packets over time, sent above the line, received below, height proportional to size. Yellow is readable (the DNS query, the TLS hello with the name); black is encrypted content whose size and timing remain visible. The customer line is outlined in magenta because the ISP knows whose line it is." size="wide">
+  <BasicsPacketIspView lang="en" />
+</Fig>
+
+The IETF's own analysis of pervasive surveillance puts it plainly: encrypted traffic still exposes everything in its network and transport headers, addresses and ports included, and an observer who cannot decrypt anything can still fingerprint encrypted sessions and draw inferences from them.<Cite id="basics-rfc7624" /> Sizes and timing are what website-fingerprinting research uses to guess which page is loading, even through Tor.<Cite id="net-df-paper" />
+
+## How this maps to the chapters
+
+The [network chapter](/layers/network/) is about one field in the header: the source address. VPNs, proxies and Tor all work by making that field belong to someone else, which means handing your packets to a relay that sees what your ISP used to see. The question becomes who that relay is and what it writes down.
+
+The [device chapter](/layers/device/) is about what happens inside the encrypted letter and on the machine that writes it. A perfect envelope does not help if the program on the device reveals the real address another way, or if the device itself is identifiable.
+
+The [records page](/basics/records/) picks up the trail from the other end: the log line at the server, and the chain of records that turns an address and a time into a name.

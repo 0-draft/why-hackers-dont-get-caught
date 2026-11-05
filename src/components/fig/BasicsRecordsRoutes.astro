@@ -1,0 +1,113 @@
+---
+// The same chain for three routes: direct, through a VPN, through Tor. Each
+// relay adds a company (and often a country) whose records decide whether the
+// chain continues.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Box = { t: string[]; k?: "leak" | "maybe" };
+const T = {
+  en: {
+    title: "How far the chain reaches",
+    rows: ["Direct", "Through a VPN", "Through Tor"],
+    chains: [
+      [
+        { t: ["server log", "198.51.100.23"] },
+        { t: ["home ISP", "address -> line"] },
+        { t: ["subscriber", "name, address"], k: "leak" },
+      ],
+      [
+        { t: ["server log", "203.0.113.80"] },
+        { t: ["VPN provider", "maybe abroad"] },
+        { t: ["if it kept logs:", "real address"], k: "maybe" },
+        { t: ["home ISP", "address -> line"] },
+        { t: ["subscriber", "name, address"], k: "leak" },
+      ],
+      [{ t: ["server log", "192.0.2.201"] }, { t: ["exit operator", "only saw a relay"] }],
+    ] as Box[][],
+    end: ["no single relay knows", "both ends of the circuit"],
+  },
+  ja: {
+    title: "鎖がどこまで届くか",
+    rows: ["直接", "VPN 経由", "Tor 経由"],
+    chains: [
+      [
+        { t: ["サーバーのログ", "198.51.100.23"] },
+        { t: ["自宅の ISP", "アドレス → 回線"] },
+        { t: ["契約者", "氏名と住所"], k: "leak" },
+      ],
+      [
+        { t: ["サーバーのログ", "203.0.113.80"] },
+        { t: ["VPN 事業者", "外国にあることも"] },
+        { t: ["ログがあれば:", "本当のアドレス"], k: "maybe" },
+        { t: ["自宅の ISP", "アドレス → 回線"] },
+        { t: ["契約者", "氏名と住所"], k: "leak" },
+      ],
+      [{ t: ["サーバーのログ", "192.0.2.201"] }, { t: ["出口の運営者", "見たのは中間リレー"] }],
+    ] as Box[][],
+    end: ["回線の両端を知る", "リレーは 1 つもない"],
+  },
+}[lang];
+
+const bx = [150, 302, 454, 606, 758];
+const bw = 136;
+const bh = 56;
+const rowY = [40, 130, 220];
+---
+
+<svg class="dg" viewBox="0 0 900 300" role="img" aria-label={T.title}>
+  {
+    T.chains.map((chain, r) => {
+      const y = rowY[r]!;
+      return (
+        <g>
+          <text x="20" y={y + bh / 2 + 4} class="b t-s">
+            {T.rows[r]}
+          </text>
+          {chain.map((b, i) => (
+            <g>
+              <rect
+                class:list={[b.k === "leak" ? "stroke-leak" : b.k === "maybe" ? "ln-1 dash" : "box"]}
+                fill={b.k === "maybe" ? "none" : undefined}
+                x={bx[i]!}
+                y={y}
+                width={bw}
+                height={bh}
+              />
+              {b.t.map((t, k) => (
+                <text
+                  x={bx[i]! + 12}
+                  y={y + 24 + k * 18}
+                  class:list={[
+                    "t-s",
+                    k === 0 && "b",
+                    k === 1 && "t-2",
+                    b.k === "leak" && "t-leak",
+                    k === 1 && /\d/.test(t) && "mono",
+                  ]}
+                >
+                  {t}
+                </text>
+              ))}
+              {i < chain.length - 1 && (
+                <g>
+                  <line class="ln" x1={bx[i]! + bw} y1={y + bh / 2} x2={bx[i + 1]! - 8} y2={y + bh / 2} />
+                  <polygon
+                    class="fill-ink"
+                    points={`${bx[i + 1]!},${y + bh / 2} ${bx[i + 1]! - 9},${y + bh / 2 - 4} ${bx[i + 1]! - 9},${y + bh / 2 + 4}`}
+                  />
+                </g>
+              )}
+            </g>
+          ))}
+        </g>
+      );
+    })
+  }
+  <line class="ln-1 dash" x1={bx[1]! + bw} y1={rowY[2]! + bh / 2} x2={bx[2]! - 6} y2={rowY[2]! + bh / 2}></line>
+  <line class="ln" x1={bx[2]! - 6} y1={rowY[2]! + bh / 2 - 12} x2={bx[2]! - 6} y2={rowY[2]! + bh / 2 + 12}></line>
+  <text x={bx[2]! + 6} y={rowY[2]! + 24} class="t-s t-2">{T.end[0]}</text>
+  <text x={bx[2]! + 6} y={rowY[2]! + 42} class="t-s t-2">{T.end[1]}</text>
+</svg>

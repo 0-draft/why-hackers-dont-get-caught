@@ -1,0 +1,160 @@
+---
+// The IPv4 header drawn as a 32-bit-wide grid (RFC 791), followed by the
+// start of the TCP header and the data. Yellow = readable to any router on the
+// path; black = encrypted content; magenta outline = the field that points
+// back at the sender's connection.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type F = { b: number; t: string; k?: "src" | "plain" };
+const L = {
+  en: {
+    title: "One packet, as a router sees it",
+    rows: [
+      [
+        { b: 4, t: "Ver 4" },
+        { b: 4, t: "IHL" },
+        { b: 8, t: "DSCP/ECN" },
+        { b: 16, t: "Total length 1,500" },
+      ],
+      [
+        { b: 16, t: "Identification" },
+        { b: 3, t: "Flg" },
+        { b: 13, t: "Fragment offset" },
+      ],
+      [
+        { b: 8, t: "TTL 64" },
+        { b: 8, t: "Protocol 6" },
+        { b: 16, t: "Header checksum" },
+      ],
+      [{ b: 32, t: "Source address 198.51.100.23", k: "src" }],
+      [{ b: 32, t: "Destination address 203.0.113.10" }],
+    ] as F[][],
+    tcp: [
+      [
+        { b: 16, t: "Source port 51022" },
+        { b: 16, t: "Destination port 443" },
+      ],
+      [{ b: 32, t: "Sequence number, flags, window ..." }],
+    ] as F[][],
+    data: "Data: 1,460 bytes, encrypted by TLS",
+    side: [
+      ["IP header", "20 bytes", "the envelope"],
+      ["TCP header", "ports and order"],
+      ["Data", "the letter"],
+    ],
+    srcNote: "where replies go",
+    bits: "bit",
+  },
+  ja: {
+    title: "ルーターから見たパケット 1 つ",
+    rows: [
+      [
+        { b: 4, t: "Ver 4" },
+        { b: 4, t: "IHL" },
+        { b: 8, t: "DSCP/ECN" },
+        { b: 16, t: "全長 1,500" },
+      ],
+      [
+        { b: 16, t: "識別子" },
+        { b: 3, t: "Flg" },
+        { b: 13, t: "断片オフセット" },
+      ],
+      [
+        { b: 8, t: "TTL 64" },
+        { b: 8, t: "プロトコル 6" },
+        { b: 16, t: "ヘッダーチェックサム" },
+      ],
+      [{ b: 32, t: "送信元アドレス 198.51.100.23", k: "src" }],
+      [{ b: 32, t: "宛先アドレス 203.0.113.10" }],
+    ] as F[][],
+    tcp: [
+      [
+        { b: 16, t: "送信元ポート 51022" },
+        { b: 16, t: "宛先ポート 443" },
+      ],
+      [{ b: 32, t: "シーケンス番号、フラグ、ウィンドウなど" }],
+    ] as F[][],
+    data: "データ: 1,460 バイト、TLS で暗号化",
+    side: [
+      ["IP ヘッダー", "20 バイト", "封筒の表書き"],
+      ["TCP ヘッダー", "ポートと順番"],
+      ["データ", "中の手紙"],
+    ],
+    srcNote: "返事の届け先",
+    bits: "ビット",
+  },
+}[lang];
+
+const x0 = 20;
+const bw = 14; // px per bit -> 448px per row
+const rh = 34;
+const y0 = 52;
+const tcpY = y0 + rh * 5 + 16;
+const dataY = tcpY + rh * 2 + 16;
+const lay = (rows: F[][], top: number) =>
+  rows.flatMap((r, i) => {
+    let x = x0;
+    return r.map((f) => {
+      const o = { ...f, x, y: top + i * rh, w: f.b * bw };
+      x += f.b * bw;
+      return o;
+    });
+  });
+const ip = lay(L.rows, y0);
+const tcp = lay(L.tcp, tcpY);
+const sx = x0 + 32 * bw + 24;
+---
+
+<svg class="dg" viewBox="0 0 680 410" role="img" aria-label={L.title}>
+  <text x={x0} y="22" class="b t-s">{L.title}</text>
+  {
+    [0, 8, 16, 24, 31].map((b) => (
+      <text x={x0 + b * bw + (b === 31 ? bw : 0)} y="44" text-anchor={b === 31 ? "end" : "start"} class="mono t-2">
+        {b}
+      </text>
+    ))
+  }
+  <text x={x0 + 16 * bw + 30} y="44" class="t-s t-2">{L.bits}</text>
+
+  {
+    [...ip, ...tcp].map((f) => (
+      <g>
+        <rect class="fill-hl" x={f.x} y={f.y} width={f.w} height={rh} />
+        <rect class="ln-1" x={f.x} y={f.y} width={f.w} height={rh} />
+        {f.k === "src" && <rect class="stroke-leak" x={f.x + 3} y={f.y + 3} width={f.w - 6} height={rh - 6} />}
+        <text
+          x={f.b < 6 ? f.x + f.w / 2 : f.x + 12}
+          y={f.y + 22}
+          text-anchor={f.b < 6 ? "middle" : "start"}
+          class:list={["t-on-hl", "t-s", f.k === "src" && "b"]}
+        >
+          {f.t}
+        </text>
+      </g>
+    ))
+  }
+  <rect class="fill-bar" x={x0} y={dataY} width={32 * bw} height="60"></rect>
+  <text x={x0 + 16 * bw} y={dataY + 35} text-anchor="middle" class="t-on-ink t-s">{L.data}</text>
+
+  <!-- side brackets -->
+  {
+    [
+      [y0, y0 + rh * 5],
+      [tcpY, tcpY + rh * 2],
+      [dataY, dataY + 60],
+    ].map(([a, b], i) => (
+      <g>
+        <path class="ln-1" d={`M${sx - 12},${a! + 2} L${sx - 6},${a! + 2} L${sx - 6},${b! - 2} L${sx - 12},${b! - 2}`} />
+        {L.side[i]!.map((t, j) => (
+          <text x={sx + 4} y={a! + 18 + j * 17} class:list={["t-s", j === 0 ? "b" : "t-2"]}>
+            {t}
+          </text>
+        ))}
+      </g>
+    ))
+  }
+  <text x={sx + 4} y={y0 + rh * 3 + 22} class="t-s t-leak">{L.srcNote}</text>
+</svg>

@@ -1,0 +1,115 @@
+---
+// The address-to-subscriber lookup with one log line, as three small
+// multiples: the home has its own public address; the home sits behind
+// carrier-grade NAT and the port was logged; behind CGNAT without the port.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Cell = { k: "hl" | "bar" | "leak" | "none"; lines: string[] };
+const L = {
+  en: {
+    title: "From one log line to a subscriber",
+    cols: ["forum.example's log", "ISP's records (legal request)", "Subscriber"],
+    rows: ["Own public address", "Behind CGNAT, port logged", "Behind CGNAT, no port"],
+    cells: [
+      [
+        { k: "hl", lines: ["03:14:07Z", "198.51.100.23"] },
+        { k: "hl", lines: ["198.51.100.23 held by", "line 7781, 22:05Z-09:40Z"] },
+        { k: "leak", lines: ["line 7781:", "Taro Yamada"] },
+      ],
+      [
+        { k: "hl", lines: ["03:14:07Z", "198.51.100.23:51022"] },
+        { k: "hl", lines: ["NAT: :51022 <- 100.64.12.7", "100.64.12.7 = line 7781"] },
+        { k: "leak", lines: ["line 7781:", "Taro Yamada"] },
+      ],
+      [
+        { k: "hl", lines: ["03:14:07Z", "198.51.100.23:"] },
+        { k: "hl", lines: ["many lines shared", "198.51.100.23 at 03:14:07"] },
+        { k: "none", lines: ["no single name"] },
+      ],
+    ] as Cell[][],
+  },
+  ja: {
+    title: "ログの 1 行から契約者まで",
+    cols: ["forum.example のログ", "ISP の記録 (法的照会)", "契約者"],
+    rows: ["自前の公開アドレス", "CGNAT の後ろ、ポートあり", "CGNAT の後ろ、ポートなし"],
+    cells: [
+      [
+        { k: "hl", lines: ["03:14:07Z", "198.51.100.23"] },
+        { k: "hl", lines: ["198.51.100.23 の利用者:", "回線 7781 (22:05Z-09:40Z)"] },
+        { k: "leak", lines: ["回線 7781:", "Taro Yamada"] },
+      ],
+      [
+        { k: "hl", lines: ["03:14:07Z", "198.51.100.23:51022"] },
+        { k: "hl", lines: ["NAT: :51022 <- 100.64.12.7", "100.64.12.7 = 回線 7781"] },
+        { k: "leak", lines: ["回線 7781:", "Taro Yamada"] },
+      ],
+      [
+        { k: "hl", lines: ["03:14:07Z", "198.51.100.23:"] },
+        { k: "hl", lines: ["その時刻に 198.51.100.23", "を共有した回線が多数"] },
+        { k: "none", lines: ["名前に絞れない"] },
+      ],
+    ] as Cell[][],
+  },
+}[lang];
+
+const colX = [200, 440, 720];
+const colW = [200, 240, 160];
+const y0 = 56;
+const rh = 84;
+---
+
+<svg class="dg" viewBox="0 0 900 320" role="img" aria-label={L.title}>
+  {
+    L.cols.map((c, j) => (
+      <text x={colX[j]!} y="34" class="b t-s">
+        {c}
+      </text>
+    ))
+  }
+  {
+    L.rows.map((r, i) => {
+      const y = y0 + i * rh;
+      return (
+        <g>
+          <text x="20" y={y + 36} class="b t-s">
+            {r}
+          </text>
+          {L.cells[i]!.map((c, j) => (
+            <g>
+              {c.k === "hl" && <rect class="fill-hl" x={colX[j]!} y={y} width={colW[j]!} height="60" />}
+              {c.k === "leak" && <rect class="stroke-leak" x={colX[j]!} y={y} width={colW[j]!} height="60" />}
+              {c.k === "none" && <rect class="ln-1 dash" x={colX[j]!} y={y} width={colW[j]!} height="60" fill="none" />}
+              {c.lines.map((t, k) => (
+                <text
+                  x={colX[j]! + 12}
+                  y={y + 25 + k * 20}
+                  class:list={[
+                    /^[\d:.]+|NAT|^line|^\d/.test(t) || t.includes("@") ? "mono" : "t-s",
+                    c.k === "hl" && "t-on-hl",
+                    c.k === "leak" && "t-leak",
+                    c.k === "none" && "t-2",
+                  ]}
+                >
+                  {t}
+                </text>
+              ))}
+              {j < 2 && (
+                <g>
+                  <line class="ln" x1={colX[j]! + colW[j]!} y1={y + 30} x2={colX[j + 1]! - 9} y2={y + 30} />
+                  <polygon
+                    class="fill-ink"
+                    points={`${colX[j + 1]!},${y + 30} ${colX[j + 1]! - 9},${y + 26} ${colX[j + 1]! - 9},${y + 34}`}
+                  />
+                </g>
+              )}
+            </g>
+          ))}
+          {i === 2 && <rect class="fill-bar" x={colX[0]! + 12 + 14 * 7.2} y={y + 33} width="44" height="16" />}
+        </g>
+      );
+    })
+  }
+</svg>

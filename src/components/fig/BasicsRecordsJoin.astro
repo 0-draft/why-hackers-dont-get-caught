@@ -1,0 +1,272 @@
+---
+// Interactive: a records join. Two tables held by different companies share
+// one column; matching that column links a pseudonymous account to a record
+// that holds a name. The join line is magenta because the right-hand side
+// names a person. Three joins: address + time, phone number, email.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+interface Table {
+  title: string;
+  cols: string[];
+  vals: string[];
+  w: number[];
+}
+interface Join {
+  name: string;
+  left: Table;
+  right: Table;
+  note: string;
+}
+
+const T: { controls: string; joins: Join[] } =
+  lang === "en"
+    ? {
+        controls: "Which column joins the two records",
+        joins: [
+          {
+            name: "Address + time",
+            left: {
+              title: "forum.example: login log",
+              cols: ["account", "address + time"],
+              vals: ["anon_4471", "198.51.100.23 03:14:07Z"],
+              w: [130, 250],
+            },
+            right: {
+              title: "ISP: address assignments",
+              cols: ["address + time", "account holder"],
+              vals: ["198.51.100.23 22:05-09:40Z", "Taro Yamada"],
+              w: [230, 150],
+            },
+            note: "The forum knows the account but not the person; the ISP knows the person but not the account. The shared column is the address at that moment. Once both tables are in one investigator's hands, the join names anon_4471.",
+          },
+          {
+            name: "Phone number",
+            left: {
+              title: "Platform: account record",
+              cols: ["account", "verified phone"],
+              vals: ["anon_4471", "+1 202-555-0147"],
+              w: [130, 250],
+            },
+            right: {
+              title: "Mobile carrier: contracts",
+              cols: ["phone number", "contract holder"],
+              vals: ["+1 202-555-0147", "Taro Yamada"],
+              w: [230, 150],
+            },
+            note: "A platform that verifies accounts by SMS stores the number. The carrier that issued the number has the contract. The phone number is the shared column.",
+          },
+          {
+            name: "Email address",
+            left: {
+              title: "forum.example: account record",
+              cols: ["account", "recovery email"],
+              vals: ["anon_4471", "ty4471@mail.example"],
+              w: [130, 250],
+            },
+            right: {
+              title: "Exchange: customer file (KYC)",
+              cols: ["email", "verified identity"],
+              vals: ["ty4471@mail.example", "Taro Yamada"],
+              w: [230, 150],
+            },
+            note: "The same email address used for a pseudonymous account and for an exchange account that checked an ID document joins the two. Reused identifiers are the most common join in the cases on this site.",
+          },
+        ],
+      }
+    : {
+        controls: "2 つの記録を結ぶ列",
+        joins: [
+          {
+            name: "アドレス + 時刻",
+            left: {
+              title: "forum.example: ログイン記録",
+              cols: ["アカウント", "アドレス + 時刻"],
+              vals: ["anon_4471", "198.51.100.23 03:14:07Z"],
+              w: [130, 250],
+            },
+            right: {
+              title: "ISP: アドレスの割り当て",
+              cols: ["アドレス + 時刻", "契約者"],
+              vals: ["198.51.100.23 22:05-09:40Z", "Taro Yamada"],
+              w: [230, 150],
+            },
+            note: "掲示板はアカウントを知っているが本人を知らない。ISP は本人を知っているがアカウントを知らない。共通の列はその時刻のアドレスだ。両方の表が捜査側の手にそろえば、結合で anon_4471 に名前がつく。",
+          },
+          {
+            name: "電話番号",
+            left: {
+              title: "プラットフォーム: アカウント",
+              cols: ["アカウント", "認証済みの電話"],
+              vals: ["anon_4471", "+1 202-555-0147"],
+              w: [130, 250],
+            },
+            right: {
+              title: "携帯事業者: 契約",
+              cols: ["電話番号", "契約者"],
+              vals: ["+1 202-555-0147", "Taro Yamada"],
+              w: [230, 150],
+            },
+            note: "SMS でアカウントを認証するプラットフォームは番号を保存している。その番号を発行した携帯事業者は契約を持っている。共通の列は電話番号だ。",
+          },
+          {
+            name: "メールアドレス",
+            left: {
+              title: "forum.example: アカウント",
+              cols: ["アカウント", "復旧用メール"],
+              vals: ["anon_4471", "ty4471@mail.example"],
+              w: [130, 250],
+            },
+            right: {
+              title: "取引所: 顧客台帳 (KYC)",
+              cols: ["メール", "確認済みの身元"],
+              vals: ["ty4471@mail.example", "Taro Yamada"],
+              w: [230, 150],
+            },
+            note: "仮名のアカウントと、身分証を確認した取引所の口座に同じメールアドレスを使えば、2 つがつながる。使い回した識別子は、このサイトで扱う事件でもっとも多い結合の手がかりだ。",
+          },
+        ],
+      };
+
+const lx = 20;
+const rx = 500;
+---
+
+<div class="brj" data-brj data-notes={JSON.stringify(T.joins.map((j) => j.note))}>
+  <div class="brj-modes" role="group" aria-label={T.controls}>
+    {
+      T.joins.map((j, i) => (
+        <button type="button" class="brj-btn" aria-pressed={i === 0 ? "true" : "false"}>
+          {j.name}
+        </button>
+      ))
+    }
+  </div>
+  <svg class="dg" viewBox="0 0 900 190" role="img" aria-labelledby="brj-note">
+    {
+      T.joins.map((j, m) => (
+        <g data-mode={m} data-off={m !== 0 ? "" : undefined}>
+          {[j.left, j.right].map((t, side) => {
+            const x0 = side === 0 ? lx : rx;
+            let x = x0;
+            return (
+              <g>
+                <text x={x0} y="24" class="b t-s">
+                  {t.title}
+                </text>
+                {t.cols.map((c, k) => {
+                  const cx = x;
+                  x += t.w[k]!;
+                  const shared = (side === 0 && k === t.cols.length - 1) || (side === 1 && k === 0);
+                  const name = side === 1 && k === t.cols.length - 1;
+                  return (
+                    <g>
+                      <rect class="box-soft" x={cx} y="36" width={t.w[k]!} height="32" />
+                      <text x={cx + 12} y="57" class="t-s t-2">
+                        {c}
+                      </text>
+                      <rect
+                        class={shared ? "fill-hl" : name ? "stroke-leak" : "box"}
+                        x={cx}
+                        y="68"
+                        width={t.w[k]!}
+                        height="40"
+                      />
+                      <text
+                        x={cx + 12}
+                        y="93"
+                        class:list={[name ? "t-s b t-leak" : "mono", shared && "t-on-hl"]}
+                      >
+                        {t.vals[k]}
+                      </text>
+                    </g>
+                  );
+                })}
+              </g>
+            );
+          })}
+          <line class="stroke-leak" x1="400" y1="88" x2="500" y2="88" />
+          <text x="450" y="80" text-anchor="middle" class="t-s t-leak">
+            {lang === "en" ? "match" : "一致"}
+          </text>
+          <path class="stroke-leak" d="M85,108 L85,150 L805,150 L805,108" />
+          <text x="490" y="172" text-anchor="middle" class="t-s t-leak b">
+            anon_4471 = Taro Yamada
+          </text>
+        </g>
+      ))
+    }
+  </svg>
+  <p class="brj-note" id="brj-note" aria-live="polite">{T.joins[0]!.note}</p>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>("[data-brj]")) {
+    const btns = [...root.querySelectorAll<HTMLButtonElement>(".brj-btn")];
+    const groups = [...root.querySelectorAll<SVGGElement>("[data-mode]")];
+    const note = root.querySelector<HTMLElement>(".brj-note")!;
+    const notes: string[] = JSON.parse(root.dataset.notes ?? "[]");
+    const show = (i: number) => {
+      btns.forEach((b, j) => b.setAttribute("aria-pressed", String(i === j)));
+      groups.forEach((g, j) => {
+        if (i === j) g.removeAttribute("data-off");
+        else g.setAttribute("data-off", "");
+      });
+      note.textContent = notes[i] ?? "";
+    };
+    btns.forEach((b, i) => {
+      b.addEventListener("click", () => show(i));
+      b.addEventListener("keydown", (e) => {
+        const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const n = (i + d + btns.length) % btns.length;
+        show(n);
+        btns[n]!.focus();
+      });
+    });
+  }
+</script>
+
+<style>
+  .brj-modes {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1.5px solid var(--ink);
+    margin-bottom: 1rem;
+    width: max-content;
+    max-width: 100%;
+  }
+  .brj-btn {
+    font: inherit;
+    font-weight: 700;
+    font-size: var(--step--1);
+    background: transparent;
+    color: var(--ink);
+    border: 0;
+    border-right: 1px solid var(--rule);
+    padding: 0.45rem 0.85rem;
+    cursor: pointer;
+  }
+  .brj-btn:last-child {
+    border-right: 0;
+  }
+  .brj-btn[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--sheet);
+  }
+  .brj svg {
+    min-width: 640px;
+  }
+  .brj [data-off] {
+    display: none;
+  }
+  .brj-note {
+    margin: 0.75rem 0 0;
+    font-size: var(--step--1);
+    max-width: 68ch;
+    min-height: 4.8em;
+  }
+</style>

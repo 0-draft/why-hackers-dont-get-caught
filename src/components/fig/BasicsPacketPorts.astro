@@ -1,0 +1,106 @@
+---
+// Ports and a TCP connection: the four numbers that name a connection, then
+// the handshake, the encrypted data and the close, as a sequence diagram.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    title: "A connection is named by four numbers",
+    chips: ["198.51.100.23", "51022", "203.0.113.10", "443"],
+    under: ["your address", "temporary port", "server address", "443 = HTTPS"],
+    you: "you",
+    srv: "server",
+    msgs: ["SYN: may I connect?", "SYN-ACK: yes, go ahead", "ACK: connected"],
+    data: "data, encrypted by TLS",
+    fin: "FIN: done",
+    time: "time",
+  },
+  ja: {
+    title: "接続は 4 つの数字で決まる",
+    chips: ["198.51.100.23", "51022", "203.0.113.10", "443"],
+    under: ["あなたのアドレス", "一時的なポート", "サーバーのアドレス", "443 = HTTPS"],
+    you: "あなた",
+    srv: "サーバー",
+    msgs: ["SYN: つないでいい?", "SYN-ACK: どうぞ", "ACK: つながった"],
+    data: "データ (TLS で暗号化)",
+    fin: "FIN: おしまい",
+    time: "時間",
+  },
+}[lang];
+
+const chips = [
+  { x: 20, w: 150 },
+  { x: 176, w: 100 },
+  { x: 330, w: 160 },
+  { x: 496, w: 100 },
+];
+const cX = 160;
+const sX = 520;
+const arrows = [
+  { y1: 200, y2: 224, dir: 1 },
+  { y1: 238, y2: 262, dir: -1 },
+  { y1: 276, y2: 300, dir: 1 },
+];
+---
+
+<svg class="dg" viewBox="0 0 680 440" role="img" aria-label={L.title}>
+  <defs>
+    <marker id="bpp-arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path class="fill-ink" d="M0,1 L10,5 L0,9 z"></path>
+    </marker>
+  </defs>
+  <text x="20" y="24" class="b t-s">{L.title}</text>
+  {
+    chips.map((c, i) => (
+      <g>
+        <rect class="fill-hl" x={c.x} y="36" width={c.w} height="32" />
+        <text x={c.x + c.w / 2} y="57" text-anchor="middle" class="mono t-on-hl b">
+          {L.chips[i]}
+        </text>
+        <text x={c.x + c.w / 2} y="86" text-anchor="middle" class="t-s t-2">
+          {L.under[i]}
+        </text>
+      </g>
+    ))
+  }
+  <text x="303" y="57" text-anchor="middle" class="b">{"->"}</text>
+
+  <!-- sequence -->
+  <rect class="box" x={cX - 90} y="124" width="180" height="40"></rect>
+  <text x={cX} y="149" text-anchor="middle" class="t-s"><tspan class="b">{L.you}</tspan> <tspan class="mono">:51022</tspan></text>
+  <rect class="box" x={sX - 90} y="124" width="180" height="40"></rect>
+  <text x={sX} y="149" text-anchor="middle" class="t-s"><tspan class="b">{L.srv}</tspan> <tspan class="mono">:443</tspan></text>
+  <line class="ln-1" x1={cX} y1="164" x2={cX} y2="424"></line>
+  <line class="ln-1" x1={sX} y1="164" x2={sX} y2="424"></line>
+  <text x="22" y="200" class="t-s t-2">{L.time}</text>
+  <line class="ln-1 soft" x1="30" y1="210" x2="30" y2="410" marker-end="url(#bpp-arrow)"></line>
+
+  {
+    arrows.map((a, i) => (
+      <g>
+        <line
+          class="ln-1"
+          x1={a.dir > 0 ? cX : sX}
+          y1={a.y1}
+          x2={a.dir > 0 ? sX : cX}
+          y2={a.y2}
+          marker-end="url(#bpp-arrow)"
+        />
+        <text x="340" y={(a.y1 + a.y2) / 2 - 8} text-anchor="middle" class="t-s">
+          {L.msgs[i]}
+        </text>
+      </g>
+    ))
+  }
+
+  <line class="ln" x1={cX} y1="318" x2={sX} y2="330" marker-end="url(#bpp-arrow)"></line>
+  <line class="ln" x1={sX} y1="364" x2={cX} y2="376" marker-end="url(#bpp-arrow)"></line>
+  <rect class="fill-bar" x="240" y="336" width="200" height="22"></rect>
+  <text x="340" y="351" text-anchor="middle" class="t-s t-on-ink">{L.data}</text>
+
+  <line class="ln-1" x1={cX} y1="396" x2={sX} y2="414" marker-end="url(#bpp-arrow)"></line>
+  <text x="340" y="394" text-anchor="middle" class="t-s">{L.fin}</text>
+</svg>

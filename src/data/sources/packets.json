@@ -1,0 +1,138 @@
+[
+  {
+    "id": "basics-rfc5737",
+    "title": "RFC 5737: IPv4 Address Blocks Reserved for Documentation",
+    "publisher": "IETF",
+    "date": "2010-01",
+    "url": "https://www.rfc-editor.org/rfc/rfc5737.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc894",
+    "title": "RFC 894: A Standard for the Transmission of IP Datagrams over Ethernet Networks",
+    "publisher": "IETF",
+    "date": "1984-04",
+    "url": "https://www.rfc-editor.org/rfc/rfc894.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc791",
+    "title": "RFC 791: Internet Protocol",
+    "publisher": "IETF",
+    "date": "1981-09",
+    "url": "https://www.rfc-editor.org/rfc/rfc791.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc8200",
+    "title": "RFC 8200: Internet Protocol, Version 6 (IPv6) Specification",
+    "publisher": "IETF",
+    "date": "2017-07",
+    "url": "https://www.rfc-editor.org/rfc/rfc8200.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc7011",
+    "title": "RFC 7011: Specification of the IP Flow Information Export (IPFIX) Protocol for the Exchange of Flow Information",
+    "publisher": "IETF",
+    "date": "2013-09",
+    "url": "https://www.rfc-editor.org/rfc/rfc7011.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc3176",
+    "title": "RFC 3176: InMon Corporation's sFlow: A Method for Monitoring Traffic in Switched and Routed Networks",
+    "publisher": "IETF",
+    "date": "2001-09",
+    "url": "https://www.rfc-editor.org/rfc/rfc3176.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc1918",
+    "title": "RFC 1918: Address Allocation for Private Internets",
+    "publisher": "IETF",
+    "date": "1996-02",
+    "url": "https://www.rfc-editor.org/rfc/rfc1918.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc6598",
+    "title": "RFC 6598: IANA-Reserved IPv4 Prefix for Shared Address Space",
+    "publisher": "IETF",
+    "date": "2012-04",
+    "url": "https://www.rfc-editor.org/rfc/rfc6598.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-europol-cgn",
+    "title": "Are you sharing the same IP address as a criminal? Law enforcement call for the end of Carrier Grade NAT (CGN) to increase accountability online",
+    "publisher": "Europol",
+    "date": "2017-10",
+    "url": "https://www.europol.europa.eu/media-press/newsroom/news/are-you-sharing-same-ip-address-criminal-law-enforcement-call-for-end-of-carrier-grade-nat-cgn-to-increase-accountability-online",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc6302",
+    "title": "RFC 6302: Logging Recommendations for Internet-Facing Servers",
+    "publisher": "IETF",
+    "date": "2011-06",
+    "url": "https://www.rfc-editor.org/rfc/rfc6302.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc1034",
+    "title": "RFC 1034: Domain Names - Concepts and Facilities",
+    "publisher": "IETF",
+    "date": "1987-11",
+    "url": "https://www.rfc-editor.org/rfc/rfc1034.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc9156",
+    "title": "RFC 9156: DNS Query Name Minimisation to Improve Privacy",
+    "publisher": "IETF",
+    "date": "2021-11",
+    "url": "https://www.rfc-editor.org/rfc/rfc9156.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc7858",
+    "title": "RFC 7858: Specification for DNS over Transport Layer Security (TLS)",
+    "publisher": "IETF",
+    "date": "2016-05",
+    "url": "https://www.rfc-editor.org/rfc/rfc7858.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc6335",
+    "title": "RFC 6335: Internet Assigned Numbers Authority (IANA) Procedures for the Management of the Service Name and Transport Protocol Port Number Registry",
+    "publisher": "IETF",
+    "date": "2011-08",
+    "url": "https://www.rfc-editor.org/rfc/rfc6335.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc9293",
+    "title": "RFC 9293: Transmission Control Protocol (TCP)",
+    "publisher": "IETF",
+    "date": "2022-08",
+    "url": "https://www.rfc-editor.org/rfc/rfc9293.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc6066",
+    "title": "RFC 6066: Transport Layer Security (TLS) Extensions: Extension Definitions",
+    "publisher": "IETF",
+    "date": "2011-01",
+    "url": "https://www.rfc-editor.org/rfc/rfc6066.html",
+    "kind": "primary"
+  },
+  {
+    "id": "basics-rfc7624",
+    "title": "RFC 7624: Confidentiality in the Face of Pervasive Surveillance: A Threat Model and Problem Statement",
+    "publisher": "IETF",
+    "date": "2015-08",
+    "url": "https://www.rfc-editor.org/rfc/rfc7624.html",
+    "kind": "primary"
+  }
+]

@@ -1,0 +1,94 @@
+---
+// A 4,000-byte message cut into three packets. Each packet carries its own
+// copy of the header (yellow: readable to every router) and one slice of the
+// message.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    msg: "The message: 4,000 bytes",
+    slices: ["bytes 1-1,460", "bytes 1,461-2,920", "bytes 2,921-4,000"],
+    pkt: ["packet 1", "packet 2", "packet 3"],
+    from: "from",
+    to: "to",
+    legendHead: "header: read by every router on the way",
+    legendBody: "payload: one slice of the message",
+    joined: "The receiver puts the slices back in order",
+  },
+  ja: {
+    msg: "送るメッセージ: 4,000 バイト",
+    slices: ["1-1,460 バイト目", "1,461-2,920 バイト目", "2,921-4,000 バイト目"],
+    pkt: ["パケット 1", "パケット 2", "パケット 3"],
+    from: "送信元",
+    to: "宛先",
+    legendHead: "ヘッダー: 途中のルーターが全部読む",
+    legendBody: "ペイロード: メッセージの一切れ",
+    joined: "受け手が順番どおりにつなぎ直す",
+  },
+}[lang];
+
+const cut = [20, 254, 487, 660];
+const px = [20, 247, 474];
+const pw = 186;
+---
+
+<svg class="dg" viewBox="0 0 680 400" role="img" aria-label={L.msg}>
+  <text x="20" y="26" class="b t-s">{L.msg}</text>
+  <rect class="box" x="20" y="38" width="640" height="44"></rect>
+  <line class="ln-1 dash" x1="254" y1="38" x2="254" y2="82"></line>
+  <line class="ln-1 dash" x1="487" y1="38" x2="487" y2="82"></line>
+  {
+    L.slices.map((s, i) => (
+      <text x={(cut[i]! + cut[i + 1]!) / 2} y="65" text-anchor="middle" class="t-s">
+        {s}
+      </text>
+    ))
+  }
+
+  {
+    px.map((x, i) => {
+      const cx = x + pw / 2;
+      const mid = (cut[i]! + cut[i + 1]!) / 2;
+      return (
+        <g>
+          <path class="ln-1" d={`M${mid},82 L${mid},100 L${cx},100 L${cx},122`} />
+          <polygon class="fill-ink" points={`${cx},130 ${cx - 4},121 ${cx + 4},121`} />
+          <text x={x} y="146" class="b t-s">
+            {L.pkt[i]}
+          </text>
+          <rect class="fill-hl" x={x} y="154" width={pw} height="52" />
+          <text x={x + 12} y="175" class="t-on-hl t-s">
+            {L.from}
+          </text>
+          <text x={x + 64} y="175" class="t-on-hl mono">
+            198.51.100.23
+          </text>
+          <text x={x + 12} y="195" class="t-on-hl t-s">
+            {L.to}
+          </text>
+          <text x={x + 64} y="195" class="t-on-hl mono">
+            203.0.113.10
+          </text>
+          <rect class="box" x={x} y="206" width={pw} height="40" />
+          <text x={x + pw / 2} y="231" text-anchor="middle" class="t-s">
+            {L.slices[i]}
+          </text>
+          <line class="ln-1" x1={cx} y1="246" x2={cx} y2="282" />
+        </g>
+      );
+    })
+  }
+  <line class="ln-1" x1={px[0]! + pw / 2} y1="282" x2={px[2]! + pw / 2} y2="282"></line>
+  <line class="ln-1" x1="340" y1="282" x2="340" y2="298"></line>
+  <polygon class="fill-ink" points="340,306 336,297 344,297"></polygon>
+  <rect class="box" x="20" y="306" width="640" height="36"></rect>
+  <text x="340" y="329" text-anchor="middle" class="t-s">{L.joined}</text>
+
+  <rect class="fill-hl" x="20" y="364" width="18" height="14"></rect>
+  <text x="46" y="376" class="t-s">{L.legendHead}</text>
+  <rect class="box" x="360" y="364" width="18" height="14"></rect>
+  <text x="386" y="376" class="t-s">{L.legendBody}</text>
+</svg>

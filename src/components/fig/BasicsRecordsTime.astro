@@ -1,0 +1,73 @@
+---
+// Two readings of one timestamp, as small multiples. A server in Tokyo logs
+// local time with no offset. Read as UTC, the lookup lands nine hours late on
+// a different line; converted from UTC+9, it lands on the right one.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    title: "One log line, two readings",
+    logTitle: "forum.example's log (Tokyo, local time, no offset written)",
+    readings: ["Read as UTC: 12:14:07 UTC", "Converted from UTC+9: 03:14:07 UTC"],
+    holders: ["line 7781", "line 4410"],
+    results: ["lands on line 4410: the wrong household", "lands on line 7781: the right one"],
+    axis: "ISP: who held 198.51.100.23 on 2026-03-14 (UTC)",
+  },
+  ja: {
+    title: "1 行のログ、2 通りの読み方",
+    logTitle: "forum.example のログ (東京、現地時刻、時差の記載なし)",
+    readings: ["UTC として読む: 12:14:07 UTC", "UTC+9 から換算: 03:14:07 UTC"],
+    holders: ["回線 7781", "回線 4410"],
+    results: ["回線 4410 に行き着く: 別の世帯", "回線 7781 に行き着く: 正しい世帯"],
+    axis: "ISP: 2026-03-14 に 198.51.100.23 を持っていた回線 (UTC)",
+  },
+}[lang];
+
+const X = (h: number) => 40 + h * 33.3; // 00:00 .. 18:00
+const ticks = [0, 3, 6, 9, 12, 15, 18];
+const aTo = X(9 + 40 / 60);
+const bFrom = X(9 + 41 / 60);
+const q = [X(12 + 14 / 60), X(3 + 14 / 60)];
+const panelY = [110, 250];
+---
+
+<svg class="dg" viewBox="0 0 680 400" role="img" aria-label={L.title}>
+  <text x="20" y="20" class="b t-s">{L.logTitle}</text>
+  <rect class="fill-hl" x="20" y="30" width="320" height="30"></rect>
+  <text x="32" y="50" class="mono t-on-hl">2026-03-14 12:14:07 198.51.100.23:51022</text>
+  <text x="20" y="90" class="t-s t-2">{L.axis}</text>
+
+  {
+    panelY.map((y, m) => (
+      <g>
+        <text x="20" y={y} class="b t-s">
+          {L.readings[m]}
+        </text>
+        <rect class={m === 1 ? "stroke-leak" : "box"} x={X(0)} y={y + 14} width={aTo - X(0)} height="34" />
+        <text x={X(4.5)} y={y + 36} class:list={["mono", m === 1 && "t-leak"]}>
+          {L.holders[0]}
+        </text>
+        <rect class={m === 0 ? "stroke-leak" : "box"} x={bFrom} y={y + 14} width={X(18) - bFrom} height="34" />
+        <text x={bFrom + 10} y={y + 36} class:list={["mono", m === 0 && "t-leak"]}>
+          {L.holders[1]}
+        </text>
+        <line class="ln-1" x1={X(0)} y1={y + 60} x2={X(18)} y2={y + 60} />
+        {ticks.map((h) => (
+          <g>
+            <line class="ln-1" x1={X(h)} y1={y + 56} x2={X(h)} y2={y + 64} />
+            <text x={X(h)} y={y + 78} text-anchor="middle" class="mono t-2">
+              {String(h).padStart(2, "0")}:00
+            </text>
+          </g>
+        ))}
+        <line class="ln dash" x1={q[m]!} y1={y + 6} x2={q[m]!} y2={y + 64} />
+        <text x={m === 0 ? X(18) : q[m]! + 8} y={y + 100} text-anchor={m === 0 ? "end" : "start"} class="t-s t-leak">
+          {L.results[m]}
+        </text>
+      </g>
+    ))
+  }
+</svg>
