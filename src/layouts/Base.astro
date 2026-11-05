@@ -84,7 +84,7 @@ const nav = [
         <div class="tools">
           <a
             class="lang"
-            href={localePath(other, path)}
+            href={localePath(other, path.startsWith("/404") ? "/" : path)}
             hreflang={other}
             lang={other}
             title={t("nav.langLabel")}
