@@ -16,6 +16,14 @@
     "kind": "primary"
   },
   {
+    "id": "money-europol-chipmixer",
+    "title": "One of the darkweb's largest cryptocurrency laundromats washed out",
+    "publisher": "Europol",
+    "date": "2023-03-15",
+    "url": "https://www.europol.europa.eu/media-press/newsroom/news/one-of-darkwebs-largest-cryptocurrency-laundromats-washed-out",
+    "kind": "primary"
+  },
+  {
     "id": "money-chipmixer",
     "title": "ChipMixer platform seized for laundering ransomware payments, drug sales",
     "publisher": "BleepingComputer",
