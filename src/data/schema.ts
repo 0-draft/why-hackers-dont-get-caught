@@ -31,6 +31,21 @@ export const caseSchema = z.object({
   disputed: text.optional(),
   /** What the case was about in the first place: who did what, when, at what scale. */
   background: text,
+  /** For the case-file timeline: when the decisive slip happened and when the person was caught. */
+  timeline: z
+    .object({
+      /** null when the date of the slip is not public. */
+      slip: z
+        .string()
+        .regex(/^\d{4}(-\d{2}(-\d{2})?)?$/)
+        .nullable(),
+      slipWhat: text,
+      caught: z.string().regex(/^\d{4}(-\d{2}(-\d{2})?)?$/),
+      caughtKind: z.enum(["arrest", "charged", "named"]),
+      /** The slip date is the first traced instance or a bracket, not the exact moment. */
+      approx: z.boolean().optional(),
+    })
+    .optional(),
   sources: z.array(z.string()).min(1),
 });
 export type Case = z.infer<typeof caseSchema>;

@@ -108,6 +108,8 @@ export const dict = {
     "cases.outcome": "Outcome",
     "cases.disputed": "Disputed",
     "cases.sources": "Sources",
+    "cases.timeline":
+      "When the slip happened, and when the person was arrested or charged. Of the 15 files where the slip can be dated, 6 waited two years or more. The reused email addresses that named Mikhail Matveev were nearly 14 years old.",
     "sources.title": "Sources",
     "sources.lede":
       "Every source cited anywhere on the site, grouped by the page that cites it. Court filings and official statements first where they exist.",
@@ -190,6 +192,8 @@ export const dict = {
     "cases.outcome": "結末",
     "cases.disputed": "異論あり",
     "cases.sources": "出典",
+    "cases.timeline":
+      "綻びが生じた時期と、本人が逮捕・起訴された時期。綻びの時期がわかる 15 件のうち 6 件は 2 年以上たってから使われた。マトヴェエフを名指ししたメールアドレスの使い回しは、14 年近く前のものだった。",
     "sources.title": "出典",
     "sources.lede":
       "サイト内で引用したすべての出典を、引用したページごとにまとめた。裁判資料や公式発表がある場合はそれを優先している。",

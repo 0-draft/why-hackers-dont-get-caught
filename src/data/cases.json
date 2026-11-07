@@ -28,7 +28,23 @@
       "en": "How the FBI found the Silk Road server is contested. Government filings said its real IP address leaked through the login page's CAPTCHA. The defence, and researcher Nicholas Weaver after reading the server configuration and logs the government produced, said the server only accepted connections from the Tor front end and that the logs showed agents fetching a phpMyAdmin page, not a CAPTCHA.",
       "ja": "FBI が Silk Road のサーバをどう見つけたかには異論がある。政府側の書面では、ログインページの CAPTCHA から本当の IP アドレスが漏れたとされた。弁護側と、政府が開示したサーバ設定とログを分析した研究者 Nicholas Weaver は、サーバは Tor の前段からの接続しか受け付けない設定であり、ログに残っているのは CAPTCHA ではなく phpMyAdmin のページへのアクセスだと指摘した。"
     },
-    "sources": ["case-sr-alford", "case-sr-indictment", "case-sr-sentence", "case-sr-krebs-captcha", "case-sr-pardon"]
+    "sources": [
+      "case-sr-alford",
+      "case-sr-indictment",
+      "case-sr-sentence",
+      "case-sr-krebs-captcha",
+      "case-sr-pardon",
+      "case-sr-nbc"
+    ],
+    "timeline": {
+      "slip": "2011-10",
+      "slipWhat": {
+        "en": "Bitcoin Talk job ad gives his Gmail",
+        "ja": "求人投稿に Gmail"
+      },
+      "caught": "2013-10-01",
+      "caughtKind": "arrest"
+    }
   },
   {
     "id": "sabu",
@@ -59,7 +75,16 @@
       "en": "The single-IRC-login account comes from one Fox News report without a named source and is not in the charging documents. Monsegur says he always connected through hacked machines and was instead identified from an older dox posted about him on EFnet IRC, which agents later obtained. On his account the failure was identity, not network.",
       "ja": "IRC への1回のログインという話は、情報源を明かさない Fox News の記事1本に由来し、起訴関係の文書には出てこない。モンセグール本人は、常に乗っ取ったマシン経由で接続していたと主張している。本人の説明では、身元がばれたのは以前に EFnet の IRC でさらされた個人情報を捜査官が入手したからである。この説明に従えば、破れた層はネットワークではなく ID だ。"
     },
-    "sources": ["case-sabu-fox", "case-sabu-register", "case-sabu-sdny", "case-sabu-sentence"]
+    "sources": ["case-sabu-fox", "case-sabu-register", "case-sabu-sdny", "case-sabu-sentence"],
+    "timeline": {
+      "slip": null,
+      "slipWhat": {
+        "en": "IRC login from his own IP",
+        "ja": "自宅 IP で IRC 接続"
+      },
+      "caught": "2011-06-07",
+      "caughtKind": "arrest"
+    }
   },
   {
     "id": "hammond",
@@ -86,7 +111,17 @@
       "en": "Arrested in Chicago in March 2012. Pleaded guilty in May 2013 to one count of conspiracy to commit computer hacking and was sentenced on 15 November 2013 to 10 years in prison.",
       "ja": "2012年3月にシカゴで逮捕された。2013年5月にコンピュータへの不正侵入の共謀1件で有罪を認め、同年11月15日に禁錮10年を言い渡された。"
     },
-    "sources": ["case-hammond-computerworld", "case-sabu-sdny", "case-hammond-sentence"]
+    "sources": ["case-hammond-computerworld", "case-sabu-sdny", "case-hammond-sentence"],
+    "timeline": {
+      "slip": "2011-12",
+      "slipWhat": {
+        "en": "Chats with informant reveal his past",
+        "ja": "密告者に経歴を話す"
+      },
+      "caught": "2012-03-05",
+      "caughtKind": "arrest",
+      "approx": true
+    }
   },
   {
     "id": "eldo-kim",
@@ -113,7 +148,16 @@
       "en": "Charged by complaint in December 2013. In October 2014 prosecutors agreed to an 18-month pretrial diversion with four months of home confinement, 750 hours of community service and restitution, after which the charge would be dismissed.",
       "ja": "2013年12月に訴追された。2014年10月、検察は18か月の起訴猶予プログラム（自宅拘禁4か月、社会奉仕750時間、損害賠償）に同意し、履行すれば起訴を取り下げることになった。"
     },
-    "sources": ["case-kim-complaint", "case-kim-cnn", "case-kim-diversion"]
+    "sources": ["case-kim-complaint", "case-kim-cnn", "case-kim-diversion", "case-kim-nbc"],
+    "timeline": {
+      "slip": "2013-12",
+      "slipWhat": {
+        "en": "Tor used on Harvard's logged Wi-Fi",
+        "ja": "学内 LAN で Tor 接続"
+      },
+      "caught": "2013-12-17",
+      "caughtKind": "charged"
+    }
   },
   {
     "id": "freedom-hosting",
@@ -140,7 +184,16 @@
       "en": "Arrested in Dublin in 2013 and extradited to Maryland in March 2019. Pleaded guilty in February 2020 to conspiracy to advertise child sexual abuse material and was sentenced in September 2021 to 27 years in prison.",
       "ja": "2013年にダブリンで逮捕され、2019年3月にメリーランド州へ引き渡された。2020年2月に児童性的虐待コンテンツの広告の共謀で有罪を認め、2021年9月に禁錮27年を言い渡された。"
     },
-    "sources": ["case-fh-mittr", "case-fh-rte", "case-fh-sentence"]
+    "sources": ["case-fh-mittr", "case-fh-rte", "case-fh-sentence"],
+    "timeline": {
+      "slip": null,
+      "slipWhat": {
+        "en": "French server located; method undisclosed",
+        "ja": "仏のサーバーを特定"
+      },
+      "caught": "2013-08",
+      "caughtKind": "arrest"
+    }
   },
   {
     "id": "alphabay",
@@ -167,7 +220,17 @@
       "en": "Died in Thai custody on 12 July 2017, an apparent suicide. The criminal case was dismissed after his death and his assets were pursued through civil forfeiture in the Eastern District of California.",
       "ja": "2017年7月12日、タイで勾留中に死亡した（自殺とみられる）。死亡により刑事事件は棄却され、資産はカリフォルニア州東部地区での民事没収で追及された。"
     },
-    "sources": ["case-ab-forfeiture", "case-ab-bleeping", "case-ab-doj"]
+    "sources": ["case-ab-forfeiture", "case-ab-bleeping", "case-ab-doj"],
+    "timeline": {
+      "slip": "2014",
+      "slipWhat": {
+        "en": "Hotmail address in site emails",
+        "ja": "メールに Hotmail"
+      },
+      "caught": "2017-07-05",
+      "caughtKind": "arrest",
+      "approx": true
+    }
   },
   {
     "id": "silk-road-2",
@@ -194,7 +257,16 @@
       "en": "Arrested in San Francisco on 5 November 2014. He cooperated; a DOJ agreement reported in May 2019 said he would not be further prosecuted for running the site except for criminal tax violations. No public sentencing record was found.",
       "ja": "2014年11月5日にサンフランシスコで逮捕された。捜査に協力し、2019年5月に報じられた司法省との合意では、サイト運営については税法違反を除いて追加の訴追をしないとされた。公開された量刑の記録は見つからなかった。"
     },
-    "sources": ["case-sr2-sdny", "case-sr2-krebs", "case-sr2-vice"]
+    "sources": ["case-sr2-sdny", "case-sr2-krebs", "case-sr2-vice", "case-sr2-ibtimes"],
+    "timeline": {
+      "slip": "2014-05",
+      "slipWhat": {
+        "en": "Server found; hosting account in his name",
+        "ja": "サーバー契約に実名"
+      },
+      "caught": "2014-11-05",
+      "caughtKind": "arrest"
+    }
   },
   {
     "id": "playpen",
@@ -221,7 +293,17 @@
       "en": "Arrested in February 2015 and convicted by a jury of engaging in a child exploitation enterprise. Sentenced on 1 May 2017 to 30 years in prison; two co-administrators received 20 years each.",
       "ja": "2015年2月に逮捕され、陪審により児童搾取事業への関与で有罪となった。2017年5月1日に禁錮30年を言い渡された。共同管理者2人はそれぞれ禁錮20年だった。"
     },
-    "sources": ["case-playpen-fbi", "case-playpen-doj"]
+    "sources": ["case-playpen-fbi", "case-playpen-doj", "case-playpen-abc"],
+    "timeline": {
+      "slip": "2014-12",
+      "slipWhat": {
+        "en": "Hidden service leaks its real US IP",
+        "ja": "実 IP が露出"
+      },
+      "caught": "2015-02",
+      "caughtKind": "arrest",
+      "approx": true
+    }
   },
   {
     "id": "ferizi",
@@ -248,7 +330,16 @@
       "en": "Detained in Malaysia on a US provisional warrant, extradited in January 2016, pleaded guilty in June 2016 and sentenced on 23 September 2016 to 20 years for providing material support to ISIL and unauthorized access.",
       "ja": "米国の仮拘禁令状でマレーシアで身柄を拘束され、2016年1月に引き渡された。同年6月に有罪を認め、9月23日に ISIL への物質的支援と不正アクセスで禁錮20年を言い渡された。"
     },
-    "sources": ["case-ferizi-affidavit", "case-ferizi-sentence"]
+    "sources": ["case-ferizi-affidavit", "case-ferizi-sentence", "case-ferizi-wtkr", "case-ferizi-ibtimes"],
+    "timeline": {
+      "slip": "2015-07",
+      "slipWhat": {
+        "en": "Same IP for hack and Twitter",
+        "ja": "攻撃と SNS が同一 IP"
+      },
+      "caught": "2015-09-15",
+      "caughtKind": "arrest"
+    }
   },
   {
     "id": "guccifer2",
@@ -279,7 +370,16 @@
       "en": "The often-repeated network slip, that the operator once forgot to turn on the VPN and left a Moscow IP address in a US social media company's logs, comes from a single Daily Beast report based on an unnamed source. It is not in the indictment, and the indictment does not say how investigators obtained the activity on the Moscow server.",
       "ja": "よく引かれる「一度 VPN を入れ忘れ、米国の SNS 企業のログにモスクワの IP アドレスを残した」というネットワーク層の失敗は、匿名の情報源に基づく Daily Beast の記事1本だけが根拠である。起訴状には書かれていない。起訴状は、モスクワのサーバ上の操作を捜査側がどう把握したかも説明していない。"
     },
-    "sources": ["case-g2-indictment", "attr-daily-beast-guccifer"]
+    "sources": ["case-g2-indictment", "attr-daily-beast-guccifer"],
+    "timeline": {
+      "slip": "2016-06",
+      "slipWhat": {
+        "en": "GRU server searched G2's English phrases",
+        "ja": "GRU 機で文言を検索"
+      },
+      "caught": "2018-07-13",
+      "caughtKind": "charged"
+    }
   },
   {
     "id": "welcome-to-video",
@@ -306,7 +406,24 @@
       "en": "Arrested in South Korea on 5 March 2018 and served 18 months there. Seoul High Court refused US extradition on 6 July 2020. In July 2022 a Korean court gave him two more years for concealing the proceeds. The US case led to charges against hundreds of site users worldwide.",
       "ja": "2018年3月5日に韓国で逮捕され、韓国で1年6か月服役した。2020年7月6日、ソウル高裁は米国への引き渡しを認めなかった。2022年7月、韓国の裁判所は犯罪収益の隠匿で懲役2年を追加した。米国の捜査は、世界中の数百人の利用者の訴追につながった。"
     },
-    "sources": ["case-wtv-doj", "case-wtv-secboulevard", "case-wtv-extradition", "case-wtv-laundering"]
+    "sources": [
+      "case-wtv-doj",
+      "case-wtv-secboulevard",
+      "case-wtv-extradition",
+      "case-wtv-laundering",
+      "case-wtv-cnn",
+      "case-wtv-ice"
+    ],
+    "timeline": {
+      "slip": "2017-09",
+      "slipWhat": {
+        "en": "Site bitcoin lands in his named account",
+        "ja": "実名口座へ送金"
+      },
+      "caught": "2018-03-05",
+      "caughtKind": "arrest",
+      "approx": true
+    }
   },
   {
     "id": "twitter-2020",
@@ -333,7 +450,17 @@
       "en": "Charges were announced on 31 July 2020. Clark, 17 at the time, took a Florida plea in March 2021 for three years in juvenile prison and three years of probation. Joseph O'Connor (\"PlugwalkJoe\") was sentenced in New York on 23 June 2023 to five years.",
       "ja": "2020年7月31日に訴追が発表された。当時17歳のクラークは2021年3月にフロリダ州で司法取引に応じ、少年刑務所3年と保護観察3年となった。ジョセフ・オコナー（「PlugwalkJoe」）は2023年6月23日にニューヨークで禁錮5年を言い渡された。"
     },
-    "sources": ["case-tw-doj", "case-tw-chainalysis", "case-tw-clark", "case-tw-oconnor"]
+    "sources": ["case-tw-doj", "case-tw-chainalysis", "case-tw-clark", "case-tw-oconnor"],
+    "timeline": {
+      "slip": "2020-07",
+      "slipWhat": {
+        "en": "Hack bitcoin flows to KYC exchanges",
+        "ja": "取引所へ BTC 送金"
+      },
+      "caught": "2020-07-31",
+      "caughtKind": "arrest",
+      "approx": true
+    }
   },
   {
     "id": "bitfinex",
@@ -360,7 +487,16 @@
       "en": "Both pleaded guilty in August 2023; Lichtenstein admitted to the 2016 hack itself. He was sentenced on 14 November 2024 to five years and Morgan to 18 months. Lichtenstein was released to home confinement under the First Step Act in January 2026.",
       "ja": "2023年8月に2人とも有罪を認め、リヒテンシュタインは2016年のハッキング自体も認めた。2024年11月14日に彼は禁錮5年、モーガンは禁錮1年6か月を言い渡された。リヒテンシュタインは2026年1月、First Step Act により自宅拘禁に移された。"
     },
-    "sources": ["case-bfx-sof", "case-bfx-sentence", "case-bfx-release"]
+    "sources": ["case-bfx-sof", "case-bfx-sentence", "case-bfx-release", "case-bfx-trm-plea", "case-bfx-elliptic"],
+    "timeline": {
+      "slip": "2017-01",
+      "slipWhat": {
+        "en": "Stolen coins start moving through AlphaBay",
+        "ja": "盗んだ BTC が動く"
+      },
+      "caught": "2022-02-08",
+      "caughtKind": "arrest"
+    }
   },
   {
     "id": "lapsus",
@@ -387,7 +523,16 @@
       "en": "Found unfit to stand trial; in August 2023 a jury found he had committed the acts, and in December 2023 he received an indefinite hospital order. In July 2026 BBC correspondent Joe Tidy reported he had been moved from the secure hospital to prison to await a criminal trial set for November 2026.",
       "ja": "訴訟能力がないと判断され、2023年8月に陪審が行為の事実を認定し、同年12月に期限なしの病院収容命令を受けた。2026年7月、BBC の Joe Tidy 記者は彼が保安病院から刑務所に移され、2026年11月予定の刑事裁判を待っていると報じた。"
     },
-    "sources": ["case-lapsus-record", "case-lapsus-krebs", "case-lapsus-retrial"]
+    "sources": ["case-lapsus-record", "case-lapsus-krebs", "case-lapsus-retrial", "case-lapsus-ewca"],
+    "timeline": {
+      "slip": null,
+      "slipWhat": {
+        "en": "IPs behind his boasting accounts",
+        "ja": "誇示用アカの IP"
+      },
+      "caught": "2022-01-24",
+      "caughtKind": "arrest"
+    }
   },
   {
     "id": "wazawaka",
@@ -414,7 +559,17 @@
       "en": "Indictments in New Jersey and Washington, D.C. were unsealed on 16 May 2023, alongside US sanctions and a State Department reward of up to $10 million. He lives in Russia and is not in US custody.",
       "ja": "2023年5月16日、ニュージャージー州とワシントン D.C. での起訴が公開され、米国の制裁と国務省の最大1,000万ドルの懸賞金も発表された。本人はロシアにおり、米国は身柄を確保していない。"
     },
-    "sources": ["case-waz-krebs", "case-waz-doj"]
+    "sources": ["case-waz-krebs", "case-waz-doj", "case-waz-ofac"],
+    "timeline": {
+      "slip": "2009",
+      "slipWhat": {
+        "en": "Same emails reused across old accounts",
+        "ja": "古いアカの使い回し"
+      },
+      "caught": "2023-05-16",
+      "caughtKind": "charged",
+      "approx": true
+    }
   },
   {
     "id": "lockbitsupp",
@@ -441,7 +596,16 @@
       "en": "Named on 7 May 2024, charged in a 26-count indictment in New Jersey and sanctioned by the UK, US and Australia, with a US reward of up to $10 million. LockBitSupp says the wrong man was named. He remains in Russia.",
       "ja": "2024年5月7日に名指しされ、ニュージャージー州で26件の罪状で起訴され、英米豪の制裁対象になった。米国は最大1,000万ドルの懸賞金をかけた。LockBitSupp 側は人違いだと主張している。本人はロシアにいる。"
     },
-    "sources": ["case-lb-nca", "case-lb-doj", "case-lb-krebs"]
+    "sources": ["case-lb-nca", "case-lb-doj", "case-lb-krebs"],
+    "timeline": {
+      "slip": null,
+      "slipWhat": {
+        "en": "Cronos uncovers identity; method undisclosed",
+        "ja": "特定手法は非公開"
+      },
+      "caught": "2024-05-07",
+      "caughtKind": "named"
+    }
   },
   {
     "id": "incognito",
@@ -468,7 +632,17 @@
       "en": "Pleaded guilty and was sentenced in February 2026 to 30 years in prison and $105 million in forfeiture.",
       "ja": "有罪を認め、2026年2月に禁錮30年と1億500万ドルの没収を言い渡された。"
     },
-    "sources": ["case-inc-arrest", "case-inc-fxstreet", "case-inc-trm", "case-inc-sentence"]
+    "sources": ["case-inc-arrest", "case-inc-fxstreet", "case-inc-trm", "case-inc-sentence"],
+    "timeline": {
+      "slip": "2021",
+      "slipWhat": {
+        "en": "Market funds reach his named exchange account",
+        "ja": "実名取引所へ入金"
+      },
+      "caught": "2024-05-18",
+      "caughtKind": "arrest",
+      "approx": true
+    }
   },
   {
     "id": "dprk-laptop-farm",
@@ -495,7 +669,17 @@
       "en": "Charged in May 2024, pleaded guilty on 11 February 2025 and sentenced on 24 July 2025 to 102 months in prison. The scheme generated more than $17.1 million.",
       "ja": "2024年5月に訴追され、2025年2月11日に有罪を認め、同年7月24日に禁錮102か月を言い渡された。この仕組みが生んだ収入は1,710万ドルを超える。"
     },
-    "sources": ["case-dprk-charges", "case-dprk-sentence"]
+    "sources": ["case-dprk-charges", "case-dprk-sentence", "case-dprk-irs", "case-dprk-cyberscoop"],
+    "timeline": {
+      "slip": "2023-10",
+      "slipWhat": {
+        "en": "Home laptop farm exposed",
+        "ja": "自宅の端末群が露見"
+      },
+      "caught": "2024-05-15",
+      "caughtKind": "arrest",
+      "approx": true
+    }
   },
   {
     "id": "pc-remote",
@@ -528,7 +712,18 @@
       "case-pcr-cat",
       "case-pcr-phone",
       "case-pcr-confession",
-      "case-pcr-verdict"
-    ]
+      "case-pcr-verdict",
+      "case-pcr-date-fake",
+      "case-pcr-jcast"
+    ],
+    "timeline": {
+      "slip": "2013-01",
+      "slipWhat": {
+        "en": "Filmed collaring the Enoshima cat",
+        "ja": "防犯カメラに映る"
+      },
+      "caught": "2013-02-10",
+      "caughtKind": "arrest"
+    }
   }
 ]

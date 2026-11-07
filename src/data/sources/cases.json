@@ -470,5 +470,133 @@
     "date": "2015-02-04",
     "url": "https://www.itmedia.co.jp/news/articles/1502/04/news068.html",
     "kind": "press"
+  },
+  {
+    "id": "case-sr-nbc",
+    "title": "End of the Silk Road: How a man called 'Dread Pirate Roberts' was caught",
+    "publisher": "NBC News",
+    "date": "2013-10",
+    "url": "https://www.nbcnews.com/news/world/end-silk-road-slip-ups-building-internet-drug-market-led-flna8c11326181",
+    "kind": "press"
+  },
+  {
+    "id": "case-kim-nbc",
+    "title": "Harvard student tried to dodge exam with bomb hoax, FBI says",
+    "publisher": "NBC News",
+    "date": "2013-12-17",
+    "url": "https://www.nbcnews.com/news/us-news/harvard-student-tried-dodge-exam-bomb-hoax-fbi-says-flna2d11764840",
+    "kind": "press"
+  },
+  {
+    "id": "case-sr2-ibtimes",
+    "title": "Silk Road 2.0: FBI Shuts Down Illegal Drugs and Guns Website and Arrests Blake Benthall",
+    "publisher": "International Business Times UK",
+    "date": "2014-11-06",
+    "url": "https://www.ibtimes.co.uk/silk-road-2-0-fbi-shuts-down-illegal-drugs-guns-website-arrests-blake-benthall-1473547",
+    "kind": "press"
+  },
+  {
+    "id": "case-playpen-abc",
+    "title": "Child-porn website creator accidentally reveals IP address, leading to 870 arrests",
+    "publisher": "ABC News (Australia)",
+    "date": "2017-05-06",
+    "url": "https://www.abc.net.au/news/2017-05-06/playpen-child-porn-site-creator-steven-chase-sentenced/8502626",
+    "kind": "press"
+  },
+  {
+    "id": "case-ferizi-wtkr",
+    "title": "Hacker who allegedly passed U.S. military data to ISIS arrested in Malaysia",
+    "publisher": "WTKR (CNN Wire)",
+    "date": "2015-10-16",
+    "url": "https://www.wtkr.com/2015/10/16/hacker-who-allegedly-passed-u-s-military-data-to-isis-arrested-in-malaysia",
+    "kind": "press"
+  },
+  {
+    "id": "case-ferizi-ibtimes",
+    "title": "Who Is Ardit Ferizi? Malaysia Arrests Kosovo National For Hacking US Security Data For ISIS",
+    "publisher": "International Business Times",
+    "date": "2015-10-16",
+    "url": "https://www.ibtimes.com/who-ardit-ferizi-malaysia-arrests-kosovo-national-hacking-us-security-data-isis-2143489",
+    "kind": "press"
+  },
+  {
+    "id": "case-wtv-cnn",
+    "title": "How authorities caught 23-year-old running global child exploitation site",
+    "publisher": "WTVR (CNN Wire)",
+    "date": "2019-10-20",
+    "url": "https://www.wtvr.com/2019/10/20/how-authorities-caught-23-year-old-running-global-child-exploitation-site",
+    "kind": "press"
+  },
+  {
+    "id": "case-wtv-ice",
+    "title": "South Korean national and hundreds of others charged worldwide in the takedown of the largest darknet child pornography website funded by bitcoin",
+    "publisher": "U.S. Immigration and Customs Enforcement",
+    "date": "2019-10-16",
+    "url": "https://www.ice.gov/news/releases/south-korean-national-and-hundreds-others-charged-worldwide-takedown-largest-darknet",
+    "kind": "primary"
+  },
+  {
+    "id": "case-bfx-trm-plea",
+    "title": "Bitfinex money launderers plead guilty in the “Razzlekhan” case",
+    "publisher": "TRM Labs",
+    "date": "2023-08",
+    "url": "https://www.trmlabs.com/resources/blog/bitfinex-money-launderers-plead-guilty-in-the-razzlekhan-case",
+    "kind": "report"
+  },
+  {
+    "id": "case-bfx-elliptic",
+    "title": "Elliptic analysis: New York husband and wife arrested for laundering $4.5 billion in Bitcoin stolen from Bitfinex in 2016",
+    "publisher": "Elliptic",
+    "date": "2022-02-08",
+    "url": "https://www.elliptic.co/blog/elliptic-analysis-new-york-husband-and-wife-arrested-for-laundering-5-billion-in-bitcoin-stolen-from-bitfinex-in-2016",
+    "kind": "report"
+  },
+  {
+    "id": "case-lapsus-ewca",
+    "title": "R v Kurtaj [2025] EWCA Crim 1163",
+    "publisher": "Court of Appeal (Criminal Division), via The National Archives",
+    "date": "2025-09-11",
+    "url": "https://caselaw.nationalarchives.gov.uk/ewca/crim/2025/1163",
+    "kind": "primary"
+  },
+  {
+    "id": "case-waz-ofac",
+    "title": "Recent Actions 20230516: Cyber-related designation",
+    "publisher": "U.S. Department of the Treasury, OFAC",
+    "date": "2023-05-16",
+    "url": "https://ofac.treasury.gov/recent-actions/20230516",
+    "kind": "primary"
+  },
+  {
+    "id": "case-dprk-cyberscoop",
+    "title": "Arizona woman arrested and charged in North Korean IT worker scheme",
+    "publisher": "CyberScoop",
+    "date": "2024-05-16",
+    "url": "https://cyberscoop.com/arizona-woman-arrested-and-charged-in-north-korean-it-worker-scheme/",
+    "kind": "press"
+  },
+  {
+    "id": "case-dprk-irs",
+    "title": "Arizona woman sentenced for $17M information technology worker fraud scheme that generated revenue for North Korea",
+    "publisher": "IRS Criminal Investigation",
+    "date": "2025-07-24",
+    "url": "https://www.irs.gov/node/149666",
+    "kind": "primary"
+  },
+  {
+    "id": "case-pcr-date-fake",
+    "title": "片山容疑者、かく乱目的で日付偽装か 遠隔操作事件",
+    "publisher": "日本経済新聞",
+    "date": "2013-02-12",
+    "url": "https://www.nikkei.com/article/DGXNASDG1201R_S3A210C1CC0000/",
+    "kind": "press"
+  },
+  {
+    "id": "case-pcr-jcast",
+    "title": "遠隔操作事件と「猫カフェ」つなぐ糸 容疑者が見せた「猫」への執着の謎",
+    "publisher": "J-CASTニュース",
+    "date": "2013-02-10",
+    "url": "https://www.j-cast.com/2013/02/10164802.html?p=all",
+    "kind": "press"
   }
 ]

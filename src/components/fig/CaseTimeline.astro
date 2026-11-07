@@ -1,0 +1,139 @@
+---
+import { CASES } from "../../data/cases.ts";
+
+// One time axis for every case file: the magenta dot is the slip that later
+// pointed at the person, the square is the day they were caught (filled =
+// arrested, outline = charged or named with no arrest). The line between is
+// how long the slip sat in some record before anyone used it.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const T = {
+  en: {
+    slip: "the slip that later pointed at the person",
+    arrest: "arrested",
+    named: "charged or named, not arrested",
+    unknown: "date of the slip not public",
+    approx: "approximate date",
+    gap: (y: number) => (y < 1 ? `${Math.round(y * 12)} mo later` : `${y.toFixed(1)} yr later`),
+    same: "within a month",
+  },
+  ja: {
+    slip: "のちに本人を指した綻び",
+    arrest: "逮捕",
+    named: "起訴・名指しのみ (逮捕なし)",
+    unknown: "綻びの時期は非公開",
+    approx: "時期はおおよそ",
+    gap: (y: number) => (y < 1 ? `${Math.round(y * 12)} か月後` : `${y.toFixed(1)} 年後`),
+    same: "1 か月以内",
+  },
+}[lang];
+
+function toYear(d: string): number {
+  const [y, m, dd] = d.split("-").map(Number);
+  return y + ((m ?? 7) - 1) / 12 + ((dd ?? 15) - 1) / 365;
+}
+
+const rows = CASES.filter((c) => c.timeline)
+  .map((c) => {
+    const tl = c.timeline!;
+    return {
+      id: c.id,
+      name: c.name[lang],
+      what: tl.slipWhat[lang],
+      slip: tl.slip ? toYear(tl.slip) : null,
+      caught: toYear(tl.caught),
+      arrested: tl.caughtKind === "arrest",
+      approx: tl.approx === true,
+    };
+  })
+  .toSorted((a, b) => a.caught - b.caught);
+
+const all = rows.flatMap((r) => (r.slip === null ? [r.caught] : [r.slip, r.caught]));
+const y0 = Math.floor(Math.min(...all));
+const y1 = Math.ceil(Math.max(...all)) + 1;
+const X0 = 300;
+const X1 = 1000;
+const x = (y: number) => X0 + ((y - y0) / (y1 - y0)) * (X1 - X0);
+const L = lang === "en" ? [340, 500, 610] : [230, 380, 470];
+const TOP = 70;
+const ROW = 40;
+const H = TOP + rows.length * ROW + 30;
+const years = Array.from({ length: y1 - y0 + 1 }, (_, i) => y0 + i);
+
+const label = [
+  lang === "en" ? "Timeline of each case file." : "事例ごとの時系列。",
+  ...rows.map((r) =>
+    r.slip === null
+      ? `${r.name}: ${r.what}. ${T.unknown}. ${r.arrested ? T.arrest : T.named} ${Math.floor(r.caught)}.`
+      : `${r.name}: ${r.what} ${Math.floor(r.slip)}, ${r.arrested ? T.arrest : T.named} ${Math.floor(r.caught)}.`,
+  ),
+].join(" ");
+---
+
+<svg class="dg tl" viewBox={`0 0 1100 ${H}`} role="img" aria-label={label}>
+  <g>
+    <circle cx="10" cy="16" r="6" class="fill-leak"></circle>
+    <text x="24" y="21">{T.slip}</text>
+    <circle cx={L[0] + 6} cy="16" r="6" class="stroke-leak"></circle>
+    <text x={L[0] + 20} y="21">{T.approx}</text>
+    <rect x={L[1]} y="10" width="12" height="12" class="fill-ink"></rect>
+    <text x={L[1] + 20} y="21">{T.arrest}</text>
+    <rect x={L[2]} y="10" width="12" height="12" class="box"></rect>
+    <text x={L[2] + 20} y="21">{T.named}</text>
+  </g>
+  {
+    years.map((y) => (
+      <g>
+        <line x1={x(y)} y1={TOP - 14} x2={x(y)} y2={H - 26} class="ln-1 soft" />
+        {(y - y0) % 2 === 0 && (
+          <text x={x(y)} y={TOP - 20} text-anchor="middle" class="t-s t-2">
+            {y}
+          </text>
+        )}
+      </g>
+    ))
+  }
+  {
+    rows.map((r, i) => {
+      const cy = TOP + i * ROW + ROW / 2;
+      const cx = x(r.caught);
+      const gapY = r.slip === null ? null : r.caught - r.slip;
+      // Keep the dot visible when the slip and the arrest fall in the same weeks.
+      const sx = r.slip === null ? null : Math.min(x(r.slip), cx - 16);
+      return (
+        <g>
+          <text x="0" y={cy - 3} class="b">
+            {r.name}
+          </text>
+          <text x="0" y={cy + 13} class="t-s t-2">
+            {r.what}
+          </text>
+          {r.slip !== null && <line x1={sx! + 7} y1={cy} x2={cx - 7} y2={cy} class="ln" />}
+          {r.slip !== null && (
+            <circle cx={sx!} cy={cy} r="6" class={r.approx ? "stroke-leak" : "fill-leak"} />
+          )}
+          <rect x={cx - 6} y={cy - 6} width="12" height="12" class={r.arrested ? "fill-ink" : "box"} />
+          {gapY === null ? (
+            <text x={cx - 14} y={cy + 4} text-anchor="end" class="t-s t-2">
+              {T.unknown}
+            </text>
+          ) : (
+            <text x={cx + 14} y={cy + 4} class="t-s">
+              {gapY < 1 / 12 ? T.same : T.gap(gapY)}
+            </text>
+          )}
+        </g>
+      );
+    })
+  }
+</svg>
+
+<style>
+  /* Wide enough on phones that labels stay legible; the frame scrolls. */
+  .tl {
+    min-width: 900px;
+  }
+</style>

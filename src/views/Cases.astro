@@ -1,5 +1,7 @@
 ---
 import CaseMatrix from "../components/CaseMatrix.astro";
+import Fig from "../components/Fig.astro";
+import CaseTimeline from "../components/fig/CaseTimeline.astro";
 import { LAYERS } from "../data/layers.ts";
 import { type Lang, useT } from "../i18n/ui.ts";
 import Base from "../layouts/Base.astro";
@@ -18,6 +20,9 @@ const t = useT(lang);
     <section id="people" class="people">
       <p><strong>{LAYERS.people.name[lang]}</strong> {LAYERS.people.hides[lang]}. {LAYERS.people.breaks[lang]}.</p>
     </section>
+    <Fig caption={t("cases.timeline")} size="wide">
+      <CaseTimeline lang={lang} />
+    </Fig>
     <CaseMatrix lang={lang} />
   </div>
 </Base>
