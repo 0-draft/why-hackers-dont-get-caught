@@ -8,11 +8,59 @@
     "kind": "press"
   },
   {
-    "id": "behavior-apt1-report",
-    "title": "APT1: Exposing One of China's Cyber Espionage Units (copy at the National Security Archive)",
-    "publisher": "Mandiant",
-    "date": "2013-02",
-    "url": "https://nsarchive.gwu.edu/media/21484/ocr",
+    "id": "behavior-apt28-fireeye",
+    "title": "APT28: A Window Into Russia's Cyber Espionage Operations?",
+    "publisher": "FireEye (Mandiant), republished on the Google Cloud Threat Intelligence blog",
+    "date": "2014-10-27",
+    "url": "https://cloud.google.com/blog/topics/threat-intelligence/apt28-a-window-into-russias-cyber-espionage-operations",
+    "kind": "report"
+  },
+  {
+    "id": "behavior-bitdefender-apt28",
+    "title": "APT28 Under the Scope: A Journey into Exfiltrating Intelligence and Government Information",
+    "publisher": "Bitdefender",
+    "date": "2015-12",
+    "url": "https://download.bitdefender.com/resources/media/materials/white-papers/en/Bitdefender_In-depth_analysis_of_APT28%E2%80%93The_Political_Cyber-Espionage.pdf",
+    "kind": "report"
+  },
+  {
+    "id": "behavior-pwc-cloudhopper",
+    "title": "Operation Cloud Hopper: Exposing a systematic hacking operation with an unprecedented web of global victims",
+    "publisher": "PwC UK and BAE Systems",
+    "date": "2017-04",
+    "url": "https://www.pwc.co.uk/cyber-security/pdf/pwc-uk-operation-cloud-hopper-report-april-2017.pdf",
+    "kind": "report"
+  },
+  {
+    "id": "behavior-apt10-doj",
+    "title": "Two Chinese Hackers Associated With The Ministry Of State Security Charged With Global Computer Intrusion Campaigns Targeting Intellectual Property And Confidential Business Information",
+    "publisher": "U.S. Attorney's Office, Southern District of New York",
+    "date": "2018-12-20",
+    "url": "https://www.justice.gov/usao-sdny/pr/two-chinese-hackers-associated-ministry-state-security-charged-global-computer",
+    "kind": "primary"
+  },
+  {
+    "id": "behavior-apt33",
+    "title": "Insights into Iranian Cyber Espionage: APT33 Targets Aerospace and Energy Sectors and has Ties to Destructive Malware",
+    "publisher": "FireEye (Mandiant), republished on the Google Cloud Threat Intelligence blog",
+    "date": "2017-09-20",
+    "url": "https://cloud.google.com/blog/topics/threat-intelligence/apt33-insights-into-iranian-cyber-espionage/",
+    "kind": "report"
+  },
+  {
+    "id": "behavior-equationdrug",
+    "title": "Inside the EquationDrug Espionage Platform",
+    "publisher": "Kaspersky GReAT (Securelist)",
+    "date": "2015-03-11",
+    "url": "https://securelist.com/inside-the-equationdrug-espionage-platform/69203/",
+    "kind": "report"
+  },
+  {
+    "id": "behavior-conti-groupib",
+    "title": "The Conti Enterprise: ransomware gang that published data belonging to 850 companies",
+    "publisher": "Group-IB",
+    "date": "2022-06-23",
+    "url": "https://www.group-ib.com/media-center/press-releases/conti-armada-report/",
     "kind": "report"
   },
   {
@@ -24,11 +72,75 @@
     "kind": "report"
   },
   {
-    "id": "behavior-conti-groupib",
-    "title": "The Conti Enterprise: ransomware gang that published data belonging to 850 companies",
-    "publisher": "Group-IB",
-    "date": "2022-06-23",
-    "url": "https://www.group-ib.com/media-center/press-releases/conti-armada-report/",
+    "id": "behavior-lazarus-hood",
+    "title": "Lazarus Under the Hood",
+    "publisher": "Kaspersky Lab",
+    "date": "2017-04-03",
+    "url": "https://media.kasperskycontenthub.com/wp-content/uploads/sites/43/2018/03/07180244/Lazarus_Under_The_Hood_PDF_final.pdf",
+    "kind": "report"
+  },
+  {
+    "id": "behavior-apt1-report",
+    "title": "APT1: Exposing One of China's Cyber Espionage Units (copy at the National Security Archive)",
+    "publisher": "Mandiant",
+    "date": "2013-02",
+    "url": "https://nsarchive.gwu.edu/media/21484/ocr",
+    "kind": "report"
+  },
+  {
+    "id": "behavior-demers-2020",
+    "title": "Remarks by Assistant Attorney General for National Security John C. Demers on Announcement of Charges Against Russian Military Intelligence Officers",
+    "publisher": "U.S. Department of Justice, Office of Public Affairs",
+    "date": "2020-10-19",
+    "url": "https://www.justice.gov/opa/speech/remarks-assistant-attorney-general-national-security-john-c-demers-announcement-charges",
+    "kind": "primary"
+  },
+  {
+    "id": "behavior-wannacry-bleeping",
+    "title": "Linguistic Analysis Suggests WannaCry Ransomware Is the Work of a Chinese-Speaking Crook",
+    "publisher": "BleepingComputer (reporting Flashpoint's analysis)",
+    "date": "2017-05-25",
+    "url": "https://www.bleepingcomputer.com/news/security/linguistic-analysis-suggests-wannacry-ransomware-is-the-work-of-a-chinese-speaking-crook/",
+    "kind": "press"
+  },
+  {
+    "id": "behavior-g2-vice",
+    "title": "Why Does DNC Hacker 'Guccifer 2.0' Talk Like This?",
+    "publisher": "Motherboard (Vice)",
+    "date": "2016-06-23",
+    "url": "https://www.vice.com/en/article/d7ydwy/why-does-dnc-hacker-guccifer-20-talk-like-this",
+    "kind": "press"
+  },
+  {
+    "id": "behavior-kim-slate",
+    "title": "How the Alleged Harvard Bomb Hoaxer Failed to Cover His Online Tracks",
+    "publisher": "Slate (Josephine Wolff, quoting the FBI affidavit)",
+    "date": "2013-12-18",
+    "url": "https://slate.com/technology/2013/12/harvard-exam-bomb-threats-how-the-alleged-hoaxer-failed-to-cover-his-online-tracks.html",
+    "kind": "press"
+  },
+  {
+    "id": "behavior-hammond-nextgov",
+    "title": "FBI nets cyber informants with hacktivist sting",
+    "publisher": "Nextgov",
+    "date": "2012-03-09",
+    "url": "https://nextgov.com/technology-news/2012/03/fbi-nets-cyber-informants-with-hacktivist-sting/50793",
+    "kind": "press"
+  },
+  {
+    "id": "behavior-pcr-iwj",
+    "title": "PC遠隔操作事件「真犯人」を名乗る人物からメール 片山氏「これをもって、この裁判を終わりにしてほしい」",
+    "publisher": "IWJ Independent Web Journal",
+    "date": "2014-05-16",
+    "url": "https://iwj.co.jp/wj/open/archives/140127",
+    "kind": "press"
+  },
+  {
+    "id": "behavior-lazarus-blog",
+    "title": "Lazarus Under The Hood",
+    "publisher": "Kaspersky GReAT (Securelist)",
+    "date": "2017-04-03",
+    "url": "https://securelist.com/lazarus-under-the-hood/77908/",
     "kind": "report"
   },
   {
@@ -45,6 +157,14 @@
     "publisher": "U.S. Department of Justice, Office of Public Affairs",
     "date": "2025-06-30",
     "url": "https://www.justice.gov/opa/pr/justice-department-announces-coordinated-nationwide-actions-combat-north-korean-remote",
+    "kind": "primary"
+  },
+  {
+    "id": "behavior-ic3-2023",
+    "title": "Additional Guidance on the Democratic People's Republic of Korea Information Technology Workers",
+    "publisher": "FBI, Internet Crime Complaint Center (IC3)",
+    "date": "2023-10-18",
+    "url": "https://www.ic3.gov/PSA/2023/PSA231018",
     "kind": "primary"
   }
 ]

@@ -1,0 +1,182 @@
+---
+// Five "one slip" stories side by side. Each row: the cover that held almost
+// all the time (black = hidden from the observer), the one moment it did not
+// (magenta), who happened to record that moment, and how solid the account is.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Row = { name: string; year: string; cover: string; slip: string; log: string[]; status: string; pos: number };
+
+const L = {
+  en: {
+    title: "Five single-slip stories: the cover, the moment, who recorded it, how solid the account is",
+    head: ["case", "cover, most of the time", "the moment", "recorded by", "account"],
+    rows: [
+      {
+        name: "Sabu",
+        year: "2011",
+        cover: "proxies",
+        slip: "one IRC login from home",
+        log: ["IRC server", "logs"],
+        status: "disputed",
+        pos: 0.62,
+      },
+      {
+        name: "PC remote",
+        year: "2013",
+        cover: "others' infected PCs",
+        slip: "went to Enoshima in person",
+        log: ["security", "cameras"],
+        status: "court record",
+        pos: 0.8,
+      },
+      {
+        name: "Eldo Kim",
+        year: "2013",
+        cover: "Tor, throwaway mail",
+        slip: "Tor from campus Wi-Fi",
+        log: ["Harvard's", "network logs"],
+        status: "affidavit",
+        pos: 0.9,
+      },
+      {
+        name: "Guccifer 2.0",
+        year: "2016",
+        cover: "VPN",
+        slip: "one logon without VPN",
+        log: ["a US social", "media company"],
+        status: "one source",
+        pos: 0.45,
+      },
+      {
+        name: "Bluenoroff",
+        year: "2017",
+        cover: "proxies and VPNs",
+        slip: "one connection from NK",
+        log: ["its own C2", "server in Europe"],
+        status: "vendor forensics",
+        pos: 0.7,
+      },
+    ] as Row[],
+  },
+  ja: {
+    title: "「一度の失敗」の話を 5 つ並べる: ふだんの隠れ方、その瞬間、記録した者、話の確かさ",
+    head: ["事例", "ふだんの隠れ方", "その瞬間", "記録した者", "話の確かさ"],
+    rows: [
+      {
+        name: "Sabu",
+        year: "2011",
+        cover: "プロキシ",
+        slip: "自宅から IRC に 1 回",
+        log: ["IRC サーバの", "ログ"],
+        status: "異論あり",
+        pos: 0.62,
+      },
+      {
+        name: "PC 遠隔操作",
+        year: "2013",
+        cover: "他人の感染 PC",
+        slip: "江の島へ本人が行った",
+        log: ["防犯", "カメラ"],
+        status: "判決",
+        pos: 0.8,
+      },
+      {
+        name: "Eldo Kim",
+        year: "2013",
+        cover: "Tor と使い捨てメール",
+        slip: "学内 Wi-Fi から Tor",
+        log: ["Harvard の", "ネットワーク記録"],
+        status: "宣誓供述書",
+        pos: 0.9,
+      },
+      {
+        name: "Guccifer 2.0",
+        year: "2016",
+        cover: "VPN",
+        slip: "VPN なしで 1 回",
+        log: ["米国の SNS", "企業のログ"],
+        status: "情報源 1 つ",
+        pos: 0.45,
+      },
+      {
+        name: "Bluenoroff",
+        year: "2017",
+        cover: "プロキシと VPN",
+        slip: "北朝鮮から 1 回の接続",
+        log: ["欧州にある", "自分の C2"],
+        status: "ベンダーの解析",
+        pos: 0.7,
+      },
+    ] as Row[],
+  },
+}[lang];
+
+const cName = 16;
+const cLog = 600;
+const cStatus = 770;
+const barX = 176;
+const barW = 400;
+const top = 52;
+const rowH = 78;
+const H = top + L.rows.length * rowH + 8;
+---
+
+<svg class="dg bslip" viewBox={`0 0 920 ${H}`} role="img" aria-labelledby={`bslip-t-${lang}`}>
+  <title id={`bslip-t-${lang}`}>{L.title}</title>
+  <text x={cName} y="24" class="t-s b t-2">{L.head[0]}</text>
+  <text x={barX} y="24" class="t-s b t-2">{L.head[1]}</text>
+  <text x={barX + barW} y="24" class="t-s b t-leak" text-anchor="end">{L.head[2]}</text>
+  <text x={cLog} y="24" class="t-s b t-2">{L.head[3]}</text>
+  <text x={cStatus} y="24" class="t-s b t-2">{L.head[4]}</text>
+  {
+    L.rows.map((r, i) => {
+      const y = top + i * rowH;
+      const sx = barX + r.pos * barW;
+      return (
+        <g>
+          <line x1="12" y1={y - 8} x2="908" y2={y - 8} class="ln-1 soft" />
+          <text x={cName} y={y + 18} class="b">
+            {r.name}
+          </text>
+          <text x={cName} y={y + 38} class="mono t-2">
+            {r.year}
+          </text>
+          <rect x={barX} y={y + 4} width={barW} height="22" class="fill-ink" />
+          <text x={barX + 12} y={y + 20} class="t-s t-on-ink">
+            {r.cover}
+          </text>
+          <rect x={sx - 5} y={y} width="10" height="30" class="fill-leak" />
+          <text
+            x={r.pos > 0.6 ? sx + 10 : sx - 10}
+            y={y + 50}
+            class="t-s t-leak"
+            text-anchor={r.pos > 0.6 ? "end" : "start"}
+          >
+            {r.slip}
+          </text>
+          <line x1={sx} y1={y + 30} x2={sx} y2={y + 38} class="stroke-leak" />
+          <rect x={cLog - 6} y={y + 2} width="152" height="46" class="box" />
+          <text x={cLog + 6} y={y + 20} class="t-s">
+            {r.log[0]}
+          </text>
+          <text x={cLog + 6} y={y + 38} class="t-s">
+            {r.log[1]}
+          </text>
+          <text x={cStatus} y={y + 20} class="t-s b">
+            {r.status}
+          </text>
+        </g>
+      );
+    })
+  }
+</svg>
+
+<style>
+  /* Legible on phones; the figure frame scrolls. */
+  .bslip {
+    min-width: 760px;
+  }
+</style>

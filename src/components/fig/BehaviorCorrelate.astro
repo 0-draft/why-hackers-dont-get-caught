@@ -1,0 +1,130 @@
+---
+// Time correlation against a person's known day. The alias's online
+// sessions are the same in both panels. Candidate A's home hours and home
+// Tor traffic contain every session; candidate B is out during several of
+// them, which rules B out. Illustrative data, shaped like the reported
+// surveillance of Jeremy Hammond in March 2012.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+const L = {
+  en: {
+    title: "One alias's online sessions checked against two candidates' days",
+    day: (n: number) => `day ${n}`,
+    panelA: "Candidate A",
+    panelB: "Candidate B",
+    alias: ["alias online", "informant's chat list"],
+    homeA: ["A at home", "agents watching"],
+    torA: ["Tor from A's line", "pen register"],
+    homeB: ["B at home", "agents watching"],
+    match: "every session falls inside A's home hours and A's Tor traffic",
+    clash: "online while B is out: B is ruled out",
+    note: "Illustrative data, shaped like the reported surveillance of Jeremy Hammond, March 2012.",
+  },
+  ja: {
+    title: "1 つの別名のオンライン時間を、2 人の候補者の 1 日と照らし合わせる",
+    day: (n: number) => `${n} 日目`,
+    panelA: "候補者 A",
+    panelB: "候補者 B",
+    alias: ["別名がオンライン", "協力者のチャット一覧"],
+    homeA: ["A が在宅", "捜査員の張り込み"],
+    torA: ["A の回線から Tor", "ペンレジスター"],
+    homeB: ["B が在宅", "捜査員の張り込み"],
+    match: "どのセッションも A の在宅時間と A の Tor 通信の内側にある",
+    clash: "B の外出中にオンライン: B は外れる",
+    note: "データは説明用。2012 年 3 月の Jeremy Hammond の監視について報じられた形に合わせてある。",
+  },
+}[lang];
+
+// Hours from the start of day 1.
+const alias: [number, number][] = [
+  [20, 25],
+  [29, 31],
+  [44, 50],
+  [67, 72],
+  [76, 79],
+  [91, 94],
+];
+const homeA: [number, number][] = [
+  [0, 9],
+  [18, 33],
+  [42, 57],
+  [65, 81],
+  [89, 96],
+];
+const torA: [number, number][] = [
+  [19, 26],
+  [28, 31],
+  [44, 51],
+  [66, 72],
+  [76, 80],
+  [90, 94],
+];
+const homeB: [number, number][] = [
+  [0, 8],
+  [16, 23],
+  [33, 46],
+  [56, 70],
+  [84, 96],
+];
+const inside = (s: [number, number], w: [number, number][]) => w.some(([a, b]) => s[0] >= a && s[1] <= b);
+const clashes = alias.filter((s) => !inside(s, homeB));
+
+const x0 = 196;
+const pxh = 4.9; // px per hour, 96 hours
+const X = (h: number) => x0 + h * pxh;
+const laneH = 14;
+const laneGap = 38;
+const lane = (y: number, segs: [number, number][], label: string[]) => ({ y, segs, label });
+const pA = 64;
+const pB = pA + 3 * laneGap + 74;
+const lanesA = [lane(pA, alias, L.alias), lane(pA + laneGap, homeA, L.homeA), lane(pA + 2 * laneGap, torA, L.torA)];
+const lanesB = [lane(pB, alias, L.alias), lane(pB + laneGap, homeB, L.homeB)];
+const H = pB + 2 * laneGap + 70;
+---
+
+<svg class="dg" viewBox={`0 0 680 ${H}`} role="img" aria-labelledby={`bcor-t-${lang}`}>
+  <title id={`bcor-t-${lang}`}>{L.title}</title>
+  {
+    [0, 1, 2, 3].map((d) => (
+      <g>
+        <text x={X(d * 24 + 12)} y="20" class="t-s t-2" text-anchor="middle">
+          {L.day(d + 1)}
+        </text>
+        {d > 0 && <line x1={X(d * 24)} y1="28" x2={X(d * 24)} y2={H - 40} class="ln-1 soft dash" />}
+      </g>
+    ))
+  }
+  <text x="16" y={pA - 20} class="t-l">{L.panelA}</text>
+  <text x="16" y={pB - 20} class="t-l">{L.panelB}</text>
+  {
+    [...lanesA, ...lanesB].map((ln) => (
+      <g>
+        <text x="16" y={ln.y + 4} class="t-s b">
+          {ln.label[0]}
+        </text>
+        <text x="16" y={ln.y + 20} class="t-s t-2">
+          {ln.label[1]}
+        </text>
+        <rect x={X(0)} y={ln.y - 6} width={96 * pxh} height={laneH} class="box-soft" />
+        {ln.segs.map(([a, b]) => (
+          <rect x={X(a)} y={ln.y - 6} width={(b - a) * pxh} height={laneH} class="fill-ink" opacity="0.55" />
+        ))}
+      </g>
+    ))
+  }
+  {
+    alias.map(([a, b]) => (
+      <rect x={X(a) - 2} y={pA - 9} width={(b - a) * pxh + 4} height={2 * laneGap + laneH + 6} class="stroke-leak" />
+    ))
+  }
+  <text x="16" y={pA + 2 * laneGap + 38} class="t-s t-leak">{L.match}</text>
+  {
+    clashes.map(([a, b]) => (
+      <rect x={X(a) - 2} y={pB - 9} width={(b - a) * pxh + 4} height={laneGap + laneH + 6} class="ln dash" fill="none" />
+    ))
+  }
+  <text x="16" y={pB + laneGap + 38} class="t-s b">{L.clash}</text>
+  <text x="16" y={H - 14} class="t-s t-2">{L.note}</text>
+</svg>
