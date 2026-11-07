@@ -1,0 +1,200 @@
+---
+// Five mixer cases in date order, one row each, same four columns. The third
+// column is the point: where an operator held the deposit-to-withdrawal link,
+// seizing the servers made that link readable to investigators (yellow);
+// where there was no operator log, it stayed hidden (black) and the case moved
+// to a person. Magenta marks the record that named the operator.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Rec = "seized" | "deleted" | "none" | "plain";
+type Op = "named" | "plain" | "quiet";
+type Row = { name: string; vol: string; date: string; act: string; rec: Rec; recT: string[]; op: Op; opT: string[] };
+
+const T: Record<"en" | "ja", { label: string; head: string[]; rows: Row[] }> = {
+  en: {
+    label:
+      "Five mixer cases in date order. Bestmixer, May 2019: six servers seized, customer transactions collected to be shared with other countries. Helix, October 2020: FinCEN penalty; the operator had deleted customer data. Bitcoin Fog, April 2021: operator arrested; his true-name exchange accounts were funded from Fog's clusters. Tornado Cash, August 2022: sanctioned; immutable contracts left no operator log to seize, and the developer was later convicted on one count. ChipMixer, March 2023: back-end servers and 7 TB of data seized; a 150 dollar card payment in the operator's name and his ID card at Binance named him.",
+    head: ["mixer · volume claimed", "action", "the mixer's own records", "the operator"],
+    rows: [
+      {
+        name: "Bestmixer.io",
+        vol: "$200M+ in one year",
+        date: "22 May 2019",
+        act: "six servers seized (NL, LU)",
+        rec: "seized",
+        recT: ["customer transactions collected,", "to be shared with other countries"],
+        op: "quiet",
+        opT: ["not named in the", "announcement"],
+      },
+      {
+        name: "Helix",
+        vol: "$311M+, 2014–2017",
+        date: "19 Oct 2020",
+        act: "FinCEN: $60M penalty",
+        rec: "deleted",
+        recT: ["customer data deleted;", "FinCEN cited the deletion"],
+        op: "plain",
+        opT: ["penalty on the operator,", "Larry Dean Harmon"],
+      },
+      {
+        name: "Bitcoin Fog",
+        vol: "1.2M+ BTC, 2011–2021",
+        date: "27 Apr 2021",
+        act: "operator arrested",
+        rec: "plain",
+        recT: ["wallet of about 1,345 BTC", "later forfeited"],
+        op: "named",
+        opT: ["his true-name exchange accounts,", "funded from Fog's clusters"],
+      },
+      {
+        name: "Tornado Cash",
+        vol: "$7B+ since 2019",
+        date: "8 Aug 2022",
+        act: "sanctioned (lifted 2025)",
+        rec: "none",
+        recT: ["immutable contracts:", "no operator log to seize"],
+        op: "plain",
+        opT: ["developer convicted on", "one count, 2025"],
+      },
+      {
+        name: "ChipMixer",
+        vol: "153,732 BTC in, 2017–2023",
+        date: "15 Mar 2023",
+        act: "takedown, Germany and US",
+        rec: "seized",
+        recT: ["back-end servers and", "7 TB of data seized"],
+        op: "named",
+        opT: ["a $150 card payment in his name;", "his ID card at Binance"],
+      },
+    ],
+  },
+  ja: {
+    label:
+      "ミキサーの 5 つの事件を日付順に並べた。Bestmixer (2019 年 5 月): サーバ 6 台を押収し、顧客の取引情報を集めて他国と共有する。Helix (2020 年 10 月): FinCEN の制裁金。運営者は顧客データを消していた。Bitcoin Fog (2021 年 4 月): 運営者を逮捕。本名の取引所口座に Fog のクラスタから資金が入っていた。Tornado Cash (2022 年 8 月): 制裁。改変できないコントラクトには押収できる運営者の記録がなく、開発者は後に 1 つの訴因で有罪になった。ChipMixer (2023 年 3 月): バックエンドのサーバと 7 TB のデータを押収。運営者名義の 150 ドルのカード払いと Binance に出した身分証が本人を示した。",
+    head: ["ミキサー・当局の言う規模", "措置", "ミキサー自身の記録", "運営者"],
+    rows: [
+      {
+        name: "Bestmixer.io",
+        vol: "1 年で 2 億ドル超",
+        date: "2019 年 5 月 22 日",
+        act: "サーバ 6 台を押収 (蘭・ルクセンブルク)",
+        rec: "seized",
+        recT: ["顧客の取引情報を収集し、", "他国と共有する"],
+        op: "quiet",
+        opT: ["発表では", "名前を出していない"],
+      },
+      {
+        name: "Helix",
+        vol: "3 億 1,100 万ドル超 (2014〜17 年)",
+        date: "2020 年 10 月 19 日",
+        act: "FinCEN: 制裁金 6,000 万ドル",
+        rec: "deleted",
+        recT: ["顧客データを消していた。", "FinCEN はその削除を指摘"],
+        op: "plain",
+        opT: ["制裁金の対象は運営者の", "Larry Dean Harmon"],
+      },
+      {
+        name: "Bitcoin Fog",
+        vol: "120 万 BTC 超 (2011〜21 年)",
+        date: "2021 年 4 月 27 日",
+        act: "運営者を逮捕",
+        rec: "plain",
+        recT: ["約 1,345 BTC のウォレットは", "のちに没収"],
+        op: "named",
+        opT: ["本名の取引所口座に", "Fog のクラスタから入金"],
+      },
+      {
+        name: "Tornado Cash",
+        vol: "2019 年以降 70 億ドル超",
+        date: "2022 年 8 月 8 日",
+        act: "制裁 (2025 年に解除)",
+        rec: "none",
+        recT: ["改変できないコントラクト。", "押収できる運営者の記録がない"],
+        op: "plain",
+        opT: ["開発者が 1 つの訴因で", "有罪 (2025 年)"],
+      },
+      {
+        name: "ChipMixer",
+        vol: "受取 153,732 BTC (2017〜23 年)",
+        date: "2023 年 3 月 15 日",
+        act: "独米による摘発",
+        rec: "seized",
+        recT: ["バックエンドのサーバと", "7 TB のデータを押収"],
+        op: "named",
+        opT: ["本人名義の 150 ドルのカード払い、", "Binance に出した身分証"],
+      },
+    ],
+  },
+};
+const L = T[lang];
+
+const C1 = { x: 16, w: 230 };
+const C2 = { x: 262, w: 240 };
+const C3 = { x: 518, w: 270 };
+const C4 = { x: 804, w: 254 };
+const top = 48;
+const step = 86;
+const recBox: Record<Rec, string> = { seized: "fill-hl", deleted: "box-soft", none: "fill-bar", plain: "box-soft" };
+const recText: Record<Rec, string> = { seized: "t-s t-on-hl", deleted: "t-s t-2", none: "t-s t-on-ink", plain: "t-s" };
+const opText: Record<Op, string> = { named: "t-s t-leak", plain: "t-s", quiet: "t-s t-2" };
+---
+
+<svg class="dg" viewBox="0 0 1072 482" role="img" aria-label={L.label}>
+  <text class="t-s t-2 b" x={C1.x} y="24">{L.head[0]}</text>
+  <text class="t-s t-2 b" x={C2.x} y="24">{L.head[1]}</text>
+  <text class="t-s b" x={C3.x} y="24">{L.head[2]}</text>
+  <text class="t-s t-2 b" x={C4.x} y="24">{L.head[3]}</text>
+
+  {
+    L.rows.map((r, i) => {
+      const y = top + i * step;
+      return (
+        <g>
+          <line class="ln-1 soft" x1="16" y1={y - 12} x2="1058" y2={y - 12}></line>
+          <text class="b" x={C1.x} y={y + 18}>
+            {r.name}
+          </text>
+          <text class="t-s t-2" x={C1.x} y={y + 38}>
+            {r.vol}
+          </text>
+          <text class="mono b" x={C2.x} y={y + 18}>
+            {r.date}
+          </text>
+          <text class="t-s" x={C2.x} y={y + 38}>
+            {r.act}
+          </text>
+          <rect
+            class={r.rec === "deleted" ? "box-soft" : recBox[r.rec]}
+            x={C3.x}
+            y={y}
+            width={C3.w}
+            height="56"
+            stroke-dasharray={r.rec === "deleted" ? "5 4" : undefined}
+          ></rect>
+          <text class={recText[r.rec]} x={C3.x + 12} y={y + 23}>
+            {r.recT[0]}
+          </text>
+          <text class={recText[r.rec]} x={C3.x + 12} y={y + 41}>
+            {r.recT[1]}
+          </text>
+          {r.op === "named" && <rect class="stroke-leak" x={C4.x} y={y} width={C4.w} height="56"></rect>}
+          <text class={opText[r.op]} x={C4.x + 12} y={y + 23}>
+            {r.opT[0]}
+          </text>
+          <text class={opText[r.op]} x={C4.x + 12} y={y + 41}>
+            {r.opT[1]}
+          </text>
+        </g>
+      );
+    })
+  }
+</svg>
+
+<style>
+  svg {
+    min-width: 820px;
+  }
+</style>

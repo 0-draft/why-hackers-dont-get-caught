@@ -1,0 +1,176 @@
+---
+// Four documented cases drawn as identical rows, so the reader sees that each
+// one ends in the same column: a business that knew its customer. Marks:
+// yellow = readable on the public ledger, ink outline = the steps meant to
+// break the trail, magenta = the record that named a person.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+type Row = { name: string; year: string; ledger: string; hide: string[]; who: string[]; rec: string[] };
+
+const T: Record<"en" | "ja", { label: string; head: string[]; rows: Row[] }> = {
+  en: {
+    label:
+      "Four cases in four identical rows. Welcome to Video: over 420 bitcoin in over 7,300 payments, a new deposit address for every user, exchanges the users paid from, account holders matched to usernames on the seized server. Twitter hack 2020: a wallet cluster, handles with no names on the chain, accounts at Binance and Coinbase, a driver's licence, date of birth and address. Bitfinex: 119,754 bitcoin stolen, peel chains, AlphaBay pass-through, fake-name accounts and chain hopping, then accounts in their own names at six other exchanges, with logins from the same New York IP addresses. Incognito Market: the admin wallet, bitcoin swapped to Monero and deposited 21 to 40 minutes later, an exchange account, a Taiwanese driver's licence, phone number and email.",
+    head: [
+      "case · on the public ledger",
+      "meant to break the trail",
+      "who knew the customer",
+      "what their records held",
+    ],
+    rows: [
+      {
+        name: "Welcome to Video",
+        year: "2015–2018",
+        ledger: "420+ BTC in 7,300+ payments",
+        hide: ["a new deposit address for every", "user (1.3 million+ addresses)"],
+        who: ["Exchanges 1–3", "where users paid from"],
+        rec: ["account holders, matched to", "usernames on the seized server"],
+      },
+      {
+        name: "Twitter hack",
+        year: "July 2020",
+        ledger: "the “Chaewon” wallet cluster",
+        hide: ["handles on a forum and Discord;", "no names on the chain"],
+        who: ["Binance, Coinbase", "accounts tied to the wallets"],
+        rec: ["driver's licence,", "date of birth, address"],
+      },
+      {
+        name: "Bitfinex",
+        year: "2016–2022",
+        ledger: "119,754 BTC stolen",
+        hide: ["peel chains, AlphaBay pass-through,", "fake-name accounts, chain hopping"],
+        who: ["six other exchanges", "accounts in their own names"],
+        rec: ["logins from the same", "New York IP addresses"],
+      },
+      {
+        name: "Incognito Market",
+        year: "2021–2022",
+        ledger: "the admin wallet",
+        hide: ["BTC swapped to Monero, then", "deposited 21–40 minutes later"],
+        who: ["one exchange account", "(“Crypto Account-1”)"],
+        rec: ["Taiwanese driver's licence,", "phone number, email"],
+      },
+    ],
+  },
+  ja: {
+    label:
+      "4 つの事件を同じ形の 4 行で並べた。Welcome to Video: 7,300 件超の支払いで 420 BTC 超、利用者ごとに新しい入金アドレス、利用者が支払いに使った取引所、押収サーバ上のユーザー名と照合された口座名義人。2020 年の Twitter 乗っ取り: ウォレット群、チェーン上に名前のないハンドル名、Binance と Coinbase の口座、運転免許証・生年月日・住所。Bitfinex: 盗まれた 119,754 BTC、ピールチェーン・AlphaBay 経由・偽名口座・チェーンホッピング、そのあと 6 つの別の取引所にある本人名義の口座、同じニューヨークの IP アドレスからのログイン。Incognito Market: 管理者ウォレット、BTC を Monero に交換して 21〜40 分後に入金、取引所の口座、台湾の運転免許証・電話番号・メール。",
+    head: ["事件・公開台帳にあるもの", "足跡を断つための手", "顧客を知っていた事業者", "その記録にあったもの"],
+    rows: [
+      {
+        name: "Welcome to Video",
+        year: "2015〜2018 年",
+        ledger: "7,300 件超で 420 BTC 超",
+        hide: ["利用者ごとに新しい入金アドレス", "(130 万個超)"],
+        who: ["取引所 1〜3", "利用者の支払い元"],
+        rec: ["口座の名義人を、押収した", "サーバ上のユーザー名と照合"],
+      },
+      {
+        name: "Twitter 乗っ取り",
+        year: "2020 年 7 月",
+        ledger: "「Chaewon」のウォレット群",
+        hide: ["フォーラムと Discord のハンドル名。", "チェーン上に名前はない"],
+        who: ["Binance と Coinbase", "ウォレットにつながる口座"],
+        rec: ["運転免許証、", "生年月日、住所"],
+      },
+      {
+        name: "Bitfinex",
+        year: "2016〜2022 年",
+        ledger: "盗まれた 119,754 BTC",
+        hide: ["ピールチェーン、AlphaBay 経由、", "偽名口座、チェーンホッピング"],
+        who: ["6 つの別の取引所", "本人名義の口座"],
+        rec: ["同じニューヨークの", "IP アドレスからのログイン"],
+      },
+      {
+        name: "Incognito Market",
+        year: "2021〜2022 年",
+        ledger: "管理者ウォレット",
+        hide: ["BTC を Monero に交換し、", "21〜40 分後に入金"],
+        who: ["取引所の口座 1 つ", "(「Crypto Account-1」)"],
+        rec: ["台湾の運転免許証、", "電話番号、メール"],
+      },
+    ],
+  },
+};
+const L = T[lang];
+
+// column geometry
+const C1 = { x: 16, w: 200 };
+const C2 = { x: 240, w: 300 };
+const C3 = { x: 566, w: 222 };
+const C4 = { x: 814, w: 244 };
+const top = 52;
+const step = 100;
+const mid = `mf-arr-${lang}`;
+---
+
+<svg class="dg" viewBox="0 0 1072 452" role="img" aria-label={L.label}>
+  <defs>
+    <marker id={mid} viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="fill-ink"></path>
+    </marker>
+  </defs>
+
+  <text class="t-s t-2 b" x={C1.x} y="26">{L.head[0]}</text>
+  <text class="t-s t-2 b" x={C2.x} y="26">{L.head[1]}</text>
+  <text class="t-s b" x={C3.x} y="26">{L.head[2]}</text>
+  <text class="t-s t-leak" x={C4.x} y="26">{L.head[3]}</text>
+  <line class="ln-1 soft" x1="16" y1="38" x2="1058" y2="38"></line>
+
+  {
+    L.rows.map((r, i) => {
+      const y = top + i * step;
+      const m = y + 52;
+      return (
+        <g>
+          <text class="b" x={C1.x} y={y + 10}>
+            {r.name}
+          </text>
+          <text class="t-s t-2" x={C1.x} y={y + 27}>
+            {r.year}
+          </text>
+          <rect class="fill-hl" x={C1.x} y={y + 36} width={C1.w} height="32"></rect>
+          <text class="t-s t-on-hl" x={C1.x + 10} y={y + 56}>
+            {r.ledger}
+          </text>
+          <line class="ln-1" x1={C1.x + C1.w} y1={m} x2={C2.x} y2={m} marker-end={`url(#${mid})`}></line>
+
+          <rect class="box-soft" x={C2.x} y={y + 22} width={C2.w} height="60"></rect>
+          <text class="t-s" x={C2.x + 12} y={y + 46}>
+            {r.hide[0]}
+          </text>
+          <text class="t-s" x={C2.x + 12} y={y + 64}>
+            {r.hide[1]}
+          </text>
+          <line class="ln-1" x1={C2.x + C2.w} y1={m} x2={C3.x} y2={m} marker-end={`url(#${mid})`}></line>
+
+          <rect class="box" x={C3.x} y={y + 22} width={C3.w} height="60"></rect>
+          <text class="b" x={C3.x + 12} y={y + 46}>
+            {r.who[0]}
+          </text>
+          <text class="t-s" x={C3.x + 12} y={y + 66}>
+            {r.who[1]}
+          </text>
+          <line class="ln-1" x1={C3.x + C3.w} y1={m} x2={C4.x} y2={m} marker-end={`url(#${mid})`}></line>
+
+          <rect class="stroke-leak" x={C4.x} y={y + 22} width={C4.w} height="60"></rect>
+          <text class="t-s t-leak" x={C4.x + 12} y={y + 46}>
+            {r.rec[0]}
+          </text>
+          <text class="t-s t-leak" x={C4.x + 12} y={y + 64}>
+            {r.rec[1]}
+          </text>
+        </g>
+      );
+    })
+  }
+</svg>
+
+<style>
+  svg {
+    min-width: 820px;
+  }
+</style>

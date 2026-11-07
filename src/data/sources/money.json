@@ -24,6 +24,38 @@
     "kind": "press"
   },
   {
+    "id": "money-fiod-bestmixer",
+    "title": "The FIOD and the Public Prosecution Service take money laundering machine for cryptocurrencies offline",
+    "publisher": "FIOD (Fiscal Information and Investigation Service, Netherlands)",
+    "date": "2019-05-22",
+    "url": "https://www.fiod.nl/the-fiod-and-the-public-prosecution-service-take-money-laundering-machine-for-cryptocurrencies-offline/",
+    "kind": "primary"
+  },
+  {
+    "id": "money-fincen-helix",
+    "title": "First Bitcoin \"Mixer\" Penalized by FinCEN for Violating Anti-Money Laundering Laws",
+    "publisher": "Financial Crimes Enforcement Network (FinCEN)",
+    "date": "2020-10-19",
+    "url": "https://www.fincen.gov/news/news-releases/first-bitcoin-mixer-penalized-fincen-violating-anti-money-laundering-laws",
+    "kind": "primary"
+  },
+  {
+    "id": "money-chipmixer-complaint",
+    "title": "United States v. Minh Quoc Nguyen, No. 2:23-mj-00528, criminal complaint and affidavit",
+    "publisher": "U.S. Department of Justice (FBI affidavit in support of criminal complaint)",
+    "date": "2023-03-14",
+    "url": "https://www.justice.gov/d9/press-releases/attachments/2023/03/15/filed_complaint_0.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "money-doj-fog-verdict",
+    "title": "Jury Finds Russian-Swedish Operator of Bitcoin Fog Guilty of Running Darknet Cryptocurrency Mixer",
+    "publisher": "U.S. Attorney's Office, District of Columbia",
+    "date": "2024-03-12",
+    "url": "https://www.justice.gov/usao-dc/pr/jury-finds-russian-swedish-operator-bitcoin-fog-guilty-running-darknet-cryptocurrency",
+    "kind": "primary"
+  },
+  {
     "id": "money-bitcoin-fog-sentence",
     "title": "Bitcoin Fog operator sentenced for money laundering conspiracy",
     "publisher": "IRS Criminal Investigation",
@@ -45,6 +77,14 @@
     "publisher": "IRS Criminal Investigation",
     "date": "2025-11-19",
     "url": "https://www.irs.gov/compliance/criminal-investigation/founders-of-samourai-wallet-cryptocurrency-mixing-service-sentenced-to-five-and-four-years-in-prison",
+    "kind": "primary"
+  },
+  {
+    "id": "money-ofac-blender",
+    "title": "U.S. Treasury Issues First-Ever Sanctions on a Virtual Currency Mixer, Targets DPRK Cyber Threats",
+    "publisher": "U.S. Department of the Treasury",
+    "date": "2022-05-06",
+    "url": "https://home.treasury.gov/news/press-releases/jy0768",
     "kind": "primary"
   },
   {
@@ -80,11 +120,27 @@
     "kind": "press"
   },
   {
+    "id": "money-kumar-2017",
+    "title": "A Traceability Analysis of Monero's Blockchain",
+    "publisher": "ESORICS 2017 (Kumar, Fischer, Tople and Saxena, National University of Singapore)",
+    "date": "2017-09",
+    "url": "https://www.comp.nus.edu.sg/~prateeks/papers/Monero-analysis.pdf",
+    "kind": "primary"
+  },
+  {
     "id": "money-moser-2018",
     "title": "An Empirical Analysis of Traceability in the Monero Blockchain",
     "publisher": "Proceedings on Privacy Enhancing Technologies (Möser et al.)",
     "date": "2018",
     "url": "https://arxiv.org/abs/1704.04299",
+    "kind": "primary"
+  },
+  {
+    "id": "money-monero-forks",
+    "title": "Monero README: scheduled software and network upgrades (hard fork table)",
+    "publisher": "The Monero Project (GitHub)",
+    "date": "2022-08",
+    "url": "https://github.com/monero-project/monero/blob/master/README.md",
     "kind": "primary"
   },
   {
@@ -96,12 +152,36 @@
     "kind": "primary"
   },
   {
+    "id": "money-incognito-complaint",
+    "title": "United States v. Rui-Siang Lin, 24 Mag. 351, sealed complaint",
+    "publisher": "U.S. District Court for the Southern District of New York (via U.S. Department of Justice)",
+    "date": "2024-01-26",
+    "url": "https://www.justice.gov/usao-sdny/media/1352546/dl",
+    "kind": "primary"
+  },
+  {
     "id": "money-binance-xmr-delisting",
     "title": "Binance to delist Monero after previously adding 'monitoring tag'",
     "publisher": "The Block",
     "date": "2024-02-06",
     "url": "https://www.theblock.co/post/276176/binance-delisting-monero",
     "kind": "press"
+  },
+  {
+    "id": "money-chainalysis-seizable",
+    "title": "The Landscape of Seizable Crypto Assets in 2025",
+    "publisher": "Chainalysis",
+    "date": "2025-10-09",
+    "url": "https://www.chainalysis.com/blog/landscape-of-seizable-crypto-assets-2025/",
+    "kind": "report"
+  },
+  {
+    "id": "money-chainalysis-2026",
+    "title": "The Chinese-language Underground Crypto Money Laundering Ecosystem (2026 Crypto Crime Report)",
+    "publisher": "Chainalysis",
+    "date": "2026-01-27",
+    "url": "https://www.chainalysis.com/blog/2026-crypto-money-laundering/",
+    "kind": "report"
   },
   {
     "id": "money-doj-garantex",
@@ -136,11 +216,27 @@
     "kind": "primary"
   },
   {
+    "id": "money-wtv-forfeiture",
+    "title": "United States v. Twenty-Four Cryptocurrency Accounts, No. 1:19-cv-03098, verified complaint for forfeiture in rem",
+    "publisher": "U.S. District Court for the District of Columbia (via U.S. Department of Justice)",
+    "date": "2019-10-16",
+    "url": "https://justice.gov/d9/press-releases/attachments/2019/10/16/2019_10_16_complaint_19cv3098_0.pdf",
+    "kind": "primary"
+  },
+  {
     "id": "money-doj-bitfinex",
     "title": "Two Arrested for Alleged Conspiracy to Launder $4.5 Billion in Stolen Cryptocurrency",
     "publisher": "U.S. Department of Justice",
     "date": "2022-02-08",
     "url": "https://www.justice.gov/archives/opa/pr/two-arrested-alleged-conspiracy-launder-45-billion-stolen-cryptocurrency",
+    "kind": "primary"
+  },
+  {
+    "id": "money-bitfinex-sof",
+    "title": "United States v. Lichtenstein and Morgan, No. 1:22-mj-00022, statement of facts",
+    "publisher": "U.S. District Court for the District of Columbia (via U.S. Department of Justice)",
+    "date": "2022-02-07",
+    "url": "https://www.justice.gov/d9/press-releases/attachments/2022/02/08/statement_of_facts.pdf",
     "kind": "primary"
   },
   {

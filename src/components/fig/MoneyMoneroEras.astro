@@ -1,0 +1,167 @@
+---
+// Left: the chain reaction that made early Monero inputs traceable. An output
+// can be spent only once, so a ring with no decoys reveals its real input,
+// and that output becomes a known decoy everywhere else it appears.
+// Right: when the two best-known studies took their data, against the
+// protocol's ring-size rules, so the reader sees which era the numbers cover.
+// Marks: yellow = the real input is readable to the analyst, black = still
+// hidden, ink outline = the studies' data windows.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+
+const L = {
+  en: {
+    label:
+      "Left: three rings. Ring 1 has no decoys, so output a is its real input. In ring 2, a is already spent, so b is real. In ring 3, b is already spent, so c is real. Right: Monero's minimum ring size over time, decoys optional until March 2016, then at least 3, RingCT from January 2017, at least 5 from September 2017, 7 from April 2018, fixed at 11 from October 2018 and 16 from August 2022. Kumar and colleagues used data to February 2017 and traced 88% of inputs; Möser and colleagues used data to April 2017 and deduced 62% of inputs that had decoys, with the newest ring member the real one about 80% of the time. The measured data ends before the minimums rose.",
+    chain: "Chain reaction",
+    tx: ["ring 1", "ring 2", "ring 3"],
+    notes: ["no decoys: a is the real input", "a was spent in ring 1, so b is real", "b is spent too, so c is real"],
+    right: "What the studies measured, and when",
+    rule: "minimum ring size (real input + decoys)",
+    seg: ["decoys optional", "≥ 3", "≥ 5", "≥ 7", "11", "16"],
+    ringct: "RingCT",
+    kumar: "Kumar et al. · data to Feb 2017",
+    kumarR: "88% of inputs traced with certainty",
+    moser: "Möser et al. · data to Apr 2017",
+    moserR: "62% of inputs with decoys deduced",
+    moserR2: "newest ring member was the real one ~80% of the time",
+    after: "the measured data ends before these rules",
+  },
+  ja: {
+    label:
+      "左: 3 つのリング。リング 1 にはおとりがないので、出力 a が本当の入力だ。リング 2 では a はもう使われているので b が本物。リング 3 では b ももう使われているので c が本物。右: Monero の最小リングサイズの推移。2016 年 3 月まではおとりは任意、その後 3 以上、2017 年 1 月から RingCT、2017 年 9 月から 5 以上、2018 年 4 月から 7 以上、2018 年 10 月から 11 に固定、2022 年 8 月から 16。Kumar らは 2017 年 2 月までのデータで入力の 88% を追跡し、Möser らは 2017 年 4 月までのデータで、おとりのある入力の 62% を特定した。いちばん新しいリングの要素が本物である割合は約 80% だった。どちらも最小値が引き上げられた後の時期は扱っていない。",
+    chain: "連鎖反応",
+    tx: ["リング 1", "リング 2", "リング 3"],
+    notes: ["おとりなし: a が本当の入力", "a はリング 1 で使用済み。b が本物", "b も使用済み。c が本物"],
+    right: "研究が測ったもの、測った時期",
+    rule: "最小リングサイズ (本物 + おとり)",
+    seg: ["おとり任意", "≥ 3", "≥ 5", "≥ 7", "11", "16"],
+    ringct: "RingCT",
+    kumar: "Kumar ら・2017 年 2 月までのデータ",
+    kumarR: "入力の 88% を確実に追跡",
+    moser: "Möser ら・2017 年 4 月までのデータ",
+    moserR: "おとりのある入力の 62% を特定",
+    moserR2: "最も新しい要素が本物だった割合は約 80%",
+    after: "測定データはこの時期より前で終わる",
+  },
+}[lang];
+
+// time axis: 2014.0 -> x0, 2024.0 -> x1
+const x0 = 410;
+const x1 = 1050;
+const X = (t: number) => Math.round(x0 + ((t - 2014) / 10) * (x1 - x0));
+const launch = 2014.3; // 18 Apr 2014
+const cuts = [launch, 2016.22, 2017.71, 2018.26, 2018.8, 2022.62, 2024];
+const segs = cuts.slice(0, -1).map((c, i) => ({ a: X(c), b: X(cuts[i + 1] ?? 2024) }));
+const ringct = 2017.01;
+const kEnd = 2017.1; // 6 Feb 2017
+const mEnd = 2017.29; // 15 Apr 2017
+const years = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+
+const BW = 64;
+const BH = 32;
+const rows = [
+  { y: 52, m: [{ k: "a", real: true }] },
+  {
+    y: 130,
+    m: [
+      { k: "a", real: false },
+      { k: "b", real: true },
+    ],
+  },
+  {
+    y: 208,
+    m: [
+      { k: "b", real: false },
+      { k: "c", real: true },
+    ],
+  },
+];
+---
+
+<svg class="dg" viewBox="0 0 1072 360" role="img" aria-label={L.label}>
+  <!-- left: chain reaction -->
+  <text class="b" x="16" y="26">{L.chain}</text>
+  {
+    rows.map((r, i) => (
+      <g>
+        <text class="t-s t-2" x="16" y={r.y + 21}>
+          {L.tx[i]}
+        </text>
+        {r.m.map((m, j) => {
+          const x = 96 + j * (BW + 12);
+          return (
+            <g>
+              <rect class={m.real ? "fill-hl" : "box-soft"} x={x} y={r.y} width={BW} height={BH}></rect>
+              <text class={m.real ? "mono t-on-hl b" : "mono t-2"} x={x + BW / 2} y={r.y + 21} text-anchor="middle">
+                out {m.k}
+              </text>
+              {!m.real && <line class="ln" x1={x + 6} y1={r.y + BH - 6} x2={x + BW - 6} y2={r.y + 6}></line>}
+            </g>
+          );
+        })}
+        <text class="t-s" x="96" y={r.y + BH + 20}>
+          {L.notes[i]}
+        </text>
+      </g>
+    ))
+  }
+
+  <line class="ln-1 soft" x1="370" y1="16" x2="370" y2="344"></line>
+
+  <!-- right: rules and study windows -->
+  <text class="b" x={x0} y="26">{L.right}</text>
+  <text class="t-s t-2" x={x0} y="56">{L.rule}</text>
+  <text class="t-s b" x={X(ringct) + 4} y="76">{L.ringct}</text>
+  {
+    segs.map((g, i) => (
+      <g>
+        <rect class="box-soft" x={g.a} y="84" width={g.b - g.a} height="34"></rect>
+        <text class="t-s" x={(g.a + g.b) / 2} y="106" text-anchor="middle">
+          {L.seg[i]}
+        </text>
+      </g>
+    ))
+  }
+  <line class="ln" x1={X(ringct)} y1="64" x2={X(ringct)} y2="84"></line>
+
+  <!-- axis -->
+  <line class="ln-1" x1={x0} y1="140" x2={x1} y2="140"></line>
+  {
+    years.map((yr) => (
+      <g>
+        <line class="ln-1" x1={X(yr)} y1="140" x2={X(yr)} y2="146"></line>
+        <text class="t-s t-2" x={X(yr)} y="160" text-anchor="middle">
+          {yr}
+        </text>
+      </g>
+    ))
+  }
+
+  <!-- Kumar et al. -->
+  <text class="t-s b" x={X(launch)} y="186">{L.kumar}</text>
+  <rect class="ln" x={X(launch)} y="194" width={X(kEnd) - X(launch)} height="18"></rect>
+  <rect class="fill-hl" x={X(kEnd) + 16} y="194" width={Math.round(160 * 0.879)} height="18"></rect>
+  <rect class="fill-bar" x={X(kEnd) + 16 + Math.round(160 * 0.879)} y="194" width={160 - Math.round(160 * 0.879)} height="18"></rect>
+  <text class="t-s" x={X(kEnd) + 188} y="208">{L.kumarR}</text>
+
+  <!-- Möser et al. -->
+  <text class="t-s b" x={X(launch)} y="244">{L.moser}</text>
+  <rect class="ln" x={X(launch)} y="252" width={X(mEnd) - X(launch)} height="18"></rect>
+  <rect class="fill-hl" x={X(mEnd) + 16} y="252" width={Math.round(160 * 0.6294)} height="18"></rect>
+  <rect class="fill-bar" x={X(mEnd) + 16 + Math.round(160 * 0.6294)} y="252" width={160 - Math.round(160 * 0.6294)} height="18"></rect>
+  <text class="t-s" x={X(mEnd) + 188} y="266">{L.moserR}</text>
+  <text class="t-s t-2" x={X(mEnd) + 16} y="290">{L.moserR2}</text>
+
+  <!-- the years the figures do not cover -->
+  <polyline class="ln-1" points={`${X(2017.71)},312 ${X(2017.71)},320 ${X(2024)},320 ${X(2024)},312`}></polyline>
+  <text class="t-s t-2" x={X(2024)} y="340" text-anchor="end">{L.after}</text>
+</svg>
+
+<style>
+  svg {
+    min-width: 820px;
+  }
+</style>
