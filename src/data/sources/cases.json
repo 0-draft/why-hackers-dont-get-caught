@@ -598,5 +598,21 @@
     "date": "2013-02-10",
     "url": "https://www.j-cast.com/2013/02/10164802.html?p=all",
     "kind": "press"
+  },
+  {
+    "id": "case-ab-dailybeast",
+    "title": "The Mistake That Brought Down AlphaBay, the Dark Web's Biggest Market",
+    "publisher": "The Daily Beast",
+    "date": "2017-07-20",
+    "url": "https://www.thedailybeast.com/the-mistake-that-brought-down-alphabay-the-dark-webs-biggest-market/",
+    "kind": "press"
+  },
+  {
+    "id": "case-hammond-govmemo",
+    "title": "United States v. Hammond, 12 Cr. 185 (LAP): Government's sentencing memorandum (Document 60)",
+    "publisher": "US Attorney's Office, Southern District of New York (copy hosted by Cryptome)",
+    "date": "2013-11-12",
+    "url": "https://cryptome.wikileaks.org/2013/11/hammond-060.pdf",
+    "kind": "primary"
   }
 ]

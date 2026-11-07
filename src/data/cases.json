@@ -111,7 +111,7 @@
       "en": "Arrested in Chicago in March 2012. Pleaded guilty in May 2013 to one count of conspiracy to commit computer hacking and was sentenced on 15 November 2013 to 10 years in prison.",
       "ja": "2012年3月にシカゴで逮捕された。2013年5月にコンピュータへの不正侵入の共謀1件で有罪を認め、同年11月15日に禁錮10年を言い渡された。"
     },
-    "sources": ["case-hammond-computerworld", "case-sabu-sdny", "case-hammond-sentence"],
+    "sources": ["case-hammond-computerworld", "case-sabu-sdny", "case-hammond-sentence", "case-hammond-govmemo"],
     "timeline": {
       "slip": "2011-12",
       "slipWhat": {
@@ -220,16 +220,15 @@
       "en": "Died in Thai custody on 12 July 2017, an apparent suicide. The criminal case was dismissed after his death and his assets were pursued through civil forfeiture in the Eastern District of California.",
       "ja": "2017年7月12日、タイで勾留中に死亡した（自殺とみられる）。死亡により刑事事件は棄却され、資産はカリフォルニア州東部地区での民事没収で追及された。"
     },
-    "sources": ["case-ab-forfeiture", "case-ab-bleeping", "case-ab-doj"],
+    "sources": ["case-ab-forfeiture", "case-ab-bleeping", "case-ab-doj", "case-ab-dailybeast"],
     "timeline": {
-      "slip": "2014",
+      "slip": "2014-12",
       "slipWhat": {
         "en": "Hotmail address in site emails",
         "ja": "メールに Hotmail"
       },
       "caught": "2017-07-05",
-      "caughtKind": "arrest",
-      "approx": true
+      "caughtKind": "arrest"
     }
   },
   {
