@@ -32,7 +32,7 @@ const T = {
 }[lang];
 
 function toYear(d: string): number {
-  const [y, m, dd] = d.split("-").map(Number);
+  const [y = 0, m, dd] = d.split("-").map(Number);
   return y + ((m ?? 7) - 1) / 12 + ((dd ?? 15) - 1) / 365;
 }
 
@@ -57,7 +57,7 @@ const y1 = Math.ceil(Math.max(...all)) + 1;
 const X0 = 300;
 const X1 = 1000;
 const x = (y: number) => X0 + ((y - y0) / (y1 - y0)) * (X1 - X0);
-const L = lang === "en" ? [340, 500, 610] : [230, 380, 470];
+const [L0, L1, L2] = lang === "en" ? [340, 500, 610] : [230, 380, 470];
 const TOP = 70;
 const ROW = 40;
 const H = TOP + rows.length * ROW + 30;
@@ -77,12 +77,12 @@ const label = [
   <g>
     <circle cx="10" cy="16" r="6" class="fill-leak"></circle>
     <text x="24" y="21">{T.slip}</text>
-    <circle cx={L[0] + 6} cy="16" r="6" class="stroke-leak"></circle>
-    <text x={L[0] + 20} y="21">{T.approx}</text>
-    <rect x={L[1]} y="10" width="12" height="12" class="fill-ink"></rect>
-    <text x={L[1] + 20} y="21">{T.arrest}</text>
-    <rect x={L[2]} y="10" width="12" height="12" class="box"></rect>
-    <text x={L[2] + 20} y="21">{T.named}</text>
+    <circle cx={L0 + 6} cy="16" r="6" class="stroke-leak"></circle>
+    <text x={L0 + 20} y="21">{T.approx}</text>
+    <rect x={L1} y="10" width="12" height="12" class="fill-ink"></rect>
+    <text x={L1 + 20} y="21">{T.arrest}</text>
+    <rect x={L2} y="10" width="12" height="12" class="box"></rect>
+    <text x={L2 + 20} y="21">{T.named}</text>
   </g>
   {
     years.map((y) => (
