@@ -1,6 +1,6 @@
 ---
 title: "Identity: keeping personas apart"
-summary: "A pseudonym protects someone only while nothing connects it to their other names; one shared handle, email address or phone number joins the two."
+summary: "A pseudonym protects someone only while nothing connects it to their other names; one shared handle, email address, phone number or login address joins the two."
 layer: identity
 prereqs: [records]
 ---
@@ -8,6 +8,8 @@ prereqs: [records]
 import Cite from "../../../components/Cite.astro";
 import Fig from "../../../components/Fig.astro";
 import IdentityAnchor from "../../../components/fig/IdentityAnchor.astro";
+import IdentityJoin from "../../../components/fig/IdentityJoin.astro";
+import IdentityLegal from "../../../components/fig/IdentityLegal.astro";
 import IdentityLinks from "../../../components/fig/IdentityLinks.astro";
 import IdentityRank from "../../../components/fig/IdentityRank.astro";
 
@@ -15,9 +17,11 @@ Someone who runs a hidden service or posts as a pseudonym still has an ordinary 
 
 ## A persona is a graph
 
-Investigators do not look for a single clue that names someone. They build a graph. Each account, handle, email address, phone number, payment address and writing sample is a node, and anything two nodes share is an edge: the same handle on two forums, an email address in a post, a phone number used to verify two accounts, a login from the same address at the same time.
+Investigators do not look for a single clue that names someone. They build a graph. Each account, handle, email address, phone number, payment address and writing sample is a node, and anything two nodes share is an edge: the same handle on two forums, an email address in a post, a phone number used to verify two accounts, a recovery address set years ago, a login from the same address on the same day.
 
 From that angle, a persona is safe only while it forms a separate component, a cluster with no edges to the cluster that contains a real name. The work of keeping personas apart, often called compartmentalisation, is the work of never creating such an edge. It has to hold for every account over every year the persona exists, while the investigator needs one edge, found once, and can look back through archived posts, leaked databases and records held by providers.
+
+Most of the edges are not secrets the person gave away on purpose. They are rows in someone else's table: a forum's user list, a webmail provider's account record, a carrier's contract file. The rest of this chapter follows those tables, who holds them, and how investigators line them up.
 
 ## The reused edge
 
@@ -27,23 +31,53 @@ The most cited example is Ross Ulbricht, convicted as the operator of Silk Road.
   <IdentityLinks lang="en" />
 </Fig>
 
-Nothing in that chain required breaking encryption. The forum posts were public and had sat in archives for about two years by the time they mattered, and the last step needed only a request to Google. The step that joins the clusters is the one that a careful person would never make deliberately, and Ulbricht made it in a context, recruiting for a business, where using a contactable address felt natural. See the [Silk Road case](/cases/#silk-road).
+Nothing in that chain required breaking encryption. The forum posts were public and had sat in archives for about two years by the time they mattered, and the last step needed only a request to Google. The complaint adds a second, smaller edge. In March 2012 a Stack Overflow account registered with the same Gmail address asked how to connect to a Tor hidden service from PHP; less than a minute later its username changed from "Ross Ulbricht" to "frosty". The SSH key that administered the Silk Road server ended in "frosty@frosty"<Cite id="identity-ulbricht-complaint" />. Renaming the account did not delete the record of what it had been called. See the [Silk Road case](/cases/#silk-road).
 
 AlphaBay followed the same shape. For a short period after its forum launched in December 2014, AlphaBay's welcome and password-recovery emails carried a personal Hotmail address, `pimp_alex_91@hotmail.com`, in the header. Investigators followed the address to an older tech-forum profile under the handle "Alpha02", to PayPal accounts and to a company belonging to Alexandre Cazes<Cite id="case-ab-forfeiture" />. AlphaBay was taken down in July 2017<Cite id="case-ab-doj" />. See the [AlphaBay case](/cases/#alphabay).
 
-The same pattern shows up at scale. The FBI's January 2025 advisory on North Korean IT workers tells employers to look for the same phone numbers and email addresses on resumes that claim to come from different applicants<Cite id="identity-ic3-dprk" />. Each reuse is an edge between personas that were supposed to be strangers.
+The edge can also sit in a business record rather than a post. The complaint against Blake Benthall, charged as the operator of Silk Road 2.0, says the hosting company's records showed that the server was leased by a customer whose contact details included `blake@benthall.net`, and that the company had sent service alerts to that address between November 2013 and June 2014<Cite id="identity-benthall-complaint" />. See the [Silk Road 2.0 case](/cases/#silk-road-2).
 
-Old breaches make the graph denser. When a forum's user database leaks, every account's email address, password hash and registration IP becomes a searchable record, and the same details often recur across forums for years. Brian Krebs connected the ransomware broker known as Wazawaka to Mikhail Matveev this way: the persona's forum accounts shared a small set of passwords and webmail addresses, one of those addresses had registered a VKontakte account in Matveev's name, and the phone number on that account reappeared in a domain registration<Cite id="case-waz-krebs" />. U.S. authorities charged Matveev the following year<Cite id="case-waz-doj" />. No single record named him. The chain of shared details did. See the [Wazawaka case](/cases/#wazawaka).
+The same pattern shows up at scale. The FBI's January 2025 advisory on North Korean IT workers tells employers to look for the same phone numbers and email addresses on resumes that claim to come from different applicants<Cite id="identity-ic3-dprk" />. The other way to fill a persona is to borrow a real person's identity. In the Arizona laptop-farm case, prosecutors said workers used 68 identities stolen from people in the United States to get jobs at 309 US businesses, and that their pay was reported to the IRS in those people's names<Cite id="case-dprk-irs" />. See the [laptop farm case](/cases/#dprk-laptop-farm).
+
+## Leaked databases become joins
+
+When a forum's user database leaks, every account's email address, password hash and login history becomes a searchable table, and the same details often recur across forums for years. For the person who ran several accounts on that forum, the leak publishes the rows that tie them together.
+
+The Twitter hack of July 2020 shows the mechanism in an affidavit. In April 2020 the administrator of OGUsers, which the complaint calls a forum popular among people involved in hijacking online accounts, announced that it had been hacked, and a rival forum posted a link to the full database. The FBI obtained a copy on about 9 April. It held public posts, private messages, email addresses and, for each user, a list of login IP addresses with timestamps. The IRS-CI agent found that on 29 April 2017 the same UK address had logged in to two accounts, "Chaewon" and "Mas". The Mas account carried a Gmail address; Coinbase records for that address named Mason Sheppard and included a photo of his driving licence<Cite id="identity-sheppard-complaint" />. See the [Twitter 2020 case](/cases/#twitter-2020).
+
+<Fig caption="The Sheppard join, from the 2020 complaint. Two accounts in a leaked forum database share a login address on one day; one of them carries an email address; an exchange's customer file for that address holds a name and a checked ID. The complaint also traced bitcoin between the same people separately, which is not drawn." size="wide">
+  <IdentityJoin lang="en" />
+</Fig>
+
+The case against Conor Fitzpatrick, charged in 2023 as "pompompurin", the administrator of BreachForums, reads like the same method applied many times. When RaidForums was seized in 2022, the FBI obtained its SQL database, including pompompurin's logins. Verizon records tied at least nine of those login addresses to phones registered to Fitzpatrick; for 27 others, Verizon had no data left because of its retention limits. The forum's private messages showed pompompurin telling the RaidForums administrator that he had looked up `conorfitzpatrick02@gmail.com` and the name "conorfitzpatrick" in a breached database. Google's records showed a newer Gmail account whose recovery address was another Gmail account, created under the name "a a" from an IP address that Verizon assigned to the Fitzpatrick household. Google also logged the newer account being reached through many VPN services; of the 31 addresses it recorded over about eight months, 12 had also logged in to pompompurin's forum account<Cite id="identity-fitzpatrick-affidavit" />. A VPN hid the home address, but using the same VPN exits for both identities made the exits themselves a shared column.
+
+Breach data is also how outside researchers make these joins. Brian Krebs connected the ransomware broker known as Wazawaka to Mikhail Matveev this way: the persona's forum accounts shared a small set of passwords and webmail addresses, one of those addresses had registered a VKontakte account in Matveev's name, and the phone number on that account reappeared in a domain registration<Cite id="case-waz-krebs" />. US authorities charged Matveev the following year<Cite id="case-waz-doj" />, and the Treasury sanctions entry lists "Wazawaka", "m1x", "Boriselcin" and "Uhodiransomwar" as aliases beside his passport number<Cite id="case-waz-ofac" />. See the [Wazawaka case](/cases/#wazawaka).
+
+A join names the person behind an old account, not necessarily the person behind the role. After the NCA said in May 2024 that Operation Cronos had uncovered LockBitSupp's identity, without saying how<Cite id="case-lb-nca" />, Krebs used breach records and domain registrations to tie the email addresses in the sanctions listing to Dmitry Khoroshev and to an older malware-forum persona, "NeroWolfe". He wrote that this did not prove NeroWolfe was LockBitSupp<Cite id="case-lb-krebs" />. See the [LockBitSupp case](/cases/#lockbitsupp).
 
 ## Identity that someone else holds
 
-Some identifiers are not chosen by the user at all. A phone number is issued by a carrier, and in many countries the carrier must record who the customer is. GSMA counted 157 countries that required registration of prepaid SIM cards as of 2021<Cite id="identity-gsma-2021" />. In those countries a number that receives a sign-up code is tied to a name and an identity document in the carrier's records, even if the platform that sent the code never asks for either.
+Some identifiers are not chosen by the user at all. A phone number is issued by a carrier, and in many countries the carrier must record who the customer is. GSMA counted 157 countries that required registration of prepaid SIM cards as of 2021<Cite id="identity-gsma-2021" />. Japan's mobile phone act requires carriers to check a contract holder's identity against a document such as a driving licence, keep the record for three years after the contract ends, and confirm the holder when a police station chief asks about a phone used in certain crimes<Cite id="identity-jp-mobile-act" />. In such countries a number that receives a sign-up code is tied to a name in the carrier's records, even if the platform that sent the code never asks for one.
 
 <Fig caption="A verification text ties an account to the carrier's registration. The platform sees the handle and the number but not the name; the carrier sees the number and the name but not the handle. The third row is what an investigator holds after legal requests to both: the handle now leads to a name.">
   <IdentityAnchor lang="en" />
 </Fig>
 
-This is why phone verification matters to the identity layer even when the platform's own records look harmless. The edge from account to person exists; it is just stored somewhere else.
+Phone numbers also leak between platforms. In April 2021 Meta said that a dataset covering more than 530 million Facebook users had been scraped before September 2019 by abusing its contact importer, a feature that let software upload a large set of phone numbers and see which ones matched accounts<Cite id="identity-meta-scrape" />. Any table keyed by phone number can be lined up with any other, so a number used once on a pseudonymous account can surface in someone else's dataset years later.
+
+Account recovery creates the same kind of edge. A recovery address or number is set once, often when the account is new and nothing seems at stake, and it stays in the provider's record. In the Fitzpatrick affidavit it was the recovery address of a Gmail account that led to an account created from the family's home connection<Cite id="identity-fitzpatrick-affidavit" />. The edge from account to person exists; it is just stored somewhere else.
+
+## What a platform hands over
+
+Investigators reach those stored edges through legal process, and in the United States the Stored Communications Act sets tiers. A subpoena can compel a provider to give a subscriber's name, address, session times, length of service, "any temporarily assigned network address" and means of payment. A court order under section 2703(d) reaches other non-content records, but only when the government offers "specific and articulable facts" that they are relevant to an investigation. A provider must also preserve records for 90 days when asked, renewable once<Cite id="basics-usc-2703" />. Since the Sixth Circuit's 2010 decision in *Warshak*, the contents of email held by a provider need a warrant based on probable cause<Cite id="identity-warshak" />.
+
+The large platforms publish the same ladder in their own terms. Meta's guidelines say a subpoena gets basic subscriber records, including name, email address and recent login IP addresses; a 2703(d) order gets other account records such as message headers; and stored content needs a search warrant<Cite id="basics-meta-le" />. Google describes the same three steps and says it normally emails the user before disclosing, unless the law or the order forbids it<Cite id="identity-google-requests" />.
+
+<Fig caption="What a US provider gives at each legal threshold, from 18 U.S.C. § 2703 and Meta's and Google's published guidelines. Yellow is what the investigator receives; black is withheld. The cheapest step already includes sign-in addresses, which a second request to an ISP turns into a subscriber. The name on the account is whatever the user typed.">
+  <IdentityLegal lang="en" />
+</Fig>
+
+In the cases above, the record that put a name on an account was a subscriber field or a login log, the lower rungs: Google's registration record for Ulbricht, a hosting customer's contact address for Benthall, Coinbase's customer file for Sheppard. Content mattered later, to prove what the person did.
 
 ## Writing style as an identifier
 
@@ -51,23 +85,26 @@ Even with no shared names, a persona writes. Stylometry treats word choice, func
 
 Narayanan and colleagues tested this at internet scale in 2012. With texts from 100,000 candidate authors, their classifiers named the correct author first in over 20% of cases, and put the correct author among the top 20 guesses in about 35%. When the classifier was allowed to decline to guess on texts it was unsure about, the precision of its first guess rose from 20% to over 80%, at the cost of halving the number of texts it answered<Cite id="identity-narayanan-2012" />.
 
-<Fig caption="Narayanan et al., 2012: where the true author ranked among 100,000 candidates. A shortlist is not an identification, but it turns a needle in a haystack into a lead an investigator can check by other means.">
+<Fig caption="Narayanan et al., 2012: where the true author ranked among 100,000 candidates, as a share of test texts. A shortlist is not an identification, but it turns a needle in a haystack into a lead an investigator can check by other means.">
   <IdentityRank lang="en" />
 </Fig>
 
-Stylometry has a known weakness on the other side. Brennan, Afroz and Greenstadt studied writers who deliberately disguised their style or imitated another author, and found that standard methods lost much of their accuracy<Cite id="identity-brennan-2012" />. A 2022 replication reached the same conclusion, but argued the effect may be overstated because the original study had no control group<Cite id="identity-stylo-replication" />. In practice it works best as a filter that narrows a large pool to a few candidates, which other edges then confirm or rule out.
+Underground forums are a harder test, because posts mix slang, languages and pasted data. Afroz and colleagues worked on leaked SQL dumps of four such forums in 2014. To get ground truth they used the join from the previous section: 563 email addresses that appeared in both the Carders and L33tCrew dumps. On those cross-forum pairs their method reached 0.85 precision and 0.82 recall at finding the accounts that belonged to one person, and on Carders it surfaced duplicate accounts the forum had not caught<Cite id="identity-afroz-2014" />. Code has a style too. A 2015 study attributed programs to their authors among 1,600 Google Code Jam programmers with 94% accuracy<Cite id="identity-caliskan-2015" />.
+
+The numbers fall when conditions change. Overdorf and Greenstadt found that standard methods reached 83.5% accuracy when the known and unknown texts came from the same kind of site, and 34.3% when they did not, for example blog posts against tweets; their adaptations raised the cross-domain figure to as much as 70%<Cite id="identity-overdorf-2016" />. Brennan, Afroz and Greenstadt studied writers who deliberately disguised their style or imitated another author, and found that standard methods lost much of their accuracy<Cite id="identity-brennan-2012" />. A 2022 replication reached the same conclusion, but argued the effect may be overstated because the original study had no control group<Cite id="identity-stylo-replication" />. In practice stylometry works as a filter that narrows a large pool to a few candidates, which other edges then confirm or rule out. None of the identity cases on this site rests on it.
 
 ## Where it gives way
 
-The cases on this site that failed at the identity layer share one feature: the edge that broke the persona was created early, before the persona mattered, and in a setting that felt low-stakes. Ulbricht's post was a hiring ad; the AlphaBay header was a detail of the forum's email setup in its first weeks. By the time each operation was large enough to draw a serious investigation, the edge was already archived.
+The cases on this site that failed at the identity layer share one feature: the edge that broke the persona was created early, before the persona mattered, and in a setting that felt low-stakes. Ulbricht's post was a hiring ad; the AlphaBay header was a detail of the forum's email setup in its first weeks; the Chaewon and Mas logins were three years old when the database leaked. By the time each operation was large enough to draw a serious investigation, the edge was already archived.
 
-That timing is what makes the layer fragile from the operator's side and productive from the investigator's. A persona cannot be cleaned up after the fact, because the early posts, registrations and leaked headers are held by other people. Investigators therefore spend effort on the beginning of a persona's history, when the person behind it was least careful.
+That timing is what makes the layer fragile from the operator's side and productive from the investigator's. A persona cannot be cleaned up after the fact, because the early posts, registrations and leaked tables are held by other people. Investigators therefore spend effort on the beginning of a persona's history, when the person behind it was least careful. Retention works against them only at the edges: the Verizon gap in the Fitzpatrick records shows that a provider's logs do expire, but forum dumps and archives do not.
 
-Reuse also travels across layers. A reused email address is an identity failure, but it is often found through the infrastructure (a mail header) or through money (an exchange account opened with the same address). The case pages mark the layer where the decisive edge was found.
+Reuse also travels across layers. A reused email address is an identity failure, but it is often found through the infrastructure (a mail header, a hosting account) or through money (an exchange account opened with the same address). The case pages mark the layer where the decisive edge was found.
 
 ## Common misconceptions
 
-- "A new handle is a new identity." A handle is one node. If it shares an email address, a phone number, a password hash in a leaked database or a writing style with an older account, it is part of the same graph.
-- "Deleting old posts removes the link." Archives, scraped copies and records held by platforms remain. The Ulbricht posts were about two years old when investigators used them.
+- "A new handle is a new identity." A handle is one node. If it shares an email address, a phone number, a password in a leaked database, a login address or a writing style with an older account, it is part of the same graph.
+- "Deleting old posts or renaming the account removes the link." Archives, leaked dumps and records held by platforms remain. The Ulbricht posts were about two years old when investigators used them, and Stack Overflow kept the name the account had before it became "frosty".
+- "A fake name on the account protects it." Providers hand over what they have, and the typed name is the least useful part. The Gmail account in the Fitzpatrick case was registered to "a a"; its creation address and recovery address did the work<Cite id="identity-fitzpatrick-affidavit" />.
 - "Phone verification only gives the platform a number." In the 157 countries GSMA counted, the carrier holds the name behind the number<Cite id="identity-gsma-2021" />.
-- "Stylometry can name an anonymous author." At internet scale it produced a correct first guess about one time in five in the 2012 study; it narrows the field rather than settling it.
+- "Stylometry can name an anonymous author." At internet scale it produced a correct first guess about one time in five in the 2012 study, and accuracy drops further across different kinds of writing; it narrows the field rather than settling it.

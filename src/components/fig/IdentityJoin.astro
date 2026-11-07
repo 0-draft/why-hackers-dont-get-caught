@@ -1,0 +1,165 @@
+---
+// Sheppard worked example (US v. Sheppard complaint, 2020): two accounts in a
+// leaked forum database share a login address on one day; one carries an
+// email address; an exchange's customer file for that address holds a name.
+// Rows that match are drawn as joins. Only the name is magenta.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+const L = {
+  en: {
+    title: "Three tables joined: leaked forum logins, then an email address, then an exchange's customer file",
+    dump: "OGUsers database: leaked, public since April 2020",
+    exch: "Coinbase: customer file, by legal request",
+    acctA: "account “Chaewon”",
+    acctB: "account “Mas”",
+    acctC: "customer record",
+    ip: "login IP",
+    date: "login date",
+    mail: "email",
+    name: "name",
+    id: "ID check",
+    gmail: "a Gmail address",
+    sameGmail: "the same address",
+    nameV: "mason sheppard",
+    idV: "UK driving licence",
+    j1: ["same IP,", "same day"],
+    j2: ["same", "email"],
+    read: [
+      "Neither forum account names anyone. Joined on two shared columns,",
+      "the pseudonym “Chaewon” leads to a named, ID-checked customer.",
+    ],
+  },
+  ja: {
+    title: "3 つの表の結合: 流出したログイン記録、メールアドレス、取引所の顧客台帳",
+    dump: "OGUsers のデータベース: 2020 年 4 月から公開状態",
+    exch: "Coinbase: 顧客台帳 (法的な照会で取得)",
+    acctA: "アカウント「Chaewon」",
+    acctB: "アカウント「Mas」",
+    acctC: "顧客の記録",
+    ip: "ログイン IP",
+    date: "ログイン日",
+    mail: "メール",
+    name: "氏名",
+    id: "本人確認",
+    gmail: "Gmail のアドレス",
+    sameGmail: "同じアドレス",
+    nameV: "mason sheppard",
+    idV: "英国の運転免許証",
+    j1: ["同じ日に", "同じ IP"],
+    j2: ["同じ", "メール"],
+    read: [
+      "フォーラムのどちらのアカウントにも名前はない。共通の列 2 つで結合すると、",
+      "仮名「Chaewon」から、身分証を確認済みの名前のある顧客にたどり着く。",
+    ],
+  },
+}[lang];
+
+// Three record cards. Rows share y positions so a join is a straight line.
+const CW = 250; // card width
+const XA = 20;
+const XB = 375;
+const XC = 730;
+const rowY = (i: number) => 110 + i * 40; // top of row i
+const RH = 30; // row height
+type Row = { k: string; v: string; mono?: boolean; join?: boolean; leak?: boolean; muted?: boolean };
+const cards: { x: number; head: string; first: number; rows: Row[] }[] = [
+  {
+    x: XA,
+    head: L.acctA,
+    first: 0,
+    rows: [
+      { k: L.ip, v: "79.66.149.155", mono: true, join: true },
+      { k: L.date, v: "2017-04-29", mono: true, join: true },
+    ],
+  },
+  {
+    x: XB,
+    head: L.acctB,
+    first: 0,
+    rows: [
+      { k: L.ip, v: "79.66.149.155", mono: true, join: true },
+      { k: L.date, v: "2017-04-29", mono: true, join: true },
+      { k: L.mail, v: L.gmail, join: true },
+    ],
+  },
+  {
+    x: XC,
+    head: L.acctC,
+    first: 2,
+    rows: [
+      { k: L.mail, v: L.sameGmail, join: true },
+      { k: L.name, v: L.nameV, mono: true, leak: true },
+      { k: L.id, v: L.idV },
+    ],
+  },
+];
+const KW = 92; // key column width inside a row
+const tid = `ijoin-t-${lang}`;
+---
+
+<svg class="dg ij" viewBox="0 0 1000 362" role="img" aria-labelledby={tid}>
+  <title id={tid}>{L.title}</title>
+  <!-- table groupings -->
+  <rect x="8" y="34" width="629" height="246" class="ln-1 soft dash" fill="none"></rect>
+  <text x="20" y="56" class="b">{L.dump}</text>
+  <rect x="718" y="34" width="274" height="306" class="ln-1 soft dash" fill="none"></rect>
+  <text x="730" y="56" class="b">{L.exch}</text>
+
+  {
+    cards.map((c) => (
+      <g>
+        <text x={c.x} y={rowY(c.first) - 16} class="b">
+          {c.head}
+        </text>
+        {c.rows.map((r, i) => {
+          const y = rowY(c.first + i);
+          return (
+            <g>
+              <rect
+                x={c.x}
+                y={y}
+                width={CW}
+                height={RH}
+                class={r.leak ? "box stroke-leak" : r.join ? "box" : "box-soft"}
+              />
+              <line x1={c.x + KW} y1={y} x2={c.x + KW} y2={y + RH} class="ln-1 soft" />
+              <text x={c.x + 10} y={y + 20} class="t-s t-2">
+                {r.k}
+              </text>
+              <text x={c.x + KW + 10} y={y + 20} class={`${r.mono ? "mono" : "t-s"} ${r.leak ? "t-leak" : ""}`}>
+                {r.v}
+              </text>
+            </g>
+          );
+        })}
+      </g>
+    ))
+  }
+
+  <!-- join 1: IP and date, Chaewon <-> Mas -->
+  <line x1={XA + CW} y1={rowY(0) + RH / 2} x2={XB} y2={rowY(0) + RH / 2} class="ln"></line>
+  <line x1={XA + CW} y1={rowY(1) + RH / 2} x2={XB} y2={rowY(1) + RH / 2} class="ln"></line>
+  <text x={(XA + CW + XB) / 2} y={rowY(2) + 16} class="t-s b" text-anchor="middle">{L.j1[0]}</text>
+  <text x={(XA + CW + XB) / 2} y={rowY(2) + 32} class="t-s b" text-anchor="middle">{L.j1[1]}</text>
+  <!-- join 2: email, Mas <-> Coinbase -->
+  <line x1={XB + CW} y1={rowY(2) + RH / 2} x2={XC} y2={rowY(2) + RH / 2} class="ln"></line>
+  <text x={(XB + CW + XC) / 2} y={rowY(2) - 22} class="t-s b" text-anchor="middle">{L.j2[0]}</text>
+  <text x={(XB + CW + XC) / 2} y={rowY(2) - 6} class="t-s b" text-anchor="middle">{L.j2[1]}</text>
+
+  {
+    L.read.map((line, i) => (
+      <text x="20" y={326 + i * 20} class={i === 1 ? "b" : "t-2"}>
+        {line}
+      </text>
+    ))
+  }
+</svg>
+
+<style>
+  /* Legible on phones; the figure frame scrolls. */
+  .ij {
+    min-width: 780px;
+  }
+</style>

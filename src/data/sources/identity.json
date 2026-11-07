@@ -8,11 +8,35 @@
     "kind": "primary"
   },
   {
+    "id": "identity-benthall-complaint",
+    "title": "United States v. Blake Benthall: sealed complaint sworn by FBI Special Agent Vincent D'Agostino, filed with Rule 5 papers in N.D. Cal. (copy hosted by FreeRoss.org)",
+    "publisher": "U.S. District Court, Southern District of New York",
+    "date": "2014-11-06",
+    "url": "https://freeross.org/wp-content/uploads/2018/06/Blake_Benthall_Criminal_Complaint.pdf",
+    "kind": "primary"
+  },
+  {
     "id": "identity-ic3-dprk",
     "title": "North Korean IT Workers Conducting Data Extortion (I-012325-PSA)",
     "publisher": "FBI Internet Crime Complaint Center",
     "date": "2025-01-23",
     "url": "https://www.ic3.gov/PSA/2025/PSA250123",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-sheppard-complaint",
+    "title": "United States v. Mason John Sheppard: criminal complaint and affidavit of IRS-CI Special Agent Tigran Gambaryan",
+    "publisher": "U.S. District Court, Northern District of California",
+    "date": "2020-07-22",
+    "url": "https://www.justice.gov/opa/press-release/file/1300261/dl?inline=",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-fitzpatrick-affidavit",
+    "title": "United States v. Conor Brian Fitzpatrick, No. 1:23-mj-67: affidavit in support of a criminal complaint",
+    "publisher": "U.S. District Court, Eastern District of Virginia",
+    "date": "2023-03-15",
+    "url": "https://www.justice.gov/usao-edva/file/1300536/dl",
     "kind": "primary"
   },
   {
@@ -24,11 +48,67 @@
     "kind": "report"
   },
   {
+    "id": "identity-jp-mobile-act",
+    "title": "携帯音声通信事業者による契約者等の本人確認等及び携帯音声通信役務の不正な利用の防止に関する法律 (Act No. 31 of 2005)",
+    "publisher": "e-Gov Japanese Law Search, Digital Agency",
+    "date": "2005-04-15",
+    "url": "https://laws.e-gov.go.jp/law/417AC1000000031",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-meta-scrape",
+    "title": "The Facts on News Reports About Facebook Data",
+    "publisher": "Meta (Mike Clark, Product Management Director)",
+    "date": "2021-04-06",
+    "url": "https://about.fb.com/news/2021/04/facts-on-news-reports-about-facebook-data/",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-warshak",
+    "title": "United States v. Warshak, 631 F.3d 266 (Nos. 08-3997 et al.)",
+    "publisher": "U.S. Court of Appeals for the Sixth Circuit",
+    "date": "2010-12-14",
+    "url": "https://www.opn.ca6.uscourts.gov/opinions.pdf/10a0377p-06.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-google-requests",
+    "title": "How Google handles government requests for user information",
+    "publisher": "Google",
+    "date": "2026",
+    "url": "https://policies.google.com/terms/information-requests",
+    "kind": "primary"
+  },
+  {
     "id": "identity-narayanan-2012",
     "title": "On the Feasibility of Internet-Scale Author Identification",
     "publisher": "Narayanan et al., IEEE Symposium on Security and Privacy",
     "date": "2012-05",
     "url": "https://people.eecs.berkeley.edu/~dawnsong/papers/2012%20On%20the%20Feasibility%20of%20Internet-Scale%20Author%20Identification.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-afroz-2014",
+    "title": "Doppelgänger Finder: Taking Stylometry to the Underground",
+    "publisher": "Afroz, Caliskan-Islam, Stolerman, Greenstadt and McCoy, IEEE Symposium on Security and Privacy",
+    "date": "2014-05",
+    "url": "https://www.ieee-security.org/TC/SP2014/papers/4686a212.PDF",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-caliskan-2015",
+    "title": "De-anonymizing Programmers via Code Stylometry",
+    "publisher": "Caliskan-Islam et al., USENIX Security Symposium",
+    "date": "2015-08",
+    "url": "https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/caliskan-islam",
+    "kind": "primary"
+  },
+  {
+    "id": "identity-overdorf-2016",
+    "title": "Blogs, Twitter Feeds, and Reddit Comments: Cross-domain Authorship Attribution",
+    "publisher": "Overdorf and Greenstadt, Proceedings on Privacy Enhancing Technologies",
+    "date": "2016-07",
+    "url": "https://petsymposium.org/popets/2016/popets-2016-0021.php",
     "kind": "primary"
   },
   {

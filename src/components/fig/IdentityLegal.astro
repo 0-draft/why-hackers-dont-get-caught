@@ -1,0 +1,106 @@
+---
+// What a US provider discloses at each legal threshold (18 U.S.C. § 2703,
+// Meta and Google law-enforcement guidelines). Three rows of the same record:
+// yellow = the investigator receives it, black = withheld. The sign-in IP
+// column is outlined magenta because a second request to an ISP turns it
+// into a subscriber.
+interface Props {
+  lang: "en" | "ja";
+}
+const { lang } = Astro.props;
+const L = {
+  en: {
+    title: "What a provider hands over at each legal threshold",
+    cols: [
+      ["name, email,", "payment"],
+      ["sign-in IPs", "and times"],
+      ["message", "headers"],
+      ["message", "content"],
+    ],
+    rows: [
+      { head: "Subpoena", sub: "basic subscriber records" },
+      { head: "2703(d) order", sub: "“specific and articulable facts”" },
+      { head: "Search warrant", sub: "probable cause" },
+    ],
+    noteName: ["as typed by", "the user"],
+    noteIp: "→ ISP subscriber",
+    read: ["Each stronger order adds columns. The column that leads to a person", "is already in the first row."],
+  },
+  ja: {
+    title: "法的な手続きの段階ごとに、事業者が渡すもの",
+    cols: [
+      ["氏名・メール・", "支払い"],
+      ["ログイン IP", "と時刻"],
+      ["メッセージの", "ヘッダ"],
+      ["メッセージの", "本文"],
+    ],
+    rows: [
+      { head: "召喚状", sub: "基本的な契約者情報" },
+      { head: "2703(d) 命令", sub: "「具体的で明確な事実」" },
+      { head: "捜索令状", sub: "相当な理由" },
+    ],
+    noteName: ["入力された", "まま"],
+    noteIp: "→ ISP の契約者",
+    read: ["手続きが重くなるごとに列が増える。人につながる列は、", "最初の行にもう入っている。"],
+  },
+}[lang];
+// which columns each step yields
+const grant = [
+  [true, true, false, false],
+  [true, true, true, false],
+  [true, true, true, true],
+];
+const cx = (i: number) => 236 + i * 110;
+const CWD = 102;
+const ry = (r: number) => 84 + r * 58;
+const RH = 36;
+const tid = `ilegal-t-${lang}`;
+---
+
+<svg class="dg" viewBox="0 0 680 348" role="img" aria-labelledby={tid}>
+  <title id={tid}>{L.title}</title>
+  {
+    L.cols.map((c, i) => (
+      <g>
+        <text x={cx(i)} y="40" class="t-s b">
+          {c[0]}
+        </text>
+        <text x={cx(i)} y="56" class="t-s b">
+          {c[1]}
+        </text>
+      </g>
+    ))
+  }
+  {
+    L.rows.map((r, ri) => (
+      <g>
+        <text x="20" y={ry(ri) + 15} class="b">
+          {r.head}
+        </text>
+        <text x="20" y={ry(ri) + 32} class="t-s t-2">
+          {r.sub}
+        </text>
+        {(grant[ri] ?? []).map((g, ci) => (
+          <rect x={cx(ci)} y={ry(ri)} width={CWD} height={RH} class={g ? "fill-hl" : "fill-bar"} />
+        ))}
+      </g>
+    ))
+  }
+  <!-- the sign-in IP column points at a person once the ISP is asked -->
+  <rect x={cx(1) - 4} y={ry(0) - 4} width={CWD + 8} height={ry(2) + RH - ry(0) + 8} class="stroke-leak"></rect>
+  {
+    L.noteName.map((line, i) => (
+      <text x={cx(0)} y={ry(2) + RH + 22 + i * 16} class="t-s t-2">
+        {line}
+      </text>
+    ))
+  }
+  <text x={cx(1)} y={ry(2) + RH + 22} class="t-s t-leak">{L.noteIp}</text>
+  {
+    L.read.map((line, i) => (
+      <text x="20" y={310 + i * 20} class={i === 1 ? "b" : ""}>
+        {line}
+      </text>
+    ))
+  }
+</svg>
