@@ -81,7 +81,7 @@ const rows = [
 ];
 ---
 
-<svg class="dg" viewBox="0 0 1072 360" role="img" aria-label={L.label}>
+<svg class="dg" viewBox="0 0 1072 392" role="img" aria-label={L.label}>
   <!-- left: chain reaction -->
   <text class="b" x="16" y="26">{L.chain}</text>
   {
@@ -109,7 +109,7 @@ const rows = [
     ))
   }
 
-  <line class="ln-1 soft" x1="370" y1="16" x2="370" y2="344"></line>
+  <line class="ln-1 soft" x1="370" y1="16" x2="370" y2="376"></line>
 
   <!-- right: rules and study windows -->
   <text class="b" x={x0} y="26">{L.right}</text>
@@ -140,24 +140,24 @@ const rows = [
     ))
   }
 
-  <!-- Kumar et al. -->
+  <!-- Kumar et al.: the result sits under the data window it came from -->
   <text class="t-s b" x={X(launch)} y="186">{L.kumar}</text>
   <rect class="ln" x={X(launch)} y="194" width={X(kEnd) - X(launch)} height="18"></rect>
-  <rect class="fill-hl" x={X(kEnd) + 16} y="194" width={Math.round(160 * 0.879)} height="18"></rect>
-  <rect class="fill-bar" x={X(kEnd) + 16 + Math.round(160 * 0.879)} y="194" width={160 - Math.round(160 * 0.879)} height="18"></rect>
-  <text class="t-s" x={X(kEnd) + 188} y="208">{L.kumarR}</text>
+  <rect class="fill-hl" x={X(launch)} y="220" width={Math.round(160 * 0.879)} height="14"></rect>
+  <rect class="fill-bar" x={X(launch) + Math.round(160 * 0.879)} y="220" width={160 - Math.round(160 * 0.879)} height="14"></rect>
+  <text class="t-s" x={X(launch) + 172} y="232">{L.kumarR}</text>
 
   <!-- Möser et al. -->
-  <text class="t-s b" x={X(launch)} y="244">{L.moser}</text>
-  <rect class="ln" x={X(launch)} y="252" width={X(mEnd) - X(launch)} height="18"></rect>
-  <rect class="fill-hl" x={X(mEnd) + 16} y="252" width={Math.round(160 * 0.6294)} height="18"></rect>
-  <rect class="fill-bar" x={X(mEnd) + 16 + Math.round(160 * 0.6294)} y="252" width={160 - Math.round(160 * 0.6294)} height="18"></rect>
-  <text class="t-s" x={X(mEnd) + 188} y="266">{L.moserR}</text>
-  <text class="t-s t-2" x={X(mEnd) + 16} y="290">{L.moserR2}</text>
+  <text class="t-s b" x={X(launch)} y="268">{L.moser}</text>
+  <rect class="ln" x={X(launch)} y="276" width={X(mEnd) - X(launch)} height="18"></rect>
+  <rect class="fill-hl" x={X(launch)} y="302" width={Math.round(160 * 0.6294)} height="14"></rect>
+  <rect class="fill-bar" x={X(launch) + Math.round(160 * 0.6294)} y="302" width={160 - Math.round(160 * 0.6294)} height="14"></rect>
+  <text class="t-s" x={X(launch) + 172} y="314">{L.moserR}</text>
+  <text class="t-s t-2" x={X(launch) + 172} y="332">{L.moserR2}</text>
 
   <!-- the years the figures do not cover -->
-  <polyline class="ln-1" points={`${X(2017.71)},312 ${X(2017.71)},320 ${X(2024)},320 ${X(2024)},312`}></polyline>
-  <text class="t-s t-2" x={X(2024)} y="340" text-anchor="end">{L.after}</text>
+  <polyline class="ln-1" points={`${X(2017.71)},350 ${X(2017.71)},358 ${X(2024)},358 ${X(2024)},350`}></polyline>
+  <text class="t-s t-2" x={X(2024)} y="378" text-anchor="end">{L.after}</text>
 </svg>
 
 <style>
