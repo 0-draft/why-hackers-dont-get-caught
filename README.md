@@ -56,3 +56,7 @@ Every push to `main` that passes CI is built with the GitHub Pages base path (`B
 ## Corrections
 
 Open an issue with the page and the source that contradicts it.
+
+## License
+
+[MIT](LICENSE).

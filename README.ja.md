@@ -56,3 +56,7 @@ CI を通った `main` への push は、GitHub Pages のベースパス (`BASE_
 ## 訂正
 
 該当ページと、反証する出典を添えて issue を立ててほしい。
+
+## ライセンス
+
+[MIT](LICENSE)。
