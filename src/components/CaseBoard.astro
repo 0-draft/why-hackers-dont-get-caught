@@ -1,6 +1,7 @@
 ---
 import { CASES } from "../data/cases.ts";
 import { FAILURE_KINDS, LAYERS } from "../data/layers.ts";
+import type { Case } from "../data/schema.ts";
 import { type Lang, localePath, useT } from "../i18n/ui.ts";
 
 // Every case filed under the layer that gave way first, one strip of tape per
@@ -17,8 +18,9 @@ const cols = FAILURE_KINDS.map((k) => ({ k, cases: CASES.filter((c) => c.failed 
   .filter((c) => c.cases.length > 0)
   .toSorted((a, b) => b.cases.length - a.cases.length);
 // The handle or case name when it is short enough to scan ("Silk Road",
-// "tank", "PC遠隔操作事件"), otherwise the person's name.
-const short = (c: (typeof CASES)[number]) => {
+// "tank"), otherwise the person's name. A case can set its own label.
+const short = (c: Case) => {
+  if (c.label) return c.label[lang];
   const alias = c.alias?.[lang]
     .split(/[／/（(、,]/)[0]
     ?.replace(/[「」"]/g, "")

@@ -22,6 +22,8 @@ export const caseSchema = z.object({
   name: text,
   /** Short alias, e.g. a handle or the operation name. */
   alias: text.optional(),
+  /** What the case board calls it when neither the alias nor the name fits on a tag. */
+  label: text.optional(),
   year: z.number().int().min(1990).max(2100),
   used: z.array(z.enum(FAILURE_KINDS)).min(1),
   failed: z.enum(FAILURE_KINDS),

@@ -1,6 +1,7 @@
 ---
 import { CASES } from "../data/cases.ts";
 import { FAILURE_KINDS, LAYERS } from "../data/layers.ts";
+import type { Case } from "../data/schema.ts";
 import { SOURCES } from "../data/sources.ts";
 import { type Lang, localePath, useT } from "../i18n/ui.ts";
 
@@ -13,6 +14,13 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = useT(lang);
+const sep = lang === "ja" ? { list: "、", end: "。" } : { list: ", ", end: ". " };
+// Spoken in the strip's own left-to-right order; the failed layer comes last.
+const stripLabel = (c: Case) => {
+  const relied = FAILURE_KINDS.filter((k) => k !== c.failed && c.used.includes(k)).map((k) => LAYERS[k].name[lang]);
+  const head = relied.length ? `${t("cases.used")}: ${relied.join(sep.list)}${sep.end}` : "";
+  return `${head}${t("cases.failed")}: ${LAYERS[c.failed].name[lang]}`;
+};
 ---
 
 <ol class="reg" data-case-files>
@@ -29,10 +37,7 @@ const t = useT(lang);
             <span
               class="strip"
               role="img"
-              aria-label={`${t("cases.used")}: ${c.used
-                .filter((k) => k !== c.failed)
-                .map((k) => LAYERS[k].name[lang])
-                .join(", ")}. ${t("cases.failed")}: ${LAYERS[c.failed].name[lang]}`}
+              aria-label={stripLabel(c)}
             >
               {FAILURE_KINDS.map((k) => (
                 <span
@@ -43,16 +48,15 @@ const t = useT(lang);
                 </span>
               ))}
             </span>
-            {c.timeline && (
-              <span class="sw">
-                <mark>{c.timeline.slipWhat[lang]}</mark>
-                {c.disputed && <span class="disp">{t("cases.disputed")}</span>}
-              </span>
-            )}
+            <span class="sw">
+              {c.timeline && <mark>{c.timeline.slipWhat[lang]}</mark>}
+              {c.disputed && <span class="disp">{t("cases.disputed")}</span>}
+            </span>
           </summary>
           <div class="acct">
-            <p class="mech">{c.mechanism[lang]}</p>
             <dl>
+              <dt>{t("cases.mechanism")}</dt>
+              <dd class="mech">{c.mechanism[lang]}</dd>
               <dt>{t("cases.background")}</dt>
               <dd>{c.background[lang]}</dd>
               {c.disputed && (
@@ -96,11 +100,17 @@ const t = useT(lang);
 </ol>
 
 <script>
-  // A link to /cases/#id should land on that line already open.
+  // A link to /cases/#id should land on that line already open. Only lines of
+  // the register count: #main (the skip link) must not open anything.
   const open = () => {
-    const id = decodeURIComponent(location.hash.slice(1));
-    const d = id ? document.getElementById(id)?.querySelector("details") : null;
-    if (d) d.open = true;
+    let id = location.hash.slice(1);
+    try {
+      id = decodeURIComponent(id);
+    } catch {
+      return;
+    }
+    const li = id ? document.getElementById(id) : null;
+    if (li?.parentElement?.matches("[data-case-files]")) li.querySelector(":scope > details")?.setAttribute("open", "");
   };
   open();
   window.addEventListener("hashchange", open);
@@ -118,7 +128,8 @@ const t = useT(lang);
     scroll-margin-top: 1.5rem;
   }
   .reg > li:target summary {
-    background: linear-gradient(to right, var(--marker), transparent 70%);
+    box-shadow: inset 0.35rem 0 0 var(--marker);
+    padding-left: 0.8rem;
   }
   summary {
     display: grid;
@@ -180,6 +191,7 @@ const t = useT(lang);
     background: var(--leak);
     color: var(--sheet);
     font-weight: 800;
+    padding-inline: 14%;
     clip-path: polygon(0 0, 100% 0, 100% 38%, 86% 52%, 100% 66%, 100% 100%, 0 100%, 0 66%, 14% 50%, 0 34%);
   }
   .sw {
@@ -207,8 +219,10 @@ const t = useT(lang);
     line-height: 1.75;
   }
   .mech {
-    margin: 0;
     font-size: var(--step-0);
+  }
+  dl {
+    margin: 0;
   }
   dt {
     color: var(--ink-2);

@@ -114,7 +114,7 @@ test.describe("observer figure", () => {
   });
 });
 
-test("the case page files every case once, on the board and as a card", async ({ page }) => {
+test("the case page files every case once, on the board and in the register", async ({ page }) => {
   await page.goto("/cases/");
   await expect(page.locator("[data-case-board] .row li")).toHaveCount(cases.length);
   for (const c of cases) {
@@ -131,6 +131,23 @@ test("a layer page opens on key points and the full text is one click away", asy
   expect(hidden).toBeGreaterThan(0);
   await page.getByText("Full text", { exact: true }).click();
   await expect(prose.locator(":scope > p:not(:visible)")).toHaveCount(0);
+});
+
+test("a link to a case lands on its line, open; the skip link opens none", async ({ page }) => {
+  await page.goto("/cases/#incognito");
+  await expect(page.locator("#incognito > details")).toHaveAttribute("open", "");
+  await page.goto("/cases/#main");
+  await expect(page.locator("[data-case-files] details[open]")).toHaveCount(0);
+});
+
+test("key points keep the first paragraph under every heading", async ({ page }) => {
+  for (const slug of ["behavior", "attribution"]) {
+    await page.goto(`/layers/${slug}/`);
+    const hidden = await page
+      .locator(".prose > :is(h2, h3) + p")
+      .evaluateAll((ps) => ps.filter((p) => getComputedStyle(p).display === "none").length);
+    expect(hidden, slug).toBe(0);
+  }
 });
 
 test("a citation opens the folded source list", async ({ page }) => {

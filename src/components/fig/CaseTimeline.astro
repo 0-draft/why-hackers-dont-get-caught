@@ -1,5 +1,5 @@
 ---
-import { CASES } from "../../data/cases.ts";
+import { CASES, toYear } from "../../data/cases.ts";
 
 // One time axis for every case file: the magenta dot is the slip that later
 // pointed at the person, the square is the day they were caught (filled =
@@ -30,11 +30,6 @@ const T = {
     same: "1 か月以内",
   },
 }[lang];
-
-function toYear(d: string): number {
-  const [y = 0, m, dd] = d.split("-").map(Number);
-  return y + ((m ?? 7) - 1) / 12 + ((dd ?? 15) - 1) / 365;
-}
 
 const rows = CASES.filter((c) => c.timeline)
   .map((c) => {

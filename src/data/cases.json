@@ -653,6 +653,10 @@
       "en": "DPRK IT-worker laptop farm",
       "ja": "北朝鮮 IT 労働者のラップトップファーム"
     },
+    "label": {
+      "en": "DPRK laptop farm",
+      "ja": "北朝鮮のラップトップファーム"
+    },
     "year": 2023,
     "used": ["network", "identity", "money", "infrastructure"],
     "failed": "infrastructure",
@@ -688,6 +692,10 @@
     },
     "alias": {
       "en": "Remote-control virus case",
+      "ja": "PC遠隔操作事件"
+    },
+    "label": {
+      "en": "PC remote-control case",
       "ja": "PC遠隔操作事件"
     },
     "year": 2013,
@@ -1168,6 +1176,10 @@
     "alias": {
       "en": "Buyers of the Coincheck NEM loot",
       "ja": "コインチェック流出 NEM の交換者"
+    },
+    "label": {
+      "en": "Coincheck NEM swaps",
+      "ja": "コインチェック NEM 交換"
     },
     "year": 2020,
     "used": ["network", "money"],
