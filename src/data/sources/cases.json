@@ -614,5 +614,309 @@
     "date": "2013-11-12",
     "url": "https://cryptome.wikileaks.org/2013/11/hammond-060.pdf",
     "kind": "primary"
+  },
+  {
+    "id": "case-pomp-arrest",
+    "title": "Justice Department Announces Arrest of the Founder of One of the World's Largest Hacker Forums and Disruption of Forum's Operation",
+    "publisher": "U.S. Secret Service (reprint of U.S. Department of Justice release)",
+    "date": "2023-03-24",
+    "url": "https://www.secretservice.gov/newsroom/releases/2023/03/justice-department-announces-arrest-founder-one-worlds-largest-hacker",
+    "kind": "primary"
+  },
+  {
+    "id": "case-pomp-techcrunch",
+    "title": "How the FBI caught the BreachForums admin",
+    "publisher": "TechCrunch",
+    "date": "2023-03-24",
+    "url": "https://techcrunch.com/2023/03/24/how-the-fbi-caught-the-breachforums-admin/",
+    "kind": "press"
+  },
+  {
+    "id": "case-pomp-resentence",
+    "title": "BreachForums hacking forum admin resentenced to three years in prison",
+    "publisher": "BleepingComputer",
+    "date": "2025-09-16",
+    "url": "https://www.bleepingcomputer.com/news/security/breachforums-hacking-forum-admin-resentenced-to-three-years-in-prison/",
+    "kind": "press"
+  },
+  {
+    "id": "case-ib-complaint",
+    "title": "Complaint, United States v. Kai West, a/k/a \"IntelBroker\" (25 Mag. 567)",
+    "publisher": "U.S. Attorney's Office, Southern District of New York",
+    "date": "2025-06-25",
+    "url": "https://www.justice.gov/usao-sdny/media/1404616/dl",
+    "kind": "primary"
+  },
+  {
+    "id": "case-ib-register",
+    "title": "FBI used bitcoin wallet records to peg notorious IntelBroker as UK national",
+    "publisher": "The Register",
+    "date": "2025-06-26",
+    "url": "https://www.theregister.com/2025/06/26/fbi_used_bitcoin_wallet_id_intelbroker/",
+    "kind": "press"
+  },
+  {
+    "id": "case-ib-record",
+    "title": "British hacker 'IntelBroker' charged in US over spree of company breaches",
+    "publisher": "The Record by Recorded Future News",
+    "date": "2025-06-26",
+    "url": "https://therecord.media/british-hacker-intelbroker-spree-breaches",
+    "kind": "press"
+  },
+  {
+    "id": "case-tb-complaint",
+    "title": "Affidavit of FBI Special Agent Jeremy Durk, United States v. Tyler Robert Buchanan (Case 2:24-mj-03081)",
+    "publisher": "U.S. District Court, Central District of California (copy hosted by KrebsOnSecurity)",
+    "date": "2024-05-25",
+    "url": "https://krebsonsecurity.com/wp-content/uploads/2025/04/tylerb-complaint.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "case-tb-krebs-plea",
+    "title": "'Scattered Spider' Member 'Tylerb' Pleads Guilty",
+    "publisher": "KrebsOnSecurity",
+    "date": "2026-04-21",
+    "url": "https://krebsonsecurity.com/2026/04/scattered-spider-member-tylerb-pleads-guilty/",
+    "kind": "press"
+  },
+  {
+    "id": "case-tb-record",
+    "title": "British hacker tied to Scattered Spider campaign pleads guilty in $8M scheme",
+    "publisher": "The Record by Recorded Future News",
+    "date": "2026-04-20",
+    "url": "https://therecord.media/hacker-scattered-spider-guilty-plea",
+    "kind": "press"
+  },
+  {
+    "id": "case-pwj-complaint",
+    "title": "AO 91 (Rev. 11/11) Criminal Complaint (United States v. Joseph James O'Connor, No. 3:21-mj-70812)",
+    "publisher": "U.S. Department of Justice (U.S. District Court, Northern District of California)",
+    "date": "2021-05-14",
+    "url": "https://www.justice.gov/d9/press-releases/attachments/2021/07/21/o_connor_complaint.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "case-pwj-krebs",
+    "title": "PlugwalkJoe Does the Perp Walk",
+    "publisher": "KrebsOnSecurity",
+    "date": "2021-07-26",
+    "url": "https://krebsonsecurity.com/2021/07/plugwalkjoe-does-the-perp-walk/",
+    "kind": "press"
+  },
+  {
+    "id": "case-pwj-euronews",
+    "title": "British man arrested in Spain over alleged role in Twitter hack of high-profile accounts",
+    "publisher": "Euronews",
+    "date": "2021-07-21",
+    "url": "https://www.euronews.com/next/2021/07/21/british-man-arrested-in-spain-over-alleged-role-in-twitter-hack-of-high-profile-accounts",
+    "kind": "press"
+  },
+  {
+    "id": "case-rac-doj-motion",
+    "title": "United States v. Mark Sokolovsky, Government's Motion for Alternative Victim Notification Procedures (W.D. Tex. 1:21-CR-224)",
+    "publisher": "U.S. Department of Justice (court filing)",
+    "date": "2022-09-26",
+    "url": "https://www.justice.gov/media/1255156/dl",
+    "kind": "primary"
+  },
+  {
+    "id": "case-rac-krebs",
+    "title": "Accused 'Raccoon' Malware Developer Fled Ukraine After Russian Invasion",
+    "publisher": "KrebsOnSecurity",
+    "date": "2022-10-31",
+    "url": "https://krebsonsecurity.com/2022/10/accused-raccoon-malware-developer-fled-ukraine-after-russian-invasion/",
+    "kind": "press"
+  },
+  {
+    "id": "case-rac-sentence",
+    "title": "Ukrainian sentenced to five years in jail for work on Raccoon Stealer",
+    "publisher": "CyberScoop",
+    "date": "2024-12-19",
+    "url": "https://cyberscoop.com/mark-sokolovsky-raccoon-infostealer-sentenced/",
+    "kind": "press"
+  },
+  {
+    "id": "case-tank-indictment",
+    "title": "United States v. Vyacheslav Igorevich Penchukov et al., First Superseding Indictment (D. Neb. 4:11-cr-03074)",
+    "publisher": "U.S. Department of Justice (court filing)",
+    "date": "2012-08-22",
+    "url": "https://www.justice.gov/iso/opa/resources/5922014411104621620917.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "case-tank-warner",
+    "title": "Zeus Criminals charged in Omaha, Nebraska",
+    "publisher": "CyberCrime & Doing Time (Gary Warner)",
+    "date": "2014-04-12",
+    "url": "https://garwarner.blogspot.com/2014/04/zeus-criminals-charged-in-omaha-nebraska.html",
+    "kind": "report"
+  },
+  {
+    "id": "case-tank-krebs",
+    "title": "Top Zeus Botnet Suspect \"Tank\" Arrested in Geneva",
+    "publisher": "KrebsOnSecurity",
+    "date": "2022-11-15",
+    "url": "https://krebsonsecurity.com/2022/11/top-zeus-botnet-suspect-tank-arrested-in-geneva/",
+    "kind": "press"
+  },
+  {
+    "id": "case-tank-geneva",
+    "title": "Alleged Zeus cybercrime leader arrested in Geneva, to be extradited to US",
+    "publisher": "The Record",
+    "date": "2022-11-16",
+    "url": "https://therecord.media/alleged-zeus-cybercrime-leader-arrested-in-geneva-to-be-extradited-to-us",
+    "kind": "press"
+  },
+  {
+    "id": "case-tank-sentence",
+    "title": "Hacker 'Tank' gets prison sentence for connections to Zeus and IcedID malware",
+    "publisher": "The Record",
+    "date": "2024-07-11",
+    "url": "https://therecord.media/hacker-tank-sentenced-zeus-icedid",
+    "kind": "press"
+  },
+  {
+    "id": "case-aqua-complaint",
+    "title": "United States v. Maksim Viktorovich Yakubets a/k/a \"aqua\", Criminal Complaint (D. Neb. 4:19MJ3142)",
+    "publisher": "U.S. Department of Justice (court filing)",
+    "date": "2019-11-14",
+    "url": "https://www.justice.gov/d9/press-releases/attachments/2019/12/05/yakubets_complaint_filed_111419_ne_0.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "case-krk-complaint",
+    "title": "United States v. Deniss Zolotarjovs, Affidavit in Support of Criminal Complaint and Arrest Warrant (S.D. Ohio 1:23-mj-00978)",
+    "publisher": "U.S. District Court, S.D. Ohio (copy hosted by The Register)",
+    "date": "2024-08-22",
+    "url": "https://regmedia.co.uk/2024/08/23/zolotarjovs_complaint.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "case-krk-sentence",
+    "title": "Member of Prolific Russian Ransomware Group Sentenced to Prison",
+    "publisher": "U.S. Department of Justice, Office of Public Affairs",
+    "date": "2026-05-04",
+    "url": "https://www.justice.gov/opa/pr/member-prolific-russian-ransomware-group-sentenced-prison",
+    "kind": "primary"
+  },
+  {
+    "id": "case-krk-cyberscoop",
+    "title": "Feds arrest Latvian man accused of extorting Karakurt victims",
+    "publisher": "CyberScoop",
+    "date": "2024-08-23",
+    "url": "https://cyberscoop.com/karakurt-ransomware-arrest-deniss-zolotarjovs/",
+    "kind": "press"
+  },
+  {
+    "id": "case-panev-complaint",
+    "title": "United States v. Rostislav Panev, Superseding Criminal Complaint (D.N.J. Mag. No. 24-12254)",
+    "publisher": "U.S. Department of Justice (court filing)",
+    "date": "2024-09-25",
+    "url": "https://www.justice.gov/opa/media/1381806/dl",
+    "kind": "primary"
+  },
+  {
+    "id": "case-panev-record",
+    "title": "Alleged Russian LockBit developer extradited from Israel, appears in New Jersey court",
+    "publisher": "The Record",
+    "date": "2025-03-14",
+    "url": "https://therecord.media/lockbit-alleged-russian-developer-extradited-us-israel",
+    "kind": "press"
+  },
+  {
+    "id": "case-dmm-npa",
+    "title": "北朝鮮を背景とするサイバー攻撃グループTraderTraitorによる暗号資産関連事業者を標的としたサイバー攻撃について",
+    "publisher": "警察庁",
+    "date": "2024-12-24",
+    "url": "https://www.npa.go.jp/bureau/cyber/koho/caution/caution20241224.html",
+    "kind": "primary"
+  },
+  {
+    "id": "case-dmm-npa-caution",
+    "title": "北朝鮮を背景とするサイバー攻撃グループ TraderTraitor によるサイバー攻撃について（注意喚起）",
+    "publisher": "警察庁・内閣サイバーセキュリティセンター・金融庁",
+    "date": "2024-12-24",
+    "url": "https://www.npa.go.jp/bureau/cyber/pdf/20241224_caution.pdf",
+    "kind": "primary"
+  },
+  {
+    "id": "case-dmm-bleeping",
+    "title": "FBI links North Korean hackers to $308 million crypto heist",
+    "publisher": "BleepingComputer",
+    "date": "2024-12-24",
+    "url": "https://www.bleepingcomputer.com/news/security/fbi-links-north-korean-hackers-to-308-million-crypto-heist/",
+    "kind": "press"
+  },
+  {
+    "id": "case-kil-techcrunch",
+    "title": "FBI account of tracking and arresting an online 'sextortionist' is grimly satisfying",
+    "publisher": "TechCrunch",
+    "date": "2017-08-08",
+    "url": "https://techcrunch.com/2017/08/08/fbi-account-of-tracking-and-arresting-an-online-sextortionist-is-grimly-satisfying/",
+    "kind": "press"
+  },
+  {
+    "id": "case-kil-cso",
+    "title": "FBI used booby-trapped video to unmask suspected Tor-using sextortionist",
+    "publisher": "CSO Online",
+    "date": "2017-08-09",
+    "url": "https://www.csoonline.com/article/562551/fbi-used-booby-trapped-video-to-unmask-suspected-tor-using-sextortionist.html",
+    "kind": "press"
+  },
+  {
+    "id": "case-kil-vice-tails",
+    "title": "Privacy-Focused OS Wants to Know How Facebook and the FBI Hacked it",
+    "publisher": "Motherboard (VICE)",
+    "date": "2020-06-23",
+    "url": "https://www.vice.com/en/article/privacy-focused-os-tails-wants-to-know-how-facebook-and-the-fbi-hacked-it/",
+    "kind": "press"
+  },
+  {
+    "id": "case-kil-engadget",
+    "title": "Facebook sextortionist sentenced to 75 years in prison",
+    "publisher": "Engadget",
+    "date": "2021-03-15",
+    "url": "https://www.engadget.com/buster-hernandez-sentenced-to-prision-180445812.html",
+    "kind": "press"
+  },
+  {
+    "id": "case-nem-nikkei",
+    "title": "流出の仮想通貨NEM、不正交換疑い31人摘発　188億円分",
+    "publisher": "日本経済新聞",
+    "date": "2021-01-22",
+    "url": "https://www.nikkei.com/article/DGXZQODG21EFZ0R20C21A1000000/",
+    "kind": "press"
+  },
+  {
+    "id": "case-nem-watch",
+    "title": "コインチェック「NEM盗難事件」不正取得で初の逮捕者。医師と会社役員の2名",
+    "publisher": "仮想通貨 Watch",
+    "date": "2020-03-11",
+    "url": "https://crypto.watch.impress.co.jp/docs/news/1240230.html",
+    "kind": "press"
+  },
+  {
+    "id": "case-raccoon-sentence",
+    "title": "Ukrainian National Sentenced to Federal Prison in “Raccoon Infostealer” Cybercrime Case",
+    "publisher": "U.S. Attorney's Office, Western District of Texas",
+    "date": "2024-12-18",
+    "url": "https://www.justice.gov/usao-wdtx/pr/ukrainian-national-sentenced-federal-prison-raccoon-infostealer-cybercrime-case",
+    "kind": "primary"
+  },
+  {
+    "id": "case-kil-sentence",
+    "title": "Child Predator and Cyberterrorist, Buster Hernandez, aka \"BrianKil,\" is Sentenced to 75 years in Federal Prison",
+    "publisher": "U.S. Attorney's Office, Southern District of Indiana",
+    "date": "2021-03-12",
+    "url": "https://www.justice.gov/usao-sdin/pr/child-predator-and-cyberterrorist-buster-hernandez-aka-briankil-sentenced-75-years",
+    "kind": "primary"
+  },
+  {
+    "id": "case-pomp-resentence-doj",
+    "title": "Founder of One of World’s Largest Hacker Forums Resentenced to Three Years in Prison",
+    "publisher": "U.S. Department of Justice, Office of Public Affairs",
+    "date": "2025-09-16",
+    "url": "https://www.justice.gov/opa/pr/founder-one-worlds-largest-hacker-forums-resentenced-three-years-prison",
+    "kind": "primary"
   }
 ]

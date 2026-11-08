@@ -55,6 +55,12 @@ const sources = SOURCES_BY_PAGE[slug] ?? [];
         }
       </header>
 
+      <fieldset class="mode">
+        <legend class="sr">{t("layer.modeLabel")}</legend>
+        <label><input type="radio" name="read-mode" value="short" checked />{t("layer.modeShort")}</label>
+        <label><input type="radio" name="read-mode" value="full" />{t("layer.modeFull")}</label>
+      </fieldset>
+
       <div class="prose">
         <Content components={{ a: BaseLink }} />
       </div>
@@ -84,12 +90,15 @@ const sources = SOURCES_BY_PAGE[slug] ?? [];
         sources.length > 0 && (
           <section class="srcs" aria-labelledby="src-h">
             <h2 id="src-h">{t("layer.sources")}</h2>
-            <SourceList sources={sources} />
+            <details class="src-fold" data-src-fold>
+              <summary>{t("layer.sourcesShow").replace("{n}", String(sources.length))}</summary>
+              <SourceList sources={sources} />
+            </details>
           </section>
         )
       }
 
-      <nav class="pn" aria-label="Layers">
+      <nav class="pn" aria-label={t("layer.navLabel")}>
         {
           prev ? (
             <a href={localePath(lang, `/layers/${prev}/`)} rel="prev">
@@ -114,6 +123,83 @@ const sources = SOURCES_BY_PAGE[slug] ?? [];
 </Base>
 
 <style>
+  /* The switch only appears where the browser can carry out the folding
+     (:has); elsewhere the full text shows and there is nothing to switch. */
+  .mode {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 5;
+    display: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+  }
+  @supports selector(:has(*)) {
+    .mode {
+      display: inline-flex;
+    }
+  }
+  .mode label {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.9rem;
+    font-weight: 700;
+    font-size: var(--step--1);
+    cursor: pointer;
+  }
+  .mode input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .mode label:has(input:checked) {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .mode label:has(input:focus-visible) {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  @media (forced-colors: active) {
+    .mode label:has(input:checked) {
+      outline: 2px solid CanvasText;
+      outline-offset: -4px;
+    }
+  }
+  /* Key-points view. Kept: every heading, the first paragraph under it, every
+     figure, the bold lead of each list item, a plain list that directly follows
+     the paragraph introducing it, and the misconceptions section whole (a myth
+     without its answer would mislead; it is found by its heading id, not its
+     position). Folded: the rest. Same nodes in the same
+     order, so "full text" is just these rules switched off. */
+  .layer-article:has(input[value="short"]:checked)
+    .prose
+    > :global(p:not(:first-child):not(:is(h2, h3) + p):not(:is(#common-misconceptions, #よくある誤解) ~ p)) {
+    display: none;
+  }
+  .layer-article:has(input[value="short"]:checked)
+    .prose
+    > :global(
+      ul:not(:is(#common-misconceptions, #よくある誤解) ~ ul):not(:is(h2, h3) + p + ul):not(:has(> li > strong:first-child))
+    ) {
+    display: none;
+  }
+  .layer-article:has(input[value="short"]:checked)
+    .prose
+    > :global(ul:not(:is(#common-misconceptions, #よくある誤解) ~ ul):not(:is(h2, h3) + p + ul):has(> li > strong:first-child) > li) {
+    font-size: 0;
+  }
+  .layer-article:has(input[value="short"]:checked)
+    .prose
+    > :global(ul:not(:is(#common-misconceptions, #よくある誤解) ~ ul):not(:is(h2, h3) + p + ul) > li > strong:first-child) {
+    font-size: var(--step-0);
+  }
+  .layer-article:has(input[value="short"]:checked)
+    .prose
+    > :global(ul:not(:is(#common-misconceptions, #よくある誤解) ~ ul):not(:is(h2, h3) + p + ul) > li > :not(strong:first-child)) {
+    display: none;
+  }
   .layer-grid {
     display: grid;
     grid-template-columns: 13rem minmax(0, 1fr);
@@ -191,6 +277,11 @@ const sources = SOURCES_BY_PAGE[slug] ?? [];
     font-size: var(--step-2);
     margin-bottom: 1rem;
   }
+  .src-fold summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--ink-2);
+  }
   .cases ul {
     list-style: none;
     padding: 0;
@@ -263,3 +354,19 @@ const sources = SOURCES_BY_PAGE[slug] ?? [];
     }
   }
 </style>
+
+<script>
+  // Sources sit folded at the foot of the chapter. A citation link, or a
+  // #src-... address arriving from elsewhere, opens them before the jump.
+  const fold = document.querySelector<HTMLDetailsElement>("[data-src-fold]");
+  const openFor = (hash: string) => {
+    if (fold && hash.startsWith("#src-") && !fold.open) fold.open = true;
+  };
+  openFor(location.hash);
+  if (location.hash.startsWith("#src-")) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+  document.addEventListener("click", (e) => {
+    const a = (e.target as Element | null)?.closest?.("a[href^='#src-']");
+    if (a) openFor(a.getAttribute("href") ?? "");
+  });
+  window.addEventListener("hashchange", () => openFor(location.hash));
+</script>

@@ -1,0 +1,136 @@
+---
+import { CASES } from "../data/cases.ts";
+import { FAILURE_KINDS, LAYERS } from "../data/layers.ts";
+import type { Case } from "../data/schema.ts";
+import { type Lang, localePath, useT } from "../i18n/ui.ts";
+
+// Every case filed under the layer that gave way first, one strip of tape per
+// case. The longest row answers the question directly: where do the caught get
+// caught?
+interface Props {
+  lang: Lang;
+  /** Home page: cards link to the case page instead of the file below. */
+  compact?: boolean;
+}
+const { lang, compact = false } = Astro.props;
+const t = useT(lang);
+const cols = FAILURE_KINDS.map((k) => ({ k, cases: CASES.filter((c) => c.failed === k).toReversed() }))
+  .filter((c) => c.cases.length > 0)
+  .toSorted((a, b) => b.cases.length - a.cases.length);
+// The handle or case name when it is short enough to scan ("Silk Road",
+// "tank"), otherwise the person's name. A case can set its own label.
+const short = (c: Case) => {
+  if (c.label) return c.label[lang];
+  const alias = c.alias?.[lang]
+    .split(/[／/（(、,]/)[0]
+    ?.replace(/[「」"]/g, "")
+    .trim();
+  return alias && alias.length <= 24 ? alias : c.name[lang].replace(/\s*[（(].*$/, "");
+};
+---
+
+<div class="cb" data-case-board>
+  <p class="cb-total">{CASES.length}{t("board.total")}</p>
+  <ol class="rows">
+    {
+      cols.map(({ k, cases }) => (
+        <li class="row">
+          <p class="lk">
+            <a href={localePath(lang, k === "people" ? "/cases/#people" : `/layers/${k}/`)}>{LAYERS[k].name[lang]}</a>
+            <span class="n">{cases.length}</span>
+          </p>
+          <ul>
+            {cases.map((c) => (
+              <li>
+                <a href={compact ? localePath(lang, `/cases/#${c.id}`) : `#${c.id}`} title={c.name[lang]}>
+                  {short(c)}
+                  <span class="yr">{c.year}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  .cb-total {
+    margin: 0 0 0.75rem;
+    color: var(--ink-2);
+    font-size: var(--step--1);
+  }
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    gap: 0.4rem 1rem;
+    align-items: start;
+    padding: 0.55rem 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .row:first-child {
+    border-top: 2px solid var(--ink);
+  }
+  .lk {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding-top: 0.2rem;
+  }
+  .lk a {
+    font-weight: 800;
+    text-decoration: none;
+  }
+  .lk a:hover {
+    text-decoration: underline;
+  }
+  .n {
+    font-weight: 700;
+    color: var(--leak);
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  ul a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    padding: 0.3rem 0.55rem;
+    background: var(--leak);
+    color: var(--sheet);
+    font-weight: 700;
+    font-size: var(--step--1);
+    line-height: 1.25;
+    text-decoration: none;
+  }
+  ul a:hover,
+  ul a:focus-visible {
+    background: var(--marker);
+    color: var(--marker-ink);
+  }
+  .yr {
+    font-weight: 400;
+    font-size: 0.75rem;
+  }
+  @media (max-width: 34rem) {
+    .row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .lk {
+      justify-content: flex-start;
+    }
+  }
+</style>

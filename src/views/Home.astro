@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BasicsList from "../components/BasicsList.astro";
-import CaseMatrix from "../components/CaseMatrix.astro";
+import CaseBoard from "../components/CaseBoard.astro";
 import ReachLedger from "../components/fig/ReachLedger.astro";
 import Outcomes from "../components/Outcomes.astro";
 import Strata from "../components/Strata.astro";
@@ -43,15 +43,12 @@ for (const c of CASES)
     <p class="more"><a href={localePath(lang, "/out-of-reach/")}>{t("home.ledgerMore")}</a></p>
   </section>
 
-  {
-    hasBasics && (
-      <section class="wrap" id="basics" aria-labelledby="b-h">
-        <h2 id="b-h" class="sec">{t("home.basicsTitle")}</h2>
-        <p class="sec-lede">{t("home.basicsLede")}</p>
-        <BasicsList lang={lang} />
-      </section>
-    )
-  }
+  <section class="wrap" aria-labelledby="c-h">
+    <h2 id="c-h" class="sec">{t("home.casesTitle")}</h2>
+    <p class="sec-lede">{t("home.casesLede")}</p>
+    <CaseBoard lang={lang} compact />
+    <p class="more"><a href={localePath(lang, "/cases/")}>{t("home.casesAll")}</a></p>
+  </section>
 
   <section class="wrap" aria-labelledby="v-h">
     <h2 id="v-h" class="sec">{t("home.vantageTitle")}</h2>
@@ -64,12 +61,16 @@ for (const c of CASES)
     <Strata lang={lang} tally={tally} />
   </section>
 
-  <section class="wrap" aria-labelledby="c-h">
-    <h2 id="c-h" class="sec">{t("home.casesTitle")}</h2>
-    <p class="sec-lede">{t("home.casesLede")}</p>
-    <CaseMatrix lang={lang} compact />
-    <p class="more"><a href={localePath(lang, "/cases/")}>{t("home.casesAll")}</a></p>
-  </section>
+  {
+    hasBasics && (
+      <section class="wrap" id="basics" aria-labelledby="b-h">
+        <h2 id="b-h" class="sec">{t("home.basicsTitle")}</h2>
+        <p class="sec-lede">{t("home.basicsLede")}</p>
+        <BasicsList lang={lang} compact />
+      </section>
+    )
+  }
+
 </Base>
 
 <style>

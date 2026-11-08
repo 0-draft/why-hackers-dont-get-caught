@@ -1,7 +1,9 @@
 ---
-import CaseMatrix from "../components/CaseMatrix.astro";
+import CaseBoard from "../components/CaseBoard.astro";
+import CaseFiles from "../components/CaseFiles.astro";
 import Fig from "../components/Fig.astro";
 import CaseTimeline from "../components/fig/CaseTimeline.astro";
+import { SLIP_GAPS } from "../data/cases.ts";
 import { LAYERS } from "../data/layers.ts";
 import { type Lang, useT } from "../i18n/ui.ts";
 import Base from "../layouts/Base.astro";
@@ -11,6 +13,10 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = useT(lang);
+// The timeline caption counts from the data so it cannot drift as cases are added.
+const timelineCaption = t("cases.timeline")
+  .replace("{n}", String(SLIP_GAPS.length))
+  .replace("{m}", String(SLIP_GAPS.filter((g) => g >= 2).length));
 ---
 
 <Base lang={lang} title={t("cases.title")} description={t("cases.lede")}>
@@ -20,10 +26,11 @@ const t = useT(lang);
     <section id="people" class="people">
       <p><strong>{LAYERS.people.name[lang]}</strong> {LAYERS.people.hides[lang]}. {LAYERS.people.breaks[lang]}.</p>
     </section>
-    <Fig caption={t("cases.timeline")} size="wide">
+    <CaseBoard lang={lang} />
+    <CaseFiles lang={lang} />
+    <Fig caption={timelineCaption} size="wide">
       <CaseTimeline lang={lang} />
     </Fig>
-    <CaseMatrix lang={lang} />
   </div>
 </Base>
 

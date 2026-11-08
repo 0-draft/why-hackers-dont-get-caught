@@ -49,7 +49,9 @@ const langOf = (s: string) => (/[぀-ヿ一-鿿]/.test(s) ? "ja" : undefined);
     color: var(--ink-2);
   }
   .sl li:target {
-    background: linear-gradient(to right, var(--marker), transparent 70%);
+    box-shadow: -0.75rem 0 0 -0.4rem var(--marker);
+    outline: 2px solid var(--marker);
+    outline-offset: 2px;
   }
   .pub {
     display: block;

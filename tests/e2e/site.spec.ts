@@ -114,14 +114,52 @@ test.describe("observer figure", () => {
   });
 });
 
-test("the case page has one row and one file per case", async ({ page }) => {
+test("the case page files every case once, on the board and in the register", async ({ page }) => {
   await page.goto("/cases/");
-  await expect(page.locator(".cm tbody tr")).toHaveCount(cases.length);
+  await expect(page.locator("[data-case-board] .row li")).toHaveCount(cases.length);
   for (const c of cases) {
     await expect(page.locator(`#${c.id}`)).toHaveCount(1);
-    await expect(page.locator(`#file-${c.id}`)).toHaveCount(1);
+    await expect(page.locator(`[data-case-board] a[href="#${c.id}"]`)).toHaveCount(1);
   }
-  await expect(page.locator(".cm tbody .sq.failed")).toHaveCount(cases.length);
+  await expect(page.locator("[data-case-files] .cell.failed")).toHaveCount(cases.length);
+});
+
+test("a layer page opens on key points and the full text is one click away", async ({ page }) => {
+  await page.goto("/layers/money/");
+  const prose = page.locator(".prose");
+  const hidden = await prose.locator(":scope > p:not(:visible)").count();
+  expect(hidden).toBeGreaterThan(0);
+  await page.getByText("Full text", { exact: true }).click();
+  await expect(prose.locator(":scope > p:not(:visible)")).toHaveCount(0);
+});
+
+test("a link to a case lands on its line, open; the skip link opens none", async ({ page }) => {
+  // Fresh load on #main first: a later hash change on the same document would
+  // leave the earlier line open and prove nothing.
+  await page.goto("/cases/#main");
+  await expect(page.locator("[data-case-files] details[open]")).toHaveCount(0);
+  await page.goto("/cases/#incognito");
+  await expect(page.locator("#incognito > details")).toHaveAttribute("open", "");
+});
+
+test("key points keep the first paragraph under every heading", async ({ page }) => {
+  for (const slug of ["behavior", "attribution"]) {
+    await page.goto(`/layers/${slug}/`);
+    const hidden = await page
+      .locator(".prose > :is(h2, h3) + p")
+      .evaluateAll((ps) => ps.filter((p) => getComputedStyle(p).display === "none").length);
+    expect(hidden, slug).toBe(0);
+    // The misconceptions are kept whole by their heading id.
+    const myths = page.locator(".prose > #common-misconceptions ~ *");
+    expect(await myths.count(), slug).toBeGreaterThan(0);
+    for (const el of await myths.all()) await expect(el).toBeVisible();
+  }
+});
+
+test("a citation opens the folded source list", async ({ page }) => {
+  await page.goto("/layers/money/");
+  await page.locator(".prose .cite a").first().click();
+  await expect(page.locator("[data-src-fold]")).toHaveAttribute("open", "");
 });
 
 test("every citation on a layer page resolves to a listed source", async ({ page }) => {
