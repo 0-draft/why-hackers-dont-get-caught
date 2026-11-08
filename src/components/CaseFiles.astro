@@ -1,0 +1,237 @@
+---
+import { CASES } from "../data/cases.ts";
+import { FAILURE_KINDS, LAYERS } from "../data/layers.ts";
+import { SOURCES } from "../data/sources.ts";
+import { type Lang, localePath, useT } from "../i18n/ui.ts";
+
+// One card per case. The chain of layers reads left (the person) to right
+// (the people around them): black bars are what the person hid behind, the
+// magenta bar is where investigators got through. The slip sits in one line
+// under it; everything else waits behind "details".
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+---
+
+<ol class="files">
+  {
+    CASES.toReversed().map((c) => (
+      <li id={c.id} class="file">
+        <header>
+          <span class="yr">{c.year}</span>
+          <h2>
+            {c.name[lang]}
+            {c.alias && <span class="al">{c.alias[lang]}</span>}
+          </h2>
+        </header>
+
+        <ol class="chain" aria-label={t("cases.chain")}>
+          {FAILURE_KINDS.map((k) => {
+            const state = c.failed === k ? "failed" : c.used.includes(k) ? "used" : "none";
+            return (
+              <li class={state}>
+                <span class="lk">{LAYERS[k].name[lang]}</span>
+                <span class="sr">
+                  {state === "failed" ? t("cases.failed") : state === "used" ? t("cases.used") : t("cases.unused")}
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+
+        <p class="key">
+          <a
+            class="fl"
+            href={localePath(lang, c.failed === "people" ? "/cases/#people" : `/layers/${c.failed}/`)}
+          >
+            {LAYERS[c.failed].name[lang]}
+          </a>
+          {c.timeline && <span class="sw">{c.timeline.slipWhat[lang]}</span>}
+          {c.disputed && <span class="disp">{t("cases.disputed")}</span>}
+        </p>
+
+        <details>
+          <summary>{t("cases.more")}</summary>
+          <p class="mech">{c.mechanism[lang]}</p>
+          <dl>
+            <dt>{t("cases.background")}</dt>
+            <dd>{c.background[lang]}</dd>
+            {c.disputed && (
+              <>
+                <dt class="dt-disp">{t("cases.disputed")}</dt>
+                <dd>{c.disputed[lang]}</dd>
+              </>
+            )}
+            <dt>{t("cases.outcome")}</dt>
+            <dd>{c.outcome[lang]}</dd>
+            <dt>{t("cases.sources")}</dt>
+            <dd>
+              <ul class="cs">
+                {c.sources.map((id) => {
+                  const s = SOURCES[id];
+                  return s ? (
+                    <li>
+                      <a
+                        href={s.url}
+                        rel="noopener noreferrer"
+                        lang={/[぀-ヿ一-鿿]/.test(s.title + s.publisher) ? "ja" : undefined}
+                      >
+                        {s.publisher}: {s.title}
+                      </a>
+                    </li>
+                  ) : null;
+                })}
+              </ul>
+            </dd>
+          </dl>
+        </details>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .files {
+    list-style: none;
+    padding: 0;
+    margin: 3rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem), 1fr));
+    gap: 1rem;
+    align-items: start;
+  }
+  .file {
+    background: var(--sheet);
+    border: 1.5px solid var(--ink);
+    padding: 1rem 1.1rem 0.9rem;
+    scroll-margin-top: 1.5rem;
+  }
+  .file:target {
+    box-shadow: 0 0 0 4px var(--marker);
+  }
+  header {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+  .yr {
+    flex: none;
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    color: var(--ink-2);
+  }
+  h2 {
+    font-size: var(--step-1);
+    line-height: 1.25;
+    margin: 0;
+  }
+  .al {
+    display: block;
+    font-size: var(--step--1);
+    font-weight: 400;
+    color: var(--ink-2);
+    margin-top: 0.15rem;
+  }
+  .chain {
+    list-style: none;
+    padding: 0;
+    margin: 0.9rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 3px;
+  }
+  .chain li {
+    height: 2.1rem;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font-size: 0.66rem;
+    font-weight: 700;
+    line-height: 1.1;
+    padding: 0 2px;
+    overflow: hidden;
+  }
+  .chain .none {
+    border: 1px dashed var(--rule);
+    color: var(--ink-2);
+    font-weight: 400;
+  }
+  .chain .used {
+    background: var(--bar);
+    box-shadow: 0 0 0 1px var(--bar-edge);
+    color: #fff;
+  }
+  .chain .failed {
+    background: var(--leak);
+    color: var(--sheet);
+    clip-path: polygon(0 0, 100% 0, 100% 40%, 88% 55%, 100% 70%, 100% 100%, 0 100%, 0 70%, 12% 50%, 0 35%);
+  }
+  .key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 0.9rem 0 0;
+  }
+  .fl {
+    background: var(--leak);
+    color: var(--sheet);
+    font-weight: 800;
+    font-size: var(--step--1);
+    padding: 0.1rem 0.5rem;
+    text-decoration: none;
+  }
+  .fl:hover {
+    text-decoration: underline;
+  }
+  .sw {
+    font-weight: 700;
+    background: linear-gradient(transparent 12%, var(--marker) 12%, var(--marker) 88%, transparent 88%);
+    color: var(--marker-ink);
+    padding: 0 0.2rem;
+  }
+  .disp {
+    font-size: 0.75rem;
+    border: 1px solid var(--ink-2);
+    color: var(--ink-2);
+    padding: 0 0.35rem;
+  }
+  .mech {
+    margin: 0.7rem 0 0;
+    font-size: var(--step--1);
+    line-height: 1.7;
+  }
+  details {
+    margin-top: 0.6rem;
+    font-size: var(--step--1);
+  }
+  summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--ink-2);
+  }
+  dt {
+    color: var(--ink-2);
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+  }
+  .dt-disp {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  dd {
+    margin: 0.15rem 0 0;
+    line-height: 1.7;
+  }
+  .cs {
+    padding-left: 1.1rem;
+    margin: 0;
+  }
+  @media (max-width: 30rem) {
+    .chain li {
+      font-size: 0.58rem;
+    }
+  }
+</style>
