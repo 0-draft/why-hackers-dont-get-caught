@@ -169,34 +169,35 @@ const sources = SOURCES_BY_PAGE[slug] ?? [];
   }
   /* Key-points view. Kept: every heading, the first paragraph under it, every
      figure, the bold lead of each list item, a plain list that directly follows
-     the paragraph introducing it, and the closing misconceptions whole (a myth
-     without its answer would mislead). Folded: the rest. Same nodes in the same
+     the paragraph introducing it, and the misconceptions section whole (a myth
+     without its answer would mislead; it is found by its heading id, not its
+     position). Folded: the rest. Same nodes in the same
      order, so "full text" is just these rules switched off. */
   .layer-article:has(input[value="short"]:checked)
     .prose
-    > :global(p:not(:first-child):not(:is(h2, h3) + p):not(h2:last-of-type ~ p)) {
+    > :global(p:not(:first-child):not(:is(h2, h3) + p):not(:is(#common-misconceptions, #よくある誤解) ~ p)) {
     display: none;
   }
   .layer-article:has(input[value="short"]:checked)
     .prose
     > :global(
-      ul:not(h2:last-of-type ~ ul):not(:is(h2, h3) + p + ul):not(:has(> li > strong:first-child))
+      ul:not(:is(#common-misconceptions, #よくある誤解) ~ ul):not(:is(h2, h3) + p + ul):not(:has(> li > strong:first-child))
     ) {
     display: none;
   }
   .layer-article:has(input[value="short"]:checked)
     .prose
-    > :global(ul:not(h2:last-of-type ~ ul):not(:is(h2, h3) + p + ul):has(> li > strong:first-child) > li) {
+    > :global(ul:not(:is(#common-misconceptions, #よくある誤解) ~ ul):not(:is(h2, h3) + p + ul):has(> li > strong:first-child) > li) {
     font-size: 0;
   }
   .layer-article:has(input[value="short"]:checked)
     .prose
-    > :global(ul:not(h2:last-of-type ~ ul):not(:is(h2, h3) + p + ul) > li > strong:first-child) {
+    > :global(ul:not(:is(#common-misconceptions, #よくある誤解) ~ ul):not(:is(h2, h3) + p + ul) > li > strong:first-child) {
     font-size: var(--step-0);
   }
   .layer-article:has(input[value="short"]:checked)
     .prose
-    > :global(ul:not(h2:last-of-type ~ ul):not(:is(h2, h3) + p + ul) > li > :not(strong:first-child)) {
+    > :global(ul:not(:is(#common-misconceptions, #よくある誤解) ~ ul):not(:is(h2, h3) + p + ul) > li > :not(strong:first-child)) {
     display: none;
   }
   .layer-grid {

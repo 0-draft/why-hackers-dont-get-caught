@@ -149,6 +149,10 @@ test("key points keep the first paragraph under every heading", async ({ page })
       .locator(".prose > :is(h2, h3) + p")
       .evaluateAll((ps) => ps.filter((p) => getComputedStyle(p).display === "none").length);
     expect(hidden, slug).toBe(0);
+    // The misconceptions are kept whole by their heading id.
+    const myths = page.locator(".prose > #common-misconceptions ~ *");
+    expect(await myths.count(), slug).toBeGreaterThan(0);
+    for (const el of await myths.all()) await expect(el).toBeVisible();
   }
 });
 
