@@ -897,7 +897,7 @@
       "ja": "Raccoon Infostealer は被害者の PC からパスワードや金融情報を盗むマルウェアで、月約200ドルで他の犯罪者に貸し出されていた。ウクライナ人のソコロフスキーは、フォーラム上の名義「Photix」でこれを運営していた。"
     },
     "mechanism": {
-      "en": "According to two unnamed sources quoted by KrebsOnSecurity, the Gmail account behind the Photix persona was linked to an Apple iCloud account in his own name, and investigators followed his phone's location through it. A DOJ court filing confirms he left Ukraine on 4 March 2022 in what appeared to be a Porsche Cayenne and crossed Poland and Germany into the Netherlands. The same sources say his companion posted the trip on Instagram.",
+      "en": "According to two unnamed sources quoted by KrebsOnSecurity, the Gmail account behind the Photix persona was linked to an Apple iCloud account in his own name, and investigators followed his phone's location through it. A DOJ court filing confirms he left Ukraine on 4 March 2022 in what appeared to be a Porsche Cayenne and crossed Poland and Germany into the Netherlands. The same sources say the woman travelling with him posted the trip on Instagram.",
       "ja": "KrebsOnSecurity が引用した匿名の関係者2人によると、Photix が使っていた Gmail アカウントは本人名義の Apple iCloud アカウントと結び付いており、捜査員はそこから彼の電話の位置を追った。司法省が裁判所に出した書面にも、彼が2022年3月4日にポルシェ・カイエンとみられる車でウクライナを出国し、ポーランドとドイツを経てオランダに入ったことが書かれている。同じ関係者によれば、同行の女性がその旅程を Instagram に投稿していた。"
     },
     "outcome": {
@@ -905,8 +905,8 @@
       "ja": "2022年3月20日、米国の仮逮捕請求に基づきオランダ警察に逮捕され、2024年2月に米国へ引き渡された。司法取引のあと、2024年12月に禁錮5年を言い渡された。"
     },
     "disputed": {
-      "en": "The Gmail-iCloud link and the Instagram detail come only from unnamed sources; the DOJ filings do not say how he was identified. Retellings in which his girlfriend's Instagram gave him away go further than that report, which credits the phone tracking.",
-      "ja": "Gmail と iCloud のつながりも Instagram の話も、情報源は匿名の関係者だけで、司法省の書面は特定の経緯を書いていない。「恋人の Instagram で捕まった」という広く出回った説明は、電話の追跡を決め手とするこの報道より話を大きくしている。"
+      "en": "The Gmail-iCloud link and the Instagram detail come only from unnamed sources; the DOJ filings do not say how he was identified. The widely repeated version in which the Instagram posts of the woman travelling with him gave him away go further than that report, which credits the phone tracking.",
+      "ja": "Gmail と iCloud のつながりも Instagram の話も、情報源は匿名の関係者だけで、司法省の書面は特定の経緯を書いていない。「同行の女性の Instagram で捕まった」という広く出回った説明は、電話の追跡を決め手とするこの報道より話を大きくしている。"
     },
     "timeline": {
       "slip": null,
@@ -1103,7 +1103,7 @@
     },
     "outcome": {
       "en": "No one has been charged. The result is a public attribution to a North Korean state-backed group.",
-      "ja": "起訴された者はいない。捜査は、北朝鮮の国家が後ろにいる集団を公に名指ししたところで止まっている。"
+      "ja": "起訴された者はいない。結果は、北朝鮮の国家が後ろにいる集団を公に名指ししたことである。"
     },
     "disputed": {
       "en": "The agencies did not explain what evidence tied the theft to TraderTraitor. The NPA says only that it assessed the investigation by its Kanto regional cyber unit and the Tokyo police.",
