@@ -779,8 +779,8 @@
       "ja": "検察によれば、カイ・ウェストは「IntelBroker」として2023年1月から BreachForums に約158件の盗難データ販売スレッドを立て、支払いには Monero を求めていた。被害額は約2,500万ドルとされた。"
     },
     "mechanism": {
-      "en": "On 26 January 2023 an undercover FBI agent persuaded IntelBroker to take $250 in bitcoin instead of Monero for a stolen API key. The bitcoin wallet he supplied had been seeded through a wallet created by a Ramp account registered with Kai West's UK provisional driving licence, and the same licence was behind a Coinbase account in the name \"Kyle Northern\". The email on both accounts had logged in from the same IP addresses as the attacks and as an IntelBroker X account.",
-      "ja": "2023年1月26日、FBI の潜入捜査官は盗まれた API キーの代金250ドルを Monero ではなくビットコインで払うよう IntelBroker を説得した。彼が示したウォレットの資金は、カイ・ウェストの英国仮運転免許証で登録された Ramp アカウントが作ったウォレットから出ており、同じ免許証は「Kyle Northern」名義の Coinbase アカウントにも使われていた。両アカウントのメールアドレスには、攻撃や IntelBroker の X アカウントと同じ IP アドレスからのログインがあった。"
+      "en": "On 26 January 2023 an undercover FBI agent persuaded IntelBroker to take $250 in bitcoin instead of Monero for an API key he advertised as stolen. The bitcoin wallet he supplied had been seeded through a wallet created by a Ramp account registered with Kai West's UK provisional driving licence, and the same licence was behind a Coinbase account in the name \"Kyle Northern\". A Microsoft account registered to the same email was used from the attack IP addresses, and the email itself was accessed from the VPN address that created an IntelBroker X account.",
+      "ja": "2023年1月26日、FBI の潜入捜査官は盗んだとして売りに出した API キーの代金250ドルを Monero ではなくビットコインで払うよう IntelBroker を説得した。彼が示したウォレットの資金は、カイ・ウェストの英国仮運転免許証で登録された Ramp アカウントが作ったウォレットから出ており、同じ免許証は「Kyle Northern」名義の Coinbase アカウントにも使われていた。同じメールアドレスで登録された Microsoft アカウントは攻撃と同じ IP アドレスから使われ、メール自体にも IntelBroker の X アカウントを作った VPN のアドレスからアクセスがあった。"
     },
     "outcome": {
       "en": "Arrested in France in February 2025; the charges were unsealed in New York on 25 June 2025 and the US sought his extradition. The allegations have not been tested at trial.",
@@ -812,16 +812,16 @@
     "used": ["identity", "network", "infrastructure", "money"],
     "failed": "network",
     "background": {
-      "en": "Tyler Buchanan, from Dundee, Scotland, took part in a 2022 SMS phishing campaign that sent employees of tech, telecom and crypto companies to fake Okta-style login pages. He later admitted that he and others in Scattered Spider stole at least $8 million in cryptocurrency.",
-      "ja": "スコットランド・ダンディー出身のタイラー・ブキャナンは、2022年に IT、通信、暗号資産企業の社員を Okta 風の偽ログインページへ誘導する SMS フィッシングに加わっていた。彼はのちに、Scattered Spider の仲間と少なくとも800万ドル相当の暗号資産を盗んだと認めた。"
+      "en": "Tyler Buchanan, from Dundee, Scotland, took part in a 2022 SMS phishing campaign that sent employees of tech, telecom and crypto companies to fake Okta-style login pages. He later admitted stealing at least $8 million in cryptocurrency from individual US victims.",
+      "ja": "スコットランド・ダンディー出身のタイラー・ブキャナンは、2022年に IT、通信、暗号資産企業の社員を Okta 風の偽ログインページへ誘導する SMS フィッシングに加わっていた。彼はのちに、米国の個人から少なくとも800万ドル相当の暗号資産を盗んだと認めた。"
     },
     "mechanism": {
       "en": "Two phishing domains used against victim companies on 2 June 2022 had been registered through one NameCheap account. NameCheap's records showed that account logging in on 4 May 2022 from an IP address that Virgin Media had leased to Buchanan. Police Scotland searched his home at that address in April 2023 and seized about 20 devices.",
       "ja": "2022年6月2日に企業への攻撃に使われた2つのフィッシング用ドメインは、同じ NameCheap アカウントで登録されていた。NameCheap の記録では、このアカウントは2022年5月4日に、Virgin Media がブキャナンに割り当てていた IP アドレスからログインしていた。スコットランド警察は2023年4月にその住所の自宅を捜索し、約20台の端末を押収した。"
     },
     "outcome": {
-      "en": "Arrested at Palma airport in Spain in June 2024 and in US custody from April 2025. He pleaded guilty on 17 April 2026 to wire fraud conspiracy and aggravated identity theft, with sentencing set for 21 August 2026.",
-      "ja": "2024年6月にスペインのパルマ空港で逮捕され、2025年4月から米国で身柄を拘束されている。2026年4月17日に通信詐欺の共謀と加重ID窃盗で有罪を認め、量刑言い渡しは2026年8月21日に予定された。"
+      "en": "Arrested at Palma airport in Spain in June 2024 and in US custody from April 2025. He pleaded guilty in April 2026 to wire fraud conspiracy and aggravated identity theft, with sentencing set for 21 August 2026.",
+      "ja": "2024年6月にスペインのパルマ空港で逮捕され、2025年4月から米国で身柄を拘束されている。2026年4月に通信詐欺の共謀と加重ID窃盗で有罪を認め、量刑言い渡しは2026年8月21日に予定された。"
     },
     "timeline": {
       "slip": "2022-05-04",
@@ -853,18 +853,18 @@
       "ja": "スペイン在住の英国人ジョセフ・オコナーは、2020年7月の Twitter 乗っ取りと、TikTok や Snapchat のアカウント乗っ取りで訴追された。ログインには M247 などの VPN を経由していた。"
     },
     "mechanism": {
-      "en": "From January 2019 a man calling himself \"PlugwalkJoe\" phoned an investigator at California's REACT task force, gave his name as Joseph O'Connor and said he had moved to Spain. After the Twitter hack he texted and called the same investigator from a Google Voice number. The email behind that number had logged in from a VPN IP address that @PlugwalkJoe had used in 2018, and other shared VPN IPs, used minutes apart, linked his Snapchat, Instagram and Discord accounts.",
-      "ja": "2019年1月から、「PlugwalkJoe」を名乗る男がカリフォルニア州の REACT タスクフォースの捜査員に電話をかけ、ジョセフ・オコナーと名乗り、スペインに移ったと話していた。Twitter 乗っ取りの後、彼は Google Voice の番号から同じ捜査員にメッセージと電話を送った。その番号に紐づくメールには、@PlugwalkJoe が2018年に使った VPN の IP アドレスからのログインがあり、数分違いで使われた他の共通 IP も Snapchat、Instagram、Discord のアカウントを彼に結び付けた。"
+      "en": "From January 2019 a man presenting himself as \"PlugwalkJoe\" contacted an investigator at California's REACT task force; asked later, he gave his name as Joseph O'Connor and said he had moved to Spain. After the Twitter hack he texted the investigator and called REACT's general line from a Google Voice number. The email behind that number had logged in from a VPN IP address that @PlugwalkJoe had used in 2018, and other shared VPN IPs, used minutes apart, linked his Snapchat, Instagram and Discord accounts.",
+      "ja": "2019年1月から、「PlugwalkJoe」を名乗る男がカリフォルニア州の REACT タスクフォースの捜査員に接触していた。名前を尋ねられるとジョセフ・オコナーと答え、スペインに移ったと話した。Twitter 乗っ取りの後、彼はこの捜査員にメッセージを送り、Google Voice の番号から REACT の代表番号に電話をかけた。その番号に紐づくメールには、@PlugwalkJoe が2018年に使った VPN の IP アドレスからのログインがあり、数分違いで使われた他の共通 IP も Snapchat、Instagram、Discord のアカウントを彼に結び付けた。"
     },
     "outcome": {
-      "en": "Arrested by Spanish police in Estepona on 21 July 2021. After extradition he was sentenced in the US on 23 June 2023 to five years in prison.",
-      "ja": "2021年7月21日にスペインのエステポナで現地警察に逮捕された。米国への引き渡し後、2023年6月23日に禁錮5年を言い渡された。"
+      "en": "Arrested in Estepona, Spain, on 21 July 2021. After extradition he was sentenced in the US on 23 June 2023 to five years in prison.",
+      "ja": "2021年7月21日にスペインのエステポナで逮捕された。米国への引き渡し後、2023年6月23日に禁錮5年を言い渡された。"
     },
     "timeline": {
       "slip": "2019-01",
       "slipWhat": {
-        "en": "Phones investigator, gives his name",
-        "ja": "捜査員に実名を名乗る"
+        "en": "Contacts investigator, later gives his name",
+        "ja": "捜査員に接触し実名を答える"
       },
       "caught": "2021-07-21",
       "caughtKind": "arrest"
@@ -925,12 +925,12 @@
     "used": ["identity", "infrastructure", "people"],
     "failed": "behavior",
     "background": {
-      "en": "From 2009, as \"tank\", Penchukov helped run the Jabber Zeus crew, which used Zeus malware to drain US business bank accounts through money mules. Later, as \"Andreev\", he helped lead the IcedID malware group.",
-      "ja": "ペンチュコフは2009年から「tank」の名で Jabber Zeus グループを率いた一人で、同グループは Zeus マルウェアと資金の運び屋を使って米国企業の銀行口座から金を抜いた。のちに「Andreev」の名で IcedID マルウェアのグループも率いた。"
+      "en": "From 2009, as \"tank\", Penchukov helped run the Jabber Zeus crew, which used Zeus malware to drain US business bank accounts through money mules. From 2018 to 2021 he also helped run the IcedID malware operation.",
+      "ja": "ペンチュコフは2009年から「tank」の名で Jabber Zeus グループの運営に関わった一人で、同グループは Zeus マルウェアと資金の運び屋を使って米国企業の銀行口座から金を抜いた。2018〜2021年には IcedID マルウェアの運営も担った。"
     },
     "mechanism": {
-      "en": "The crew's chat server, hosted in Brooklyn, kept a log of every message, and the FBI searched it under warrant. In a chat on 22 July 2009 tank announced his daughter's birth with her name and birth weight; researcher Gary Warner wrote that Ukrainian birth records held one match, whose father was Penchukov. He slipped a 2010 Ukrainian raid, and in October 2022 he was arrested after travelling to Geneva, according to Krebs's sources to meet his wife.",
-      "ja": "グループのチャットサーバーはブルックリンにあり、全メッセージをログに残していた。FBI は令状でこのサーバーを捜索した。2009年7月22日のチャットで tank は娘の誕生を名前と出生体重付きで報告し、研究者の Gary Warner によればウクライナの出生記録で該当するのは1人だけで、父親はペンチュコフだった。2010年のウクライナでの捜索は逃れたが、2022年10月、ジュネーブを訪れたところで逮捕された。Krebs の情報源によれば妻に会うための渡航だった。"
+      "en": "The crew's chat server, hosted in Brooklyn, kept extensive chat logs, and the FBI searched it under warrant. In a chat on 22 July 2009 tank announced his daughter's birth with her name and birth weight; researcher Gary Warner wrote that Ukrainian birth records held one match, whose father was Penchukov. He slipped a 2010 Ukrainian raid, and in October 2022 he was arrested after travelling to Geneva, according to Krebs's sources to meet his wife.",
+      "ja": "グループのチャットサーバーはブルックリンにあり、大量のチャットログを残していた。FBI は令状でこのサーバーを捜索した。2009年7月22日のチャットで tank は娘の誕生を名前と出生体重付きで報告し、研究者の Gary Warner によればウクライナの出生記録で該当するのは1人だけで、父親はペンチュコフだった。2010年のウクライナでの捜索は逃れたが、2022年10月、ジュネーブを訪れたところで逮捕された。Krebs の情報源によれば妻に会うための渡航だった。"
     },
     "outcome": {
       "en": "Swiss authorities arrested him on 23 October 2022 and he was extradited to the US in 2023. He pleaded guilty in February 2024 and in July 2024 was sentenced to nine years in prison and $73 million in restitution.",
@@ -1012,8 +1012,8 @@
       "ja": "モスクワ在住のラトビア人ゾロタリョフスは、恐喝グループ Karakurt の交渉役として、応答しなくなった被害者に圧力をかけていた。司法省によると、同グループは2021〜2023年に54社以上からデータを盗んだ。"
     },
     "mechanism": {
-      "en": "A source gave the FBI the group's Tor-hosted Rocket.Chat, and 10% of one victim's September 2021 ransom was traced through a mixer to a fresh Bitcoin cluster. That cluster merged the coins in a single transaction with 1.39 BTC just received from a US exchange account registered in his name. IP matches then tied his iCloud to Sforza's messenger IDs, and in November 2023 he approached the FBI through a blog editor, asking about $365,000 for information.",
-      "ja": "情報提供者が Tor 上にあるグループの Rocket.Chat を FBI に渡し、2021年9月の身代金の10%がミキサーを経て新しい Bitcoin アドレス群に入ったことが追跡された。そのアドレス群は、本人名義の米国取引所口座から届いたばかりの 1.39 BTC と、その資金を1つの取引で合算していた。さらに IP アドレスの一致で本人の iCloud と Sforza のメッセンジャー ID が結び付き、2023年11月には本人がブログ編集者を通じて FBI に接触し、情報の対価として約36万5000ドルを求めた。"
+      "en": "A source gave the FBI the group's Tor-hosted Rocket.Chat, and 10% of one victim's September 2021 ransom was traced through a mixer to a fresh Bitcoin cluster. That cluster merged the coins in a single transaction with 1.39 BTC just received from a US exchange account registered in his name. IP matches then tied his iCloud to Sforza's messenger IDs, and in November 2023 he asked a security blog editor for help pressuring victims; the editor contacted the FBI, from whom he then sought about $365,000 for information.",
+      "ja": "情報提供者が Tor 上にあるグループの Rocket.Chat を FBI に渡し、2021年9月の身代金の10%がミキサーを経て新しい Bitcoin アドレス群に入ったことが追跡された。そのアドレス群は、本人名義の米国取引所口座から届いたばかりの 1.39 BTC と、その資金を1つの取引で合算していた。さらに IP アドレスの一致で本人の iCloud と Sforza のメッセンジャー ID が結び付き、2023年11月には、被害者への圧力に協力を求めた相手のセキュリティブログ編集者が FBI に連絡し、本人は FBI に情報の対価として約36万5000ドルを求めた。"
     },
     "outcome": {
       "en": "He was arrested in Georgia in December 2023 and extradited in August 2024. He pleaded guilty in July 2025 and on 4 May 2026 was sentenced to 102 months in prison.",
@@ -1045,16 +1045,16 @@
     "used": ["identity", "network", "money"],
     "failed": "money",
     "background": {
-      "en": "Panev, a Russian-Israeli living in Israel, wrote code for the LockBit ransomware group, including its builders and the StealBit data-theft tool. He was paid about $10,000 a month in Bitcoin from June 2022 to February 2024.",
-      "ja": "イスラエル在住のロシア・イスラエル二重国籍者パネフは、ランサムウェアグループ LockBit のためにビルダーやデータ窃取ツール StealBit などのコードを書いていた。2022年6月から2024年2月まで、毎月約1万ドルを Bitcoin で受け取っていた。"
+      "en": "According to the charging papers, Panev, a Russian-Israeli living in Israel, developed code for the LockBit ransomware group and held credentials to a repository with its builder and StealBit source code. He was allegedly paid about $10,000 a month in Bitcoin from June 2022 to February 2024.",
+      "ja": "訴追書面によれば、イスラエル在住のロシア・イスラエル二重国籍者パネフは、ランサムウェアグループ LockBit のコードを開発し、ビルダーや StealBit のソースコードがあるリポジトリの認証情報を持っていた。2022年6月から2024年2月まで、毎月約1万ドルを Bitcoin で受け取っていたとされる。"
     },
     "mechanism": {
       "en": "US investigators traced LockBit's 20% developer share of ransoms into one cluster and matched about 30 mixed payments out of it, by amount and timing, to an exchange account opened with his Israeli driver's license. They also tied his dark-web forum handle to him through the Bitcoin that paid for it and IP addresses shared with his iCloud account.",
       "ja": "米当局は身代金のうち開発者分の20%が集まるアドレス群を特定し、そこからミキサー経由で出た約30回の送金を、金額と時刻で、イスラエルの運転免許証で開設された本人の取引所口座への入金と突き合わせた。ダークウェブのフォーラムの名義も、その代金を払った Bitcoin と、本人の iCloud と共通する IP アドレスで本人に結び付けた。"
     },
     "outcome": {
-      "en": "Israeli police searched his home on 12 August 2024 and took him into custody; his computer held credentials for LockBit's panel and source code, and he admitted the work. Israel extradited him to the US in March 2025.",
-      "ja": "2024年8月12日、イスラエル警察が自宅を捜索して身柄を拘束した。PC には LockBit の管理画面とソースコードの認証情報があり、本人も作業を認めた。2025年3月、イスラエルから米国へ引き渡された。"
+      "en": "Israeli authorities searched his home on 12 August 2024 and took him into custody; his computer held credentials for LockBit's panel and source code, and he admitted the work. Israel extradited him to the US in March 2025.",
+      "ja": "2024年8月12日、イスラエル当局が自宅を捜索して身柄を拘束した。PC には LockBit の管理画面とソースコードの認証情報があり、本人も作業を認めた。2025年3月、イスラエルから米国へ引き渡された。"
     },
     "disputed": {
       "en": "The complaint lists the crypto, forum and iCloud evidence without saying which came first, so \"money\" as the first-broken layer is a reading of the record, not a stated fact.",
@@ -1134,8 +1134,8 @@
       "ja": "2017年6月、裁判所は FBI に対し、被害者が撮った動画にネットワーク捜査手法 (NIT) を仕込むことを許可した。動画は男が使う Dropbox で共有され、男が再生すると本当の IP アドレスが FBI に送られ、カリフォルニア州ベーカーズフィールドの自宅にたどり着いた。のちに Motherboard は、Tails の動画プレーヤーを突くこのエクスプロイトを Facebook が外部企業に作らせたと報じた。"
     },
     "outcome": {
-      "en": "An arrest warrant was issued on 1 August 2017 and the charges were announced on 7 August. He pleaded guilty to 41 counts in February 2020 and was sentenced to 75 years in March 2021.",
-      "ja": "2017年8月1日に逮捕状が出て、8月7日に訴追が発表された。2020年2月に41の訴因で有罪を認め、2021年3月に禁錮75年を言い渡された。"
+      "en": "An arrest warrant was issued on 1 August 2017. He pleaded guilty to 41 counts in February 2020 and was sentenced to 75 years in March 2021.",
+      "ja": "2017年8月1日に逮捕状が出た。2020年2月に41の訴因で有罪を認め、2021年3月に禁錮75年を言い渡された。"
     },
     "disputed": {
       "en": "Facebook's role rests on Motherboard's unnamed sources; Facebook confirmed only that it worked with \"security experts\", and the FBI declined to comment.",
@@ -1173,8 +1173,8 @@
     "used": ["network", "money"],
     "failed": "money",
     "background": {
-      "en": "In January 2018 about ¥58 billion of NEM was stolen from the exchange Coincheck, and the thieves offered it for other crypto on a dark-web site. Buyers who knew it was stolen swapped it for bitcoin and other coins in February and March 2018.",
-      "ja": "2018年1月、交換業者コインチェックから約580億円相当の NEM が流出し、犯人側はダークウェブ上のサイトで他の暗号資産との交換を持ちかけた。盗まれたものと知りながら応じた者らが、2018年2〜3月に NEM をビットコインなどに交換した。"
+      "en": "In January 2018 about ¥58 billion of NEM was stolen from the exchange Coincheck, and the thieves offered it for other crypto on a dark-web site. Buyers who allegedly knew it was stolen swapped it for bitcoin and other coins in February and March 2018.",
+      "ja": "2018年1月、交換業者コインチェックから約580億円相当の NEM が流出し、犯人側はダークウェブ上のサイトで他の暗号資産との交換を持ちかけた。盗まれたものと知りながら応じたとされる者らが、2018年2〜3月に NEM をビットコインなどに交換した。"
     },
     "mechanism": {
       "en": "The Tokyo Metropolitan Police followed the NEM past the dark-web swap to ordinary exchanges, where they identified the registered account holders.",
