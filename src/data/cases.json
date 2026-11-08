@@ -479,8 +479,8 @@
       "ja": "2016年8月、暗号資産取引所 Bitfinex がハッキングされ、約12万 BTC が盗まれた。何年ものあいだコインはほとんど動かず、犯人も分からなかった。2022年2月、米当局は資金洗浄の容疑でイリヤ・リヒテンシュタインと妻のヘザー・モーガンをニューヨークで逮捕し、盗まれたうちの約94,600 BTC を押収した。リヒテンシュタインはのちにハッキング自体も自分がやったと認めた。モーガンが洗浄に加わったのは事件の数年後である。"
     },
     "mechanism": {
-      "en": "Most of the stolen coins sat in one wallet for years while smaller amounts were moved through chains of transactions, mixers and other currencies. Investigators followed the movements on the public ledger to accounts tied to the couple. A 2021 search warrant on Lichtenstein's US cloud storage account produced encrypted files; on 31 January 2022 agents decrypted one listing about 2,000 addresses with their private keys, which let them take the main wallet.",
-      "ja": "盗まれたコインの大半は何年も1つのウォレットに置かれ、少額ずつ取引の連鎖、ミキサー、他の通貨を経て動かされた。捜査機関は公開台帳上の動きを追い、夫妻に結び付くアカウントにたどり着いた。2021年にリヒテンシュタインの米国のクラウドストレージに捜索令状を執行すると、暗号化されたファイルが見つかった。2022年1月31日に捜査官がその1つを復号すると約2,000のアドレスと秘密鍵の一覧があり、これで本体のウォレットを押さえることができた。"
+      "en": "Most of the stolen coins sat in one wallet for years while smaller amounts were moved, starting with deposits to accounts on the AlphaBay darknet market, then through chains of transactions, mixers and other currencies. Investigators followed the movements on the public ledger to accounts tied to the couple. A 2021 search warrant on Lichtenstein's US cloud storage account produced encrypted files; on 31 January 2022 agents decrypted one listing about 2,000 addresses with their private keys, which let them take the main wallet.",
+      "ja": "盗まれたコインの大半は何年も1つのウォレットに置かれ、少額ずつ動かされた。最初はダークウェブ市場 AlphaBay の口座への入金で、その後は取引の連鎖、ミキサー、他の通貨を経た。捜査機関は公開台帳上の動きを追い、夫妻に結び付くアカウントにたどり着いた。2021年にリヒテンシュタインの米国のクラウドストレージに捜索令状を執行すると、暗号化されたファイルが見つかった。2022年1月31日に捜査官がその1つを復号すると約2,000のアドレスと秘密鍵の一覧があり、これで本体のウォレットを押さえることができた。"
     },
     "outcome": {
       "en": "Both pleaded guilty in August 2023; Lichtenstein admitted to the 2016 hack itself. He was sentenced on 14 November 2024 to five years and Morgan to 18 months. Lichtenstein was released to home confinement under the First Step Act in January 2026.",
@@ -519,8 +519,8 @@
       "ja": "検察は法廷で、2人が攻撃を自慢するのに使っていたメールと Telegram のアカウントの IP アドレスを割り出して、クルタイと共犯者を特定したと説明した。これとは別に、彼が晒しサイト Doxbin を買い取って2022年1月にそのデータを流出させると、そのコミュニティが本人、家族、英国の自宅まで含む詳しい個人情報を公開した。警察がこれを使ったかどうかは公表されていない。保釈中も彼はハッキングを続け、ホテルのテレビにつないだ Amazon Fire Stick から Rockstar Games に侵入した。"
     },
     "outcome": {
-      "en": "Found unfit to stand trial; in August 2023 a jury found he had committed the acts, and in December 2023 he received an indefinite hospital order. In July 2026 BBC correspondent Joe Tidy reported he had been moved from the secure hospital to prison to await a criminal trial set for November 2026.",
-      "ja": "訴訟能力がないと判断され、2023年8月に陪審が行為の事実を認定し、同年12月に期限なしの病院収容命令を受けた。2026年7月、BBC の Joe Tidy 記者は彼が保安病院から刑務所に移され、2026年11月予定の刑事裁判を待っていると報じた。"
+      "en": "Found unfit to stand trial; in August 2023 a jury found he had committed the acts, and in December 2023 he received an indefinite hospital order. In July 2026 BBC correspondent Joe Tidy reported he had been moved from the secure hospital to prison to await a criminal trial, which the report said was due in November 2026.",
+      "ja": "訴訟能力がないと判断され、2023年8月に陪審が行為の事実を認定し、同年12月に期限なしの病院収容命令を受けた。2026年7月、BBC の Joe Tidy 記者は彼が保安病院から刑務所に移され、刑事裁判を待っていると報じた。記事によれば裁判は2026年11月の予定だった。"
     },
     "sources": ["case-lapsus-record", "case-lapsus-krebs", "case-lapsus-retrial", "case-lapsus-ewca"],
     "timeline": {
@@ -747,8 +747,8 @@
     "used": ["identity", "network", "infrastructure", "money"],
     "failed": "network",
     "background": {
-      "en": "BreachForums was a forum for buying and selling stolen databases, opened in March 2022 after the FBI took down its predecessor RaidForums. It claimed more than 340,000 members, and prosecutors said Conor Fitzpatrick ran it as \"pompompurin\".",
-      "ja": "BreachForums は盗まれたデータベースを売買するフォーラムで、FBI が前身の RaidForums を閉鎖した後の2022年3月に開設された。フォーラム側は会員34万人以上をうたっていた。検察によれば、運営者の「pompompurin」はコナー・フィッツパトリックだった。"
+      "en": "BreachForums was a forum for buying and selling stolen databases, opened in March 2022 as a successor to RaidForums, whose servers the FBI later seized. It claimed more than 340,000 members, and prosecutors said Conor Fitzpatrick ran it as \"pompompurin\".",
+      "ja": "BreachForums は盗まれたデータベースを売買するフォーラムで、2022年3月に RaidForums の後継として開設された。RaidForums のサーバはのちに FBI が押収した。フォーラム側は会員34万人以上をうたっていた。検察によれば、運営者の「pompompurin」はコナー・フィッツパトリックだった。"
     },
     "mechanism": {
       "en": "The FBI obtained images of the seized RaidForums servers, whose database logged pompompurin's logins. Verizon records matched at least nine of those IP addresses to phones registered to Fitzpatrick at his home in Peekskill, New York. The same database held a 2020 chat in which he mentioned his own old Gmail address; that, with records from Google and Purse.io, tied the handle to him further.",
@@ -828,8 +828,8 @@
       "ja": "2022年6月2日に企業への攻撃に使われたフィッシング用ドメイン2つは、どちらも同じ NameCheap アカウントで登録されていた。NameCheap の記録では、このアカウントは2022年5月4日に、Virgin Media がブキャナンに割り当てていた IP アドレスからログインしていた。スコットランド警察は2023年4月、その回線の住所にある自宅を捜索し、約20台の端末を押収した。"
     },
     "outcome": {
-      "en": "Arrested at Palma airport in Spain in June 2024 and in US custody from April 2025. He pleaded guilty in April 2026 to wire fraud conspiracy and aggravated identity theft, with sentencing set for 21 August 2026.",
-      "ja": "2024年6月にスペインのパルマ空港で逮捕され、2025年4月から米国で身柄を拘束されている。2026年4月に通信詐欺の共謀と加重 ID 窃盗で有罪を認めた。量刑の言い渡しは2026年8月21日に予定された。"
+      "en": "Arrested at Palma airport in Spain in June 2024 and in US custody from April 2025. He pleaded guilty in April 2026 to wire fraud conspiracy and aggravated identity theft.",
+      "ja": "2024年6月にスペインのパルマ空港で逮捕され、2025年4月から米国で身柄を拘束されている。2026年4月に通信詐欺の共謀と加重 ID 窃盗で有罪を認めた。"
     },
     "timeline": {
       "slip": "2022-05-04",
@@ -1020,8 +1020,8 @@
       "ja": "モスクワ在住のラトビア人ゾロタリョフスは、恐喝グループ Karakurt の交渉役として、応答しなくなった被害者に圧力をかけていた。司法省によると、同グループは2021〜2023年に54社以上からデータを盗んだ。"
     },
     "mechanism": {
-      "en": "A source gave the FBI the group's Rocket.Chat, hosted on Tor. Investigators traced 10% of one victim's September 2021 ransom through a mixer to a new cluster of bitcoin addresses. In a single transaction that cluster combined those coins with 1.39 BTC that had just arrived from a US exchange account registered in his name. Matching IP addresses then tied his iCloud account to Sforza's messenger IDs. In November 2023 he asked the editor of a security blog to help pressure victims. The editor contacted the FBI, and he then asked the FBI for about $365,000 in exchange for information.",
-      "ja": "情報提供者が、Tor 上で動いていたグループの Rocket.Chat を FBI に渡した。捜査側は、ある被害者が2021年9月に払った身代金の10%を追い、ミキサーを経て新しいビットコインのアドレス群に入ったことを突き止めた。このアドレス群は1つの取引で、その資金と、本人名義の米国の取引所口座から届いたばかりの 1.39 BTC をまとめていた。さらに IP アドレスの一致から、本人の iCloud と Sforza のメッセンジャー ID が結び付いた。2023年11月、彼はセキュリティブログの編集者に、被害者に圧力をかける手伝いを頼んだ。編集者は FBI に連絡し、本人はその後 FBI に、情報と引き換えに約36万5,000ドルを求めた。"
+      "en": "A source gave the FBI the group's Rocket.Chat, hosted on Tor. Investigators traced 10% of one victim's September 2021 ransom through a mixer to a new cluster of bitcoin addresses. In a single transaction that cluster combined those coins with 1.39 BTC that had just arrived from a US exchange account registered in his name. Matching IP addresses then tied his iCloud account to the messenger IDs of Sforza_cesarini, his handle in Karakurt. In November 2023 he asked the editor of a security blog to help pressure victims. The editor contacted the FBI, and he then asked the FBI for about $365,000 in exchange for information.",
+      "ja": "情報提供者が、Tor 上で動いていたグループの Rocket.Chat を FBI に渡した。捜査側は、ある被害者が2021年9月に払った身代金の10%を追い、ミキサーを経て新しいビットコインのアドレス群に入ったことを突き止めた。このアドレス群は1つの取引で、その資金と、本人名義の米国の取引所口座から届いたばかりの 1.39 BTC をまとめていた。さらに IP アドレスの一致から、本人の iCloud と、Karakurt での彼のハンドル Sforza_cesarini のメッセンジャー ID が結び付いた。2023年11月、彼はセキュリティブログの編集者に、被害者に圧力をかける手伝いを頼んだ。編集者は FBI に連絡し、本人はその後 FBI に、情報と引き換えに約36万5,000ドルを求めた。"
     },
     "outcome": {
       "en": "He was arrested in Georgia in December 2023 and extradited in August 2024. He pleaded guilty in July 2025 and on 4 May 2026 was sentenced to 102 months in prison.",
