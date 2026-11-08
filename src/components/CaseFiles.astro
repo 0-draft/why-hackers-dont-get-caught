@@ -4,10 +4,10 @@ import { FAILURE_KINDS, LAYERS } from "../data/layers.ts";
 import { SOURCES } from "../data/sources.ts";
 import { type Lang, localePath, useT } from "../i18n/ui.ts";
 
-// One card per case. The chain of layers reads left (the person) to right
-// (the people around them): black bars are what the person hid behind, the
-// magenta bar is where investigators got through. The slip sits in one line
-// under it; everything else waits behind "details".
+// The register: one line per case, newest first. The strip of eight cells runs
+// from the person (left) out to the people around them (right): black where the
+// person hid, magenta where investigators got through. The slip that gave it
+// away is the highlighted phrase. Opening a line shows the account and sources.
 interface Props {
   lang: Lang;
 }
@@ -15,202 +15,200 @@ const { lang } = Astro.props;
 const t = useT(lang);
 ---
 
-<ol class="files">
+<ol class="reg" data-case-files>
   {
     CASES.toReversed().map((c) => (
-      <li id={c.id} class="file">
-        <header>
-          <span class="yr">{c.year}</span>
-          <h2>
-            {c.name[lang]}
-            {c.alias && <span class="al">{c.alias[lang]}</span>}
-          </h2>
-        </header>
-
-        <ol class="chain" aria-label={t("cases.chain")}>
-          {FAILURE_KINDS.map((k) => {
-            const state = c.failed === k ? "failed" : c.used.includes(k) ? "used" : "none";
-            return (
-              <li class={state}>
-                <span class="lk">{LAYERS[k].name[lang]}</span>
-                <span class="sr">
-                  {state === "failed" ? t("cases.failed") : state === "used" ? t("cases.used") : t("cases.unused")}
-                </span>
-              </li>
-            );
-          })}
-        </ol>
-
-        <p class="key">
-          <a
-            class="fl"
-            href={localePath(lang, c.failed === "people" ? "/cases/#people" : `/layers/${c.failed}/`)}
-          >
-            {LAYERS[c.failed].name[lang]}
-          </a>
-          {c.timeline && <span class="sw">{c.timeline.slipWhat[lang]}</span>}
-          {c.disputed && <span class="disp">{t("cases.disputed")}</span>}
-        </p>
-
+      <li id={c.id}>
         <details>
-          <summary>{t("cases.more")}</summary>
-          <p class="mech">{c.mechanism[lang]}</p>
-          <dl>
-            <dt>{t("cases.background")}</dt>
-            <dd>{c.background[lang]}</dd>
-            {c.disputed && (
-              <>
-                <dt class="dt-disp">{t("cases.disputed")}</dt>
-                <dd>{c.disputed[lang]}</dd>
-              </>
+          <summary>
+            <span class="yr">{c.year}</span>
+            <span class="who">
+              <span class="nm">{c.name[lang]}</span>
+              {c.alias && <span class="al">{c.alias[lang]}</span>}
+            </span>
+            <span
+              class="strip"
+              role="img"
+              aria-label={`${t("cases.used")}: ${c.used
+                .filter((k) => k !== c.failed)
+                .map((k) => LAYERS[k].name[lang])
+                .join(", ")}. ${t("cases.failed")}: ${LAYERS[c.failed].name[lang]}`}
+            >
+              {FAILURE_KINDS.map((k) => (
+                <span
+                  class:list={["cell", c.failed === k ? "failed" : c.used.includes(k) ? "used" : "none"]}
+                  aria-hidden="true"
+                >
+                  {LAYERS[k].name[lang]}
+                </span>
+              ))}
+            </span>
+            {c.timeline && (
+              <span class="sw">
+                <mark>{c.timeline.slipWhat[lang]}</mark>
+                {c.disputed && <span class="disp">{t("cases.disputed")}</span>}
+              </span>
             )}
-            <dt>{t("cases.outcome")}</dt>
-            <dd>{c.outcome[lang]}</dd>
-            <dt>{t("cases.sources")}</dt>
-            <dd>
-              <ul class="cs">
-                {c.sources.map((id) => {
-                  const s = SOURCES[id];
-                  return s ? (
-                    <li>
-                      <a
-                        href={s.url}
-                        rel="noopener noreferrer"
-                        lang={/[぀-ヿ一-鿿]/.test(s.title + s.publisher) ? "ja" : undefined}
-                      >
-                        {s.publisher}: {s.title}
-                      </a>
-                    </li>
-                  ) : null;
-                })}
-              </ul>
-            </dd>
-          </dl>
+          </summary>
+          <div class="acct">
+            <p class="mech">{c.mechanism[lang]}</p>
+            <dl>
+              <dt>{t("cases.background")}</dt>
+              <dd>{c.background[lang]}</dd>
+              {c.disputed && (
+                <>
+                  <dt class="dt-disp">{t("cases.disputed")}</dt>
+                  <dd>{c.disputed[lang]}</dd>
+                </>
+              )}
+              <dt>{t("cases.outcome")}</dt>
+              <dd>{c.outcome[lang]}</dd>
+              <dt>{t("cases.sources")}</dt>
+              <dd>
+                <ul class="cs">
+                  {c.sources.map((id) => {
+                    const s = SOURCES[id];
+                    return s ? (
+                      <li>
+                        <a
+                          href={s.url}
+                          rel="noopener noreferrer"
+                          lang={/[぀-ヿ一-鿿]/.test(s.title + s.publisher) ? "ja" : undefined}
+                        >
+                          {s.publisher}: {s.title}
+                        </a>
+                      </li>
+                    ) : null;
+                  })}
+                </ul>
+              </dd>
+            </dl>
+            <p class="to">
+              <a href={localePath(lang, c.failed === "people" ? "/cases/#people" : `/layers/${c.failed}/`)}>
+                {LAYERS[c.failed].name[lang]}
+              </a>
+            </p>
+          </div>
         </details>
       </li>
     ))
   }
 </ol>
 
+<script>
+  // A link to /cases/#id should land on that line already open.
+  const open = () => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    const d = id ? document.getElementById(id)?.querySelector("details") : null;
+    if (d) d.open = true;
+  };
+  open();
+  window.addEventListener("hashchange", open);
+</script>
+
 <style>
-  .files {
+  .reg {
     list-style: none;
     padding: 0;
     margin: 3rem 0 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem), 1fr));
-    gap: 1rem;
-    align-items: start;
+    border-top: 2px solid var(--ink);
   }
-  .file {
-    background: var(--sheet);
-    border: 1.5px solid var(--ink);
-    padding: 1rem 1.1rem 0.9rem;
+  .reg > li {
+    border-bottom: 1px solid var(--rule);
     scroll-margin-top: 1.5rem;
   }
-  .file:target {
-    box-shadow: 0 0 0 4px var(--marker);
+  .reg > li:target summary {
+    background: linear-gradient(to right, var(--marker), transparent 70%);
   }
-  header {
-    display: flex;
-    gap: 0.6rem;
-    align-items: baseline;
+  summary {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 15rem) minmax(16rem, 26rem) minmax(0, 1fr);
+    gap: 0.4rem 1.25rem;
+    align-items: center;
+    padding: 0.7rem 0;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:hover .nm {
+    text-decoration: underline;
   }
   .yr {
-    flex: none;
-    font-family: var(--mono);
     font-size: var(--step--1);
     color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
   }
-  h2 {
-    font-size: var(--step-1);
-    line-height: 1.25;
-    margin: 0;
+  .nm {
+    display: block;
+    font-weight: 800;
+    line-height: 1.3;
   }
   .al {
     display: block;
-    font-size: var(--step--1);
-    font-weight: 400;
+    font-size: 0.8rem;
     color: var(--ink-2);
-    margin-top: 0.15rem;
+    line-height: 1.35;
   }
-  .chain {
-    list-style: none;
-    padding: 0;
-    margin: 0.9rem 0 0;
+  .strip {
     display: grid;
     grid-template-columns: repeat(8, minmax(0, 1fr));
-    gap: 3px;
+    gap: 2px;
   }
-  .chain li {
-    height: 2.1rem;
+  .cell {
+    height: 1.9rem;
     display: grid;
     place-items: center;
     text-align: center;
-    font-size: 0.66rem;
-    font-weight: 700;
-    line-height: 1.1;
-    padding: 0 2px;
+    font-size: 0.62rem;
+    line-height: 1.05;
+    padding: 0 1px;
     overflow: hidden;
   }
-  .chain .none {
-    border: 1px dashed var(--rule);
+  .cell.none {
     color: var(--ink-2);
-    font-weight: 400;
+    background: repeating-linear-gradient(135deg, transparent 0 3px, var(--rule-soft) 3px 4px);
   }
-  .chain .used {
+  .cell.used {
     background: var(--bar);
     box-shadow: 0 0 0 1px var(--bar-edge);
     color: #fff;
+    font-weight: 700;
   }
-  .chain .failed {
-    background: var(--leak);
-    color: var(--sheet);
-    clip-path: polygon(0 0, 100% 0, 100% 40%, 88% 55%, 100% 70%, 100% 100%, 0 100%, 0 70%, 12% 50%, 0 35%);
-  }
-  .key {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center;
-    margin: 0.9rem 0 0;
-  }
-  .fl {
+  .cell.failed {
     background: var(--leak);
     color: var(--sheet);
     font-weight: 800;
-    font-size: var(--step--1);
-    padding: 0.1rem 0.5rem;
-    text-decoration: none;
-  }
-  .fl:hover {
-    text-decoration: underline;
+    clip-path: polygon(0 0, 100% 0, 100% 38%, 86% 52%, 100% 66%, 100% 100%, 0 100%, 0 66%, 14% 50%, 0 34%);
   }
   .sw {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: baseline;
     font-weight: 700;
+  }
+  mark {
     background: linear-gradient(transparent 12%, var(--marker) 12%, var(--marker) 88%, transparent 88%);
     color: var(--marker-ink);
-    padding: 0 0.2rem;
+    padding: 0 0.15rem;
   }
   .disp {
     font-size: 0.75rem;
-    border: 1px solid var(--ink-2);
+    font-weight: 400;
     color: var(--ink-2);
-    padding: 0 0.35rem;
+    text-decoration: underline dotted;
+  }
+  .acct {
+    max-width: var(--measure);
+    margin: 0 0 1.25rem calc(2.75rem + 1.25rem);
+    font-size: var(--step--1);
+    line-height: 1.75;
   }
   .mech {
-    margin: 0.7rem 0 0;
-    font-size: var(--step--1);
-    line-height: 1.7;
-  }
-  details {
-    margin-top: 0.6rem;
-    font-size: var(--step--1);
-  }
-  summary {
-    cursor: pointer;
-    font-weight: 700;
-    color: var(--ink-2);
+    margin: 0;
+    font-size: var(--step-0);
   }
   dt {
     color: var(--ink-2);
@@ -222,16 +220,31 @@ const t = useT(lang);
     font-weight: 700;
   }
   dd {
-    margin: 0.15rem 0 0;
-    line-height: 1.7;
+    margin: 0.1rem 0 0;
   }
   .cs {
     padding-left: 1.1rem;
     margin: 0;
   }
-  @media (max-width: 30rem) {
-    .chain li {
-      font-size: 0.58rem;
+  .to {
+    margin: 0.9rem 0 0;
+    font-weight: 700;
+  }
+  @media (max-width: 60rem) {
+    summary {
+      grid-template-columns: 2.75rem minmax(0, 1fr);
+    }
+    .strip,
+    .sw {
+      grid-column: 2;
+    }
+  }
+  @media (max-width: 34rem) {
+    .acct {
+      margin-left: 0;
+    }
+    .cell {
+      font-size: 0.56rem;
     }
   }
 </style>

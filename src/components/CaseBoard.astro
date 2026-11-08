@@ -3,8 +3,9 @@ import { CASES } from "../data/cases.ts";
 import { FAILURE_KINDS, LAYERS } from "../data/layers.ts";
 import { type Lang, localePath, useT } from "../i18n/ui.ts";
 
-// Every case filed under the layer that gave way first. The tallest column
-// answers the question the matrix used to bury: where do the caught get caught?
+// Every case filed under the layer that gave way first, one strip of tape per
+// case. The longest row answers the question directly: where do the caught get
+// caught?
 interface Props {
   lang: Lang;
   /** Home page: cards link to the case page instead of the file below. */
@@ -15,39 +16,33 @@ const t = useT(lang);
 const cols = FAILURE_KINDS.map((k) => ({ k, cases: CASES.filter((c) => c.failed === k).toReversed() }))
   .filter((c) => c.cases.length > 0)
   .toSorted((a, b) => b.cases.length - a.cases.length);
-const max = Math.max(...cols.map((c) => c.cases.length));
+// The handle or case name when it is short enough to scan ("Silk Road",
+// "tank", "PC遠隔操作事件"), otherwise the person's name.
+const short = (c: (typeof CASES)[number]) => {
+  const alias = c.alias?.[lang]
+    .split(/[／/（(、,]/)[0]
+    ?.replace(/[「」"]/g, "")
+    .trim();
+  return alias && alias.length <= 24 ? alias : c.name[lang].replace(/\s*[（(].*$/, "");
+};
 ---
 
 <div class="cb" data-case-board>
-  <p class="cb-total">
-    <span class="n">{CASES.length}</span>
-    {t("board.total")}
-  </p>
-  <ol class="cols">
+  <p class="cb-total">{CASES.length}{t("board.total")}</p>
+  <ol class="rows">
     {
       cols.map(({ k, cases }) => (
-        <li class="col" style={`--share:${cases.length / max}`}>
-          <header>
-            <a
-              class="ln"
-              href={localePath(lang, k === "people" ? "/cases/#people" : `/layers/${k}/`)}
-            >
-              {LAYERS[k].name[lang]}
-            </a>
-            <span class="cnt">
-              <span class="cn">{cases.length}</span>
-              {t("board.unit")}
-            </span>
-            <span class="meter" aria-hidden="true" />
-            <span class="br">{LAYERS[k].breaks[lang]}</span>
-          </header>
+        <li class="row">
+          <p class="lk">
+            <a href={localePath(lang, k === "people" ? "/cases/#people" : `/layers/${k}/`)}>{LAYERS[k].name[lang]}</a>
+            <span class="n">{cases.length}</span>
+          </p>
           <ul>
             {cases.map((c) => (
               <li>
-                <a href={compact ? localePath(lang, `/cases/#${c.id}`) : `#${c.id}`}>
+                <a href={compact ? localePath(lang, `/cases/#${c.id}`) : `#${c.id}`} title={c.name[lang]}>
+                  {short(c)}
                   <span class="yr">{c.year}</span>
-                  <span class="nm">{c.alias?.[lang].split(/[／/（(]/)[0]?.replace(/[「」"]/g, "").trim() || c.name[lang]}</span>
-                  {c.timeline && <span class="sw">{c.timeline.slipWhat[lang]}</span>}
                 </a>
               </li>
             ))}
@@ -60,73 +55,44 @@ const max = Math.max(...cols.map((c) => c.cases.length));
 
 <style>
   .cb-total {
-    margin: 0 0 1rem;
+    margin: 0 0 0.75rem;
     color: var(--ink-2);
     font-size: var(--step--1);
   }
-  .cb-total .n {
-    font-family: var(--mono);
-    font-weight: 700;
-    color: var(--ink);
-    font-size: var(--step-1);
-  }
-  .cols {
+  .rows {
     list-style: none;
     margin: 0;
     padding: 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    gap: 0.4rem 1rem;
+    align-items: start;
+    padding: 0.55rem 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .row:first-child {
     border-top: 2px solid var(--ink);
   }
-  .col {
-    display: grid;
-    grid-template-columns: 13rem minmax(0, 1fr);
-    gap: 1rem;
-    padding: 0.9rem 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  header {
-    display: grid;
-    grid-template-columns: 1fr auto;
+  .lk {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
     align-items: baseline;
-    row-gap: 0.3rem;
-    align-content: start;
+    gap: 0.5rem;
+    padding-top: 0.2rem;
   }
-  .ln {
+  .lk a {
     font-weight: 800;
-    font-size: var(--step-0);
     text-decoration: none;
   }
-  .ln:hover {
+  .lk a:hover {
     text-decoration: underline;
   }
-  .cnt {
-    font-size: 0.75rem;
-    color: var(--ink-2);
-  }
-  .cn {
-    font-family: var(--mono);
+  .n {
     font-weight: 700;
-    font-size: var(--step-2);
     color: var(--leak);
-    line-height: 1;
-  }
-  .meter {
-    grid-column: 1 / -1;
-    height: 0.55rem;
-    background: var(--rule-soft);
-    position: relative;
-  }
-  .meter::after {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: calc(var(--share) * 100%);
-    background: var(--leak);
-  }
-  .br {
-    grid-column: 1 / -1;
-    font-size: 0.75rem;
-    line-height: 1.4;
-    color: var(--ink-2);
   }
   ul {
     list-style: none;
@@ -134,20 +100,19 @@ const max = Math.max(...cols.map((c) => c.cases.length));
     padding: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    align-content: start;
+    gap: 4px;
   }
   ul a {
-    display: grid;
-    grid-template-columns: auto auto;
-    column-gap: 0.4rem;
+    display: inline-flex;
     align-items: baseline;
-    max-width: 15rem;
-    padding: 0.35rem 0.6rem;
-    background: var(--sheet);
-    border: 1.5px solid var(--ink);
+    gap: 0.45rem;
+    padding: 0.3rem 0.55rem;
+    background: var(--leak);
+    color: var(--sheet);
+    font-weight: 700;
+    font-size: var(--step--1);
+    line-height: 1.25;
     text-decoration: none;
-    line-height: 1.3;
   }
   ul a:hover,
   ul a:focus-visible {
@@ -155,28 +120,15 @@ const max = Math.max(...cols.map((c) => c.cases.length));
     color: var(--marker-ink);
   }
   .yr {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--ink-2);
+    font-weight: 400;
+    font-size: 0.75rem;
   }
-  ul a:hover .yr,
-  ul a:hover .sw {
-    color: inherit;
-  }
-  .nm {
-    font-weight: 700;
-    font-size: var(--step--1);
-    overflow-wrap: anywhere;
-  }
-  .sw {
-    grid-column: 1 / -1;
-    font-size: 0.72rem;
-    color: var(--ink-2);
-  }
-  @media (max-width: 40rem) {
-    .col {
+  @media (max-width: 34rem) {
+    .row {
       grid-template-columns: minmax(0, 1fr);
-      gap: 0.6rem;
+    }
+    .lk {
+      justify-content: flex-start;
     }
   }
 </style>

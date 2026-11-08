@@ -3,6 +3,7 @@ import CaseBoard from "../components/CaseBoard.astro";
 import CaseFiles from "../components/CaseFiles.astro";
 import Fig from "../components/Fig.astro";
 import CaseTimeline from "../components/fig/CaseTimeline.astro";
+import { CASES } from "../data/cases.ts";
 import { LAYERS } from "../data/layers.ts";
 import { type Lang, useT } from "../i18n/ui.ts";
 import Base from "../layouts/Base.astro";
@@ -12,6 +13,15 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = useT(lang);
+// The timeline caption counts from the data so it cannot drift as cases are added.
+const toYear = (d: string) => {
+  const [y = 0, m, dd] = d.split("-").map(Number);
+  return y + ((m ?? 7) - 1) / 12 + ((dd ?? 15) - 1) / 365;
+};
+const dated = CASES.flatMap((c) => (c.timeline?.slip ? [toYear(c.timeline.caught) - toYear(c.timeline.slip)] : []));
+const timelineCaption = t("cases.timeline")
+  .replace("{n}", String(dated.length))
+  .replace("{m}", String(dated.filter((g) => g >= 2).length));
 ---
 
 <Base lang={lang} title={t("cases.title")} description={t("cases.lede")}>
@@ -23,7 +33,7 @@ const t = useT(lang);
     </section>
     <CaseBoard lang={lang} />
     <CaseFiles lang={lang} />
-    <Fig caption={t("cases.timeline")} size="wide">
+    <Fig caption={timelineCaption} size="wide">
       <CaseTimeline lang={lang} />
     </Fig>
   </div>

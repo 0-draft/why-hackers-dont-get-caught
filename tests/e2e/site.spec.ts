@@ -116,12 +116,12 @@ test.describe("observer figure", () => {
 
 test("the case page files every case once, on the board and as a card", async ({ page }) => {
   await page.goto("/cases/");
-  await expect(page.locator("[data-case-board] .col li")).toHaveCount(cases.length);
+  await expect(page.locator("[data-case-board] .row li")).toHaveCount(cases.length);
   for (const c of cases) {
     await expect(page.locator(`#${c.id}`)).toHaveCount(1);
     await expect(page.locator(`[data-case-board] a[href="#${c.id}"]`)).toHaveCount(1);
   }
-  await expect(page.locator(".file .chain .failed")).toHaveCount(cases.length);
+  await expect(page.locator("[data-case-files] .cell.failed")).toHaveCount(cases.length);
 });
 
 test("a layer page opens on key points and the full text is one click away", async ({ page }) => {
