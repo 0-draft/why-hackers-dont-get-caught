@@ -767,7 +767,13 @@
       "caught": "2023-03-15",
       "caughtKind": "arrest"
     },
-    "sources": ["identity-fitzpatrick-affidavit", "case-pomp-arrest", "case-pomp-techcrunch", "case-pomp-resentence"]
+    "sources": [
+      "identity-fitzpatrick-affidavit",
+      "case-pomp-resentence-doj",
+      "case-pomp-arrest",
+      "case-pomp-techcrunch",
+      "case-pomp-resentence"
+    ]
   },
   {
     "id": "intelbroker",
@@ -905,7 +911,7 @@
       "ja": "2022年3月20日、米国の仮逮捕請求に基づきオランダ警察に逮捕され、2024年2月に米国へ引き渡された。司法取引のあと、2024年12月に禁錮5年を言い渡された。"
     },
     "disputed": {
-      "en": "The Gmail-iCloud link and the Instagram detail come only from unnamed sources; the DOJ filings do not say how he was identified. The widely repeated version in which the Instagram posts of the woman travelling with him gave him away go further than that report, which credits the phone tracking.",
+      "en": "The Gmail-iCloud link and the Instagram detail come only from unnamed sources; the DOJ filings do not say how he was identified. The widely repeated version, in which the Instagram posts of the woman travelling with him gave him away, goes further than that report, which credits the phone tracking.",
       "ja": "Gmail と iCloud のつながりも Instagram の話も、情報源は匿名の関係者だけで、司法省の書面は特定の経緯を書いていない。「同行の女性の Instagram で捕まった」という広く出回った説明は、電話の追跡を決め手とするこの報道より話を大きくしている。"
     },
     "timeline": {
@@ -917,7 +923,7 @@
       "caught": "2022-03-20",
       "caughtKind": "arrest"
     },
-    "sources": ["case-rac-doj-motion", "case-rac-krebs", "case-rac-sentence"]
+    "sources": ["case-rac-doj-motion", "case-raccoon-sentence", "case-rac-krebs", "case-rac-sentence"]
   },
   {
     "id": "zeus-penchukov",
@@ -1118,7 +1124,7 @@
       "caught": "2024-12-24",
       "caughtKind": "named"
     },
-    "sources": ["case-dmm-npa", "case-dmm-npa-caution", "case-dmm-bleeping"]
+    "sources": ["reach-fbi-dmm", "case-dmm-npa", "case-dmm-npa-caution", "case-dmm-bleeping"]
   },
   {
     "id": "brian-kil",
@@ -1161,6 +1167,7 @@
     },
     "sources": [
       "case-kil-techcrunch",
+      "case-kil-sentence",
       "case-kil-cso",
       "device-hernandez-vice",
       "case-kil-vice-tails",
