@@ -8,7 +8,8 @@ Why hackers don’t get caught: how attackers hide who they are, layer by layer,
 
 - **Who can see what**: an interactive figure on the home page. Pick a route (direct, VPN, Tor, VPN then Tor, Tor with a personal login) and one or more observers (local network, ISP, VPN provider, Tor relays, the website, a global watcher). The record shows what each observer can read, and a verdict says whether they can tie the person to the activity alone or by comparing timing. It runs on a small tested model in `src/lib/vantage.ts`.
 - **Seven layers**: behavior, identity, device, network, infrastructure, money, attribution. Each chapter covers what the layer hides, how it works, how it gives way, and common misconceptions, with drawn figures.
-- **Case files**: documented cases drawn as a matrix of the layers each person relied on and the one investigators got through first. Disputed accounts are labelled as such.
+- **Case files**: documented cases sorted onto one bar per layer by where investigators got through first, then one card each showing the layers the person relied on and the slip in one line. The full account and sources fold out under each card. Disputed accounts are labelled as such.
+- **Key points first**: each layer chapter opens on its headings, lead paragraphs and figures; the full text is one switch away.
 
 The site explains mechanisms and failure modes. It is not a setup guide and carries no operational advice.
 
