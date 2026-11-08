@@ -134,10 +134,12 @@ test("a layer page opens on key points and the full text is one click away", asy
 });
 
 test("a link to a case lands on its line, open; the skip link opens none", async ({ page }) => {
-  await page.goto("/cases/#incognito");
-  await expect(page.locator("#incognito > details")).toHaveAttribute("open", "");
+  // Fresh load on #main first: a later hash change on the same document would
+  // leave the earlier line open and prove nothing.
   await page.goto("/cases/#main");
   await expect(page.locator("[data-case-files] details[open]")).toHaveCount(0);
+  await page.goto("/cases/#incognito");
+  await expect(page.locator("#incognito > details")).toHaveAttribute("open", "");
 });
 
 test("key points keep the first paragraph under every heading", async ({ page }) => {
